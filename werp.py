@@ -6,6 +6,7 @@ import os.path
 
 from errors import errors
 from uatrains import uatrains, spider
+from robots import robots
 
 
 def fake_wait_for_occupied_port(host, port): return
@@ -15,6 +16,7 @@ wsgis = []
 wsgis.append(uatrains.wsgi())
 wsgis.append(spider.wsgi())
 wsgis.append(errors.wsgi())
+wsgis.append(robots.wsgi())
 
 cherrypy.server.unsubscribe()
 
