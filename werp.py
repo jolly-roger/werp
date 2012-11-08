@@ -14,6 +14,7 @@ servers.wait_for_occupied_port = fake_wait_for_occupied_port
 wsgis = []
 wsgis.append(uatrains.wsgi())
 wsgis.append(spider.wsgi())
+wsgis.append(errors.wsgi())
 
 cherrypy.server.unsubscribe()
 
