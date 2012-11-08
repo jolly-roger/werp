@@ -13,6 +13,8 @@ from picpuk import picpuk
 def fake_wait_for_occupied_port(host, port): return
 servers.wait_for_occupied_port = fake_wait_for_occupied_port
 
+cherrypy.config.update({'tools.sessions.on': True, 'tools.sessions.timeout': 30})
+
 wsgis = []
 wsgis.append(uatrains.wsgi())
 wsgis.append(spider.wsgi())
