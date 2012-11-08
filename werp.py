@@ -4,6 +4,7 @@ import cherrypy
 import os.path
 
 
+from errors import errors
 from uatrains import uatrains, spider
 
 
