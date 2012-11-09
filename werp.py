@@ -1,4 +1,4 @@
-from cherrypy.process import servers
+from cherrypy.process import servers, plugins
 from cherrypy import wsgiserver
 import cherrypy
 import os.path
@@ -31,5 +31,7 @@ for wsgi in wsgis:
     s = cherrypy.wsgiserver.CherryPyWSGIServer(wsgi.bind_address, wsgi)
     sa = servers.ServerAdapter(cherrypy.engine, s)
     sa.subscribe()
+
+plugins.Daemonizer(cherrypy.engine).subscribe()
 
 cherrypy.engine.start()
