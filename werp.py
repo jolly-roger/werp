@@ -16,7 +16,7 @@ werp_access_log_file = open(WERP_ACCESS_LOG_FILE, 'a')
 
 def werp_access_log():
     werp_access_log_file.write(cherrypy.request.base + ' ' + cherrypy.request.request_line + ' ' + \
-        str(datetime.datetime.now()) + ' ' + str(cherrypy.request.headers))
+        str(datetime.datetime.now()) + ' ' + str(cherrypy.request.headers) + '\n\n')
     werp_access_log_file.flush()
 
 cherrypy.tools.werp_access_log = cherrypy.Tool('on_start_resource', werp_access_log)
