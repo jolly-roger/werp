@@ -15,11 +15,12 @@ WERP_ACCESS_LOG_FILE = '/home/www/werp_access.log'
 werp_access_log_file = open(WERP_ACCESS_LOG_FILE, 'a')
 
 def werp_access_log():
-    werp_access_log_file.write(cherrypy.request.base + ' ' + cherrypy.request.request_line + ' ' + \
-        str(datetime.datetime.now()) + ' ' + str(cherrypy.request.headers) + '\n\n')
+    werp_access_log_file.write(cherrypy.request.base + ' "' + cherrypy.request.request_line + '" ' + \
+        cherrypy.response.status + ' [' + \
+        str(datetime.datetime.now()) + '] ' + str(cherrypy.request.headers) + '\n\n')
     werp_access_log_file.flush()
 
-cherrypy.tools.werp_access_log = cherrypy.Tool('on_start_resource', werp_access_log)
+cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', werp_access_log)
 
 def fake_wait_for_occupied_port(host, port): return
 servers.wait_for_occupied_port = fake_wait_for_occupied_port
