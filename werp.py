@@ -16,7 +16,9 @@ servers.wait_for_occupied_port = fake_wait_for_occupied_port
 cherrypy.config.update({'tools.sessions.on': True,
     'tools.sessions.timeout': 30,
     'server.thread_pool': 111,
-    'server.socket_queue_size': 33})
+    'server.socket_queue_size': 33,
+    'log.access_file': '/home/www/access.log',
+    'log.error_file': '/home/www/errors.log'})
 
 wsgis = []
 wsgis.append(uatrains.wsgi())
