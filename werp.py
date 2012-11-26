@@ -16,8 +16,9 @@ werp_access_log_file = open(WERP_ACCESS_LOG_FILE, 'a')
 
 def werp_access_log():
     headers = str(cherrypy.request.headers) if cherrypy.request.headers is not None else ''
-    werp_access_log_file.write(cherrypy.request.base + ' "' + cherrypy.request.request_line + '" ' + \
-        cherrypy.response.status + ' [' + '] ' + '\n\n')
+    werp_access_log_file.write(str(cherrypy.request.base) + ' "' + str(cherrypy.request.request_line) + '" ' + \
+        str(cherrypy.response.status) + ' [' + \
+        str(datetime.datetime.now()) + '] ' + headers + '\n\n')
     werp_access_log_file.flush()
 
 cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', werp_access_log)
