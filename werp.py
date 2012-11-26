@@ -18,7 +18,7 @@ def werp_access_log():
     headers = str(cherrypy.request.headers) if cherrypy.request.headers is not None else '[No headers]'
     domain = str(cherrypy.request.base) if cherrypy.request.base is not None else '[No domain]'
     request_line = str(cherrypy.request.request_line) if cherrypy.request.request_line is not None else '[No request line]'
-    staus = str(cherrypy.response.status) if cherrypy.response.status is not None else '[No status]'
+    status = str(cherrypy.response.status) if cherrypy.response.status is not None else '[No status]'
     werp_access_log_file.write(domain + ' "' + request_line + '" ' + status + ' [' + \
         str(datetime.datetime.now()) + '] ' + headers + '\n\n')
     werp_access_log_file.flush()
