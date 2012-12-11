@@ -3,12 +3,16 @@ from cherrypy import wsgiserver
 import cherrypy
 import os.path
 import datetime
+import logging
 
 
 from errors import errors
 from uatrains import uatrains, spider
 from robots import robots
 from picpuk import picpuk
+
+
+logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
 
 
 WERP_ACCESS_LOG_FILE = '/home/www/werp_access.log'
