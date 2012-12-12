@@ -32,8 +32,12 @@ cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', werp_access_lo
 def fake_wait_for_occupied_port(host, port): return
 servers.wait_for_occupied_port = fake_wait_for_occupied_port
 
-cherrypy.config.update({'tools.sessions.on': True,
-    'tools.sessions.timeout': 30,
+cherrypy.config.update({
+    'tools.sessions.on': False,
+    'tools.encode.on': True,
+    'tools.encode.encoding': 'utf-8',
+    'tools.encode.text_only': False,
+    'tools.gzip.on': True,
     'tools.werp_access_log.on': True,
     'server.thread_pool': 111,
     'server.socket_queue_size': 33,
