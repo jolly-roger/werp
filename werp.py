@@ -39,8 +39,8 @@ cherrypy.config.update({
     'tools.encode.text_only': False,
     'tools.gzip.on': True,
     'tools.werp_access_log.on': True,
-    'server.thread_pool': 333,
-    'server.socket_queue_size': 111,
+    'server.thread_pool': 111,
+    'server.socket_queue_size': 33,
     'log.access_file': '/home/www/access.log',
     'log.error_file': '/home/www/errors.log'})
 
