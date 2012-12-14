@@ -54,7 +54,14 @@ wsgis.append(picpuk.wsgi())
 cherrypy.server.unsubscribe()
 
 for wsgi in wsgis:
-    s = cherrypy.wsgiserver.CherryPyWSGIServer(wsgi.bind_address, wsgi)
+    numthreads = 10
+    request_queue_size = 5
+    if hasattr(wsgi, 'numthreads') and wsgi.numthreads > 0:
+        numthreads = wsgi.numthreads
+    if hasattr(wsgi, 'request_queue_size') and wsgi.request_queue_size > 0:
+        request_queue_size = wsgi.request_queue_size
+    s = cherrypy.wsgiserver.CherryPyWSGIServer(wsgi.bind_address, wsgi, numthreads=numthreads,
+        request_queue_size=request_queue_size)
     sa = servers.ServerAdapter(cherrypy.engine, s)
     sa.subscribe()
 
