@@ -14,20 +14,23 @@ from picpuk import picpuk
 
 logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
 
+access_log = logging.getLogger('werp_access')
+access_log.setLevel(logging.DEBUG)
+access_log_fh = logging.FileHandler('logs/werp_access.log')
+access_log_fh.setLevel(logging.DEBUG)
+access_log_formatter = logging.Formatter('[%(asctime)s] %(message)s')
+access_log_fh.setFormatter(access_log_formatter)
+access_log.addHandler(access_log_fh)
 
-WERP_ACCESS_LOG_FILE = '/home/www/werp_access.log'
-werp_access_log_file = open(WERP_ACCESS_LOG_FILE, 'a')
 
-def werp_access_log():
+def log_access():
     headers = str(cherrypy.request.headers) if cherrypy.request.headers is not None else '[No headers]'
     domain = str(cherrypy.request.base) if cherrypy.request.base is not None else '[No domain]'
     request_line = str(cherrypy.request.request_line) if cherrypy.request.request_line is not None else '[No request line]'
     status = str(cherrypy.response.status) if cherrypy.response.status is not None else '[No status]'
-    werp_access_log_file.write(domain + ' "' + request_line + '" ' + status + ' [' + \
-        str(datetime.datetime.now()) + '] ' + headers + '\n\n')
-    werp_access_log_file.flush()
+    access_log.info('%(domain)s "%(request_line)s" %(status)s %(headers)s', domain, request_line, status, headers)
 
-cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', werp_access_log)
+cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', log_access)
 
 def fake_wait_for_occupied_port(host, port): return
 servers.wait_for_occupied_port = fake_wait_for_occupied_port
