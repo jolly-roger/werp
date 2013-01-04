@@ -11,6 +11,7 @@ from errors import errors
 from uatrains import uatrains, spider
 from robots import robots
 from picpuk import picpuk
+from ukrainianside import ukrainianside
 
 
 LOGS_DIR = 'logs'
@@ -64,6 +65,7 @@ wsgis.append(spider.wsgi())
 wsgis.append(errors.wsgi())
 wsgis.append(robots.wsgi())
 wsgis.append(picpuk.wsgi())
+wsgis.append(ukrainianside.wsgi())
 
 cherrypy.server.unsubscribe()
 
