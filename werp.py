@@ -16,7 +16,7 @@ from picpuk import picpuk
 LOGS_DIR = 'logs'
 
 
-logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
+#logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
 
 if not os.path.isdir(LOGS_DIR):
     os.mkdir(LOGS_DIR)
