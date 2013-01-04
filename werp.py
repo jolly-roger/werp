@@ -15,9 +15,6 @@ from picpuk import picpuk
 
 LOGS_DIR = 'logs'
 
-
-#logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
-
 if not os.path.isdir(LOGS_DIR):
     os.mkdir(LOGS_DIR)
 
@@ -29,6 +26,13 @@ access_logger_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 access_logger_fh.setFormatter(access_logger_formatter)
 access_logger.addHandler(access_logger_fh)
 
+error_logger = logging.getLogger('werp_error')
+error_logger.setLevel(logging.DEBUG)
+error_logger_fh = logging.FileHandler(LOGS_DIR + '/werp_error.log')
+error_logger_fh.setLevel(logging.DEBUG)
+error_logger_formatter = logging.Formatter('[%(asctime)s] %(name)s %(levelname)s %(message)s')
+error_logger_fh.setFormatter(error_logger_formatter)
+error_logger.addHandler(error_logger_fh)
 
 def log_access():
     headers = str(cherrypy.request.headers) if cherrypy.request.headers is not None else '[No headers]'
@@ -51,8 +55,8 @@ cherrypy.config.update({
     'tools.werp_access_log.on': True,
     #'server.thread_pool': 111,
     #'server.socket_queue_size': 33,
-    'log.access_file': '/home/www/access.log',
-    'log.error_file': '/home/www/errors.log'})
+    'log.access_file': LOGS_DIR + '/cherrypy_access.log',
+    'log.error_file':  LOGS_DIR + '/cherrypy_error.log'})
 
 wsgis = []
 wsgis.append(uatrains.wsgi())
