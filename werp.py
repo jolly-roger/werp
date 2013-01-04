@@ -25,7 +25,8 @@ access_logger = logging.getLogger('werp_access')
 access_logger.setLevel(logging.DEBUG)
 access_logger_fh = logging.FileHandler(LOGS_DIR + '/werp_access.log')
 access_logger_fh.setLevel(logging.DEBUG)
-access_logger_formatter = logging.Formatter('[%(asctime)s] %(message)s')
+#access_logger_formatter = logging.Formatter('[%(asctime)s] %(message)s')
+access_logger_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 access_logger_fh.setFormatter(access_logger_formatter)
 access_logger.addHandler(access_logger_fh)
 
@@ -35,7 +36,7 @@ def log_access():
     domain = str(cherrypy.request.base) if cherrypy.request.base is not None else '[No domain]'
     request_line = str(cherrypy.request.request_line) if cherrypy.request.request_line is not None else '[No request line]'
     status = str(cherrypy.response.status) if cherrypy.response.status is not None else '[No status]'
-    logging.getLogger('werp_access').info('%(domain)s "%(request_line)s" %(status)s %(headers)s', domain, request_line, status, headers)
+    access_logger.info('%(domain)s "%(request_line)s" %(status)s %(headers)s', domain, request_line, status, headers)
 
 cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', log_access)
 
