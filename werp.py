@@ -1,6 +1,7 @@
 from cherrypy.process import servers, plugins
 from cherrypy import wsgiserver
 import cherrypy
+import os
 import os.path
 import datetime
 import logging
@@ -12,11 +13,17 @@ from robots import robots
 from picpuk import picpuk
 
 
+LOGS_DIR = 'logs'
+
+
 logging.basicConfig(filename='werp_error.log',level=logging.DEBUG)
+
+if not os.path.isdir(LOGS_DIR):
+    os.mkdir(LOGS_DIR)
 
 access_log = logging.getLogger('werp_access')
 access_log.setLevel(logging.DEBUG)
-access_log_fh = logging.FileHandler('logs/werp_access.log')
+access_log_fh = logging.FileHandler(LOGS_DIR + '/werp_access.log')
 access_log_fh.setLevel(logging.DEBUG)
 access_log_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 access_log_fh.setFormatter(access_log_formatter)
