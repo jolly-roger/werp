@@ -11,7 +11,7 @@ import logging.handlers
 from uatrains_bot import spider
 
 
-LOGS_DIR = 'logs'
+LOGS_DIR = 'local/uatrains_bot_logs'
 
 if not os.path.isdir(LOGS_DIR):
     os.mkdir(LOGS_DIR)
