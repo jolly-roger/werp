@@ -8,7 +8,7 @@ import logging
 import logging.handlers
 
 
-from .uatrains_bot import spider
+from uatrains_bot import spider
 
 
 LOGS_DIR = 'logs'
