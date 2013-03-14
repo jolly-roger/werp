@@ -10,7 +10,6 @@ import logging.handlers
 
 from errors import errors
 from uatrains import uatrains
-from robots import robots
 from picpuk import picpuk
 from ukrainianside import ukrainianside
 
@@ -63,7 +62,6 @@ cherrypy.config.update({
 wsgis = []
 wsgis.append(uatrains.wsgi())
 wsgis.append(errors.wsgi())
-wsgis.append(robots.wsgi())
 wsgis.append(picpuk.wsgi())
 wsgis.append(ukrainianside.wsgi())
 
