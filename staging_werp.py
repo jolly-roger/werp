@@ -6,6 +6,8 @@ import os.path
 import datetime
 import logging
 import logging.handlers
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode
 
 
 from uatrains import uatrains
@@ -44,6 +46,19 @@ cherrypy.tools.werp_access_log = cherrypy.Tool('on_end_resource', log_access)
 def fake_wait_for_occupied_port(host, port): return
 servers.wait_for_occupied_port = fake_wait_for_occupied_port
 
+def error_page_default(status, message, traceback, version):
+    d = urlencode({'status': status, 'message': message, 'traceback': traceback, 'version': version,
+        'data': json.dumps({'subject': 'Uatrains error',
+            'base': cherrypy.request.base, 'request_line': cherrypy.request.request_line,
+            'headers': str(cherrypy.request.headers)})})
+    d = d.encode('utf-8')
+    req = Request('http://localhost:18404/sendmail')
+    req.add_header('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
+    res = urlopen(req, d)
+    cherrypy.response.status = 301
+    cherrypy.response.headers['Location'] = '/'
+    return res.read().decode()
+
 cherrypy.config.update({
     'tools.sessions.on': False,
     'tools.encode.on': True,
@@ -57,7 +72,9 @@ cherrypy.config.update({
     'log.error_file':  LOGS_DIR + '/cherrypy_error.log'})
 
 wsgis = []
-wsgis.append(uatrains.wsgi())
+uatrains_wsgi = uatrains.wsgi()
+uatrains_wsgi.apps[''].config.update({'/': {'error_page.default': error_page_default}})
+wsgis.append(uatrains_wsgi)
 
 cherrypy.server.unsubscribe()
 
