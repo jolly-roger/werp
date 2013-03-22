@@ -9,8 +9,6 @@ import logging.handlers
 
 
 from errors import errors
-from uatrains import uatrains
-#from picpuk import picpuk
 from ukrainianside import ukrainianside
 
 
@@ -54,15 +52,11 @@ cherrypy.config.update({
     'tools.encode.text_only': False,
     'tools.gzip.on': True,
     'tools.werp_access_log.on': True,
-    #'server.thread_pool': 111,
-    #'server.socket_queue_size': 33,
     'log.access_file': LOGS_DIR + '/cherrypy_access.log',
     'log.error_file':  LOGS_DIR + '/cherrypy_error.log'})
 
 wsgis = []
-wsgis.append(uatrains.wsgi())
 wsgis.append(errors.wsgi())
-#wsgis.append(picpuk.wsgi())
 wsgis.append(ukrainianside.wsgi())
 
 cherrypy.server.unsubscribe()
