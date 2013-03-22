@@ -8,7 +8,6 @@ import logging
 import logging.handlers
 
 
-from errors import errors
 from ukrainianside import ukrainianside
 
 
@@ -56,7 +55,6 @@ cherrypy.config.update({
     'log.error_file':  LOGS_DIR + '/cherrypy_error.log'})
 
 wsgis = []
-wsgis.append(errors.wsgi())
 wsgis.append(ukrainianside.wsgi())
 
 cherrypy.server.unsubscribe()
