@@ -8,9 +8,6 @@ import logging
 import logging.handlers
 
 
-from ukrainianside import ukrainianside
-
-
 LOGS_DIR = 'logs'
 
 if not os.path.isdir(LOGS_DIR):
@@ -55,7 +52,6 @@ cherrypy.config.update({
     'log.error_file':  LOGS_DIR + '/cherrypy_error.log'})
 
 wsgis = []
-wsgis.append(ukrainianside.wsgi())
 
 cherrypy.server.unsubscribe()
 
