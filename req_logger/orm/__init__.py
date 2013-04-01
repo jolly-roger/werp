@@ -1,6 +1,7 @@
 from . import session
 from . import entry
 
+sescls = session.sescls
 q_engine = session.q_engine
 ses = session.ses
 Entry = entry.Entry
