@@ -14,6 +14,7 @@ try:
         except orm.NoResultFound:
             user_agent = orm.UserAgent(entry.value)
             ses.add(user_agent)
+            entry.is_parsed = True
             ses.commit()
     ses.close()
     conn.close()
