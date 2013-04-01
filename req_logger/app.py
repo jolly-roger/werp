@@ -11,7 +11,7 @@ while True:
     message = puller.recv()
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
-    entry = orm.Entry(message.decode('utf-8'))
+    entry = orm.Entry(message.decode('utf-8').strip())
     ses.add(entry)
     ses.commit()
     ses.close()
