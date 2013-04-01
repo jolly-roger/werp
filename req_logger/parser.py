@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.text import MIMEText
 import traceback
+import json
 
 import orm
 
@@ -9,8 +10,9 @@ try:
     ses = orm.sescls(bind=conn)
     entries = ses.query(orm.Entry).filter(orm.Entry.is_parsed == False).all()
     for entry in entries:
+        ev = json.loads(entry.value)
         try:
-            user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == entry.value).one()
+            user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
         except orm.NoResultFound:
             user_agent = orm.UserAgent(entry.value)
             ses.add(user_agent)
