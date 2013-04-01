@@ -32,3 +32,15 @@ except:
     s = smtplib.SMTP('localhost')
     s.sendmail(sender, recipient, msg.as_string())
     s.quit()
+    
+sender = 'www@dig-dns.com (www)'
+recipient = 'roger@dig-dns.com'
+
+msg = MIMEText('Yo!!!')
+msg['Subject'] = 'req_logger - run'
+msg['From'] = sender
+msg['To'] = recipient
+
+s = smtplib.SMTP('localhost')
+s.sendmail(sender, recipient, msg.as_string())
+s.quit()
