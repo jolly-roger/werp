@@ -14,7 +14,7 @@ try:
         try:
             user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
         except orm.NoResultFound:
-            user_agent = orm.UserAgent(entry.value)
+            user_agent = orm.UserAgent(ev['HTTP_USER_AGENT'])
             ses.add(user_agent)
             entry.is_parsed = True
             ses.commit()
