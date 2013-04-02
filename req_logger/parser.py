@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 import traceback
 import json
 
-import orm
+from werp import orm
 
 try:
     conn = orm.q_engine.connect()
