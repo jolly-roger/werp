@@ -8,12 +8,13 @@ from . import layout
 
 def app(env, start_res):
     start_res('200 OK', [('Content-Type', 'text/html;charset=utf-8')])
-    l = bytes('', 'utf-8')
+    l = bytes('Yo!!!', 'utf-8')
     try:
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         user_agents = ses.query(orm.UserAgent).all()
-        l = layout.getHome(user_agents)
+        #l =
+        layout.getHome(user_agents)
         ses.close()
         conn.close()
     except:
