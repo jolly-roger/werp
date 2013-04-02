@@ -6,7 +6,7 @@ import configparser
 config = configparser.ConfigParser()
 config.read('/home/www/ugently/app.conf')
 
-def getenv(lng='RU'):
+def getenv(lng='EN'):
     if lng == 'RU':
         return ru_env
     return en_env
