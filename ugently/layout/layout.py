@@ -6,14 +6,15 @@ import configparser
 #config = configparser.ConfigParser()
 #config.read('/home/www/ugently/app.conf')
 
-def getenv(lng='EN'):
- #   if lng == 'RU':
-  #      return ru_env
-    return en_env
+#def getenv(lng='EN'):
+# #   if lng == 'RU':
+#  #      return ru_env
+#    return en_env
 
 def getHome():
     tmpl = Environment(loader = FileSystemLoader('/home/www/ugently/layout/templates')).get_template("pages/home.html")
-    return tmpl.render()
+    #return tmpl.render()
+    return bytes('Yo!!!', 'utf-8')
 
 #trans_ru_RU = gettext.translation('messages', languages=['ru_RU'], localedir=config['global']['layout.trans'])
 #trans_en_US = gettext.translation('messages', languages=['en_US'], localedir=config['global']['layout.trans'])
@@ -22,7 +23,7 @@ def getHome():
 #ru_env.install_gettext_translations(trans_ru_RU)
 #ru_env.globals['ru_domain'] = config['global']['domains.ru']
 #ru_env.globals['en_domain'] = config['global']['domains.en']
-en_env = Environment(loader = FileSystemLoader('/home/www/ugently/layout/templates'))#, extensions=['jinja2.ext.i18n'])
+#en_env = Environment(loader = FileSystemLoader('/home/www/ugently/layout/templates'))#, extensions=['jinja2.ext.i18n'])
 #en_env.install_gettext_translations(trans_en_US)
 #en_env.globals['ru_domain'] = config['global']['domains.ru']
 #en_env.globals['en_domain'] = config['global']['domains.en']
