@@ -10,12 +10,12 @@ def app(env, start_res):
     start_res('200 OK', [('Content-Type', 'text/html;charset=utf-8')])
     l = bytes('No data', 'utf-8')
     try:
-        conn = orm.q_engine.connect()
-        ses = orm.sescls(bind=conn)
-        user_agents = []#ses.query(orm.UserAgent).all()
-        l = layout.getHome(user_agents)
-        ses.close()
-        conn.close()
+        #conn = orm.q_engine.connect()
+        #ses = orm.sescls(bind=conn)
+        #user_agents = []#ses.query(orm.UserAgent).all()
+        l = layout.getHome()
+        #ses.close()
+        #conn.close()
     except:
         sender = 'www@dig-dns.com (www)'
         recipient = 'roger@dig-dns.com'

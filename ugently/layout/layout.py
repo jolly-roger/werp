@@ -11,7 +11,7 @@ def getenv(lng='EN'):
   #      return ru_env
     return en_env
 
-def getHome(user_agents, lng='EN'):
+def getHome():
     tmpl = Environment(loader = FileSystemLoader('/home/www/ugently/layout/templates')).get_template("pages/home.html")
     return tmpl.render()
 
