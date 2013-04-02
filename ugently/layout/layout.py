@@ -12,8 +12,8 @@ def getenv(lng='EN'):
     return en_env
 
 def getHome(user_agents, lng='EN'):
-    tmpl = getenv(lng).get_template("pages/home.html")
-    return tmpl.render(user_agents=user_agents)
+    tmpl = Environment(loader = FileSystemLoader('/home/www/ugently/layout/templates')).get_template("pages/home.html")
+    return tmpl.render()
 
 #trans_ru_RU = gettext.translation('messages', languages=['ru_RU'], localedir=config['global']['layout.trans'])
 #trans_en_US = gettext.translation('messages', languages=['en_US'], localedir=config['global']['layout.trans'])
