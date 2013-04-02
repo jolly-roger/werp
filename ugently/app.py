@@ -13,7 +13,7 @@ def app(env, start_res):
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         user_agents = ses.query(orm.UserAgent).all()
-        l = layout.getNome(user_agents)
+        l = layout.getHome(user_agents)
         ses.close()
         conn.close()
     except:
