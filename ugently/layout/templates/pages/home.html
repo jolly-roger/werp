@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+	<table>
+		{% for user_agent in user_agents %}
+			<tr>
+				<td>{{user_agent.value}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
