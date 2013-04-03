@@ -24,10 +24,11 @@ try:
         rnd_user_agent = random.choice(user_agents)
         req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent.value})
         req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
-        res = urllib.request.urlopen(req)
-        print(str(res.getcode()))
-        if res.getcode() != 200:
-            print('Fuck!!!')
+        try:
+            res = urllib.request.urlopen(req)
+            if res.getcode() != 200:
+                res = None
+        except:
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
@@ -69,7 +70,7 @@ except:
     recipient = 'roger@dig-dns.com'
 
     msg = MIMEText(traceback.format_exc())
-    msg['Subject'] = 'req_logger - parse log error'
+    msg['Subject'] = 'ugently error'
     msg['From'] = sender
     msg['To'] = recipient
 
