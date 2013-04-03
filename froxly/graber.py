@@ -3,6 +3,7 @@ import urllib.parse
 from lxml import etree
 import io
 import re
+import random
 
 from werp import orm
 
@@ -11,8 +12,20 @@ url = 'http://www.hidemyass.com/proxy-list/'
 try:
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
+    res = None
+    try_count = 0
+    while res is None and try_count < 11:
+        proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
+        user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
+        rnd_proxy = random.choice(proxies)
+        rnd_user_agent = random.choice(user_agents)
+        req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent.value})
+        req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+        res = urllib.request.urlopen(req)
+        if res.getcode() != 200:
+            res = None
+        try_count = try_count + 1
     html_parser = etree.HTMLParser()
-    res = urllib.request.urlopen(url)
     res_data = res.read().decode('utf-8')
     dom_tree = etree.parse(io.StringIO(res_data), html_parser)
     raw_proxies = dom_tree.xpath('/html/body/div/div/table/tr')
@@ -38,8 +51,12 @@ try:
         fp.ip = ''.join(ip_parts)
         fp.port = raw_proxy[2].text.strip()
         fp.protocol = raw_proxy[6].text.lower().strip()
-        ses.add(fp)
-        ses.commit()
+        try:
+            ses.query(orm.FreeProxy).filter(orm.and_(orm.and_(orm.FreeProxy.ip == fp.ip, orm.FreeProxy.port == fp.port),
+                orm.FreeProxy.protocol == fp.protocot)).one()
+        except orm.NoResultFound:
+            ses.add(fp)
+            ses.commit()
     ses.close()
     conn.close()
 except:
