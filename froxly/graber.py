@@ -4,6 +4,8 @@ from lxml import etree
 import io
 import re
 import random
+import smtplib
+from email.mime.text import MIMEText
 
 from werp import orm
 
