@@ -1,12 +1,14 @@
 from . import session
 from . import log
 from . import user_agent
+from . import free_proxy
 
 sescls = session.sescls
 q_engine = session.q_engine
 ses = session.ses
 Log = log.Log
 UserAgent = user_agent.UserAgent
+FreeProxy = free_proxy.FreeProxy
 
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from sqlalchemy import and_, or_
