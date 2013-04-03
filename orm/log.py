@@ -1,7 +1,7 @@
 from .base import *
 
 
-class Entry(DBase):
+class Log(DBase):
     __tablename__ = 'entry'
     id = Column(BigInteger, primary_key = True)
     value = Column(Text)
