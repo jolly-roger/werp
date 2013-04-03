@@ -7,6 +7,6 @@ class UserAgent(DBase):
     value = Column(Text)
     is_bot = Column(Boolean)
     
-    def __init__(self, value=None, is_bot=None):
+    def __init__(self, value=None, is_bot=False):
         self.value = value
         self.is_bot = is_bot
