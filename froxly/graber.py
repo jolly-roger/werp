@@ -6,6 +6,7 @@ import re
 import random
 import smtplib
 from email.mime.text import MIMEText
+import traceback
 
 from werp import orm
 
