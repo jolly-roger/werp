@@ -24,11 +24,13 @@ try:
         rnd_user_agent = random.choice(user_agents)
         req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent.value})
         req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+        print(str(try_count))
         try:
             res = urllib.request.urlopen(req)
             if res.getcode() != 200:
                 res = None
         except:
+            print(traceback.format_exc())
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
