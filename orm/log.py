@@ -2,7 +2,7 @@ from .base import *
 
 
 class Log(DBase):
-    __tablename__ = 'entry'
+    __tablename__ = 'log'
     id = Column(BigInteger, primary_key = True)
     value = Column(Text)
     is_parsed = Column(Boolean)
