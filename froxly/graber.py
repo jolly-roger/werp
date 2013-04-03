@@ -30,7 +30,17 @@ try:
             if res.getcode() != 200:
                 res = None
         except:
-            print(traceback.format_exc())
+            sender = 'www@dig-dns.com (www)'
+            recipient = 'roger@dig-dns.com'
+        
+            msg = MIMEText(traceback.format_exc())
+            msg['Subject'] = 'ugently error - request data'
+            msg['From'] = sender
+            msg['To'] = recipient
+        
+            s = smtplib.SMTP('localhost')
+            s.sendmail(sender, recipient, msg.as_string())
+            s.quit()
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
@@ -61,7 +71,7 @@ try:
         fp.protocol = raw_proxy[6].text.lower().strip()
         try:
             ses.query(orm.FreeProxy).filter(orm.and_(orm.and_(orm.FreeProxy.ip == fp.ip, orm.FreeProxy.port == fp.port),
-                orm.FreeProxy.protocol == fp.protocot)).one()
+                orm.FreeProxy.protocol == fp.protocol)).one()
         except orm.NoResultFound:
             ses.add(fp)
             ses.commit()
