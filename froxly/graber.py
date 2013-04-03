@@ -25,7 +25,9 @@ try:
         req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent.value})
         req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
         res = urllib.request.urlopen(req)
+        print(str(res.getcode()))
         if res.getcode() != 200:
+            print('Fuck!!!')
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
