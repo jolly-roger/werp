@@ -4,8 +4,8 @@ import logging.handlers
 class WerpLogger(logging.Logger):
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
-    def _log(self, subj = 'werp notification', *a, **kw):
-        record = super()._log(*a, **kw)
+    def _log(self, level, msg, args, subj = 'werp notification', **kw):
+        record = super()._log(level, msg, args, **kw)
         record.subj = subj
         return record
    
