@@ -1,6 +1,14 @@
 import logging
 import logging.handlers
 
+class WerpLogger(logging.Logger):
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+    def _log(self, subj = 'werp notification', *a, **kw):
+        record = super()._log(*a, **kw)
+        record.subj = subj
+        return record
+   
 class WerpSMTPHandler(logging.handlers.SMTPHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
@@ -10,17 +18,7 @@ class WerpSMTPHandler(logging.handlers.SMTPHandler):
         else:
             return super().getSubject(record)
 
-old_factory = logging.getLogRecordFactory()
-
-def record_factory(*a, **kw):
-    record = old_factory(*a, **kw)
-    if 'subj' in kw:
-        record.subj = kw['subj']
-    return record
-
-logging.setLogRecordFactory(record_factory)
-
-nlog = logging.getLogger('werp_notification')
+nlog = WerpLogger('werp_notification')
 nlog.setLevel(logging.DEBUG)
 nlog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp notification')
 nlog_fh.setLevel(logging.DEBUG)
