@@ -33,4 +33,4 @@ except:
     s = smtplib.SMTP('localhost')
     s.sendmail(sender, recipient, msg.as_string())
     s.quit()
-nlog.info('Log parsing finished', 'req logger - parser')
+nlog.info('req logger - parser: Log parsing finished')
