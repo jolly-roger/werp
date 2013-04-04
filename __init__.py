@@ -7,6 +7,7 @@ class WerpSMTPHandler(logging.handlers.SMTPHandler):
     def getSubject(self, record):
         if record.args is not None and len(record.args) > 0:
             subject = record.args[0]
+            record.args = None
         else:
             return super().getSubject(record)
         return subject
@@ -16,6 +17,6 @@ nlog = logging.getLogger('werp_error')
 nlog.setLevel(logging.DEBUG)
 nlog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp error')
 nlog_fh.setLevel(logging.DEBUG)
-nlog_formatter = logging.Formatter('[%(asctime)s] %(name)s %(levelname)s %(message)s')
+nlog_formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(message)s')
 nlog_fh.setFormatter(nlog_formatter)
 nlog.addHandler(nlog_fh)

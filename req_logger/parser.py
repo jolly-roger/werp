@@ -12,14 +12,13 @@ try:
     logs = ses.query(orm.Log).filter(orm.Log.is_parsed == False).all()
     for log in logs:
         log.is_parsed = True
-        ses.commit()
         ev = json.loads(log.value)
         try:
             user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
         except orm.NoResultFound:
             user_agent = orm.UserAgent(ev['HTTP_USER_AGENT'])
             ses.add(user_agent)
-        ses.commit()
+    ses.commit()
     ses.close()
     conn.close()
 except:
