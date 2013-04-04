@@ -19,15 +19,15 @@ class WerpLogger(object):
         _nlog_formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(message)s')
         _nlog_fh.setFormatter(_nlog_formatter)
         self._nlog.addHandler(_nlog_fh)
-    def debug(subj, msg):
+    def debug(self, subj, msg):
         self._nlog.debug(msg, extra={'subj': subj})
-    def info(subj, msg):
+    def info(self, subj, msg):
         self._nlog.info(msg, extra={'subj': subj})
-    def warning(subj, msg):
+    def warning(self, subj, msg):
         self._nlog.warning(msg, extra={'subj': subj})
-    def error(subj, msg):
+    def error(self, subj, msg):
         self._nlog.error(msg, extra={'subj': subj})
-    def critical(subj, msg):
+    def critical(self, subj, msg):
         self._nlog.critical(msg, extra={'subj': subj})
 
 nlog = WerpLogger()
