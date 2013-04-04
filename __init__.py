@@ -10,10 +10,24 @@ class WerpSMTPHandler(logging.handlers.SMTPHandler):
         else:
             return super().getSubject(record)
 
-nlog = logging.getLogger('werp_notification')
-nlog.setLevel(logging.DEBUG)
-nlog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp notification')
-nlog_fh.setLevel(logging.DEBUG)
-nlog_formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(message)s')
-nlog_fh.setFormatter(nlog_formatter)
-nlog.addHandler(nlog_fh)
+class WerpLogger(object):
+    def __init__(self):
+        self._nlog = logging.getLogger('werp_notification')
+        self._nlog.setLevel(logging.DEBUG)
+        _nlog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp notification')
+        _nlog_fh.setLevel(logging.DEBUG)
+        _nlog_formatter = logging.Formatter('[%(asctime)s] %(levelname)s %(message)s')
+        _nlog_fh.setFormatter(_nlog_formatter)
+        self._nlog.addHandler(_nlog_fh)
+    def debug(subj, msg):
+        self._nlog.debug(msg, extra={'subj': subj})
+    def info(subj, msg):
+        self._nlog.info(msg, extra={'subj': subj})
+    def warning(subj, msg):
+        self._nlog.warning(msg, extra={'subj': subj})
+    def error(subj, msg):
+        self._nlog.error(msg, extra={'subj': subj})
+    def critical(subj, msg):
+        self._nlog.critical(msg, extra={'subj': subj})
+
+nlog = WerpLogger()
