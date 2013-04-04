@@ -88,6 +88,7 @@ except:
     s = smtplib.SMTP('localhost')
     s.sendmail(sender, recipient, msg.as_string())
     s.quit()
+werp.nlog('Free proxies grabbing finished', 'froxly - grabber')
 
 
 
