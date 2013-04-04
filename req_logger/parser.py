@@ -4,6 +4,7 @@ import traceback
 import json
 
 from werp import orm
+from werp import nlog
 
 try:
     conn = orm.q_engine.connect()
@@ -32,4 +33,4 @@ except:
     s = smtplib.SMTP('localhost')
     s.sendmail(sender, recipient, msg.as_string())
     s.quit()
-werp.nlog('Log parsing finished', 'req logger - parser')
+nlog.info('Log parsing finished', 'req logger - parser')

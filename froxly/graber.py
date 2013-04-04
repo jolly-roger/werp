@@ -9,6 +9,7 @@ from email.mime.text import MIMEText
 import traceback
 
 from werp import orm
+from werp import nlog
 
 url = 'http://www.hidemyass.com/proxy-list/'
 
@@ -88,7 +89,7 @@ except:
     s = smtplib.SMTP('localhost')
     s.sendmail(sender, recipient, msg.as_string())
     s.quit()
-werp.nlog('Free proxies grabbing finished', 'froxly - grabber')
+nlog.info('Free proxies grabbing finished', 'froxly - grabber')
 
 
 
