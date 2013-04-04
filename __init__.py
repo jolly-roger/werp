@@ -1,18 +1,21 @@
-#import logging
-#import logging.handlers
-#
-#class WerpSMTPHandler(logging.handlers.SMTPHandler):
-#    def __init__(self):
-#        super().__init__()
-#    def getSubject(self, record):
-#        appName = record.name.split('.')[-1]
-#        return appName
-#
-#
-#elog = logging.getLogger('werp_error')
-#elog.setLevel(logging.DEBUG)
-#elog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp error')
-#elog_fh.setLevel(logging.DEBUG)
-#elog_formatter = logging.Formatter('[%(asctime)s] %(name)s %(levelname)s %(message)s')
-#elog_fh.setFormatter(elog_formatter)
-#elog.addHandler(elog_fh)
+import logging
+import logging.handlers
+
+class WerpSMTPHandler(logging.handlers.SMTPHandler):
+    def __init__(self, *a, **kw):
+        super().__init__(*a, **kw)
+    def getSubject(self, record):
+        if record.args is not None and len(record.args) > 0:
+            subject = record.args[0]
+        else:
+            return super().getSubject(record)
+        return subject
+
+
+nlog = logging.getLogger('werp_error')
+nlog.setLevel(logging.DEBUG)
+nlog_fh = WerpSMTPHandler('localhost', 'www@dig-dns.com (www)', 'roger@dig-dns.com', 'werp error')
+nlog_fh.setLevel(logging.DEBUG)
+nlog_formatter = logging.Formatter('[%(asctime)s] %(name)s %(levelname)s %(message)s')
+nlog_fh.setFormatter(nlog_formatter)
+nlog.addHandler(nlog_fh)
