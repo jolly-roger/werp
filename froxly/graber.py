@@ -4,8 +4,6 @@ from lxml import etree
 import io
 import re
 import random
-import smtplib
-from email.mime.text import MIMEText
 import traceback
 
 from werp import orm
@@ -30,17 +28,7 @@ try:
             if res.getcode() != 200:
                 res = None
         except:
-            sender = 'www@dig-dns.com (www)'
-            recipient = 'roger@dig-dns.com'
-        
-            msg = MIMEText(traceback.format_exc())
-            msg['Subject'] = 'ugently error - request data'
-            msg['From'] = sender
-            msg['To'] = recipient
-        
-            s = smtplib.SMTP('localhost')
-            s.sendmail(sender, recipient, msg.as_string())
-            s.quit()
+            nlog.info('froxly - grabber error - request data', traceback.format_exc())
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
@@ -78,18 +66,7 @@ try:
     ses.close()
     conn.close()
 except:
-    sender = 'www@dig-dns.com (www)'
-    recipient = 'roger@dig-dns.com'
-
-    msg = MIMEText(traceback.format_exc())
-    msg['Subject'] = 'ugently error'
-    msg['From'] = sender
-    msg['To'] = recipient
-
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender, recipient, msg.as_string())
-    s.quit()
-nlog.info('froxly - grabber', 'Free proxies grabbing finished')
+    nlog.info('froxly - grabber error', traceback.format_exc())
 
 
 
