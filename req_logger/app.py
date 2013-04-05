@@ -1,9 +1,8 @@
-import smtplib
-from email.mime.text import MIMEText
 import traceback
 import zmq
 
 from werp import orm
+from werp import nlog
 
 ctx = zmq.Context()
 
@@ -21,14 +20,4 @@ try:
         ses.close()
         conn.close()
 except:
-    sender = 'www@dig-dns.com (www)'
-    recipient = 'roger@dig-dns.com'
-
-    msg = MIMEText(traceback.format_exc())
-    msg['Subject'] = 'req_logger - log error'
-    msg['From'] = sender
-    msg['To'] = recipient
-
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender, recipient, msg.as_string())
-    s.quit()
+    nlog.info('req_logger - log error', traceback.format_exc())

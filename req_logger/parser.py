@@ -1,5 +1,3 @@
-import smtplib
-from email.mime.text import MIMEText
 import traceback
 import json
 
@@ -22,15 +20,4 @@ try:
     ses.close()
     conn.close()
 except:
-    sender = 'www@dig-dns.com (www)'
-    recipient = 'roger@dig-dns.com'
-
-    msg = MIMEText(traceback.format_exc())
-    msg['Subject'] = 'req_logger - parse log error'
-    msg['From'] = sender
-    msg['To'] = recipient
-
-    s = smtplib.SMTP('localhost')
-    s.sendmail(sender, recipient, msg.as_string())
-    s.quit()
-nlog.info('req logger - parser', 'Log parsing finished')
+    nlog.info('req_logger - parser error', traceback.format_exc())
