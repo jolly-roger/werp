@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{% trans %}site_title{% endtrans %}: {% trans %}Поезда{% endtrans %}</title>
+{% endblock %}
+{% block body %}
+	<div style="text-align: center">
+		{% if trains|length > 0 %}
+			{% for t in trains %}
+				<div class="result"><a href='/{{t.id}}'>{{get_lng_title(t, lng)}}, № {{t.value}}</a></div>
+			{% endfor %}
+		{% else %}
+			<span class="label label-info result-label">
+				{% trans %}По вашему запросу поездов не найдено{% endtrans %}</span>
+		{% endif %}
+    </div>
+	<ul class="pager">
+		<li class="previous {% if pn == 0 %}disabled{% endif %}">
+			<a {% if pn != 0 %}href='/ts?ph={{phrase}}&pn={{pn - 1}}'{% endif %}>
+				&larr; {% trans %}Предыдущие{% endtrans %}</a>
+		</li>
+		<li class="next {% if not has_next_p %}disabled{% endif %}">
+			<a {% if has_next_p %}href='/ts?ph={{phrase}}&pn={{pn + 1}}'{% endif %}>
+				{% trans %}Следующие{% endtrans %} &rarr;</a>
+		</li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset='utf-8'> 
+        {% if lng == 'RU' %}
+            <!-- RU yandex webmaster -->
+            <meta name='yandex-verification' content='6fa12793d4eab3da' />
+            <!-- RU google webmaster -->
+            <meta name="google-site-verification" content="be-bfYSinVAh0kh_lrsuMEqN5uQ-ZEcldckKeEyBlJQ" />
+        {% elif lng == 'EN'%}
+            <!-- EN yandex webmaster -->
+            <meta name='yandex-verification' content='7600b1f9cfd1b250' />
+            <!-- EN google webmaster -->
+            <meta name="google-site-verification" content="be-bfYSinVAh0kh_lrsuMEqN5uQ-ZEcldckKeEyBlJQ" />
+        {% else %}
+            <!-- UA yandex webmaster -->
+            <meta name='yandex-verification' content='4332f7b4b89ace37' />
+            <!-- UA google webmaster -->
+            <meta name="google-site-verification" content="be-bfYSinVAh0kh_lrsuMEqN5uQ-ZEcldckKeEyBlJQ" />
+        {% endif %}
+        <!-- Bootstrap -->
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <link href='/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
+            <link href='/bootstrap/css/bootstrap-responsive.min.css' rel='stylesheet'>
+        <!-- /Bootstrap -->
+        <link href='/css' rel='stylesheet'>
+        <!-- vk -->
+            <script type="text/javascript" src="//vk.com/js/api/openapi.js?75"></script>
+            <script type="text/javascript">
+                //VK.init({apiId: 3345289, onlyWidgets: true});
+                VK.init({apiId: 3345289});
+            </script>
+        <!-- /vk -->
+        {% block head %}
+            <title>{% trans %}site_title{% endtrans %}</title>
+        {% endblock %}
+        <meta name="description" 
+            content="{% trans %}site_description{% endtrans %}">
+        <meta name="keywords" content="{% trans %}site_keywords{% endtrans %}">
+    </head>
+    <body>
+        <!-- Google Analytics counter -->
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-37423949-1']);
+            _gaq.push(['_setDomainName', 'uatrains.com']);
+            _gaq.push(['_setAllowLinker', true]);
+            _gaq.push(['_trackPageview']);
+            
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- /Google Analytics counter -->
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter18236515 = new Ya.Metrika({id:18236515,
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true});
+                } catch(e) { }
+            });
+        
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/18236515" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+        <!-- Rating@Mail.ru counter -->
+        <script type="text/javascript">//<![CDATA[
+        (function(w,n,d,r,s){(new Image).src='http://dc.c4.b3.a2.top.mail.ru/counter?id=2313415;js=13'+
+        ((r=d.referrer)?';r='+escape(r):'')+((s=w.screen)?';s='+s.width+'*'+s.height:'')+';_='+Math.random();})(window,navigator,document);//]]>
+        </script><noscript><div style="position:absolute;left:-10000px;"><img src="http://dc.c4.b3.a2.top.mail.ru/counter?id=2313415;js=na"
+        style="border:0;" height="1" width="1" alt="Рейтинг@Mail.ru" /></div></noscript>
+        <!-- //Rating@Mail.ru counter -->
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class='row-fluid'>
+                        <div class="span1">
+                            <a class="brand" href="/">
+                                <img src='/logo.png' 
+                                    title='{% trans %}site_title{% endtrans %}' 
+                                    alt='{% trans %}site_title{% endtrans %}'/>
+                            </a>
+                        </div>
+                        <div class="span9">
+                            <form action='/es'>
+                                <div class="input-append">
+                                    <input name='ph' type="text" 
+                                        placeholder="{% trans %}search_entity_text{% endtrans %}" />
+                                    <button type="submit" class="btn">{% trans %}Найти{% endtrans %}</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="span2">
+                            <ul class="nav nav-pills pull-right lngs">
+                                {% if lng != 'UA'%}
+                                    <li>
+                                        <a href="http://{{ua_domain}}{{path_info}}{% if query_string != '' %}?{{query_string}}{% endif %}">
+                                            <img src='http://picpuk.ru/pics/get/87.jpg'
+                                            title='{% trans %}На украинском{% endtrans %}' 
+                                            alt='{% trans %}На украинском{% endtrans %}'/></a>
+                                    </li>
+                                {% endif %}
+                                {% if lng != 'RU'%}
+                                    <li>
+                                        <a href="http://{{ru_domain}}{{path_info}}{% if query_string != '' %}?{{query_string}}{% endif %}">
+                                            <img src='http://picpuk.ru/pics/get/88.jpg'
+                                            title='{% trans %}На русском{% endtrans %}' 
+                                            alt='{% trans %}На русском{% endtrans %}'/></a>
+                                    </li>
+                                {% endif %}
+                                {% if lng != 'EN'%}
+                                    <li>
+                                        <a href="http://{{en_domain}}{{path_info}}{% if query_string != '' %}?{{query_string}}{% endif %}">
+                                            <img src='http://picpuk.ru/pics/get/89.jpg'
+                                            title='{% trans %}На английском{% endtrans %}' 
+                                            alt='{% trans %}На английском{% endtrans %}'/></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+            <div class='footer-row'>
+                <div class='footer-container'>
+                    <div class='row-fluid'>
+                        <div class='span10'>
+                            <div class='row-fluid'>
+                                <div class='span12'>
+                                    <div class="g-plusone" data-href='/'></div>
+                                    <script type="text/javascript">
+                                        {% if lng == 'UA'%}
+                                            window.___gcfg = {lang: 'uk'};
+                                        {% endif %}
+                                        {% if lng == 'RU'%}
+                                            window.___gcfg = {lang: 'ru'};
+                                        {% endif %}
+                                        {% if lng == 'EN'%}
+                                            window.___gcfg = {lang: 'en-US'};
+                                        {% endif %}                                
+                                        
+                                        (function() {
+                                            var po = document.createElement('script'); po.type = 'text/javascript';
+                                            po.async = true;
+                                            po.src = 'https://apis.google.com/js/plusone.js';
+                                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                                        })();
+                                    </script>
+                                </div>
+                            </div>
+                            <div class='row-fluid'>
+                                <div class='span12'>
+                                    <div id="vk_like"></div>
+                                    <script type="text/javascript">
+                                        VK.Widgets.Like('vk_like', {type: 'mini',
+                                            {% if lng == 'UA'%}
+                                                pageUrl: 'http://{{ua_domain}}',
+                                            {% endif %}
+                                            {% if lng == 'RU'%}
+                                                pageUrl: 'http://{{ru_domain}}',
+                                            {% endif %}
+                                            {% if lng == 'EN'%}
+                                                pageUrl: 'http://{{en_domain}}',
+                                            {% endif %}
+                                            height: 24,
+                                            text: '{% trans %}site_description{% endtrans %}',
+                                            pageTitle: '{% trans %}site_title{% endtrans %}',
+                                            pageDescription: '{% trans %}site_description{% endtrans %}'}, 0);
+                                    </script>
+                                </div>
+                            </div>
+                            <div class='row-fluid'>
+                                <div class='span12'>
+                                    <div class="fb-like"
+                                        {% if lng == 'UA'%}
+                                            data-href="http://{{ua_domain}}"
+                                        {% endif %}
+                                        {% if lng == 'RU'%}
+                                            data-href="http://{{ru_domain}}"
+                                        {% endif %}
+                                        {% if lng == 'EN'%}
+                                            data-href="http://{{en_domain}}"
+                                        {% endif %}
+                                        data-width="70" data-send="false" data-show-faces="false"></div>
+                                    <div id="fb-root"></div>
+                                    <script>(function(d, s, id) {
+                                      var js, fjs = d.getElementsByTagName(s)[0];
+                                      if (d.getElementById(id)) return;
+                                      js = d.createElement(s); js.id = id;
+                                      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=158891510927299";
+                                      fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));</script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='span2 copyright'>
+                            &copy; 2012-2013 Uatrains
+                        </div>
+                    </div>
+                    <div class='row-fluid'>
+                        <div class='span10'></div>
+                        <div class='span2 bigmir-counter'>
+                            <!--bigmir)net TOP 100-->
+                            <script type="text/javascript" language="javascript"><!--
+                            function BM_Draw(oBM_STAT){
+                            document.write('<table cellpadding="0" cellspacing="0" border="0" style="display:inline;margin-right:4px;"><tr><td><div style="margin:0px;padding:0px;font-size:1px;width:88px;"><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_top.gif\') no-repeat bottom;"> </div><div style="font:10px Tahoma;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_center.gif\');"><div style="text-align:center;"><a href="http://www.bigmir.net/" target="_blank" style="color:#0000ab;text-decoration:none;font:10px Tahoma;">bigmir<span style="color:#ff0000;">)</span>net</a></div><div style="margin-top:3px;padding: 0px 6px 0px 6px;color:#003596;"><div style="float:left;font:10px Tahoma;">'+oBM_STAT.hosts+'</div><div style="float:right;font:10px Tahoma;">'+oBM_STAT.hits+'</div></div><br clear="all"/></div><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b59_bottom.gif\') no-repeat top;"> </div></div></td></tr></table>');
+                            }
+                            //-->
+                            </script>
+                            <script type="text/javascript" language="javascript"><!--
+                            bmN=navigator,bmD=document,bmD.cookie='b=b',i=0,bs=[],bm={o:1,v:16919424,s:16919424,t:0,c:bmD.cookie?1:0,n:Math.round((Math.random()* 1000000)),w:0};
+                            for(var f=self;f!=f.parent;f=f.parent)bm.w++;
+                            try{if(bmN.plugins&&bmN.mimeTypes.length&&(x=bmN.plugins['Shockwave Flash']))bm.m=parseInt(x.description.replace(/([a-zA-Z]|\s)+/,''));
+                            else for(var f=3;f<20;f++)if(eval('new ActiveXObject("ShockwaveFlash.ShockwaveFlash.'+f+'")'))bm.m=f}catch(e){;}
+                            try{bm.y=bmN.javaEnabled()?1:0}catch(e){;}
+                            try{bmS=screen;bm.v^=bm.d=bmS.colorDepth||bmS.pixelDepth;bm.v^=bm.r=bmS.width}catch(e){;}
+                            r=bmD.referrer.slice(7);if(r&&r.split('/')[0]!=window.location.host){bm.f=escape(r).slice(0,400);bm.v^=r.length}
+                            bm.v^=window.location.href.length;for(var x in bm) if(/^[ovstcnwmydrf]$/.test(x)) bs[i++]=x+bm[x];
+                            bmD.write('<sc'+'ript type="text/javascript" language="javascript" src="http://c.bigmir.net/?'+bs.join('&')+'"></sc'+'ript>');
+                            //-->
+                            </script>
+                            <noscript>
+                            <a href="http://www.bigmir.net/" target="_blank"><img src="http://c.bigmir.net/?v16919424&s16919424&t2" width="88" height="31" alt="bigmir)net TOP 100" title="bigmir)net TOP 100" border="0" /></a>
+                            </noscript>
+                            <!--bigmir)net TOP 100-->
+                        </div>
+                    </div>
+                    <div class='row-fluid'>
+                        <div class='span10'></div>
+                        <div class='span2 live-internet-counter'>
+                            <!--LiveInternet counter--><script type="text/javascript"><!--
+                            document.write("<a href='http://www.liveinternet.ru/click' "+
+                            "target=_blank><img src='//counter.yadro.ru/hit?t26.6;r"+
+                            escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                            ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                            screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+                            ";"+Math.random()+
+                            "' alt='' title='LiveInternet: number of visitors for today is"+
+                            " shown' "+
+                            "border='0' width='88' height='15'><\/a>")
+                            //--></script><!--/LiveInternet-->
+                        </div>
+                    </div>
+                    <div class='row-fluid'>
+                        <div class='span10'></div>
+                        <div class='span2 site-catalogs'>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </body>
+</html>

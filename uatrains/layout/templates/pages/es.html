@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{% trans %}site_title{% endtrans %}: {% trans %}search_result{% endtrans %}</title>
+{% endblock %}
+{% block body %}
+	<div style="text-align: center">
+		{% if es|length > 0 %}
+			{% for e in es %}
+				{% set etitle_lng, etitle = get_search_lng_title(e, ph, lng) %}
+				{% if etitle_lng == 'UA'%}
+					<div class="result"><a href='http://{{ua_domain}}/{{e.id}}'>
+						{% if e.etype == 2 %}{{e.value}} {{etitle}}{% endif %}
+						{% if e.etype == 1 or e.etype == 5 %}{{etitle}}, № {{e.value}}{% endif %}</a></div>
+				{% endif %}
+				{% if etitle_lng == 'RU'%}
+					<div class="result"><a href='http://{{ru_domain}}/{{e.id}}'>
+						{% if e.etype == 2 %}{{e.value}} {{etitle}}{% endif %}
+						{% if e.etype == 1 or e.etype == 5 %}{{etitle}}, № {{e.value}}{% endif %}</a></div>
+				{% endif %}
+				{% if etitle_lng == 'EN'%}
+					<div class="result"><a href='http://{{en_domain}}/{{e.id}}'>
+						{% if e.etype == 2 %}
+							{% if e.value == 'ст.' %}st.{% endif %}
+							{% if e.value == 'пл.' %}pl.{% endif %} {{etitle}}
+						{% endif %}
+						{% if e.etype == 1 or e.etype == 5 %}{{etitle}}, № {{e.value}}{% endif %}</a></div>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			<span class="label label-info result-label">
+				{% trans %}no_entity_search_result{% endtrans %}</span>
+		{% endif %}
+    </div>
+	<ul class="pager">
+		<li class="previous {% if pn == 0 %}disabled{% endif %}">
+			<a {% if pn != 0 %}href='/es?ph={{ph}}&pn={{pn - 1}}'{% endif %}>
+				&larr; {% trans %}Предыдущие{% endtrans %}</a>
+		</li>
+		<li class="next {% if not has_next_p %}disabled{% endif %}">
+			<a {% if has_next_p %}href='/es?ph={{ph}}&pn={{pn + 1}}'{% endif %}>
+				{% trans %}Следующие{% endtrans %} &rarr;</a>
+		</li>
+    </ul>
+{% endblock %}

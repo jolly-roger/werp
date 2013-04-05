@@ -1,0 +1,167 @@
+# Russian (Russia) translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-02-28 16:45+0200\n"
+"PO-Revision-Date: 2013-01-31 14:53+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: ru_RU <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: templates/base.html:36 templates/base.html:98 templates/base.html:99
+#: templates/base.html:189 templates/pages/es.html:3
+#: templates/pages/home.html:3 templates/pages/news.html:3
+#: templates/pages/sitecatalogs.html:3 templates/pages/stations.html:3
+#: templates/pages/trains.html:3
+#, fuzzy
+msgid "site_title"
+msgstr "Расписание движения поездов и электричек Украины"
+
+#: templates/base.html:39 templates/base.html:188 templates/base.html:190
+msgid "site_description"
+msgstr ""
+"Информационная система предоставляющая простой и быстрый доступ к "
+"регулярно обновляемому расписанию движения поездов и электричек "
+"(пассажирских, региональных и пригородных поездов) по всем станциям "
+"Украины"
+
+#: templates/base.html:40
+msgid "site_keywords"
+msgstr "расписание,движение,поезд,электричка,станция"
+
+#: templates/base.html:106
+#, fuzzy
+msgid "search_entity_text"
+msgstr "Введите название(я) станции(й)"
+
+#: templates/base.html:107
+msgid "Найти"
+msgstr "Найти"
+
+#: templates/base.html:117 templates/base.html:118
+msgid "На украинском"
+msgstr "На украинском"
+
+#: templates/base.html:125 templates/base.html:126
+msgid "На русском"
+msgstr "На русском"
+
+#: templates/base.html:133 templates/base.html:134
+msgid "На английском"
+msgstr "На английском"
+
+#: templates/pages/es.html:3
+msgid "search_result"
+msgstr "Результаты поиска поездов и санций"
+
+#: templates/pages/es.html:31
+msgid "no_entity_search_result"
+msgstr "По вашему запросу поездов и станций не было найдено"
+
+#: templates/pages/es.html:37 templates/pages/stations.html:29
+#: templates/pages/trains.html:19
+msgid "Предыдущие"
+msgstr "Предыдущие"
+
+#: templates/pages/es.html:41 templates/pages/stations.html:33
+#: templates/pages/trains.html:23
+msgid "Следующие"
+msgstr "Следующие"
+
+#: templates/pages/home.html:19
+msgid "all_stations"
+msgstr "Все станции"
+
+#: templates/pages/home.html:31
+msgid "all_trains"
+msgstr "Все поезда"
+
+#: templates/pages/home.html:45
+msgid "all_news"
+msgstr "Все новости"
+
+#: templates/pages/news.html:3 templates/pages/sitecatalogs.html:3
+msgid "Новости"
+msgstr "Новости"
+
+#: templates/pages/ptrain.html:3
+#, fuzzy
+msgid "passenger_train_page_title"
+msgstr "Пассажирский поезд"
+
+#: templates/pages/ptrain.html:10 templates/pages/train.html:10
+#, fuzzy
+msgid "station"
+msgstr "Станция"
+
+#: templates/pages/ptrain.html:11 templates/pages/station.html:13
+#: templates/pages/train.html:11
+msgid "прибытие"
+msgstr "Прибытие"
+
+#: templates/pages/ptrain.html:12 templates/pages/station.html:14
+#: templates/pages/train.html:12
+msgid "отправление"
+msgstr "Отправление"
+
+#: templates/pages/railwaytimetable.html:4 templates/pages/station.html:10
+msgid "train_number"
+msgstr "Номер поезда"
+
+#: templates/pages/railwaytimetable.html:5 templates/pages/station.html:11
+msgid "путь следования"
+msgstr "Путь следования"
+
+#: templates/pages/railwaytimetable.html:6
+msgid "отправление - прибытие"
+msgstr "Отправление - Прибытие"
+
+#: templates/pages/railwaytimetable.html:7 templates/pages/station.html:12
+msgid "периодичность"
+msgstr "Периодичность"
+
+#: templates/pages/station.html:3
+msgid "station_page_title"
+msgstr ""
+"расписание движения пассажирских поездов и электричек (пригородных "
+"поездов)"
+
+#: templates/pages/station.html:7
+#, fuzzy
+msgid "station_prefix"
+msgstr "Расписание движения поездов и электричек по станции"
+
+#: templates/pages/stations.html:3
+msgid "Cтанции"
+msgstr "Cтанции"
+
+#: templates/pages/stations.html:23
+msgid "По вашему запросу станций не найдено"
+msgstr "По вашему запросу станций не найдено"
+
+#: templates/pages/train.html:3
+msgid "electric_train_page_title"
+msgstr "Электричка (пригородный поезд)"
+
+#: templates/pages/trains.html:3
+msgid "Поезда"
+msgstr "Поезда"
+
+#: templates/pages/trains.html:13
+msgid "По вашему запросу поездов не найдено"
+msgstr "По вашему запросу поездов не найдено"
+
+#~ msgid "стоянка"
+#~ msgstr "Стоянка"
+
