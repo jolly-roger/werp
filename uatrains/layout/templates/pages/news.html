@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{% trans %}site_title{% endtrans %}: {% trans %}Новости{% endtrans %}</title>
+{% endblock %}
+{% block body %}
+    <div class='row' style='padding-bottom: 20px;'>
+		<div class='span12' style="text-align: center">
+            {% for n in news %}
+                <div class='row zone-row'><div class='new-title'>{{n.value}} <span class='new-date'>{{n.date}}</span></div></div>
+            {% endfor %}
+		</div>
+	</div>
+{% endblock %}

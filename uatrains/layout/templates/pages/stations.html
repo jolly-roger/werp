@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{% trans %}site_title{% endtrans %}: {% trans %}Cтанции{% endtrans %}</title>
+{% endblock %}
+{% block body %}
+	<div style="text-align: center">
+		{% if stations|length > 0 %}
+			{% for s in stations %}
+				{% set stitle_lng, stitle = get_search_lng_title(s, ph, lng) %}
+				{% if stitle_lng == 'UA'%}
+					<div class="result"><a href='http://{{ua_domain}}/{{s.id}}'>{{s.value}} {{get_lng_title(s, lng)}}</a></div>
+				{% endif %}
+				{% if stitle_lng == 'RU'%}
+					<div class="result"><a href='http://{{ru_domain}}/{{s.id}}'>{{s.value}} {{get_lng_title(s, lng)}}</a></div>
+				{% endif %}
+				{% if stitle_lng == 'EN'%}
+					<div class="result"><a href='http://{{en_domain}}/{{s.id}}'>{% if s.value == 'ст.' %}st.{% endif %}
+						{% if s.value == 'пл.' %}pl.{% endif %} {{get_lng_title(s, lng)}}</a></div>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			<span class="label label-info result-label">
+				{% trans %}По вашему запросу станций не найдено{% endtrans %}</span>
+		{% endif %}
+    </div>
+	<ul class="pager">
+		<li class="previous {% if pn == 0 %}disabled{% endif %}">
+			<a {% if pn != 0 %}href='/ss?ph={{ph}}&pn={{pn - 1}}'{% endif %}>
+				&larr; {% trans %}Предыдущие{% endtrans %}</a>
+		</li>
+		<li class="next {% if not has_next_p %}disabled{% endif %}">
+			<a {% if has_next_p %}href='/ss?ph={{ph}}&pn={{pn + 1}}'{% endif %}>
+				{% trans %}Следующие{% endtrans %} &rarr;</a>
+		</li>
+    </ul>
+{% endblock %}

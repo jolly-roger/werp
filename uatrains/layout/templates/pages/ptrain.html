@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>№ {{train.value}} {{get_lng_title(train, lng)}}, {{get_lng_period(train, lng)}}. {% trans %}passenger_train_page_title{% endtrans %}</title>	
+{% endblock %}
+{% block body %}
+	<table class='table'>
+		<caption><h3>{{get_lng_title(train, lng)}}, № {{train.value}}, {{get_lng_period(train, lng)}}</h3></caption>
+		<thead>
+			<tr>
+				<th>{% trans %}station{% endtrans %}</th>
+				<th>{% trans %}прибытие{% endtrans %}</th>
+				<th>{% trans %}отправление{% endtrans %}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for ts in train_stations %}
+			{% if ts.order is not none %}
+				<tr>
+					<td><a href='/{{ts.s.id}}'>{{get_lng_title(ts.s, lng)}}</a></td>
+					<td>
+						{% if ts.arrival is not none %}
+							{{ts.arrival}}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+					<td>
+						{% if ts.departure is not none %}
+							{{ts.departure}}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

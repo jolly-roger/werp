@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block head %}
+	<title>{% trans %}site_title{% endtrans %}</title>
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="span5" style="text-align: center">
+			<div class='zone'>
+				{% for s in ss %}
+					{% if lng == 'EN'%}
+						<div class="row zone-row result"><a href='/{{s.id}}'>{% if s.value == 'ст.' %}st.{% endif %}
+							{% if s.value == 'пл.' %}pl.{% endif %} {{get_lng_title(s, lng)}}</a></div>
+					{% else %}
+						<div class="row zone-row result"><a href='/{{s.id}}'>{{s.value}} {{get_lng_title(s, lng)}}</a></div>
+					{% endif %}
+				{% endfor %}
+				<div class='row'>
+					<div class='pull-right zone-title'>
+						<a href="/ss">{% trans %}all_stations{% endtrans %} &rarr;</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span7" style="text-align: center">
+			<div class='zone'>
+				{% for t in ts %}
+					<div class="row zone-row result"><a href='/{{t.id}}'>{{get_lng_title(t, lng)}}, № {{t.value}}</a></div>
+				{% endfor %}
+				<div class='row'>
+					<div class='pull-right zone-title'>
+						<a href="/ts">{% trans %}all_trains{% endtrans %} &rarr;</a>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+	<div class='row'>
+		<div class='span12' style="text-align: center">
+			<div class='zone'>
+				{% for n in news %}
+					<div class='row zone-row'><div class='new-title'>{{n.value}} <span class='new-date'>{{n.date}}</span></div></div>
+				{% endfor %}
+				<div class='row'>
+					<div class='pull-right zone-title'>
+						<a href='/news'>{% trans %}all_news{% endtrans %} &rarr;</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
