@@ -2,7 +2,7 @@ from .base import *
 
 
 class RouteTrain(DBase):
-	__tablename__ = 'route_train'
+	__tablename__ = 'uatrains_route_train'
 	id = Column(BigInteger, primary_key = True)
 	route_id = Column(BigInteger, ForeignKey('route.id'), nullable=False)
 	t_id = Column(BigInteger, ForeignKey('e.id'), nullable=False)

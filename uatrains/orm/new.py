@@ -2,7 +2,7 @@ from .base import *
 
 
 class New(DBase):
-    __tablename__ = 'new'
+    __tablename__ = 'uatrains_new'
     id = Column(BigInteger, primary_key = True)
     value = Column(String, nullable=False)
     date = Column(Date, nullable=False)

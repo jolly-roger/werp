@@ -6,8 +6,8 @@ import time
 import datetime
 
 
-null_engine = create_engine('postgresql://uatrains:v2T<%tNp@localhost:5432/uatrains', poolclass=NullPool)
-q_engine = create_engine('postgresql://uatrains:v2T<%tNp@localhost:5432/uatrains', pool_size=1024, max_overflow=0,
+null_engine = create_engine('postgresql://werp:0v}II587@localhost:5432/werp', poolclass=NullPool)
+q_engine = create_engine('postgresql://werp:0v}II587@localhost:5432/werp', pool_size=1024, max_overflow=0,
 	pool_recycle=3600)
 sescls = sessionmaker()
 ses = sessionmaker(bind=q_engine)

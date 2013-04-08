@@ -2,7 +2,7 @@ from .base import *
 
 
 class Src(DBase):
-    __tablename__ = 'src'
+    __tablename__ = 'uatrains_src'
     id = Column(BigInteger, primary_key = True)
     alias = Column(String, nullable=False)
     url = Column(String, nullable=False)

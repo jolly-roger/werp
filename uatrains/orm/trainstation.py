@@ -2,7 +2,7 @@ from .base import *
 
 
 class TrainStation(DBase):
-	__tablename__ = 'train_station'
+	__tablename__ = 'uatrains_train_station'
 	id = Column(BigInteger, primary_key = True)
 	t_id = Column(BigInteger, ForeignKey('e.id'), nullable=False)
 	s_id = Column(BigInteger, ForeignKey('e.id'), nullable=False)

@@ -2,7 +2,7 @@ from .base import *
 
 
 class Route(DBase):
-    __tablename__ = 'route'
+    __tablename__ = 'uatrains_route'
     id = Column(BigInteger, primary_key = True)
     rid = Column(BigInteger, unique=True)
     title = Column(String)

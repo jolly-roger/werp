@@ -2,7 +2,7 @@ from .base import *
 
 
 class E(DBase):
-    __tablename__ = 'e'
+    __tablename__ = 'uatrains_e'
     id = Column(BigInteger, primary_key = True)
     etype = Column(SmallInteger, nullable=False)
     value = Column(String)
