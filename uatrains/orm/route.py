@@ -9,7 +9,7 @@ class Route(DBase):
     value = Column(String)
     reverse_title = Column(String)
     reverse_value = Column(String)
-    railway_id = Column(BigInteger, ForeignKey('railway.id'))
+    railway_id = Column(BigInteger, ForeignKey('uatrains_railway.id'))
     
     route_trains = relationship('RouteTrain', backref='route')
     railway = relationship('Railway', backref='routes')

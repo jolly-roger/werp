@@ -4,8 +4,8 @@ from .base import *
 class RouteTrain(DBase):
 	__tablename__ = 'uatrains_route_train'
 	id = Column(BigInteger, primary_key = True)
-	route_id = Column(BigInteger, ForeignKey('route.id'), nullable=False)
-	t_id = Column(BigInteger, ForeignKey('e.id'), nullable=False)
+	route_id = Column(BigInteger, ForeignKey('uatrains_route.id'), nullable=False)
+	t_id = Column(BigInteger, ForeignKey('uatrains_e.id'), nullable=False)
 	is_reverse = Column(Boolean, nullable=False, default=False)
 	
 	train = relationship('E', backref='train_routes')
