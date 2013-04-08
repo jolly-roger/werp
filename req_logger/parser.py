@@ -14,7 +14,7 @@ try:
         try:
             ev = json.loads(log.value)
         except:
-            nlog.info('req_logger - load log value error', str(log) + '\n' + traceback.format_exc())
+            nlog.info('req_logger - load log value error', str(log.value) + '\n' + traceback.format_exc())
         if ev is not None:
             try:
                 user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
