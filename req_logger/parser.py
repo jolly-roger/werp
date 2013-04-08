@@ -10,12 +10,17 @@ try:
     logs = ses.query(orm.Log).filter(orm.Log.is_parsed == False).all()
     for log in logs:
         log.is_parsed = True
-        ev = json.loads(log.value)
+        ev = None
         try:
-            user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
-        except orm.NoResultFound:
-            user_agent = orm.UserAgent(ev['HTTP_USER_AGENT'])
-            ses.add(user_agent)
+            ev = json.loads(log.value)
+        except:
+            nlog.info('req_logger - load log value error', str(log) + '\n' + traceback.format_exc())
+        if ev is not None:
+            try:
+                user_agent = ses.query(orm.UserAgent).filter(orm.UserAgent.value == ev['HTTP_USER_AGENT']).one()
+            except orm.NoResultFound:
+                user_agent = orm.UserAgent(ev['HTTP_USER_AGENT'])
+                ses.add(user_agent)
     ses.commit()
     ses.close()
     conn.close()
