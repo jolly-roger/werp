@@ -6,6 +6,4 @@ from sqlalchemy.orm import relationship, backref, column_property
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 
-#from ..common import etype
-
 DBase = declarative_base()
