@@ -13,3 +13,5 @@ FreeProxy = free_proxy.FreeProxy
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import joinedload, joinedload_all, aliased, contains_eager
+
+import uatrains
