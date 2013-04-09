@@ -4,22 +4,17 @@ import zmq
 #from werp import orm
 #from werp.orm import uatrains
 from werp import nlog
-from werp.uatrains.engine import drv
+#from werp.uatrains.engine import drv
 
 ctx = zmq.Context()
 
-pusher = ctx.socket(zmq.PUSH)
-pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
+puller = ctx.socket(zmq.PULL)
+puller.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 
 try:
-    for tid in range(0, 5000):
-        pusher.send_string(drv.southwest.ua_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.southwest.ru_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.southwest.en_url.replace('(tid)', str(tid)))
-    for tid in range(20000, 70000):
-        pusher.send_string(drv.passengers.ua_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.passengers.ru_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.passengers.en_url.replace('(tid)', str(tid)))
+    while True:
+        msg = puller.recv_string()
+        print(msg)
     #conn = orm.q_engine.connect()
     #ses = orm.sescls(bind=conn)
     #
@@ -47,4 +42,4 @@ try:
     #ses.close()
     #conn.close()
 except:
-    nlog.info('uatrains bot - task creator error', traceback.format_exc())
+    nlog.info('uatrains bot - task runner error', traceback.format_exc())
