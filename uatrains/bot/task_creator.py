@@ -12,7 +12,7 @@ pusher = ctx.socket(zmq.PUSH)
 #pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 pusher.bind("tcp://127.0.0.1:1431")
 
-pusher.send(0)
+pusher.send(chr(0))
 
 #try:
     
