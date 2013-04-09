@@ -1,10 +1,10 @@
-import traceback
+#import traceback
 import zmq
 
 #from werp import orm
 #from werp.orm import uatrains
-from werp import nlog
-from werp.uatrains.engine import drv
+#from werp import nlog
+#from werp.uatrains.engine import drv
 
 ctx = zmq.Context()
 
@@ -12,9 +12,11 @@ pusher = ctx.socket(zmq.PUSH)
 #pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 pusher.bind("tcp://127.0.0.1:1431")
 
-try:
+pusher.send(0)
+
+#try:
     
-    pusher.send(bytes('Yo!!!', 'utf-8'))
+    
     
     #for tid in range(0, 5000):
     #    msg = bytes(drv.southwest.ua_url.replace('(tid)', str(tid)), 'utf-8')
@@ -51,5 +53,5 @@ try:
     #ses.commit()
     #ses.close()
     #conn.close()
-except:
-    nlog.info('uatrains bot - task creator error', traceback.format_exc())
+#except:
+#    nlog.info('uatrains bot - task creator error', traceback.format_exc())
