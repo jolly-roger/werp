@@ -13,13 +13,14 @@ pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 
 try:
     for tid in range(0, 5000):
-        pusher.send_string(drv.southwest.ua_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.southwest.ru_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.southwest.en_url.replace('(tid)', str(tid)))
-    for tid in range(20000, 70000):
-        pusher.send_string(drv.passengers.ua_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.passengers.ru_url.replace('(tid)', str(tid)))
-        pusher.send_string(drv.passengers.en_url.replace('(tid)', str(tid)))
+        msg = drv.southwest.ua_url.replace('(tid)', str(tid))
+        pusher.send(msg)
+    #    pusher.send_string(drv.southwest.ru_url.replace('(tid)', str(tid)))
+    #    pusher.send_string(drv.southwest.en_url.replace('(tid)', str(tid)))
+    #for tid in range(20000, 70000):
+    #    pusher.send_string(drv.passengers.ua_url.replace('(tid)', str(tid)))
+    #    pusher.send_string(drv.passengers.ru_url.replace('(tid)', str(tid)))
+    #    pusher.send_string(drv.passengers.en_url.replace('(tid)', str(tid)))
     #conn = orm.q_engine.connect()
     #ses = orm.sescls(bind=conn)
     #
