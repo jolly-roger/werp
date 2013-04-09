@@ -14,7 +14,7 @@ pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 try:
     for tid in range(0, 5000):
         msg = drv.southwest.ua_url.replace('(tid)', str(tid))
-        pusher.send(msg)
+        pusher.send_unicode(msg)
     #    pusher.send_string(drv.southwest.ru_url.replace('(tid)', str(tid)))
     #    pusher.send_string(drv.southwest.en_url.replace('(tid)', str(tid)))
     #for tid in range(20000, 70000):

@@ -13,7 +13,7 @@ puller.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 
 try:
     while True:
-        msg = puller.recv()
+        msg = puller.recv_unicode()
         print(str(msg))
     #conn = orm.q_engine.connect()
     #ses = orm.sescls(bind=conn)
