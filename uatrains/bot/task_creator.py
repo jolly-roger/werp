@@ -13,7 +13,7 @@ pusher.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
 
 try:
     
-    pusher.send('Yo!!!')
+    pusher.send(bytes('Yo!!!', 'utf-8'))
     
     #for tid in range(0, 5000):
     #    msg = bytes(drv.southwest.ua_url.replace('(tid)', str(tid)), 'utf-8')
