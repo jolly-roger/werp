@@ -1,5 +1,6 @@
 import traceback
 
+from werp import orm
 from werp.orm import uatrains
 from werp import nlog
 from werp.uatrains.engine import drv
