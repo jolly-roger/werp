@@ -18,7 +18,7 @@ def run_task(task_id):
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
     if task is not None:
         task.status = task_status.running
-        sess.commit()
+        ses.commit()
         try:
             if task.drv == task_drvs.southwest:
                 drv.southwest.get_train_data(task.data)
