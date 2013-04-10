@@ -8,20 +8,6 @@ from werp.uatrains.engine import drv
 from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 
-try:
-    conn = orm.q_engine.connect()
-    ses = orm.sescls(bind=conn)
-    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).limit(32).all()
-    task_ids = []
-    for t in tasks:
-        task_ids.append(t.id)
-    with multiprocessing.Pool(processes=32) as ppool:
-        ppool.map(run_task, [task_id for task_id in task_ids])
-    ses.close()
-    conn.close()
-except:
-    nlog.info('uatrains bot - task runner error', traceback.format_exc())
-    
 def run_task(task_id):
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
@@ -48,3 +34,17 @@ def run_task(task_id):
         ses.commit()
     ses.close()
     conn.close()
+
+try:
+    conn = orm.q_engine.connect()
+    ses = orm.sescls(bind=conn)
+    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).limit(32).all()
+    task_ids = []
+    for t in tasks:
+        task_ids.append(t.id)
+    with multiprocessing.Pool(processes=32) as ppool:
+        ppool.map(run_task, [task_id for task_id in task_ids])
+    ses.close()
+    conn.close()
+except:
+    nlog.info('uatrains bot - task runner error', traceback.format_exc())
