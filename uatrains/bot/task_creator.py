@@ -17,6 +17,7 @@ try:
         bot_task = uatrains.BotTask()
         bot_task.data = str(tid)
         bot_task.drv = task_drvs.passengers
+        ses.add(bot_task)
     ses.commit()
     ses.close()
     conn.close()

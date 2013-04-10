@@ -6,8 +6,10 @@ class BotTask(DBase):
     data = Column(String, nullable=False)
     status = Column(SmallInteger)
     http_status = Column(SmallInteger)
+    drv = Column(SmallInteger)
 
-    def __init__(self, data=None, status=None, http_status=None):
+    def __init__(self, data=None, status=None, http_status=None, drv=None):
         self.data = data
         self.status = status
         self.http_status = http_status
+        self.drv = drv
