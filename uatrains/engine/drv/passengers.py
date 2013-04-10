@@ -227,7 +227,7 @@ def get_train_data(tid):
 		ru_dom_tree = None
 		en_dom_tree = None
 		parser = etree.HTMLParser()
-		proxies = ses.query(wer.orm.FreeProxy).filter(werp.orm.FreeProxy.protocol == 'http').all()
+		proxies = ses.query(werp.orm.FreeProxy).filter(werp.orm.FreeProxy.protocol == 'http').all()
 		user_agents = ses.query(werp.orm.UserAgent).filter(werp.orm.UserAgent.is_bot == False).all()
 		rnd_proxy = random.choice(proxies)
 		rnd_user_agent = random.choice(user_agents)
