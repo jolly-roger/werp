@@ -30,6 +30,7 @@ def run_task(task_id):
         except HTTPError as e:
             task.http_status = e.code
             task.http_status_reason = str(e.reason)
+        #except ConnectionResetError
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
         if task.http_status is None:
