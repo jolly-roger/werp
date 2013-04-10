@@ -1,6 +1,6 @@
 import multiprocessing
 import traceback
-from urllib.error import HTTPError
+from urllib.error import *
 from werp import orm
 from werp.orm import uatrains
 from werp import nlog
@@ -24,6 +24,8 @@ def run_task(task_id):
                 drv.southwest.get_train_data(task.data)
             elif task.drv == task_drvs.passengers:
                 drv.passengers.get_train_data(task.data)
+        except URLError as e:
+            task.http_status = e.reason.errno
         except HTTPError as e:
             task.http_status = e.code
         except:
