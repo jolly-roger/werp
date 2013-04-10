@@ -5,6 +5,7 @@ from . import free_proxy
 
 sescls = session.sescls
 q_engine = session.q_engine
+null_engine = session.null_engine
 ses = session.ses
 Log = log.Log
 UserAgent = user_agent.UserAgent
