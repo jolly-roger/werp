@@ -1,3 +1,4 @@
+import multiprocessing
 import traceback
 from urllib.error import HTTPError
 from werp import orm
