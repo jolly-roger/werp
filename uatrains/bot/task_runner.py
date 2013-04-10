@@ -25,6 +25,7 @@ def run_task(task_id):
             elif task.drv == task_drvs.passengers:
                 drv.passengers.get_train_data(task.data)
         except HTTPError as e:
+            nlog.info('uatrains bot - task runner error', traceback.format_exc())
             task.http_status = e.code
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
