@@ -9,36 +9,39 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 
 def run_task(task_id):
-    conn = orm.null_engine.connect()
-    ses = orm.sescls(bind=conn)
-    task = None
     try:
-        task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
-    except:
-        nlog.info('uatrains bot - task runner error', traceback.format_exc())
-    if task is not None:
-        task.status = task_status.running
-        ses.commit()
+        conn = orm.null_engine.connect()
+        ses = orm.sescls(bind=conn)
+        task = None
         try:
-            if task.drv == task_drvs.southwest:
-                drv.southwest.get_train_data(task.data)
-            elif task.drv == task_drvs.passengers:
-                drv.passengers.get_train_data(task.data)
-        except URLError as e:
-            task.http_status = -1
-            task.http_status_reason = str(e.reason)
-        except HTTPError as e:
-            task.http_status = e.code
-            task.http_status_reason = str(e.reason)
-        #except ConnectionResetError
+            task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
-        if task.http_status is None:
-            task.http_status = 200
-        task.status = task_status.completed
-        ses.commit()
-    ses.close()
-    conn.close()
+        if task is not None:
+            task.status = task_status.running
+            ses.commit()
+            try:
+                if task.drv == task_drvs.southwest:
+                    drv.southwest.get_train_data(task.data)
+                elif task.drv == task_drvs.passengers:
+                    drv.passengers.get_train_data(task.data)
+            except URLError as e:
+                task.http_status = -1
+                task.http_status_reason = str(e.reason)
+            except HTTPError as e:
+                task.http_status = e.code
+                task.http_status_reason = str(e.reason)
+            #except ConnectionResetError
+            except:
+                nlog.info('uatrains bot - task runner error', traceback.format_exc())
+            if task.http_status is None:
+                task.http_status = 200
+            task.status = task_status.completed
+            ses.commit()
+        ses.close()
+        conn.close()
+    except:
+        nlog.info('uatrains bot - task runner error', traceback.format_exc())
 
 try:
     conn = orm.q_engine.connect()
