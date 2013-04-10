@@ -1,45 +1,50 @@
 import traceback
-import zmq
-
-#from werp import orm
-#from werp.orm import uatrains
+from urllib.error import HTTPError
+from werp import orm
+from werp.orm import uatrains
 from werp import nlog
-#from werp.uatrains.engine import drv
+from werp.uatrains.engine import drv
 
-ctx = zmq.Context()
-
-puller = ctx.socket(zmq.PULL)
-puller.bind("ipc:///home/www/sockets/uatrains_bot_task.socket")
+from . import task_status
+from . import task_drvs
 
 try:
-    while True:
-        msg = puller.recv_unicode()
-        print(str(msg))
-    #conn = orm.q_engine.connect()
-    #ses = orm.sescls(bind=conn)
-    #
-    #for tid in range(0, 5000):
-    #    ua_bot_task = uatrains.BotTask()
-    #    ua_bot_task.data = drv.southwest.ua_url.replace('(tid)', str(tid))
-    #    ses.add(ua_bot_task)
-    #    ru_bot_task = uatrains.BotTask()
-    #    ru_bot_task.data = drv.southwest.ru_url.replace('(tid)', str(tid))
-    #    ses.add(ru_bot_task)
-    #    en_bot_task = uatrains.BotTask()
-    #    en_bot_task.data = drv.southwest.en_url.replace('(tid)', str(tid))
-    #    ses.add(en_bot_task)
-    #for tid in range(20000, 70000):
-    #    ua_bot_task = uatrains.BotTask()
-    #    ua_bot_task.data = drv.passengers.ua_url.replace('(tid)', str(tid))
-    #    ses.add(ua_bot_task)
-    #    ru_bot_task = uatrains.BotTask()
-    #    ru_bot_task.data = drv.passengers.ru_url.replace('(tid)', str(tid))
-    #    ses.add(ru_bot_task)
-    #    en_bot_task = uatrains.BotTask()
-    #    en_bot_task.data = drv.passengers.en_url.replace('(tid)', str(tid))
-    #    ses.add(en_bot_task)
-    #ses.commit()
-    #ses.close()
-    #conn.close()
+    conn = orm.q_engine.connect()
+    ses = orm.sescls(bind=conn)
+    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).limit(32).all()
+    task_ids = []
+    for t in tasks:
+        task_ids.append(t.id)
+    with multiprocessing.Pool(processes=32) as ppool:
+        ppool.map(run_task, [task_id for task_id in task_ids])
+    ses.close()
+    conn.close()
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
+    
+def run_task(task_id):
+    conn = orm.null_engine.connect()
+    ses = orm.sescls(bind=conn)
+    task = None
+    try:
+        task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
+    except:
+        nlog.info('uatrains bot - task runner error', traceback.format_exc())
+    if task is not None:
+        task.status = task_status.running
+        sess.commit()
+        try:
+            if task.drv == task_drvs.southwest:
+                drv.southwest.get_train_data(task.data)
+            elif task.drv == task_drvs.passengers:
+                drv.passengers.get_train_data(task.data)
+        except HTTPError as e:
+            task.http_status = e.code
+        except:
+            nlog.info('uatrains bot - task runner error', traceback.format_exc())
+        if task.http_status is None:
+            task.http_status = 200
+        task.status = task_status.completed
+        ses.commit()
+    ses.close()
+    conn.close()

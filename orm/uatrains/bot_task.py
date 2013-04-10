@@ -4,8 +4,10 @@ class BotTask(DBase):
     __tablename__ = 'uatrains_bot_task'
     id = Column(postgresql.UUID, primary_key = True)
     data = Column(String, nullable=False)
-    is_running = Column(Boolean, nullable=False)
+    status = Column(SmallInteger)
+    http_status = Column(SmallInteger)
 
-    def __init__(self, data=None, is_running=False):
+    def __init__(self, data=None, status=None, http_status=None):
         self.data = data
-        self.is_running = is_running
+        self.status = status
+        self.http_status = http_status

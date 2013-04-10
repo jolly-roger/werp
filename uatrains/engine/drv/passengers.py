@@ -5,7 +5,9 @@ import urllib.parse
 from lxml import etree
 import io
 import logging
+import random
 
+import werp.orm
 
 from ...common import etype
 from ... import orm
@@ -225,14 +227,24 @@ def get_train_data(tid):
 		ru_dom_tree = None
 		en_dom_tree = None
 		parser = etree.HTMLParser()
-		ua_res = urllib.request.urlopen(ua_url.replace('(tid)', str(tid)))
-		ua_res_data = ua_res.read().decode('utf-8')
+		proxies = ses.query(wer.orm.FreeProxy).filter(werp.orm.FreeProxy.protocol == 'http').all()
+		user_agents = ses.query(werp.orm.UserAgent).filter(werp.orm.UserAgent.is_bot == False).all()
+		rnd_proxy = random.choice(proxies)
+		rnd_user_agent = random.choice(user_agents)
+		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
+		ua_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+		ua_res = urllib.request.urlopen(ua_req)
+		ua_res_data = ua_res.read().decode('cp1251')
 		ua_dom_tree = etree.parse(io.StringIO(ua_res_data), parser)
-		ru_res = urllib.request.urlopen(ru_url.replace('(tid)', str(tid)))
-		ru_res_data = ru_res.read().decode('utf-8')
+		ru_req = urllib.request.Request(ru_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
+		ru_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+		ru_res = urllib.request.urlopen(ru_req)
+		ru_res_data = ru_res.read().decode('cp1251')
 		ru_dom_tree = etree.parse(io.StringIO(ru_res_data), parser)
-		en_res = urllib.request.urlopen(en_url.replace('(tid)', str(tid)))
-		en_res_data = en_res.read().decode('utf-8')
+		en_req = urllib.request.Request(en_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
+		en_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+		en_res = urllib.request.urlopen(en_req)
+		en_res_data = en_res.read().decode('cp1251')
 		en_dom_tree = etree.parse(io.StringIO(en_res_data), parser)
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
