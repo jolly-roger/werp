@@ -273,6 +273,7 @@ def get_train_data(tid):
 			ses.close()
 		if conn is not None:
 			conn.close()
+		raise
 def get_t(e, ses):
 	t = None
 	try:
