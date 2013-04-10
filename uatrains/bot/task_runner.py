@@ -1,5 +1,5 @@
-import multiprocessing
 import traceback
+import threading
 from urllib.error import *
 from werp import orm
 from werp.orm import uatrains
@@ -47,8 +47,10 @@ try:
     task_ids = []
     for t in tasks:
         task_ids.append(t.id)
-    with multiprocessing.Pool(processes=32) as ppool:
-        ppool.map(run_task, [task_id for task_id in task_ids])
+    for task_id in task_ids:
+        thr = threading.Thread(target=run_task, args=(task_id))
+        thr.setDaemon(True)
+        thr.start()
     ses.close()
     conn.close()
 except:
