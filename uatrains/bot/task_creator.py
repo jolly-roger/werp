@@ -2,8 +2,7 @@ import traceback
 from werp import orm
 from werp.orm import uatrains
 from werp import nlog
-
-from . import task_drvs
+from werp.uatrains.bot import task_drvs
 
 try:
     conn = orm.q_engine.connect()
