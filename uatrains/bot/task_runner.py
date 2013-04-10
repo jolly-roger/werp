@@ -31,7 +31,9 @@ def run_task(task_id):
             except HTTPError as e:
                 task.http_status = e.code
                 task.http_status_reason = str(e.reason)
-            #except ConnectionResetError
+            except ConnectionError as e:
+                task.http_status = -1
+                task.http_status_reason = str(e.reason)
             except:
                 nlog.info('uatrains bot - task runner error', traceback.format_exc())
             if task.http_status is None:
@@ -51,7 +53,7 @@ try:
     for t in tasks:
         task_ids.append(t.id)
     for task_id in task_ids:
-        thr = threading.Thread(target=run_task, args=(task_id))
+        thr = threading.Thread(target=run_task, args=(task_id,))
         thr.setDaemon(True)
         thr.start()
     ses.close()
