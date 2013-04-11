@@ -16,7 +16,7 @@ poll.register(client, zmq.POLLIN)
 
 retries_left = REQUEST_RETRIES
 while retries_left:
-    request = 'http://google.com'
+    request = 'http://uatrains.com'
     client.send_unicode(request)
     expect_reply = True
     while expect_reply:

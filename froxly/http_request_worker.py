@@ -28,9 +28,6 @@ while True:
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         url = msg[2].decode('utf-8')
-        
-        print(url)
-        
         res = ''
         try_count = 0
         while res is '' and try_count < 11:
