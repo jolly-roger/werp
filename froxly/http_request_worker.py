@@ -28,9 +28,9 @@ while True:
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         url = msg[2].decode('utf-8')
-        res = ''
+        res = None
         try_count = 0
-        while res is '' and try_count < 11:
+        while res is None and try_count < 11:
             proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
             rnd_proxy = random.choice(proxies)
@@ -43,10 +43,12 @@ while True:
                     res = ''
             except:
                 nlog.info('froxly - zw', traceback.format_exc())
-                res = ''
+                res = None
             try_count = try_count + 1
         ses.close()
         conn.close()
+        if res is not None:
+            msg[2] = bytes(res.read(), 'utf-8')
         worker.send_multipart(msg)
     except:
         nlog.info('froxly - zw', traceback.format_exc())
