@@ -22,6 +22,9 @@ worker.send_unicode(LRU_READY)
 cycles = 0
 while True:
     msg = worker.recv_multipart()
+    
+    print(msg)
+    
     if not msg:
         break
     conn = orm.q_engine.connect()
