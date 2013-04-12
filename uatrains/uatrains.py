@@ -112,13 +112,14 @@ class uatrains(object):
     @cherrypy.expose
     def route(self, rid=-1, is_reverse=False, tid=-1, sid=-1, lng='_ru'):
         cherrypy.response.status = 301
-        location = ''
-        if int(rid) > 0:
-            location = '/'
-        elif int(tid) > 0:
-            location = '/t/' + str(tid)
-        elif int(sid) > 0:
-            location = '/s/' + str(sid)
+        location = '/'
+        try:
+            if int(tid) > 0:
+                location = '/t/' + str(tid)
+            elif int(sid) > 0:
+                location = '/s/' + str(sid)
+        except:
+            pass
         cherrypy.response.headers['Location'] = location
         return ''
     @cherrypy.expose
