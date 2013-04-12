@@ -1,7 +1,6 @@
 import sys 
 import zmq
 
-REQUEST_TIMEOUT = 180000
 REQUEST_RETRIES = 3
 SERVER_ENDPOINT = "tcp://localhost:5555"
 
@@ -20,7 +19,7 @@ while retries_left:
     client.send_unicode(request)
     expect_reply = True
     while expect_reply:
-        socks = dict(poll.poll(REQUEST_TIMEOUT))
+        socks = dict(poll.poll())
         if socks.get(client) == zmq.POLLIN:
             reply = client.recv_unicode()
             if not reply:
