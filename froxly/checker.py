@@ -23,12 +23,13 @@ try:
         for proxy in proxies:
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            nlog.info('froxly - checker request debug', rnd_user_agent)
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
             req.set_proxy(proxy.ip + ':' + proxy.port, proxy.protocol)
             try:
                 res = urllib.request.urlopen(req)
                 if res.getcode() == 200:
+                    nlog.info('froxly - checker request debug', 'Yo!!!')
+                    
                     proxy.http_status = res.getcode()
                     proxy.http_status_reason = None
             except URLError as e:
