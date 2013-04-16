@@ -2,6 +2,7 @@ import zmq
 import random
 
 from werp import orm
+from werp import nlog
 
 context = zmq.Context()
 rnd_user_agent_socket = context.socket(zmq.REP)
