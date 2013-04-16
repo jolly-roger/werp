@@ -21,6 +21,8 @@ try:
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
+            nlog.info('froxly - checher debug', '-1')
+            
             rnd_user_agent_socket.send_unicode('')
             
             nlog.info('froxly - checher debug', '0')
