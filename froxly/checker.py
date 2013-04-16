@@ -23,7 +23,7 @@ try:
         for proxy in proxies:
             nlog.info('froxly - checher debug', '-1')
             
-            rnd_user_agent_socket.send_unicode('')
+            rnd_user_agent_socket.send_unicode('get')
             
             nlog.info('froxly - checher debug', '0')
             
