@@ -21,7 +21,8 @@ try:
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
-            rnd_user_agent_socket.send_unicode('get')
+            msg = 'get'
+            rnd_user_agent_socket.send_unicode(msg)
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
             req.set_proxy(proxy.ip + ':' + proxy.port, proxy.protocol)
