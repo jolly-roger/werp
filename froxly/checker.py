@@ -32,7 +32,7 @@ try:
                 proxy.http_status_reason = str(e.reason)
             except ConnectionError as e:
                 proxy.http_status = -2
-                proxy.http_status_reason = str(e.errno)#+ errno.errorcode(e.errno)
+                proxy.http_status_reason = '[Errno ' + str(e.errno) + '] ' + errno.errorcode[e.errno]
             except:
                 proxy.http_status = -1
                 proxy.http_status_reason = None
