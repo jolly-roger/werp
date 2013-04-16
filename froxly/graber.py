@@ -17,7 +17,8 @@ try:
     res = None
     try_count = 0
     while res is None and try_count < 11:
-        proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
+        proxies = ses.query(orm.FreeProxy).filter(orm.and_(orm.FreeProxy.protocol == 'http',
+            orm.FreeProxy.http_status == 200)).all()
         user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
         rnd_proxy = random.choice(proxies)
         rnd_user_agent = random.choice(user_agents)
