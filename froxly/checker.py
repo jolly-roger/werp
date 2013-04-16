@@ -14,7 +14,7 @@ test_url = 'http://user-agent-list.com/'
 try:
     context = zmq.Context()
     rnd_user_agent_socket = context.socket(zmq.REQ)
-    rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
+    rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
     
     while True:
         conn = orm.q_engine.connect()
