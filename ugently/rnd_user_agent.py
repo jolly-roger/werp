@@ -13,8 +13,16 @@ try:
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     while True:
+        nlog.info('ugently - rnd user agent debug', '-1')
+        
         msg = rnd_user_agent_socket.recv_unicode()
+        
+        nlog.info('ugently - rnd user agent debug', '0')
+        
         user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
+        
+        nlog.info('ugently - rnd user agent debug', '1')
+        
         rnd_user_agent = random.choice(user_agents)
         
         nlog.info('ugently - rnd user agent debug', rnd_user_agent.value)
