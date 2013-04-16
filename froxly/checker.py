@@ -4,21 +4,26 @@ import random
 import traceback
 import errno
 import os
+import zmq
 
 from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
 
+context = zmq.Context()
+rnd_user_agent_socket = context.socket(zmq.REQ)
+rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
+
 try:
     while True:
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
-        user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
         for proxy in proxies:
-            rnd_user_agent = random.choice(user_agents)
-            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent.value})
+            rnd_user_agent_socket.send_unicode('')
+            rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
             req.set_proxy(proxy.ip + ':' + proxy.port, proxy.protocol)
             try:
                 res = urllib.request.urlopen(req)
