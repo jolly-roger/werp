@@ -11,11 +11,11 @@ from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
 
-context = zmq.Context()
-rnd_user_agent_socket = context.socket(zmq.REQ)
-rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
-
 try:
+    context = zmq.Context()
+    rnd_user_agent_socket = context.socket(zmq.REQ)
+    rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
+    
     while True:
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
