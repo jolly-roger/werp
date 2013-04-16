@@ -2,6 +2,7 @@ import urllib.request
 from urllib.error import *
 import random
 import traceback
+import errno
 
 from werp import orm
 from werp import nlog
@@ -24,14 +25,14 @@ try:
                     proxy.http_status = res.getcode()
                     proxy.http_status_reason = None
             except URLError as e:
-                proxy.http_status = -1
+                proxy.http_status = -3
                 proxy.http_status_reason = str(e.reason)
             except HTTPError as e:
                 proxy.http_status = e.code
                 proxy.http_status_reason = str(e.reason)
             except ConnectionError as e:
-                proxy.http_status = -1
-                proxy.http_status_reason = str(e.reason)
+                proxy.http_status = -2
+                proxy.http_status_reason = str(e.errno)#+ errno.errorcode(e.errno)
             except:
                 proxy.http_status = -1
                 proxy.http_status_reason = None
