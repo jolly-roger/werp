@@ -28,8 +28,6 @@ try:
             try:
                 res = urllib.request.urlopen(req)
                 if res.getcode() == 200:
-                    nlog.info('froxly - checker request debug', 'Yo!!!')
-                    
                     proxy.http_status = res.getcode()
                     proxy.http_status_reason = None
             except URLError as e:
