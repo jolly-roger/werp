@@ -5,46 +5,109 @@ import traceback
 import errno
 import os
 import zmq
+import json
+import threading
 
 from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
+worker_pool = 32
 
-try:
-    context = zmq.Context()
-    rnd_user_agent_socket = context.socket(zmq.REQ)
-    rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
-    
-    while True:
-        conn = orm.q_engine.connect()
+def ventilator():
+    conn = None
+    ses = None
+    ctx = None
+    try:
+        ctx = zmq.Context()
+        froxly_checker_req = ctx.socket(zmq.PUSH)
+        froxly_checker_req.bind('ipc:///home/www/sockets/froxly_checker_req.socket')
+        conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
-            rnd_user_agent_socket.send_unicode('')
+            wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
+            froxly_checker_req.send_unicode(json.dumps(wproxy))
+    except:
+        if ctx is not None:
+            ctx.destroy()
+        if ses is not None:
+            ses.close()
+        if conn is not None:    
+            conn.close()
+        nlog.info('froxly - checher error', traceback.format_exc())
+def worker():
+    ctx = None
+    try:
+        ctx = zmq.Context()
+        froxly_checker_req = ctx.socket(zmq.PULL)
+        froxly_checker_req.connect('ipc:///home/www/sockets/froxly_checker_req.socket')
+        rnd_user_agent_socket = ctx.socket(zmq.REQ)
+        rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
+        rnd_user_agent_socket.send_unicode('')
+        froxly_checker_res = ctx.socket(zmq.PUSH)
+        froxly_checker_res.connect('ipc:///home/www/sockets/froxly_checker_res.socket')
+        while True:
+            wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
-            req.set_proxy(proxy.ip + ':' + proxy.port, proxy.protocol)
+            req.set_proxy(wproxy.ip + ':' + wproxy.port, wproxy.protocol)
             try:
                 res = urllib.request.urlopen(req)
                 if res.getcode() == 200:
-                    proxy.http_status = res.getcode()
-                    proxy.http_status_reason = None
+                    wproxy['http_status'] = res.getcode()
+                    wproxy['http_status_reason'] = None
             except URLError as e:
-                proxy.http_status = -3
-                proxy.http_status_reason = str(e.reason)
+                wproxy['http_status'] = -3
+                wproxy['http_status_reason'] = str(e.reason)
             except HTTPError as e:
-                proxy.http_status = e.code
-                proxy.http_status_reason = str(e.reason)
+                wproxy['http_status'] = e.code
+                wproxy['http_status_reason'] = str(e.reason)
             except ConnectionError as e:
-                proxy.http_status = -2
-                proxy.http_status_reason = '[Errno ' + str(e.errno) + '] ' + os.strerror(e.errno)
+                wproxy['http_status'] = -2
+                wproxy['http_status_reason'] = '[Errno ' + str(e.errno) + '] ' + os.strerror(e.errno)
             except:
-                proxy.http_status = -1
-                proxy.http_status_reason = None
+                wproxy['http_status'] = -1
+                wproxy['http_status_reason'] = None
                 nlog.info('froxly - checker request error', traceback.format_exc())
+            froxly_checker_res.send_unicode(json.dumps(wproxy))
+    except:
+        if ctx is not None:
+            ctx.destroy()
+        nlog.info('froxly - checher error', traceback.format_exc())
+def result_manager():
+    conn = None
+    ses = None
+    ctx = None
+    try:
+        conn = orm.null_engine.connect()
+        ses = orm.sescls(bind=conn)
+        ctx = zmq.Context()
+        froxly_checker_res = ctx.socket(zmq.PULL)
+        froxly_checker_res.bind('ipc:///home/www/sockets/froxly_checker_res.socket')
+        while True:
+            wproxy = json.loads(froxly_checker_res.recv_unicode())
+            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == wproxy['id'])
+            proxy.http_status = wproxy['http_status']
+            proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
-        ses.close()
-        conn.close()
+    except:
+        if ctx is not None:
+            ctx.destroy()
+        if ses is not None:
+            ses.close()
+        if conn is not None:    
+            conn.close()
+        nlog.info('froxly - checher error', traceback.format_exc())
+try:
+    for wrk_num in range(worker_pool):
+        thr = threading.Thread(target=worker)
+        thr.setDaemon(True)
+        thr.start()
+    result_manager = threading.Thread(target=result_manager)
+    result_manager.setDaemon(True)
+    result_manager.start()
+    while True:
+        ventilator()
 except:
     nlog.info('froxly - checher error', traceback.format_exc())
