@@ -44,11 +44,11 @@ def worker():
         froxly_checker_req.connect('ipc:///home/www/sockets/froxly_checker_req.socket')
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
         rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
-        rnd_user_agent_socket.send_unicode('')
         froxly_checker_res = ctx.socket(zmq.PUSH)
         froxly_checker_res.connect('ipc:///home/www/sockets/froxly_checker_res.socket')
         while True:
             wproxy = json.loads(froxly_checker_req.recv_unicode())
+            rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
