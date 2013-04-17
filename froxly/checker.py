@@ -31,7 +31,7 @@ def ventilator():
             wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
             froxly_checker_req.send_unicode(json.dumps(wproxy))
         froxly_checker_finish = ctx.socket(zmq.REQ)
-        froxly_checker_finish = froxly_checker_finish.connect('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        froxly_checker_finish.connect('ipc:///home/www/sockets/froxly_checker_finish.socket')
         froxly_checker_finish.send(len(proxies))
         froxly_checker_finish.recv()
         ctx.destroy()
@@ -99,7 +99,7 @@ def result_manager():
         froxly_checker_res = ctx.socket(zmq.PULL)
         froxly_checker_res.bind('ipc:///home/www/sockets/froxly_checker_res.socket')
         froxly_checker_finish = ctx.socket(zmq.REP)
-        froxly_checker_finish = froxly_checker_finish.bind('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        froxly_checker_finish.bind('ipc:///home/www/sockets/froxly_checker_finish.socket')
         proxy_count = froxly_checker_finish.recv()
         while True:
             wproxy = json.loads(froxly_checker_res.recv_unicode())
