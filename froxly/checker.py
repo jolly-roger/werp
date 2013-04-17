@@ -51,7 +51,7 @@ def worker():
             wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})
-            req.set_proxy(wproxy.ip + ':' + wproxy.port, wproxy.protocol)
+            req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
                 res = urllib.request.urlopen(req)
                 if res.getcode() == 200:
