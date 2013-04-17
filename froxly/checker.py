@@ -29,12 +29,12 @@ def ventilator():
         for proxy in proxies:
             wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
             froxly_checker_req.send_unicode(json.dumps(wproxy))
-        ctx.destroy()
+        #ctx.destroy()
         ses.close()
         conn.close()
     except:
-        if ctx is not None:
-            ctx.destroy()
+        #if ctx is not None:
+        #    ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
