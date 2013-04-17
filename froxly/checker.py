@@ -103,7 +103,7 @@ def result_manager():
         proxy_count = int(froxly_checker_finish.recv_unicode())
         while True:
             wproxy = json.loads(froxly_checker_res.recv_unicode())
-            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == wproxy['id'])
+            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == wproxy['id']).one()
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
