@@ -121,7 +121,7 @@ try:
     result_manager.start()
     #while True:
     ventilator()
-    time.sleep(1)
+    time.sleep(300)
     nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
     nlog.info('froxly - checher error', traceback.format_exc())
