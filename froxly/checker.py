@@ -7,14 +7,14 @@ import errno
 import os
 import zmq
 import json
-import multiprocessing
+import threading
 import time
 
 from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
-worker_pool = 32
+worker_pool = 1024
 
 def ventilator():
     conn = None
@@ -124,8 +124,12 @@ def result_manager():
         nlog.info('froxly - checher error', traceback.format_exc())
 try:
     for wrk_num in range(worker_pool):
-        multiprocessing.Process(target=worker).start()
-    multiprocessing.Process(target=result_manager).start()
+        thr = threading.Thread(target=worker)
+        thr.setDaemon(True)
+        thr.start()
+    result_manager = threading.Thread(target=result_manager)
+    result_manager.setDaemon(True)
+    result_manager.start()
     ventilator()
     nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
