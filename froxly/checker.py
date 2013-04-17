@@ -38,13 +38,13 @@ def ventilator():
         ses.close()
         conn.close()
     except:
+        nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
             ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
             conn.close()
-        nlog.info('froxly - checher error', traceback.format_exc())
 def worker():
     ctx = None
     try:
@@ -85,9 +85,9 @@ def worker():
             froxly_checker_res.send_unicode(json.dumps(wproxy))
         ctx.destroy()
     except:
+        nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
             ctx.destroy()
-        nlog.info('froxly - checher error', traceback.format_exc())
 def result_manager():
     conn = None
     ses = None
@@ -116,13 +116,13 @@ def result_manager():
         ses.close()
         conn.close()
     except:
+        nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
             ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
             conn.close()
-        nlog.info('froxly - checher error', traceback.format_exc())
 try:
     for wrk_num in range(worker_pool):
         thr = threading.Thread(target=worker)
