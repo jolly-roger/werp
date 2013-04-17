@@ -14,7 +14,7 @@ from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
-worker_pool = 1024
+worker_pool = 128
 
 def ventilator():
     conn = None
@@ -108,7 +108,6 @@ def result_manager():
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
             proxy_count = proxy_count - 1
-            nlog.info('froxly - checher result manager', str(proxy_count))
             if proxy_count == 0:
                 break
         froxly_checker_finish.send_unicode(str(0))
@@ -124,6 +123,7 @@ def result_manager():
         if conn is not None:    
             conn.close()
 try:
+    nlog.info('froxly - checher ventilator', 'Hi!!!')
     for wrk_num in range(worker_pool):
         thr = threading.Thread(target=worker)
         thr.setDaemon(True)
