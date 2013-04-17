@@ -124,8 +124,8 @@ def result_manager():
         nlog.info('froxly - checher error', traceback.format_exc())
 try:
     for wrk_num in range(worker_pool):
-        multiprocessing.Thread(target=worker).start()
-    multiprocessing.Thread(target=result_manager).start()
+        multiprocessing.Process(target=worker).start()
+    multiprocessing.Process(target=result_manager).start()
     ventilator()
     nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
