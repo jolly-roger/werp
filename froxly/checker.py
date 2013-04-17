@@ -1,5 +1,6 @@
-import urllib.request
 from urllib.error import *
+from http.client import *
+import urllib.request
 import random
 import traceback
 import errno
@@ -28,6 +29,9 @@ def ventilator():
         for proxy in proxies:
             wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
             froxly_checker_req.send_unicode(json.dumps(wproxy))
+        ctx.destroy()
+        ses.close()
+        conn.close()
     except:
         if ctx is not None:
             ctx.destroy()
@@ -57,6 +61,9 @@ def worker():
                 if res.getcode() == 200:
                     wproxy['http_status'] = res.getcode()
                     wproxy['http_status_reason'] = None
+            except BadStatusLine as e:
+                wproxy['http_status'] = -4
+                wproxy['http_status_reason'] = None
             except URLError as e:
                 wproxy['http_status'] = -3
                 wproxy['http_status_reason'] = str(e.reason)
@@ -71,6 +78,7 @@ def worker():
                 wproxy['http_status_reason'] = None
                 nlog.info('froxly - checker request error', traceback.format_exc())
             froxly_checker_res.send_unicode(json.dumps(wproxy))
+        ctx.destroy()
     except:
         if ctx is not None:
             ctx.destroy()
@@ -91,6 +99,9 @@ def result_manager():
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
+        ctx.destroy()
+        ses.close()
+        conn.close()
     except:
         if ctx is not None:
             ctx.destroy()
@@ -107,7 +118,8 @@ try:
     result_manager = threading.Thread(target=result_manager)
     result_manager.setDaemon(True)
     result_manager.start()
-    while True:
-        ventilator()
+    #while True:
+    ventilator()
+    nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
     nlog.info('froxly - checher error', traceback.format_exc())
