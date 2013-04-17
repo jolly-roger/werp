@@ -30,12 +30,16 @@ def ventilator():
         for proxy in proxies:
             wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
             froxly_checker_req.send_unicode(json.dumps(wproxy))
-        #ctx.destroy()
+        froxly_checker_finish = ctx.socket(zmq.REQ)
+        froxly_checker_finish = ctx.connect('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        froxly_checker_finish.send(len(proxies))
+        froxly_checker_finish.recv()
+        ctx.destroy()
         ses.close()
         conn.close()
     except:
-        #if ctx is not None:
-        #    ctx.destroy()
+        if ctx is not None:
+            ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
@@ -94,12 +98,19 @@ def result_manager():
         ctx = zmq.Context()
         froxly_checker_res = ctx.socket(zmq.PULL)
         froxly_checker_res.bind('ipc:///home/www/sockets/froxly_checker_res.socket')
+        froxly_checker_finish = ctx.socket(zmq.REP)
+        froxly_checker_finish = ctx.connect('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        proxy_count = froxly_checker_finish.recv()
         while True:
             wproxy = json.loads(froxly_checker_res.recv_unicode())
             proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == wproxy['id'])
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
+            proxy_count = proxy_count - 1
+            if proxy_count == 0:
+                break
+        froxly_checker_finish.send(0)
         ctx.destroy()
         ses.close()
         conn.close()
@@ -119,9 +130,7 @@ try:
     result_manager = threading.Thread(target=result_manager)
     result_manager.setDaemon(True)
     result_manager.start()
-    #while True:
     ventilator()
-    time.sleep(300)
     nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
     nlog.info('froxly - checher error', traceback.format_exc())
