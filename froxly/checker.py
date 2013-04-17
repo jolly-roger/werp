@@ -7,7 +7,7 @@ import errno
 import os
 import zmq
 import json
-import threading
+import multiprocessing
 import time
 
 from werp import orm
@@ -124,12 +124,8 @@ def result_manager():
         nlog.info('froxly - checher error', traceback.format_exc())
 try:
     for wrk_num in range(worker_pool):
-        thr = threading.Thread(target=worker)
-        thr.setDaemon(True)
-        thr.start()
-    result_manager = threading.Thread(target=result_manager)
-    result_manager.setDaemon(True)
-    result_manager.start()
+        multiprocessing.Thread(target=worker).start()
+    multiprocessing.Thread(target=result_manager).start()
     ventilator()
     nlog.info('froxly - checher ventilator', 'Yo!!!')
 except:
