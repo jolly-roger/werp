@@ -62,7 +62,7 @@ def worker():
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
-                res = urllib.request.urlopen(req)
+                res = urllib.request.urlopen(req, timeout=30)
                 if res.getcode() == 200:
                     wproxy['http_status'] = res.getcode()
                     wproxy['http_status_reason'] = None
