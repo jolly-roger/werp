@@ -1,5 +1,6 @@
 from urllib.error import *
 from http.client import *
+import socket 
 import urllib.request
 import random
 import traceback
@@ -14,7 +15,7 @@ from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
-worker_pool = 128
+worker_pool = 32
 
 def ventilator():
     conn = None
@@ -66,21 +67,24 @@ def worker():
                 if res.getcode() == 200:
                     wproxy['http_status'] = res.getcode()
                     wproxy['http_status_reason'] = None
+            except socket.timeout as e:
+                wproxy['http_status'] = -6
+                wproxy['http_status_reason'] = str(e)
             except BadStatusLine as e:
-                wproxy['http_status'] = -4
-                wproxy['http_status_reason'] = None
+                wproxy['http_status'] = -5
+                wproxy['http_status_reason'] = str(e)
             except URLError as e:
-                wproxy['http_status'] = -3
-                wproxy['http_status_reason'] = str(e.reason)
+                wproxy['http_status'] = -4
+                wproxy['http_status_reason'] = str(e)
             except HTTPError as e:
-                wproxy['http_status'] = e.code
-                wproxy['http_status_reason'] = str(e.reason)
+                wproxy['http_status'] = -3
+                wproxy['http_status_reason'] = str(e)
             except ConnectionError as e:
                 wproxy['http_status'] = -2
-                wproxy['http_status_reason'] = '[Errno ' + str(e.errno) + '] ' + os.strerror(e.errno)
+                wproxy['http_status_reason'] = str(e)
             except:
                 wproxy['http_status'] = -1
-                wproxy['http_status_reason'] = None
+                wproxy['http_status_reason'] = str(e)
                 nlog.info('froxly - checker request error', traceback.format_exc())
             froxly_checker_res.send_unicode(json.dumps(wproxy))
         ctx.destroy()
