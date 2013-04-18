@@ -30,9 +30,8 @@ try:
             conn.close()
             rnd_user_agent = red.get(red.randomkey())
         if rnd_user_agent is not None:
-            rnd_user_agent_socket.send_unicode(rnd_user_agent)
+            rnd_user_agent_socket.send_unicode(rnd_user_agent.decode('utf-8'))
         else:
             nlog.info('ugently - rnd user agent error', 'Random user agent is None')
-        nlog.info('ugently - rnd user agent debug', str(rnd_user_agent))
 except:
     nlog.info('ugently - rnd user agent error', traceback.format_exc())
