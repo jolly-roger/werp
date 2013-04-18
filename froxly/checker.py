@@ -2,7 +2,6 @@ from urllib.error import *
 from http.client import *
 import socket 
 import urllib.request
-import random
 import traceback
 import errno
 import os
@@ -15,7 +14,7 @@ from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
-worker_pool = 32
+worker_pool = 16
 
 def ventilator():
     conn = None
