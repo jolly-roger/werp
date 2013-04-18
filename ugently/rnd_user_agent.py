@@ -37,6 +37,5 @@ try:
             rnd_user_agent_socket.send_unicode(rnd_user_agent.decode('utf-8'))
         else:
             nlog.info('ugently - rnd user agent error', 'Random user agent is None')
-        nlog.info('ugently - rnd user agent debug', rnd_user_agent.decode('utf-8'))
 except:
     nlog.info('ugently - rnd user agent error', traceback.format_exc())
