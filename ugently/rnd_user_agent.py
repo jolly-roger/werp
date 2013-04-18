@@ -17,9 +17,10 @@ try:
     red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
     while True:
         msg = rnd_user_agent_socket.recv_unicode()
-        rnd_key = random.choice(red.keys(key_prfix + '*'))
+        keys = red.keys(key_prfix + '*')
         rnd_user_agent = None
-        if rnd_key is not None:
+        if len(keys) > 0:
+            rnd_key = random.choice(keys)
             rnd_user_agent = red.get(rnd_key)
         else:
             conn = orm.null_engine.connect()
