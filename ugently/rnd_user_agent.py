@@ -1,37 +1,38 @@
 from datetime import timedelta
 import zmq
-import random
 import traceback
-import random
 import redis
 
 from werp import orm
 from werp import nlog
 
-all_user_agents_key = 'ugently_all_user_agents'
+delta = timedelta(days=1)
 
 try:
     context = zmq.Context()
     rnd_user_agent_socket = context.socket(zmq.REP)
     rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
-    conn = orm.null_engine.connect()
-    ses = orm.sescls(bind=conn)
-    red = redis.StrictRedis()
+    red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
     while True:
         msg = rnd_user_agent_socket.recv_unicode()
-        user_agents = []
-        if red.exists(all_user_agents_key):
-            user_agents = orm.serializer.loads(red.get(all_user_agents_key))
-            nlog.info('ugently - rnd user agent debug', 'cache')
+        rnd_key = red.randomkey()
+        rnd_user_agent = None
+        if rnd_key is not None:
+            rnd_user_agent = red.get(rnd_key)
         else:
+            conn = orm.null_engine.connect()
+            ses = orm.sescls(bind=conn)
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
-            red.set(all_user_agents_key, orm.serializer.dumps(user_agents))
-            delta = timedelta(days=1)
-            red.expire(all_user_agents_key, delta)
-            nlog.info('ugently - rnd user agent debug', 'sqlalchemy')
-        rnd_user_agent = random.choice(user_agents)
-        rnd_user_agent_socket.send_unicode(rnd_user_agent.value)
-    ses.close()
-    conn.close()
+            for user_agent in user_agents:
+                red.set(user_agent.id, user_agent.value)
+                red.expire(user_agent.id, delta)
+            ses.close()
+            conn.close()
+            rnd_user_agent = red.get(red.randomkey())
+        if rnd_user_agent is not None:
+            rnd_user_agent_socket.send_unicode(rnd_user_agent)
+        else:
+            nlog.info('ugently - rnd user agent error', 'Random user agent is None')
+        nlog.info('ugently - rnd user agent debug', str(rnd_user_agent))
 except:
     nlog.info('ugently - rnd user agent error', traceback.format_exc())
