@@ -8,7 +8,7 @@ import redis
 from werp import orm
 from werp import nlog
 
-all_user_agents_key = 'all_user_agents'
+all_user_agents_key = 'ugently_all_user_agents'
 
 try:
     context = zmq.Context()

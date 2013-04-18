@@ -108,7 +108,7 @@ def result_manager():
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
             proxy_count = proxy_count - 1
-            nlog.info('froxly - checher debug', proxy_count)
+            #nlog.info('froxly - checher debug', proxy_count)
             if proxy_count == 0:
                 break
         froxly_checker_finish.send_unicode(str(0))
