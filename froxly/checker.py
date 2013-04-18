@@ -60,7 +60,7 @@ def worker():
             wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
+            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent}, method='HEAD')
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
                 res = urllib.request.urlopen(req, timeout=30)
