@@ -9,11 +9,13 @@ import zmq
 import json
 import threading
 import time
+import redis
 
 from werp import orm
 from werp import nlog
 
 test_url = 'http://user-agent-list.com/'
+red_key_prfix = 'froxly_free_proxy_'
 worker_pool = 16
 
 def ventilator():
@@ -96,6 +98,7 @@ def result_manager():
     ses = None
     ctx = None
     try:
+        red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         ctx = zmq.Context()
@@ -110,8 +113,16 @@ def result_manager():
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
+            red_key = red_key_prfix + str(wproxy['id'])
+            if not red.exists(red_key):
+                if wproxy['http_status'] == 200:
+                    del wproxy['id']
+                    del wproxy['http_status']
+                    del wproxy['http_status_reason']
+                    red.set(red_key, json.dumps(wproxy))
+                else:
+                    red.delete(red_key)
             proxy_count = proxy_count - 1
-            #nlog.info('froxly - checher debug', proxy_count)
             if proxy_count == 0:
                 break
         froxly_checker_finish.send_unicode(str(0))

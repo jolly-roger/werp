@@ -8,7 +8,7 @@ from werp import orm
 from werp import nlog
 
 delta = timedelta(days=1)
-key_prfix = 'ugently_value_'
+red_key_prfix = 'ugently_user_agent_value_'
 
 try:
     context = zmq.Context()
@@ -17,21 +17,21 @@ try:
     red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
     while True:
         msg = rnd_user_agent_socket.recv_unicode()
-        keys = red.keys(key_prfix + '*')
+        red_keys = red.keys(red_key_prfix + '*')
         rnd_user_agent = None
-        if len(keys) > 0:
-            rnd_key = random.choice(keys)
+        if len(red_keys) > 0:
+            rnd_key = random.choice(red_keys)
             rnd_user_agent = red.get(rnd_key)
         else:
             conn = orm.null_engine.connect()
             ses = orm.sescls(bind=conn)
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
             for user_agent in user_agents:
-                red.set(key_prfix + str(user_agent.id), user_agent.value)
+                red.set(red_key_prfix + str(user_agent.id), user_agent.value)
                 red.expire(user_agent.id, delta)
             ses.close()
             conn.close()
-            rnd_key = random.choice(red.keys(key_prfix + '*'))
+            rnd_key = random.choice(red.keys(red_key_prfix + '*'))
             rnd_user_agent = red.get(rnd_key)
         if rnd_user_agent is not None:
             rnd_user_agent_socket.send_unicode(rnd_user_agent.decode('utf-8'))
