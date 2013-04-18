@@ -22,11 +22,13 @@ try:
         user_agents = []
         if red.exists(all_user_agents_key):
             user_agents = orm.serializer.loads(red.get(all_user_agents_key))
+            nlog.info('ugently - rnd user agent debug', 'cache')
         else:
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
             red.set(all_user_agents_key, orm.serializer.dumps(user_agents))
             delta = timedelta(days=1)
             red.expire(all_user_agents_key, delta)
+            nlog.info('ugently - rnd user agent debug', 'sqlalchemy')
         rnd_user_agent = random.choice(user_agents)
         rnd_user_agent_socket.send_unicode(rnd_user_agent.value)
     ses.close()
