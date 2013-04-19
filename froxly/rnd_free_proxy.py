@@ -10,7 +10,9 @@ from werp import nlog
 
 expire_delta = datetime.timedelta(days=1)
 red_key_prfix = 'froxly_free_proxy_'
-
+conn = None
+ses = None
+ctx = None
 try:
     ctx = zmq.Context()
     rnd_free_proxy_socket = ctx.socket(zmq.REP)
@@ -43,3 +45,9 @@ try:
             nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
 except:
     nlog.info('froxly - rnd free proxy error', traceback.format_exc())
+    if ctx is not None:
+        ctx.destroy()
+    if ses is not None:
+        ses.close()
+    if conn is not None:    
+        conn.close()

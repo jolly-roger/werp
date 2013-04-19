@@ -9,10 +9,12 @@ from werp import nlog
 
 expire_delta = datetime.timedelta(days=1)
 red_key_prfix = 'ugently_user_agent_value_'
-
+conn = None
+ses = None
+ctx = None
 try:
-    context = zmq.Context()
-    rnd_user_agent_socket = context.socket(zmq.REP)
+    ctx = zmq.Context()
+    rnd_user_agent_socket = ctx.socket(zmq.REP)
     rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
     red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
     while True:
@@ -39,3 +41,9 @@ try:
             nlog.info('ugently - rnd user agent error', 'Random user agent is None')
 except:
     nlog.info('ugently - rnd user agent error', traceback.format_exc())
+    if ctx is not None:
+        ctx.destroy()
+    if ses is not None:
+        ses.close()
+    if conn is not None:    
+        conn.close()
