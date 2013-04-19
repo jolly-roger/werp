@@ -18,6 +18,7 @@ from werp import nlog
 test_url = 'http://user-agent-list.com/'
 red_key_prfix = 'froxly_free_proxy_'
 worker_pool = 16
+expire_delta = datetime.timedelta(days=1)
 
 def ventilator():
     conn = None
@@ -121,6 +122,7 @@ def result_manager():
                     del wproxy['http_status']
                     del wproxy['http_status_reason']
                     red.set(red_key, json.dumps(wproxy))
+                    red.expire(red_key, expire_delta)
             else:
                 if wproxy['http_status'] != 200:
                     red.delete(red_key)

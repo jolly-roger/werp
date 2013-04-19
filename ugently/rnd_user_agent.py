@@ -1,4 +1,4 @@
-from datetime import timedelta
+import datetime
 import zmq
 import traceback
 import redis
@@ -7,7 +7,7 @@ import random
 from werp import orm
 from werp import nlog
 
-delta = timedelta(days=1)
+expire_delta = datetime.timedelta(days=1)
 red_key_prfix = 'ugently_user_agent_value_'
 
 try:
@@ -28,7 +28,7 @@ try:
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
             for user_agent in user_agents:
                 red.set(red_key_prfix + str(user_agent.id), user_agent.value)
-                red.expire(user_agent.id, delta)
+                red.expire(user_agent.id, expire_delta)
             ses.close()
             conn.close()
             rnd_key = random.choice(red.keys(red_key_prfix + '*'))

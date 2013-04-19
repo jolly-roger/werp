@@ -5,27 +5,35 @@ import io
 import re
 import random
 import traceback
+import zmq
+import json
 
 from werp import orm
 from werp import nlog
 
 url = 'http://www.hidemyass.com/proxy-list/'
-
+conn = None
+ses = None
+ctx = None
 try:
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     res = None
     try_count = 0
+    ctx = zmq.Context()
+    rnd_user_agent_socket = ctx.socket(zmq.REQ)
+    rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
+    rnd_free_proxy_socket = ctx.socket(zmq.REQ)
+    rnd_free_proxy_socket.connect('ipc:///home/www/sockets/rnd_free_proxy.socket')
     while res is None and try_count < 11:
-        proxies = ses.query(orm.FreeProxy).filter(orm.and_(orm.FreeProxy.protocol == 'http',
-            orm.FreeProxy.http_status == 200)).all()
-        user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
-        rnd_proxy = random.choice(proxies)
-        rnd_user_agent = random.choice(user_agents)
-        req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent.value})
-        req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
+        rnd_free_proxy_socket.send_unicode('')
+        rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
+        rnd_user_agent_socket.send_unicode('')
+        rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+        req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})
+        req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
         try:
-            res = urllib.request.urlopen(req)
+            res = urllib.request.urlopen(req, timeout=30)
             if res.getcode() != 200:
                 res = None
         except:
@@ -68,6 +76,12 @@ try:
     conn.close()
 except:
     nlog.info('froxly - grabber error', traceback.format_exc())
+    if ctx is not None:
+        ctx.destroy()
+    if ses is not None:
+        ses.close()
+    if conn is not None:    
+        conn.close()
 
 
 
