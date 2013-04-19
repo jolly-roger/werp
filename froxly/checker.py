@@ -9,6 +9,7 @@ import zmq
 import json
 import threading
 import time
+import datetime
 import redis
 
 from werp import orm
@@ -138,7 +139,8 @@ def result_manager():
         if conn is not None:    
             conn.close()
 try:
-    nlog.info('froxly - checher ventilator', 'Hi!!!')
+    #nlog.info('froxly - checher ventilator', 'Hi!!!')
+    start_time = time.time()
     for wrk_num in range(worker_pool):
         thr = threading.Thread(target=worker)
         thr.setDaemon(True)
@@ -147,6 +149,8 @@ try:
     result_manager.setDaemon(True)
     result_manager.start()
     ventilator()
-    nlog.info('froxly - checher ventilator', 'Yo!!!')
+    end_time = time.time()
+    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    nlog.info('froxly - checher ventilator', str(exec_delta))
 except:
     nlog.info('froxly - checher error', traceback.format_exc())
