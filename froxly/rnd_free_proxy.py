@@ -43,7 +43,6 @@ try:
             rnd_free_proxy_socket.send_unicode(rnd_free_proxy.decode('utf-8'))
         else:
             nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
-        nlog.info('froxly - rnd free proxy debug', rnd_free_proxy.decode('utf-8'))
 except:
     nlog.info('froxly - rnd free proxy error', traceback.format_exc())
     if ctx is not None:
