@@ -121,7 +121,8 @@ def result_manager():
                     del wproxy['http_status']
                     del wproxy['http_status_reason']
                     red.set(red_key, json.dumps(wproxy))
-                else:
+            else:
+                if wproxy['http_status'] != 200:
                     red.delete(red_key)
             proxy_count = proxy_count - 1
             if proxy_count == 0:
@@ -139,7 +140,6 @@ def result_manager():
         if conn is not None:    
             conn.close()
 try:
-    #nlog.info('froxly - checher ventilator', 'Hi!!!')
     start_time = time.time()
     for wrk_num in range(worker_pool):
         thr = threading.Thread(target=worker)
