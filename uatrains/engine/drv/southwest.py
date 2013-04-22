@@ -245,6 +245,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							trainstation.load_changes(ts, ses)
 						ses.commit()
 def get_train_data(tid):
+	nlog.info('uatrains bot - task runner debug', '00')	
 	ses = None
 	conn = None
 	try:
