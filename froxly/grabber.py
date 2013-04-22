@@ -10,6 +10,8 @@ import json
 
 from werp import orm
 from werp import nlog
+from werp.common import sockets
+from werp.common import timeouts
 
 url = 'http://www.hidemyass.com/proxy-list/'
 conn = None
@@ -22,9 +24,9 @@ try:
     try_count = 0
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REQ)
-    rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
+    rnd_user_agent_socket.connect(sockets.rnd_user_agent)
     rnd_free_proxy_socket = ctx.socket(zmq.REQ)
-    rnd_free_proxy_socket.connect('ipc:///home/www/sockets/rnd_free_proxy.socket')
+    rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
     while res is None and try_count < 11:
         rnd_free_proxy_socket.send_unicode('')
         rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
@@ -33,7 +35,7 @@ try:
         req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})
         req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
         try:
-            res = urllib.request.urlopen(req, timeout=30)
+            res = urllib.request.urlopen(req, timeout=timeouts.froxly_grabber)
             if res.getcode() != 200:
                 res = None
         except:
@@ -82,10 +84,3 @@ except:
         ses.close()
     if conn is not None:    
         conn.close()
-
-
-
-
-
-
-    

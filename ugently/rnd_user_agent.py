@@ -6,6 +6,7 @@ import random
 
 from werp import orm
 from werp import nlog
+from werp.common import sockets
 
 expire_delta = datetime.timedelta(days=1)
 red_key_prfix = 'ugently_user_agent_value_'
@@ -15,8 +16,8 @@ ctx = None
 try:
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REP)
-    rnd_user_agent_socket.bind('ipc:///home/www/sockets/rnd_user_agent.socket')
-    red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
+    rnd_user_agent_socket.bind(sockets.rnd_user_agent)
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
     while True:
         msg = rnd_user_agent_socket.recv_unicode()
         red_keys = red.keys(red_key_prfix + '*')

@@ -14,6 +14,8 @@ import redis
 
 from werp import orm
 from werp import nlog
+from werp.common import sockets
+from werp.common import timeouts
 
 test_url = 'http://user-agent-list.com/'
 red_key_prfix = 'froxly_free_proxy_'
@@ -27,7 +29,7 @@ def ventilator():
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PUSH)
-        froxly_checker_req.bind('ipc:///home/www/sockets/froxly_checker_req.socket')
+        froxly_checker_req.bind(sockets.froxly_checker_req)
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
@@ -35,7 +37,7 @@ def ventilator():
             wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
             froxly_checker_req.send_unicode(json.dumps(wproxy))
         froxly_checker_finish = ctx.socket(zmq.REQ)
-        froxly_checker_finish.connect('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
         froxly_checker_finish.recv_unicode()
         ctx.destroy()
@@ -54,11 +56,11 @@ def worker():
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PULL)
-        froxly_checker_req.connect('ipc:///home/www/sockets/froxly_checker_req.socket')
+        froxly_checker_req.connect(sockets.froxly_checker_req)
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
-        rnd_user_agent_socket.connect('ipc:///home/www/sockets/rnd_user_agent.socket')
+        rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         froxly_checker_res = ctx.socket(zmq.PUSH)
-        froxly_checker_res.connect('ipc:///home/www/sockets/froxly_checker_res.socket')
+        froxly_checker_res.connect(sockets.froxly_checker_res)
         while True:
             wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
@@ -66,7 +68,7 @@ def worker():
             req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent}, method='HEAD')
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
-                res = urllib.request.urlopen(req, timeout=30)
+                res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
                 if res.getcode() == 200:
                     wproxy['http_status'] = res.getcode()
                     wproxy['http_status_reason'] = None
@@ -100,14 +102,14 @@ def result_manager():
     ses = None
     ctx = None
     try:
-        red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
+        red = redis.StrictRedis(unix_socket_path=sockets.redis)
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         ctx = zmq.Context()
         froxly_checker_res = ctx.socket(zmq.PULL)
-        froxly_checker_res.bind('ipc:///home/www/sockets/froxly_checker_res.socket')
+        froxly_checker_res.bind(sockets.froxly_checker_res)
         froxly_checker_finish = ctx.socket(zmq.REP)
-        froxly_checker_finish.bind('ipc:///home/www/sockets/froxly_checker_finish.socket')
+        froxly_checker_finish.bind(sockets.froxly_checker_finish)
         proxy_count = int(froxly_checker_finish.recv_unicode())
         while True:
             wproxy = json.loads(froxly_checker_res.recv_unicode())

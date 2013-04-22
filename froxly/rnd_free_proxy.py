@@ -7,6 +7,7 @@ import json
 
 from werp import orm
 from werp import nlog
+from werp.common import sockets
 
 expire_delta = datetime.timedelta(days=1)
 red_key_prfix = 'froxly_free_proxy_'
@@ -16,8 +17,8 @@ ctx = None
 try:
     ctx = zmq.Context()
     rnd_free_proxy_socket = ctx.socket(zmq.REP)
-    rnd_free_proxy_socket.bind('ipc:///home/www/sockets/rnd_free_proxy.socket')
-    red = redis.StrictRedis(unix_socket_path='/tmp/redis.socket')
+    rnd_free_proxy_socket.bind(sockets.rnd_free_proxy)
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
     while True:
         msg = rnd_free_proxy_socket.recv_unicode()
         red_keys = red.keys(red_key_prfix + '*')
