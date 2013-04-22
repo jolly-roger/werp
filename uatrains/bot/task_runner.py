@@ -1,6 +1,7 @@
 import multiprocessing
 import traceback
 import threading
+import socket
 from urllib.error import *
 from werp import orm
 from werp.orm import uatrains
@@ -27,6 +28,9 @@ def run_task(task_id):
                     drv.southwest.get_train_data(task.data)
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data)
+            except socket.timeout as e:
+                task.http_status = -6
+                task.http_status_reason = str(e)
             except UnicodeDecodeError as e:
                 task.http_status = -5
                 task.http_status_reason = str(e)
@@ -55,17 +59,17 @@ def run_task(task_id):
 try:
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
-    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
+    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).filter(32).all()
     task_ids = []
     for t in tasks:
         task_ids.append(t.id)
+    #with multiprocessing.Pool(processes=32) as ppool:
+    #    ppool.map(run_task, [task_id for task_id in task_ids])    
+    for task_id in task_ids:
+        thr = threading.Thread(target=run_task, args=(task_id,))
+        thr.setDaemon(True)
+        thr.start()
     ses.close()
     conn.close()
-    with multiprocessing.Pool(processes=32) as ppool:
-        ppool.map(run_task, [task_id for task_id in task_ids])    
-    #for task_id in task_ids:
-    #    thr = threading.Thread(target=run_task, args=(task_id,))
-    #    thr.setDaemon(True)
-    #    thr.start()
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
