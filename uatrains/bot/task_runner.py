@@ -59,7 +59,7 @@ def run_task(task_id):
 try:
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
-    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).filter(32).all()
+    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).limit(32).all()
     task_ids = []
     for t in tasks:
         task_ids.append(t.id)
