@@ -10,7 +10,6 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 
 def run_task(task_id):
-    
     try:
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
@@ -24,13 +23,9 @@ def run_task(task_id):
             ses.commit()
             try:
                 if task.drv == task_drvs.southwest:
-                    nlog.info('uatrains bot - task runner debug', '0')
                     drv.southwest.get_train_data(task.data)
-                    nlog.info('uatrains bot - task runner debug', '1')
                 elif task.drv == task_drvs.passengers:
-                    nlog.info('uatrains bot - task runner debug', '2')
                     drv.passengers.get_train_data(task.data)
-                    nlog.info('uatrains bot - task runner debug', '3')
             except socket.timeout as e:
                 task.http_status = -6
                 task.http_status_reason = str(e)
@@ -67,9 +62,10 @@ try:
     for t in tasks:
         task_ids.append(t.id)
     for task_id in task_ids:
-        thr = threading.Thread(target=run_task, args=(task_id,))
-        thr.setDaemon(True)
-        thr.start()
+        run_task(task_id)
+        #thr = threading.Thread(target=run_task, args=(task_id,))
+        #thr.setDaemon(True)
+        #thr.start()
     ses.close()
     conn.close()
 except:

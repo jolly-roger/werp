@@ -10,7 +10,6 @@ import zmq
 import json
 
 import werp.orm
-from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 
@@ -245,7 +244,6 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							trainstation.load_changes(ts, ses)
 						ses.commit()
 def get_train_data(tid):
-	nlog.info('uatrains bot - task runner debug', '00')	
 	ses = None
 	conn = None
 	try:
@@ -256,19 +254,15 @@ def get_train_data(tid):
 		ru_dom_tree = None
 		en_dom_tree = None
 		parser = etree.HTMLParser()
-		nlog.info('uatrains bot - task runner debug', '10')
 		ctx = zmq.Context()
 		rnd_user_agent_socket = ctx.socket(zmq.REQ)
 		rnd_user_agent_socket.connect(sockets.rnd_user_agent)
 		rnd_free_proxy_socket = ctx.socket(zmq.REQ)
 		rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
-		nlog.info('uatrains bot - task runner debug', '11')
 		rnd_free_proxy_socket.send_unicode('')
 		rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
-		nlog.info('uatrains bot - task runner debug', '12')
 		rnd_user_agent_socket.send_unicode('')
 		rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-		nlog.info('uatrains bot - task runner debug', '13')
 		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
 		ua_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])		
 		ua_res = urllib.request.urlopen(ua_req, timeout=timeouts.uatrains_bot)
@@ -284,7 +278,6 @@ def get_train_data(tid):
 		en_res = urllib.request.urlopen(en_req, timeout=timeouts.uatrains_bot)
 		en_res_data = en_res.read().decode('cp1251')
 		en_dom_tree = etree.parse(io.StringIO(en_res_data), parser)
-		nlog.info('uatrains bot - task runner debug', '14')
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
 			if not is_empty(e):
@@ -301,13 +294,10 @@ def get_train_data(tid):
 				if t is None:
 					t = e
 				link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
-		nlog.info('uatrains bot - task runner debug', '15')
 		ses.commit()
 		ses.close()
 		conn.close()
-		nlog.info('uatrains bot - task runner debug', '16')
 	except Exception:
-		nlog.info('uatrains bot - task runner debug', '20')
 		logger.fatal('Train id: ' + str(tid) + ' For more details see following record.')
 		logger.fatal(traceback.format_exc())
 		if ses is not None:
