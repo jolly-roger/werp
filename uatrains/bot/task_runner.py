@@ -39,7 +39,7 @@ def run_task(task_id):
             except ConnectionError as e:
                 task.http_status = -2
                 task.http_status_reason = str(e)
-            except:
+            except Exception as e:
                 task.http_status = -1
                 task.http_status_reason = str(e)
                 nlog.info('uatrains bot - task runner error', traceback.format_exc())
