@@ -306,6 +306,7 @@ def get_train_data(tid):
 		conn.close()
 		nlog.info('uatrains bot - task runner debug', '16')
 	except Exception:
+		nlog.info('uatrains bot - task runner debug', '20')
 		logger.fatal('Train id: ' + str(tid) + ' For more details see following record.')
 		logger.fatal(traceback.format_exc())
 		if ses is not None:
