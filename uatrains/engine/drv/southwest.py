@@ -6,8 +6,12 @@ from lxml import etree
 import io
 import logging
 import random
+import zmq
+import json
 
 import werp.orm
+from werp.common import sockets
+from werp.common import timeouts
 
 from ...common import etype
 from ... import orm
@@ -250,23 +254,28 @@ def get_train_data(tid):
 		ru_dom_tree = None
 		en_dom_tree = None
 		parser = etree.HTMLParser()
-		proxies = ses.query(werp.orm.FreeProxy).filter(werp.orm.FreeProxy.protocol == 'http').all()
-		user_agents = ses.query(werp.orm.UserAgent).filter(werp.orm.UserAgent.is_bot == False).all()
-		rnd_proxy = random.choice(proxies)
-		rnd_user_agent = random.choice(user_agents)
-		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
-		ua_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
-		ua_res = urllib.request.urlopen(ua_req, timeout=30)
+		ctx = zmq.Context()
+		rnd_user_agent_socket = ctx.socket(zmq.REQ)
+		rnd_user_agent_socket.connect(sockets.rnd_user_agent)
+		rnd_free_proxy_socket = ctx.socket(zmq.REQ)
+		rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
+		rnd_free_proxy_socket.send_unicode('')
+		rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
+		rnd_user_agent_socket.send_unicode('')
+		rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
+		ua_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])		
+		ua_res = urllib.request.urlopen(ua_req, timeout=timeouts.uatrains_bot)
 		ua_res_data = ua_res.read().decode('cp1251')
 		ua_dom_tree = etree.parse(io.StringIO(ua_res_data), parser)
-		ru_req = urllib.request.Request(ru_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
-		ru_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
-		ru_res = urllib.request.urlopen(ru_req, timeout=30)
+		ru_req = urllib.request.Request(ru_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
+		ru_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
+		ru_res = urllib.request.urlopen(ru_req, timeout=timeouts.uatrains_bot)
 		ru_res_data = ru_res.read().decode('cp1251')
 		ru_dom_tree = etree.parse(io.StringIO(ru_res_data), parser)
-		en_req = urllib.request.Request(en_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent.value})
-		en_req.set_proxy(rnd_proxy.ip + ':' + rnd_proxy.port, rnd_proxy.protocol)
-		en_res = urllib.request.urlopen(en_req, timeout=30)
+		en_req = urllib.request.Request(en_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
+		en_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
+		en_res = urllib.request.urlopen(en_req, timeout=timeouts.uatrains_bot)
 		en_res_data = en_res.read().decode('cp1251')
 		en_dom_tree = etree.parse(io.StringIO(en_res_data), parser)
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
