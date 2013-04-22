@@ -10,6 +10,7 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 
 def run_task(task_id):
+    
     try:
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
@@ -26,16 +27,21 @@ def run_task(task_id):
                     drv.southwest.get_train_data(task.data)
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data)
+            except UnicodeDecodeError as e:
+                task.http_status = -5
+                task.http_status_reason = str(e)
             except URLError as e:
-                task.http_status = -1
-                task.http_status_reason = str(e.reason)
+                task.http_status = -4
+                task.http_status_reason = str(e)
             except HTTPError as e:
-                task.http_status = e.code
-                task.http_status_reason = str(e.reason)
+                task.http_status = -3
+                task.http_status_reason = str(e)
             except ConnectionError as e:
-                task.http_status = -1
-                task.http_status_reason = str(e.reason)
+                task.http_status = -2
+                task.http_status_reason = str(e)
             except:
+                task.http_status = -1
+                task.http_status_reason = str(e)
                 nlog.info('uatrains bot - task runner error', traceback.format_exc())
             if task.http_status is None:
                 task.http_status = 200
