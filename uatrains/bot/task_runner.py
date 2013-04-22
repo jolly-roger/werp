@@ -57,7 +57,7 @@ def run_task(task_id):
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
 
 try:
-    conn = orm.q_engine.connect()
+    conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).filter(32).all()
     task_ids = []
