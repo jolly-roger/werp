@@ -3,6 +3,7 @@ import traceback
 import threading
 import socket
 from urllib.error import *
+from http.client import *
 from werp import orm
 from werp.orm import uatrains
 from werp import nlog
@@ -28,6 +29,12 @@ def run_task(task_id):
                     drv.southwest.get_train_data(task.data)
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data)
+            except IncompleteRead as e:
+                task.http_status = -8
+                task.http_status_reason = str(e)
+            except BadStatusLine as e:
+                task.http_status = -7
+                task.http_status_reason = str(e)
             except socket.timeout as e:
                 task.http_status = -6
                 task.http_status_reason = str(e)
