@@ -5,7 +5,7 @@ from werp import nlog
 from werp.uatrains.bot import task_drvs
 
 try:
-    conn = orm.q_engine.connect()
+    conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     
     for tid in range(0, 5000):
