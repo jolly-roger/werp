@@ -34,21 +34,15 @@ def run_task(task_id):
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data)
             except werp.froxly.errors.ProxyError as e:
-                task.http_status = -11
                 task.http_status_reason = str(e)
                 if e.proxy is not None:
-                    if isinstance(e.base_exception, IncompleteRead) or\
-                        isinstance(e.base_exception, BadStatusLine) or\
-                        isinstance(e.base_exception, socket.timeout) or\
-                        isinstance(e.base_exception, ConnectionError) or\
-                        isinstance(e.base_exception, UnicodeDecodeError) or\
-                        isinstance(e.base_exception, URLError):
+                    if isinstance(e.base_exception, HTTPError):
+                        task.http_status = -1
+                    else:
+                        task.http_status = -11
                         red = redis.StrictRedis(unix_socket_path=sockets.redis)
                         red_key = red_keys.froxly_free_proxy + str(e.proxy['id'])
                         red.delete(red_key)
-            except HTTPError as e:
-                task.http_status = -1
-                task.http_status_reason = str(e)
             except Exception as e:
                 task.http_status = -2
                 task.http_status_reason = str(e)
