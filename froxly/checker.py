@@ -76,7 +76,6 @@ def worker():
             except Exception as e:
                 wproxy['http_status'] = -1
                 wproxy['http_status_reason'] = str(e)
-                nlog.info('froxly - checker request error', traceback.format_exc())
             froxly_checker_res.send_unicode(json.dumps(wproxy))
         ctx.destroy()
     except:
