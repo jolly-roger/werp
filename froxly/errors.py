@@ -1,6 +1,6 @@
 class ProxyError(Exception):
-    def __init__(self, reason=None, proxy=None):
-        self.reason = reason
+    def __init__(self, proxy=None, base_exception=None):
         self.proxy = proxy
+        self.base_exception = base_exception
     def __str__(self):
-        return self.reason
+        return str(self.base_exception)

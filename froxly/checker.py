@@ -16,9 +16,9 @@ from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
+from werp.common import red_keys
 
 test_url = 'http://user-agent-list.com/'
-red_key_prfix = 'froxly_free_proxy_'
 worker_pool = 16
 expire_delta = datetime.timedelta(days=1)
 
@@ -65,29 +65,15 @@ def worker():
             wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent}, method='HEAD')
+            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
                 res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
+                res.read()
                 if res.getcode() == 200:
                     wproxy['http_status'] = res.getcode()
                     wproxy['http_status_reason'] = None
-            except socket.timeout as e:
-                wproxy['http_status'] = -6
-                wproxy['http_status_reason'] = str(e)
-            except BadStatusLine as e:
-                wproxy['http_status'] = -5
-                wproxy['http_status_reason'] = str(e)
-            except URLError as e:
-                wproxy['http_status'] = -4
-                wproxy['http_status_reason'] = str(e)
-            except HTTPError as e:
-                wproxy['http_status'] = -3
-                wproxy['http_status_reason'] = str(e)
-            except ConnectionError as e:
-                wproxy['http_status'] = -2
-                wproxy['http_status_reason'] = str(e)
-            except:
+            except Exception as e:
                 wproxy['http_status'] = -1
                 wproxy['http_status_reason'] = str(e)
                 nlog.info('froxly - checker request error', traceback.format_exc())
@@ -117,10 +103,9 @@ def result_manager():
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
-            red_key = red_key_prfix + str(wproxy['id'])
+            red_key = red_keys.froxly_free_proxy + str(wproxy['id'])
             if not red.exists(red_key):
                 if wproxy['http_status'] == 200:
-                    del wproxy['id']
                     del wproxy['http_status']
                     del wproxy['http_status_reason']
                     red.set(red_key, json.dumps(wproxy))

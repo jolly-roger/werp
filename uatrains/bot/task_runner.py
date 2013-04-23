@@ -2,6 +2,7 @@ import multiprocessing
 import traceback
 import threading
 import socket
+import redis
 from urllib.error import *
 from http.client import *
 
@@ -12,6 +13,8 @@ from werp import nlog
 from werp.uatrains.engine import drv
 from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
+from werp.common import sockets
+from werp.common import red_keys
 
 def run_task(task_id):
     try:
@@ -33,29 +36,21 @@ def run_task(task_id):
             except werp.froxly.errors.ProxyError as e:
                 task.http_status = -11
                 task.http_status_reason = str(e)
-            except IncompleteRead as e:
-                task.http_status = -8
-                task.http_status_reason = str(e)
-            except BadStatusLine as e:
-                task.http_status = -7
-                task.http_status_reason = str(e)
-            except socket.timeout as e:
-                task.http_status = -6
-                task.http_status_reason = str(e)
-            except UnicodeDecodeError as e:
-                task.http_status = -5
-                task.http_status_reason = str(e)
-            except URLError as e:
-                task.http_status = -4
-                task.http_status_reason = str(e)
+                if e.proxy is not None:
+                    if isinstance(e.base_exception, IncompleteRead) or\
+                        isinstance(e.base_exception, BadStatusLine) or\
+                        isinstance(e.base_exception, socket.timeout) or\
+                        isinstance(e.base_exception, ConnectionError) or\
+                        isinstance(e.base_exception, UnicodeDecodeError) or\
+                        isinstance(e.base_exception, URLError):
+                        red = redis.StrictRedis(unix_socket_path=sockets.redis)
+                        red_key = red_keys.froxly_free_proxy + str(e.proxy['id'])
+                        red.delete(red_key)
             except HTTPError as e:
-                task.http_status = -3
-                task.http_status_reason = str(e)
-            except ConnectionError as e:
-                task.http_status = -2
+                task.http_status = -1
                 task.http_status_reason = str(e)
             except Exception as e:
-                task.http_status = -1
+                task.http_status = -2
                 task.http_status_reason = str(e)
                 nlog.info('uatrains bot - task runner error', traceback.format_exc())
             if task.http_status is None:

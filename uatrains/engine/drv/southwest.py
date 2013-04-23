@@ -307,7 +307,7 @@ def get_train_data(tid):
 			ses.close()
 		if conn is not None:
 			conn.close()
-		raise werp.froxly.errors.ProxyError(str(e), rnd_proxy)
+		raise werp.froxly.errors.ProxyError(e, rnd_proxy)
 def get_t(e, ses):
 	t = None
 	try:
