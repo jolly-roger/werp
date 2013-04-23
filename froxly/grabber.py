@@ -21,6 +21,7 @@ try:
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     res = None
+    res_data = None
     try_count = 0
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REQ)
@@ -38,12 +39,12 @@ try:
             res = urllib.request.urlopen(req, timeout=timeouts.froxly_grabber)
             if res.getcode() != 200:
                 res = None
+            res_data = res.read().decode('utf-8')
         except:
             nlog.info('froxly - grabber error - request data', traceback.format_exc())
             res = None
         try_count = try_count + 1
     html_parser = etree.HTMLParser()
-    res_data = res.read().decode('utf-8')
     dom_tree = etree.parse(io.StringIO(res_data), html_parser)
     raw_proxies = dom_tree.xpath('/html/body/div/div/table/tr')
     for raw_proxy in raw_proxies:

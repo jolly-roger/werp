@@ -4,6 +4,8 @@ import threading
 import socket
 from urllib.error import *
 from http.client import *
+
+import werp.froxly.errors
 from werp import orm
 from werp.orm import uatrains
 from werp import nlog
@@ -12,7 +14,6 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 
 def run_task(task_id):
-    
     try:
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
@@ -29,6 +30,9 @@ def run_task(task_id):
                     drv.southwest.get_train_data(task.data)
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data)
+            except werp.froxly.errors.ProxyError as e:
+                task.http_status = -11
+                task.http_status_reason = str(e)
             except IncompleteRead as e:
                 task.http_status = -8
                 task.http_status_reason = str(e)

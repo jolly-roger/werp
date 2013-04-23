@@ -10,6 +10,7 @@ import zmq
 import json
 
 import werp.orm
+import werp.froxly.errors
 from werp.common import sockets
 from werp.common import timeouts
 
@@ -223,6 +224,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 def get_train_data(tid):
 	ses = None
 	conn = None
+	rnd_proxy = None
 	try:
 		conn = orm.null_engine.connect()
 		ses = orm.sescls(bind=conn)
@@ -282,7 +284,7 @@ def get_train_data(tid):
 			ses.close()
 		if conn is not None:
 			conn.close()
-		raise
+		raise werp.froxly.errors.ProxyError(str(e), rnd_proxy)
 def get_t(e, ses):
 	t = None
 	try:
