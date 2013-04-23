@@ -33,7 +33,8 @@ try:
                 orm.FreeProxy.http_status == 200)).all()
             for free_proxy in free_proxies:
                 red_key = red_key_prfix + str(free_proxy.id)
-                red_proxy = {'ip': free_proxy.ip, 'port': free_proxy.port, 'protocol': free_proxy.protocol}
+                red_proxy = {'id': free_proxy.id, 'ip': free_proxy.ip, 'port': free_proxy.port,
+                    'protocol': free_proxy.protocol}
                 red.set(red_key, json.dumps(red_proxy))
                 red.expire(red_key, expire_delta)
             ses.close()
