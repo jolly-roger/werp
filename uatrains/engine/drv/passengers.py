@@ -276,7 +276,7 @@ def get_train_data(tid):
 		ses.commit()
 		ses.close()
 		conn.close()
-	except Exception:
+	except Exception as e:
 		logger.fatal('Train id: ' + str(tid) + ' For more details see following record.')
 		logger.fatal(traceback.format_exc())
 		if ses is not None:
