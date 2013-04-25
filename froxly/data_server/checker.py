@@ -18,7 +18,6 @@ from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
 
-test_url = 'http://user-agent-list.com/'
 worker_pool = 16
 expire_delta = datetime.timedelta(days=1)
 
@@ -51,7 +50,7 @@ def ventilator():
             ses.close()
         if conn is not None:    
             conn.close()
-def worker():
+def worker(url):
     ctx = None
     try:
         ctx = zmq.Context()
@@ -65,7 +64,7 @@ def worker():
             wproxy = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            req = urllib.request.Request(test_url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
+            req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
             req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
             try:
                 res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
@@ -82,7 +81,7 @@ def worker():
         nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
             ctx.destroy()
-def result_manager():
+def result_manager(url, red_key_prefix):
     conn = None
     ses = None
     ctx = None
@@ -102,7 +101,7 @@ def result_manager():
             proxy.http_status = wproxy['http_status']
             proxy.http_status_reason = wproxy['http_status_reason']
             ses.commit()
-            red_key = red_keys.froxly_free_proxy + str(wproxy['id'])
+            red_key = red_key_prefix + url + '_' + str(wproxy['id'])
             if not red.exists(red_key):
                 if wproxy['http_status'] == 200:
                     del wproxy['http_status']
@@ -127,18 +126,19 @@ def result_manager():
             ses.close()
         if conn is not None:    
             conn.close()
-try:
-    start_time = time.time()
-    for wrk_num in range(worker_pool):
-        thr = threading.Thread(target=worker)
-        thr.setDaemon(True)
-        thr.start()
-    result_manager = threading.Thread(target=result_manager)
-    result_manager.setDaemon(True)
-    result_manager.start()
-    ventilator()
-    end_time = time.time()
-    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-    nlog.info('froxly - checher ventilator', str(exec_delta))
-except:
-    nlog.info('froxly - checher error', traceback.format_exc())
+def check(url = 'http://user-agent-list.com'):
+    try:
+        start_time = time.time()
+        for wrk_num in range(worker_pool):
+            thr = threading.Thread(target=worker, args=(url,))
+            thr.setDaemon(True)
+            thr.start()
+        result_manager = threading.Thread(target=result_manager, args=(url, red_keys.froxly_free_proxy))
+        result_manager.setDaemon(True)
+        result_manager.start()
+        ventilator()
+        end_time = time.time()
+        exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+        nlog.info('froxly - checher ventilator', str(exec_delta))
+    except:
+        nlog.info('froxly - checher error', traceback.format_exc())
