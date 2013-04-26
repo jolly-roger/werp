@@ -72,8 +72,6 @@ def url_ventilator(url):
         froxly_checker_finish.send_unicode(str(len(proxies)))
         froxly_checker_finish.recv_unicode()
         ctx.destroy()
-        ses.close()
-        conn.close()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
