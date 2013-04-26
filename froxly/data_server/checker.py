@@ -131,10 +131,10 @@ def check(url = 'http://user-agent-list.com'):
         start_time = time.time()
         for wrk_num in range(worker_pool):
             thr = threading.Thread(target=worker, args=(url,))
-            thr.setDaemon(True)
+            #thr.setDaemon(True)
             thr.start()
         manager = threading.Thread(target=result_manager, args=(url, red_keys.froxly_free_proxy))
-        manager.setDaemon(True)
+        #manager.setDaemon(True)
         manager.start()
         ventilator()
         end_time = time.time()
