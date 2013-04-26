@@ -21,7 +21,7 @@ from werp.common import red_keys
 worker_pool = 16
 expire_delta = datetime.timedelta(days=1)
 
-def ventilator():
+def ventilator(url):
     conn = None
     ses = None
     ctx = None
@@ -33,8 +33,9 @@ def ventilator():
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
-            wproxy = {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}
-            froxly_checker_req.send_unicode(json.dumps(wproxy))
+            task = {'url': url, 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port,
+                'protocol': proxy.protocol}}
+            froxly_checker_req.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
@@ -50,7 +51,7 @@ def ventilator():
             ses.close()
         if conn is not None:    
             conn.close()
-def worker(url):
+def worker():
     ctx = None
     try:
         ctx = zmq.Context()
@@ -61,27 +62,27 @@ def worker(url):
         froxly_checker_res = ctx.socket(zmq.PUSH)
         froxly_checker_res.connect(sockets.froxly_checker_res)
         while True:
-            wproxy = json.loads(froxly_checker_req.recv_unicode())
+            task = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})#, method='HEAD')
-            req.set_proxy(wproxy['ip'] + ':' + wproxy['port'], wproxy['protocol'])
+            req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
+            req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
                 res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
                 res.read()
                 if res.getcode() == 200:
-                    wproxy['http_status'] = res.getcode()
-                    wproxy['http_status_reason'] = None
+                    task['proxy']['http_status'] = res.getcode()
+                    task['proxy']['http_status_reason'] = None
             except Exception as e:
-                wproxy['http_status'] = -1
-                wproxy['http_status_reason'] = str(e)
-            froxly_checker_res.send_unicode(json.dumps(wproxy))
+                task['proxy']['http_status'] = -1
+                task['proxy']['http_status_reason'] = str(e)
+            froxly_checker_res.send_unicode(json.dumps(task))
         ctx.destroy()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
             ctx.destroy()
-def result_manager(url, red_key_prefix):
+def result_manager():
     conn = None
     ses = None
     ctx = None
@@ -96,20 +97,20 @@ def result_manager(url, red_key_prefix):
         froxly_checker_finish.bind(sockets.froxly_checker_finish)
         proxy_count = int(froxly_checker_finish.recv_unicode())
         while True:
-            wproxy = json.loads(froxly_checker_res.recv_unicode())
-            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == wproxy['id']).one()
-            proxy.http_status = wproxy['http_status']
-            proxy.http_status_reason = wproxy['http_status_reason']
+            task = json.loads(froxly_checker_res.recv_unicode())
+            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == task['proxy']['id']).one()
+            proxy.http_status = task['proxy']['http_status']
+            proxy.http_status_reason = task['proxy']['http_status_reason']
             ses.commit()
-            red_key = red_key_prefix + url + '_' + str(wproxy['id'])
+            red_key = red_keys.froxly_free_proxy + task['url'] + '_' + str(task['proxy']['id'])
             if not red.exists(red_key):
-                if wproxy['http_status'] == 200:
-                    del wproxy['http_status']
-                    del wproxy['http_status_reason']
-                    red.set(red_key, json.dumps(wproxy))
+                if task['proxy']['http_status'] == 200:
+                    del task['proxy']['http_status']
+                    del task['proxy']['http_status_reason']
+                    red.set(red_key, json.dumps(task['proxy']))
                     red.expire(red_key, expire_delta)
             else:
-                if wproxy['http_status'] != 200:
+                if task['proxy']['http_status'] != 200:
                     red.delete(red_key)
             proxy_count = proxy_count - 1
             if proxy_count == 0:
@@ -129,16 +130,18 @@ def result_manager(url, red_key_prefix):
 def check(url = 'http://user-agent-list.com'):
     try:
         start_time = time.time()
-        for wrk_num in range(worker_pool):
-            thr = threading.Thread(target=worker, args=(url,))
-            #thr.setDaemon(True)
-            thr.start()
-        manager = threading.Thread(target=result_manager, args=(url, red_keys.froxly_free_proxy))
-        #manager.setDaemon(True)
-        manager.start()
-        ventilator()
+        ventilator(url)
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
         nlog.info('froxly - checher ventilator', str(exec_delta))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
+def init():
+    try:
+       for wrk_num in range(worker_pool):
+           thr = threading.Thread(target=worker)
+           thr.start()
+       manager = threading.Thread(target=result_manager)
+       manager.start()
+    except:
+       nlog.info('froxly - checher error', traceback.format_exc())

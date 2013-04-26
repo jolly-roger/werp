@@ -62,6 +62,7 @@ try:
     methods[deactivate.__name__] = deactivate
     methods[list_for_domain.__name__] = list_for_domain
     methods[rnd_for_domain.__name__] = rnd_for_domain
+    checker.init()
     while True:
         try:
             msg = json.loads(froxly_data_server_socket.recv_unicode())
