@@ -51,6 +51,9 @@ try:
         red_key = red_keys.froxly_free_proxy + str(msg['params']['proxy']['id'])
         red.delete(red_key)
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
+    def check(msg):
+        checker.base_check()
+        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_domain(msg):
         checker.url_check(msg['params']['domain'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
@@ -60,6 +63,7 @@ try:
     methods[rnd.__name__] = rnd
     methods[activate.__name__] = activate
     methods[deactivate.__name__] = deactivate
+    methods[check.__name__] = check
     methods[list_for_domain.__name__] = list_for_domain
     methods[rnd_for_domain.__name__] = rnd_for_domain
     checker.init()
