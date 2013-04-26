@@ -61,7 +61,7 @@ def url_ventilator(url):
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.keys(red_keys.froxly_free_proxy + '*')        
         for p in proxies:
-            proxy = json.loads(p)
+            proxy = json.loads(p.decode('utf-8'))
             task = {'url': url, 'red_key': red_keys.froxly_free_proxy + url + '_' + str(task['proxy']['id']),
                 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
             froxly_checker_req.send_unicode(json.dumps(task))
