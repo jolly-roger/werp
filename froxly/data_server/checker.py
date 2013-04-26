@@ -58,6 +58,7 @@ def url_ventilator(url):
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PUSH)
         froxly_checker_req.bind(sockets.froxly_checker_req)
+        red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.keys(red_keys.froxly_free_proxy + '*')        
         for p in proxies:
             proxy = json.loads(p)
