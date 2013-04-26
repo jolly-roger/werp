@@ -52,7 +52,7 @@ try:
         red.delete(red_key)
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_domain(msg):
-        checker.check(msg['params']['domain'])
+        checker.url_check(msg['params']['domain'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def rnd_for_domain(msg):
         pass

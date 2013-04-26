@@ -22,7 +22,7 @@ from werp.common import red_keys
 worker_pool = 16
 expire_delta = datetime.timedelta(days=1)
 
-def ventilator(url):
+def base_ventilator(url):
     conn = None
     ses = None
     ctx = None
@@ -34,8 +34,8 @@ def ventilator(url):
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
-            task = {'url': url, 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port,
-                'protocol': proxy.protocol}}
+            task = {'url': url, 'red_key': red_keys.froxly_free_proxy + str(proxy.id),
+                'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
             froxly_checker_req.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
@@ -52,6 +52,29 @@ def ventilator(url):
             ses.close()
         if conn is not None:    
             conn.close()
+def url_ventilator(url):
+    ctx = None
+    try:
+        ctx = zmq.Context()
+        froxly_checker_req = ctx.socket(zmq.PUSH)
+        froxly_checker_req.bind(sockets.froxly_checker_req)
+        proxies = red.keys(red_keys.froxly_free_proxy + '*')        
+        for p in proxies:
+            proxy = json.loads(p)
+            task = {'url': url, 'red_key': red_keys.froxly_free_proxy + url + '_' + str(task['proxy']['id']),
+                'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
+            froxly_checker_req.send_unicode(json.dumps(task))
+        froxly_checker_finish = ctx.socket(zmq.REQ)
+        froxly_checker_finish.connect(sockets.froxly_checker_finish)
+        froxly_checker_finish.send_unicode(str(len(proxies)))
+        froxly_checker_finish.recv_unicode()
+        ctx.destroy()
+        ses.close()
+        conn.close()
+    except:
+        nlog.info('froxly - checher error', traceback.format_exc())
+        if ctx is not None:
+            ctx.destroy()
 def worker():
     ctx = None
     try:
@@ -103,16 +126,15 @@ def result_manager():
             proxy.http_status = task['proxy']['http_status']
             proxy.http_status_reason = task['proxy']['http_status_reason']
             ses.commit()
-            red_key = red_keys.froxly_free_proxy + task['url'] + '_' + str(task['proxy']['id'])
-            if not red.exists(red_key):
+            if not red.exists(task['red_key']):
                 if task['proxy']['http_status'] == 200:
                     del task['proxy']['http_status']
                     del task['proxy']['http_status_reason']
-                    red.set(red_key, json.dumps(task['proxy']))
-                    red.expire(red_key, expire_delta)
+                    red.set(task['red_key'], json.dumps(task['proxy']))
+                    red.expire(task['red_key'], expire_delta)
             else:
                 if task['proxy']['http_status'] != 200:
-                    red.delete(red_key)
+                    red.delete(task['red_key'])
             proxy_count = proxy_count - 1
             if proxy_count == 0:
                 break
@@ -128,10 +150,19 @@ def result_manager():
             ses.close()
         if conn is not None:    
             conn.close()
-def check(url = 'http://user-agent-list.com'):
+def base_check(url = 'http://user-agent-list.com'):
     try:
         start_time = time.time()
-        ventilator(url)
+        base_ventilator(url)
+        end_time = time.time()
+        exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+        nlog.info('froxly - checher base ventilator', str(exec_delta))
+    except:
+        nlog.info('froxly - checher error', traceback.format_exc())
+def url_check(url = 'http://user-agent-list.com'):
+    try:
+        start_time = time.time()
+        url_ventilator(url)
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
         nlog.info('froxly - checher ventilator', str(exec_delta))
