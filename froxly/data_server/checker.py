@@ -102,7 +102,6 @@ def worker():
                 task['proxy']['http_status'] = -1
                 task['proxy']['http_status_reason'] = str(e)
             froxly_checker_res.send_unicode(json.dumps(task))
-        ctx.destroy()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
@@ -120,29 +119,27 @@ def result_manager():
         froxly_checker_res.bind(sockets.froxly_checker_res)
         froxly_checker_finish = ctx.socket(zmq.REP)
         froxly_checker_finish.bind(sockets.froxly_checker_finish)
-        proxy_count = int(froxly_checker_finish.recv_unicode())
         while True:
-            task = json.loads(froxly_checker_res.recv_unicode())
-            proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == task['proxy']['id']).one()
-            proxy.http_status = task['proxy']['http_status']
-            proxy.http_status_reason = task['proxy']['http_status_reason']
-            ses.commit()
-            if not red.exists(task['red_key']):
-                if task['proxy']['http_status'] == 200:
-                    del task['proxy']['http_status']
-                    del task['proxy']['http_status_reason']
-                    red.set(task['red_key'], json.dumps(task['proxy']))
-                    red.expire(task['red_key'], expire_delta)
-            else:
-                if task['proxy']['http_status'] != 200:
-                    red.delete(task['red_key'])
-            proxy_count = proxy_count - 1
-            if proxy_count == 0:
-                break
-        froxly_checker_finish.send_unicode(str(0))
-        ctx.destroy()
-        ses.close()
-        conn.close()
+            proxy_count = int(froxly_checker_finish.recv_unicode())
+            while True:
+                task = json.loads(froxly_checker_res.recv_unicode())
+                proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == task['proxy']['id']).one()
+                proxy.http_status = task['proxy']['http_status']
+                proxy.http_status_reason = task['proxy']['http_status_reason']
+                ses.commit()
+                if not red.exists(task['red_key']):
+                    if task['proxy']['http_status'] == 200:
+                        del task['proxy']['http_status']
+                        del task['proxy']['http_status_reason']
+                        red.set(task['red_key'], json.dumps(task['proxy']))
+                        red.expire(task['red_key'], expire_delta)
+                else:
+                    if task['proxy']['http_status'] != 200:
+                        red.delete(task['red_key'])
+                proxy_count = proxy_count - 1
+                if proxy_count == 0:
+                    break
+            froxly_checker_finish.send_unicode(str(0))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ctx is not None:
@@ -153,11 +150,7 @@ def result_manager():
             conn.close()
 def base_check(url = 'http://user-agent-list.com'):
     try:
-        start_time = time.time()
         base_ventilator(url)
-        end_time = time.time()
-        exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        nlog.info('froxly - checher base ventilator', str(exec_delta))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
 def url_check(url = 'http://user-agent-list.com'):
@@ -174,10 +167,7 @@ def init():
        for wrk_num in range(worker_pool):
            thr = threading.Thread(target=worker)
            thr.start()
-           #proc = multiprocessing.Process(target=worker)
-           #proc.start()
        manager = threading.Thread(target=result_manager)
-       #manager = multiprocessing.Process(target=result_manager)
        manager.start()
     except:
        nlog.info('froxly - checher error', traceback.format_exc())
