@@ -8,6 +8,7 @@ import os
 import zmq
 import json
 import threading
+import multiprocessing
 import time
 import datetime
 import redis
@@ -139,9 +140,12 @@ def check(url = 'http://user-agent-list.com'):
 def init():
     try:
        for wrk_num in range(worker_pool):
-           thr = threading.Thread(target=worker)
-           thr.start()
-       manager = threading.Thread(target=result_manager)
+           #thr = threading.Thread(target=worker)
+           #thr.start()
+           proc = multiprocessing.Process(target=worker)
+           proc.start()
+       #manager = threading.Thread(target=result_manager)
+       manager = multiprocessing.Process(target=result_manager)
        manager.start()
     except:
        nlog.info('froxly - checher error', traceback.format_exc())
