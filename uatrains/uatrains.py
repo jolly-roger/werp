@@ -60,48 +60,55 @@ class uatrains(object):
         lng = get_lng()
         l = ''
         if eid is not None:
-            conn = orm.q_engine.connect()
-            ses = orm.sescls(bind=conn)
-            e = None
+            prepared_eid = None
             try:
-                e = ses.query(orm.E).filter(orm.E.id == int(eid)).one()
-                e.vc = e.vc + 1
-                ses.commit()
+                prepared_eid = int(float(eid))
             except:
-                notifier.notify('Uatrains error', 'Can\'t find entity by eid = ' + str(eid) + '\n' +\
+                notifier.notify('Uatrains error', 'Can\'t parse eid = ' + str(prepared_eid) + '\n' +\
                     traceback.format_exc())
-            if e is not None:
-                if e.etype == etype.train:
-                    try:
-                        t = ses.query(orm.E).\
-                            options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
-                            filter(orm.E.id == int(eid)).one()
-                        l = layout.getTrain(t, t.t_ss, lng)
-                    except:
-                        notifier.notify('Uatrains error', 'Can\'t find train by id = ' + str(eid) + '\n' +\
-                            traceback.format_exc())
-                elif e.etype == etype.ptrain:
-                    try:
-                        t = ses.query(orm.E).\
-                            options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
-                            filter(orm.E.id == int(eid)).one()
-                        l = layout.getPTrain(t, t.t_ss, lng)
-                    except:
-                        notifier.notify('Uatrains error', 'Can\'t find ptrain by id = ' + str(eid) + '\n' +\
-                            traceback.format_exc())
-                elif e.etype == etype.station:
-                    try:
-                        s = ses.query(orm.E).\
-                            options(orm.joinedload_all(orm.E.s_ts, orm.TrainStation.t)).\
-                            filter(orm.E.id == int(eid)).one()
-                        l = layout.getStation(s, s.s_ts, lng)
-                    except:
-                        notifier.notify('Uatrains error', 'Can\'t find station by id = ' + str(eid) + '\n' +\
-                            traceback.format_exc())
-            ses.close()
-            conn.close()
+            if prepared_eid is not None:
+                conn = orm.q_engine.connect()
+                ses = orm.sescls(bind=conn)
+                e = None
+                try:
+                    e = ses.query(orm.E).filter(orm.E.id == prepared_eid).one()
+                    e.vc = e.vc + 1
+                    ses.commit()
+                except:
+                    notifier.notify('Uatrains error', 'Can\'t find entity by eid = ' + str(prepared_eid) + '\n' +\
+                        traceback.format_exc())
+                if e is not None:
+                    if e.etype == etype.train:
+                        try:
+                            t = ses.query(orm.E).\
+                                options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
+                                filter(orm.E.id == prepared_eid).one()
+                            l = layout.getTrain(t, t.t_ss, lng)
+                        except:
+                            notifier.notify('Uatrains error', 'Can\'t find train by id = ' + str(prepared_eid) + '\n' +\
+                                traceback.format_exc())
+                    elif e.etype == etype.ptrain:
+                        try:
+                            t = ses.query(orm.E).\
+                                options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
+                                filter(orm.E.id == prepared_eid).one()
+                            l = layout.getPTrain(t, t.t_ss, lng)
+                        except:
+                            notifier.notify('Uatrains error', 'Can\'t find ptrain by id = ' + str(prepared_eid) + '\n' +\
+                                traceback.format_exc())
+                    elif e.etype == etype.station:
+                        try:
+                            s = ses.query(orm.E).\
+                                options(orm.joinedload_all(orm.E.s_ts, orm.TrainStation.t)).\
+                                filter(orm.E.id == prepared_eid).one()
+                            l = layout.getStation(s, s.s_ts, lng)
+                        except:
+                            notifier.notify('Uatrains error', 'Can\'t find station by id = ' + str(prepared_eid) + '\n' +\
+                                traceback.format_exc())
+                ses.close()
+                conn.close()
         else:
-                l = self.index(eid)
+            l = self.index(eid)
         if l == '':
             cherrypy.response.status = 301
             cherrypy.response.headers['Location'] = '/'
