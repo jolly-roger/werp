@@ -13,6 +13,7 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 
+TRY_COUNT = 11
 url = 'http://www.hidemyass.com/proxy-list/'
 conn = None
 ses = None
@@ -28,7 +29,7 @@ try:
     rnd_user_agent_socket.connect(sockets.rnd_user_agent)
     rnd_free_proxy_socket = ctx.socket(zmq.REQ)
     rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
-    while res is None and try_count < 11:
+    while res is None and try_count < TRY_COUNT:
         rnd_free_proxy_socket.send_unicode('')
         rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
         rnd_user_agent_socket.send_unicode('')
@@ -41,9 +42,10 @@ try:
                 res = None
             res_data = res.read().decode('utf-8')
         except:
-            nlog.info('froxly - grabber error - request data', traceback.format_exc())
             res = None
         try_count = try_count + 1
+        if try_count >= TRY_COUNT:
+            nlog.info('froxly - grabber error - request data', str(TRY_COUNT) + ' tries have failed.')
     html_parser = etree.HTMLParser()
     dom_tree = etree.parse(io.StringIO(res_data), html_parser)
     raw_proxies = dom_tree.xpath('/html/body/div/div/table/tr')
