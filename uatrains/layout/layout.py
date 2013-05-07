@@ -34,9 +34,15 @@ def get_lng_period(e, lng):
         return e.en_period
     return e.ua_period
 def get_search_lng_title(e, ph, lng):
-    in_ua = ph.lower() in e.ua_title.lower()
-    in_ru = ph.lower() in e.ru_title.lower()
-    in_en = ph.lower() in e.en_title.lower()
+    in_ua = None
+    in_ru = None
+    in_en = None
+    if e.ua_title is not None:
+        in_ua = ph.lower() in e.ua_title.lower()
+    if e.ru_title is not None:
+        in_ru = ph.lower() in e.ru_title.lower()
+    if e.en_title is not None:
+        in_en = ph.lower() in e.en_title.lower()
     if lng == lngs.UA:
         if in_ua:
             return (lngs.UA, e.ua_title)
