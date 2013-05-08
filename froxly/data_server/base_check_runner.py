@@ -2,9 +2,11 @@ import json
 import zmq
 import time
 import datetime
+import redis
 
 from werp import nlog
 from werp.common import sockets
+from werp.common import red_keys
 
 ctx = None
 try:
@@ -17,7 +19,8 @@ try:
     ctx.destroy()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-    nlog.info('froxly - base check', str(exec_delta))
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
+    red.lpush(red_keys.froxly_base_check_log, str(exec_delta))
 except:
     nlog.info('froxly - base check fatal', traceback.format_exc())
     if ctx is not None:
