@@ -3,6 +3,7 @@ import zmq
 import time
 import datetime
 import redis
+import traceback
 
 from werp import nlog
 from werp.common import sockets
