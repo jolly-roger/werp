@@ -18,6 +18,7 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
+from werp.froxly.data_server import common as data_server_common
 
 worker_pool = 32
 expire_delta = datetime.timedelta(days=1)
@@ -125,14 +126,13 @@ def result_manager():
                 proxy.http_status = task['proxy']['http_status']
                 proxy.http_status_reason = task['proxy']['http_status_reason']
                 ses.commit()
+                sproxy = data_server_common.jproxy2sproxy(task['proxy'])
                 if task['proxy']['http_status'] == 200:
-                    del task['proxy']['http_status']
-                    del task['proxy']['http_status_reason']
-                    red.sadd(task['red_key'], json.dumps(task['proxy']))
+                    red.sadd(task['red_key'], sproxy)
                 else:
-                    if red.exists(task['red_key']) and red.sismember(task['red_key'], json.dumps(task['proxy'])):
-                        red.srem(task['red_key'], json.dumps(task['proxy']))
-                        nlog.info('froxly - checher info', 'Proxy was removed: ' + json.dumps(task['proxy']))
+                    if red.exists(task['red_key']) and red.sismember(task['red_key'], sproxy):
+                        red.srem(task['red_key'], sproxy)
+                        nlog.info('froxly - checher info', 'Proxy was removed: ' + sproxy)
                 proxy_count = proxy_count - 1
                 if proxy_count == 0:
                     break

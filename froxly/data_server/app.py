@@ -10,6 +10,7 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
 from werp.froxly.data_server import checker
+from werp.froxly.data_server import common as data_server_common
 
 expire_delta = datetime.timedelta(days=1)
 conn = None
@@ -39,9 +40,8 @@ try:
                 free_proxies = ses.query(orm.FreeProxy).filter(orm.and_(orm.FreeProxy.protocol == 'http',
                     orm.FreeProxy.http_status == 200)).all()
                 for free_proxy in free_proxies:
-                    red_proxy = {'id': free_proxy.id, 'ip': free_proxy.ip, 'port': free_proxy.port,
-                        'protocol': free_proxy.protocol}
-                    red.sadd(red_keys.froxly_base_check_free_proxy, json.dumps(red_proxy))
+                    sproxy = data_server_common.dbproxy2sproxy(free_proxy)
+                    red.sadd(red_keys.froxly_base_check_free_proxy, sproxy)
                 ses.close()
                 conn.close()
                 rnd_free_proxy = red.srandmember(red_keys.froxly_base_check_free_proxy)
