@@ -34,7 +34,7 @@ def base_ventilator(url):
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
-            task = {'url': url, 'red_key': red_keys.froxly_free_proxy + str(proxy.id),
+            task = {'url': url, 'red_key': red_keys.froxly_base_check_free_proxy,
                 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
             froxly_checker_req.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
@@ -59,12 +59,10 @@ def url_ventilator(url):
         froxly_checker_req = ctx.socket(zmq.PUSH)
         froxly_checker_req.bind(sockets.froxly_checker_req)
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
-        proxy_keys = red.keys(red_keys.froxly_free_proxy + '*')
-        proxy_keys = [pk.decode('utf-8') for pk in proxy_keys]
-        proxies = red.mget(proxy_keys)
+        proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
         for p in proxies:
             proxy = json.loads(p.decode('utf-8'))
-            task = {'url': url, 'red_key': red_keys.froxly_free_proxy + url + '_' + str(proxy['id']),
+            task = {'url': url, 'red_key': red_keys.froxly_url_free_proxy_prefix + url,
                 'proxy': {'id': proxy['id'], 'ip': proxy['ip'], 'port': proxy['port'], 'protocol': proxy['protocol']}}
             froxly_checker_req.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
@@ -127,15 +125,13 @@ def result_manager():
                 proxy.http_status = task['proxy']['http_status']
                 proxy.http_status_reason = task['proxy']['http_status_reason']
                 ses.commit()
-                if not red.exists(task['red_key']):
-                    if task['proxy']['http_status'] == 200:
-                        del task['proxy']['http_status']
-                        del task['proxy']['http_status_reason']
-                        red.set(task['red_key'], json.dumps(task['proxy']))
-                        red.expire(task['red_key'], expire_delta)
+                if task['proxy']['http_status'] == 200:
+                    del task['proxy']['http_status']
+                    del task['proxy']['http_status_reason']
+                    red.sadd(task['red_key'], json.dumps(task['proxy']))
                 else:
-                    if task['proxy']['http_status'] != 200:
-                        red.delete(task['red_key'])
+                    if red.exists(task['red_key']) and red.sismember(task['red_key'], json.dumps(task['proxy'])):
+                        red.srem(task['red_key'], json.dumps(task['proxy']))
                 proxy_count = proxy_count - 1
                 if proxy_count == 0:
                     break

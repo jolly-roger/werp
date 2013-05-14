@@ -21,36 +21,39 @@ try:
     froxly_data_server_socket.bind(sockets.froxly_data_server)
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     def rnd(msg):
-        froxly_free_proxy_keys = red.keys(red_keys.froxly_free_proxy + '*')
         rnd_free_proxy = None
-        if len(froxly_free_proxy_keys) > 0:
-            rnd_key = random.choice(froxly_free_proxy_keys)
-            rnd_free_proxy = red.get(rnd_key)
+        if msg is not None and msg['params'] is not None and 'url' in msg['params']:
+            url_red_key = red_keys.froxly_url_free_proxy_prefix + msg['params']['url']
+            if red.exists(url_red_key) and red.scard(url_red_key) > 0:
+                rnd_free_proxy = srandmember(url_red_key)
+            else:
+                nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
+                rnd_free_proxy = rnd(None)
         else:
-            conn = orm.null_engine.connect()
-            ses = orm.sescls(bind=conn)
-            free_proxies = ses.query(orm.FreeProxy).filter(orm.and_(orm.FreeProxy.protocol == 'http',
-                orm.FreeProxy.http_status == 200)).all()
-            for free_proxy in free_proxies:
-                red_key = red_keys.froxly_free_proxy + str(free_proxy.id)
-                red_proxy = {'id': free_proxy.id, 'ip': free_proxy.ip, 'port': free_proxy.port,
-                    'protocol': free_proxy.protocol}
-                red.set(red_key, json.dumps(red_proxy))
-                red.expire(red_key, expire_delta)
-            ses.close()
-            conn.close()
-            rnd_key = random.choice(red.keys(red_keys.froxly_free_proxy + '*'))
-            rnd_free_proxy = red.get(rnd_key)
+            if red.exists(red_keys.froxly_base_check_free_proxy) and \
+                red.scard(red_keys.froxly_base_check_free_proxy) > 0:
+                rnd_free_proxy = srandmember(red_keys.froxly_base_check_free_proxy)
+            else:
+                conn = orm.null_engine.connect()
+                ses = orm.sescls(bind=conn)
+                free_proxies = ses.query(orm.FreeProxy).filter(orm.and_(orm.FreeProxy.protocol == 'http',
+                    orm.FreeProxy.http_status == 200)).all()
+                for free_proxy in free_proxies:
+                    red_proxy = {'id': free_proxy.id, 'ip': free_proxy.ip, 'port': free_proxy.port,
+                        'protocol': free_proxy.protocol}
+                    red.sadd(red_keys.froxly_base_check_free_proxy, json.dumps(red_proxy))
+                ses.close()
+                conn.close()
+                rnd_free_proxy = srandmember(red_keys.froxly_base_check_free_proxy)
         if rnd_free_proxy is not None:
-            rnd_free_proxy_socket.send_unicode(json.dumps({'result': json.loads(rnd_free_proxy.decode('utf-8'))}))
+            froxly_data_server_socket.send_unicode(json.dumps({'result': json.loads(rnd_free_proxy.decode('utf-8'))}))
         else:
+            froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
             nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
     def activate(msg):
         pass
     def deactivate(msg):
-        red_key = red_keys.froxly_free_proxy + str(msg['params']['proxy']['id'])
-        red.delete(red_key)
-        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
+        pass
     def check(msg):
         checker.base_check()
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
