@@ -7,9 +7,8 @@ import random
 from werp import orm
 from werp import nlog
 from werp.common import sockets
+from werp.common import red_keys
 
-expire_delta = datetime.timedelta(days=1)
-red_key_prfix = 'ugently_user_agent_value_'
 conn = None
 ses = None
 ctx = None
@@ -20,22 +19,18 @@ try:
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     while True:
         msg = rnd_user_agent_socket.recv_unicode()
-        red_keys = red.keys(red_key_prfix + '*')
         rnd_user_agent = None
-        if len(red_keys) > 0:
-            rnd_key = random.choice(red_keys)
-            rnd_user_agent = red.get(rnd_key)
+        if red.exists(red_keys.ugently_user_agent_value) and red.scard(red_keys.ugently_user_agent_value) > 0:
+            rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
         else:
             conn = orm.null_engine.connect()
             ses = orm.sescls(bind=conn)
             user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
             for user_agent in user_agents:
-                red.set(red_key_prfix + str(user_agent.id), user_agent.value)
-                red.expire(user_agent.id, expire_delta)
+                red.sadd(red_keys.ugently_user_agent_value, user_agent.value)
             ses.close()
             conn.close()
-            rnd_key = random.choice(red.keys(red_key_prfix + '*'))
-            rnd_user_agent = red.get(rnd_key)
+            rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
         if rnd_user_agent is not None:
             rnd_user_agent_socket.send_unicode(rnd_user_agent.decode('utf-8'))
         else:
