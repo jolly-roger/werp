@@ -20,11 +20,11 @@ try:
         msg = rnd_free_proxy_socket.recv_unicode()
         froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd', 'params': None}))
         #rnd_free_proxy = json.loads(froxly_data_server_socket.recv_unicode())
-        froxly_data_server_socket.recv_unicode()
+        r = froxly_data_server_socket.recv_unicode()
         #if rnd_free_proxy is not None:        
         #    rnd_free_proxy_socket.send_unicode(json.dumps(rnd_free_proxy['result']))
         #else:
-        rnd_free_proxy_socket.send_unicode('Yo!!!')
+        rnd_free_proxy_socket.send_unicode(r)
         #    nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
 except:
     nlog.info('froxly - rnd free proxy error', traceback.format_exc())
