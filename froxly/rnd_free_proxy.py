@@ -23,7 +23,7 @@ try:
         if rnd_free_proxy is not None:        
             rnd_free_proxy_socket.send_unicode(json.dumps(rnd_free_proxy['result']))
         else:
-            rnd_free_proxy_socket.send_unicode('')
+            rnd_free_proxy_socket.send_unicode(json.dumps(None))
             nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
 except:
     nlog.info('froxly - rnd free proxy error', traceback.format_exc())
