@@ -11,8 +11,6 @@ from werp.common import sockets
 
 ctx = None
 try:
-    start_dt = datetime.datetime.now()
-    start_time = time.time()
     ctx = zmq.Context()
     froxly_data_server_socket = ctx.socket(zmq.REQ)
     froxly_data_server_socket.connect(sockets.froxly_data_server)
