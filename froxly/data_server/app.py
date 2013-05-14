@@ -25,14 +25,14 @@ try:
         if msg is not None and msg['params'] is not None and 'url' in msg['params']:
             url_red_key = red_keys.froxly_url_free_proxy_prefix + msg['params']['url']
             if red.exists(url_red_key) and red.scard(url_red_key) > 0:
-                rnd_free_proxy = srandmember(url_red_key)
+                rnd_free_proxy = red.srandmember(url_red_key)
             else:
                 nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
                 rnd_free_proxy = rnd(None)
         else:
             if red.exists(red_keys.froxly_base_check_free_proxy) and \
                 red.scard(red_keys.froxly_base_check_free_proxy) > 0:
-                rnd_free_proxy = srandmember(red_keys.froxly_base_check_free_proxy)
+                rnd_free_proxy = red.srandmember(red_keys.froxly_base_check_free_proxy)
             else:
                 conn = orm.null_engine.connect()
                 ses = orm.sescls(bind=conn)
@@ -44,7 +44,7 @@ try:
                     red.sadd(red_keys.froxly_base_check_free_proxy, json.dumps(red_proxy))
                 ses.close()
                 conn.close()
-                rnd_free_proxy = srandmember(red_keys.froxly_base_check_free_proxy)
+                rnd_free_proxy = red.srandmember(red_keys.froxly_base_check_free_proxy)
         if rnd_free_proxy is not None:
             froxly_data_server_socket.send_unicode(json.dumps({'result': json.loads(rnd_free_proxy.decode('utf-8'))}))
         else:
