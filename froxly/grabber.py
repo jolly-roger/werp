@@ -91,7 +91,7 @@ try:
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
-    red.lpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
+    red.rpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('froxly - grabber error', traceback.format_exc())
     if ses is not None:

@@ -57,18 +57,28 @@ try:
     def check(msg):
         checker.base_check()
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
-    def list_for_domain(msg):
-        checker.url_check(msg['params']['domain'])
+    def list_for_url(msg):
+        checker.url_check(msg['params']['url'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
-    def rnd_for_domain(msg):
-        pass
+    def deactivate_for_url(msg):
+        if 'proxy' in msg['params'] and 'url' in msg['params']:
+            red.srem(red_keys.froxly_url_free_proxy_prefix + msg['params']['url'], msg['params']['proxy'])
+        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
+    def rnd_for_url(msg):
+        rnd(msg)
+    def clear_for_url(msg):
+        if 'url' in msg['params']:
+            red.delete(red_keys.froxly_url_free_proxy_prefix + msg['params']['url'])
+        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     methods = {}
     methods[rnd.__name__] = rnd
     methods[activate.__name__] = activate
     methods[deactivate.__name__] = deactivate
     methods[check.__name__] = check
-    methods[list_for_domain.__name__] = list_for_domain
-    methods[rnd_for_domain.__name__] = rnd_for_domain
+    methods[list_for_url.__name__] = list_for_url
+    methods[deactivate_for_url.__name__] = deactivate_for_url
+    methods[rnd_for_url.__name__] = rnd_for_url
+    methods[clear_for_url.__name__] = clear_for_url
     checker.init()
     while True:
         try:
