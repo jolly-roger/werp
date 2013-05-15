@@ -21,6 +21,7 @@ from .. import trainstation
 
 logger = logging.getLogger('werp_error.uatrains_spider')
 
+domain = 'http://www.uz.gov.ua'
 #http://www.uz.gov.ua/passengers/timetables/?ntrain=25090&by_id=1
 ua_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'
 ru_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'

@@ -18,7 +18,8 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
-from werp.froxly.data_server import common as data_server_common
+
+from . import common as data_server_common
 
 worker_pool = 32
 expire_delta = datetime.timedelta(days=1)

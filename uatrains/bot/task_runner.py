@@ -62,11 +62,11 @@ try:
     froxly_data_server_socket = ctx.socket(zmq.REQ)
     froxly_data_server_socket.connect(sockets.froxly_data_server)
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_domain', 'params':
-        {'domain': ''}}))
-    
-    
-    
-    rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
+        {'domain': drv.southwest.doamin}}))
+    froxly_data_server_socket.recv_unicode()
+    froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_domain', 'params':
+        {'domain': drv.passengers.doamin}}))
+    froxly_data_server_socket.recv_unicode()
     #conn = orm.null_engine.connect()
     #ses = orm.sescls(bind=conn)
     #tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()

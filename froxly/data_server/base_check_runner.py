@@ -22,7 +22,7 @@ try:
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
-    red.lpush(red_keys.froxly_base_check_log, '%s %s' % (str(start_dt), str(exec_delta)))
+    red.lpush(red_keys.exec_time_log, 'froxly base check %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('froxly - base check fatal', traceback.format_exc())
     if ctx is not None:

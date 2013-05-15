@@ -1,12 +1,15 @@
 import urllib.request
 import urllib.parse
 from lxml import etree
+import datetime
+import time
 import io
 import re
 import random
 import traceback
 import zmq
 import json
+import redis
 
 from werp import orm
 from werp import nlog
@@ -19,6 +22,8 @@ conn = None
 ses = None
 ctx = None
 try:
+    start_dt = datetime.datetime.now()
+    start_time = time.time()
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     res = None
@@ -82,6 +87,10 @@ try:
             ses.commit()
     ses.close()
     conn.close()
+    end_time = time.time()
+    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
+    red.lpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('froxly - grabber error', traceback.format_exc())
     if ses is not None:

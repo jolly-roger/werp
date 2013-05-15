@@ -21,7 +21,7 @@ from .. import trainstation
 
 logger = logging.getLogger('werp_error.uatrains_spider')
 
-
+domain = 'http://www.swrailway.gov.ua'
 ua_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ua'
 ru_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ru'
 en_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_en'
