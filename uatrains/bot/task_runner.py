@@ -42,15 +42,18 @@ def run_task(task_id):
                         task.http_status = -1
                     else:
                         task.http_status = -11
-                        #domain = ''
-                        #if task.drv == task_drvs.passengers:
-                        #    domain = drv.passengers.domain
-                        #else:
-                        #    domain = drv.southwest.domain
-                        #sproxy = data_server_common.jproxy2sproxy(e.proxy)
-                        #froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
-                        #    {'url': domain, 'proxy': sproxy}}))
-                        #froxly_data_server_socket.recv_unicode()
+                        domain = ''
+                        if task.drv == task_drvs.passengers:
+                            domain = drv.passengers.domain
+                        else:
+                            domain = drv.southwest.domain
+                        sproxy = data_server_common.jproxy2sproxy(e.proxy)
+                        ctx = zmq.Context()
+                        froxly_data_server_socket = ctx.socket(zmq.REQ)
+                        froxly_data_server_socket.connect(sockets.froxly_data_server)
+                        froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
+                            {'url': domain, 'proxy': sproxy}}))
+                        froxly_data_server_socket.recv_unicode()
             except Exception as e:
                 task.http_status = -2
                 task.http_status_reason = str(e)
