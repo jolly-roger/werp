@@ -132,7 +132,6 @@ def result_manager():
                 else:
                     if red.exists(task['red_key']) and red.sismember(task['red_key'], sproxy):
                         red.srem(task['red_key'], sproxy)
-                        nlog.info('froxly - checher info', 'Proxy was removed: ' + sproxy)
                 proxy_count = proxy_count - 1
                 if proxy_count == 0:
                     break

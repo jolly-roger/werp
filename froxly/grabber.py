@@ -27,11 +27,14 @@ try:
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REQ)
     rnd_user_agent_socket.connect(sockets.rnd_user_agent)
-    rnd_free_proxy_socket = ctx.socket(zmq.REQ)
-    rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
+    froxly_data_server_socket = ctx.socket(zmq.REQ)
+    froxly_data_server_socket.connect(sockets.froxly_data_server)
     while res is None and try_count < TRY_COUNT:
-        rnd_free_proxy_socket.send_unicode('')
-        rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
+        rnd_proxy = None
+        froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd', 'params': None}))
+        rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
+        if rnd_proxy_res is not None:
+            rnd_proxy = rnd_proxy_res['result']        
         rnd_user_agent_socket.send_unicode('')
         rnd_user_agent = rnd_user_agent_socket.recv_unicode()
         req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})
@@ -81,8 +84,6 @@ try:
     conn.close()
 except:
     nlog.info('froxly - grabber error', traceback.format_exc())
-    if ctx is not None:
-        ctx.destroy()
     if ses is not None:
         ses.close()
     if conn is not None:    
