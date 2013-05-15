@@ -15,6 +15,7 @@ from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
+from werp.common import red_keys
 
 TRY_COUNT = 11
 url = 'http://www.hidemyass.com/proxy-list/'
