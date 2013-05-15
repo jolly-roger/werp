@@ -58,7 +58,6 @@ try:
         checker.base_check()
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_domain(msg):
-        nlog.info('froxly - data server info', msg['params']['domain'])
         checker.url_check(msg['params']['domain'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def rnd_for_domain(msg):
