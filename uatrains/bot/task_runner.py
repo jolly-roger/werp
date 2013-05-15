@@ -63,10 +63,10 @@ try:
     froxly_data_server_socket = ctx.socket(zmq.REQ)
     froxly_data_server_socket.connect(sockets.froxly_data_server)
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_domain', 'params':
-        {'domain': drv.southwest.doamin}}))
+        {'domain': drv.southwest.domain}}))
     froxly_data_server_socket.recv_unicode()
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_domain', 'params':
-        {'domain': drv.passengers.doamin}}))
+        {'domain': drv.passengers.domain}}))
     froxly_data_server_socket.recv_unicode()
     #conn = orm.null_engine.connect()
     #ses = orm.sescls(bind=conn)
