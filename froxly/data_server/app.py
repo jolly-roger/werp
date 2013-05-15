@@ -9,9 +9,8 @@ from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
-
-from . import checker
-from . import common as data_server_common
+from werp.froxly.data_server import checker
+from werp.froxly.data_server import common as data_server_common
 
 expire_delta = datetime.timedelta(days=1)
 conn = None
