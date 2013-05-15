@@ -237,10 +237,14 @@ def get_train_data(tid):
 		ctx = zmq.Context()
 		rnd_user_agent_socket = ctx.socket(zmq.REQ)
 		rnd_user_agent_socket.connect(sockets.rnd_user_agent)
-		rnd_free_proxy_socket = ctx.socket(zmq.REQ)
-		rnd_free_proxy_socket.connect(sockets.rnd_free_proxy)
-		rnd_free_proxy_socket.send_unicode('')
-		rnd_proxy = json.loads(rnd_free_proxy_socket.recv_unicode())
+		froxly_data_server_socket = ctx.socket(zmq.REQ)
+		froxly_data_server_socket.connect(sockets.froxly_data_server)
+		
+		froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd', 'params': None}))
+		rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
+		rnd_proxy = None
+		if rnd_proxy_res is not None:
+			rnd_proxy = rnd_proxy_res['result']
 		rnd_user_agent_socket.send_unicode('')
 		rnd_user_agent = rnd_user_agent_socket.recv_unicode()
 		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
@@ -258,6 +262,7 @@ def get_train_data(tid):
 		en_res = urllib.request.urlopen(en_req, timeout=timeouts.uatrains_bot)
 		en_res_data = en_res.read().decode('utf-8')
 		en_dom_tree = etree.parse(io.StringIO(en_res_data), parser)
+		
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
 			if not is_empty(e):

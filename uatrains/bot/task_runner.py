@@ -74,16 +74,16 @@ try:
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
         {'url': drv.passengers.domain}}))
     froxly_data_server_socket.recv_unicode()
-    #conn = orm.null_engine.connect()
-    #ses = orm.sescls(bind=conn)
-    #tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
-    #task_ids = []
-    #for t in tasks:
-    #    task_ids.append(t.id)
-    #ses.close()
-    #conn.close()
-    #with multiprocessing.Pool(processes=16) as ppool:
-    #    ppool.map(run_task, [task_id for task_id in task_ids])    
+    conn = orm.null_engine.connect()
+    ses = orm.sescls(bind=conn)
+    tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
+    task_ids = []
+    for t in tasks:
+        task_ids.append(t.id)
+    ses.close()
+    conn.close()
+    with multiprocessing.Pool(processes=16) as ppool:
+        ppool.map(run_task, [task_id for task_id in task_ids])
     #for task_id in task_ids:
     #    thr = threading.Thread(target=run_task, args=(task_id,))
     #    thr.setDaemon(True)
