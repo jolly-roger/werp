@@ -54,6 +54,9 @@ def run_task(task_id):
                 elif task.drv == task_drvs.passengers:
                     drv.passengers.get_train_data(task.data, rnd_proxy, rnd_user_agent)
             except werp.froxly.errors.ProxyError as e:
+                
+                nlog.info('uatrains bot - task runner info', traceback.format_exc())
+                
                 exc = e
                 task.http_status_reason = str(e)
                 if e.proxy is not None:
