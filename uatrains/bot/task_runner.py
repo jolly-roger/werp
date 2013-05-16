@@ -50,9 +50,9 @@ def run_task(task_id):
                 exc = None
                 try:
                     if task.drv == task_drvs.southwest:
-                        drv.southwest.get_train_data(task.data, rnd_proxy)
+                        drv.southwest.get_train_data(task.data, rnd_proxy, rnd_user_agent)
                     elif task.drv == task_drvs.passengers:
-                        drv.passengers.get_train_data(task.data, rnd_proxy)
+                        drv.passengers.get_train_data(task.data, rnd_proxy, rnd_user_agent)
                 except werp.froxly.errors.ProxyError as e:
                     exc = e
                     task.http_status_reason = str(e)
@@ -113,9 +113,5 @@ try:
     conn.close()
     with multiprocessing.Pool(processes=16) as ppool:
         ppool.map(run_task, [task_id for task_id in task_ids])
-    #for task_id in task_ids:
-    #    thr = threading.Thread(target=run_task, args=(task_id,))
-    #    thr.setDaemon(True)
-    #    thr.start()
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
