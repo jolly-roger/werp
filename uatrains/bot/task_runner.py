@@ -88,21 +88,21 @@ def run_task(task_id):
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
 
 try:
-    ctx = zmq.Context()
-    froxly_data_server_socket = ctx.socket(zmq.REQ)
-    froxly_data_server_socket.connect(sockets.froxly_data_server)
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
-        {'url': drv.southwest.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
-        {'url': drv.passengers.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-        {'url': drv.southwest.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-        {'url': drv.passengers.domain}}))
-    froxly_data_server_socket.recv_unicode()
+    #ctx = zmq.Context()
+    #froxly_data_server_socket = ctx.socket(zmq.REQ)
+    #froxly_data_server_socket.connect(sockets.froxly_data_server)
+    #froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
+    #    {'url': drv.southwest.domain}}))
+    #froxly_data_server_socket.recv_unicode()
+    #froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
+    #    {'url': drv.passengers.domain}}))
+    #froxly_data_server_socket.recv_unicode()
+    #froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
+    #    {'url': drv.southwest.domain}}))
+    #froxly_data_server_socket.recv_unicode()
+    #froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
+    #    {'url': drv.passengers.domain}}))
+    #froxly_data_server_socket.recv_unicode()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
