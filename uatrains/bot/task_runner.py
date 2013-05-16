@@ -6,6 +6,9 @@ import threading
 import socket
 import zmq
 import json
+import time
+import datetime
+import redis
 
 import werp.froxly.errors
 from werp import orm
@@ -91,10 +94,13 @@ def run_task(task_id):
             ses.commit()
         ses.close()
         conn.close()
+        ctx.destroy()
     except:
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
 
 try:
+    start_dt = datetime.datetime.now()
+    start_time = time.time()
     ctx = zmq.Context()
     froxly_data_server_socket = ctx.socket(zmq.REQ)
     froxly_data_server_socket.connect(sockets.froxly_data_server)
@@ -110,6 +116,7 @@ try:
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
         {'url': drv.passengers.domain}}))
     froxly_data_server_socket.recv_unicode()
+    ctx.destroy()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
@@ -120,5 +127,9 @@ try:
     conn.close()
     with multiprocessing.Pool(processes=16) as ppool:
         ppool.map(run_task, [task_id for task_id in task_ids])
+    end_time = time.time()
+    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
+    red.rpush(red_keys.exec_time_log, 'uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
