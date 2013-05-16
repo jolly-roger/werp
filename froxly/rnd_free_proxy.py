@@ -27,5 +27,3 @@ try:
             nlog.info('froxly - rnd free proxy error', 'Random free proxy is None')
 except:
     nlog.info('froxly - rnd free proxy error', traceback.format_exc())
-    if ctx is not None:
-        ctx.destroy()    

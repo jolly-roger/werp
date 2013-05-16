@@ -37,8 +37,6 @@ try:
             nlog.info('ugently - rnd user agent error', 'Random user agent is None')
 except:
     nlog.info('ugently - rnd user agent error', traceback.format_exc())
-    if ctx is not None:
-        ctx.destroy()
     if ses is not None:
         ses.close()
     if conn is not None:    

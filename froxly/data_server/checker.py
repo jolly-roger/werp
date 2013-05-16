@@ -42,13 +42,10 @@ def base_ventilator(url):
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
         froxly_checker_finish.recv_unicode()
-        ctx.destroy()
         ses.close()
         conn.close()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
@@ -70,11 +67,8 @@ def url_ventilator(url):
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
         froxly_checker_finish.recv_unicode()
-        ctx.destroy()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.destroy()
 def worker():
     ctx = None
     try:
@@ -103,8 +97,6 @@ def worker():
             froxly_checker_res.send_unicode(json.dumps(task))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.destroy()
 def result_manager():
     conn = None
     ses = None
@@ -138,8 +130,6 @@ def result_manager():
             froxly_checker_finish.send_unicode(str(0))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    

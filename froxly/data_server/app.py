@@ -90,8 +90,6 @@ try:
             nlog.info('froxly - data server error', traceback.format_exc())
 except:
     nlog.info('froxly - data server fatal', traceback.format_exc())
-    if ctx is not None:
-        ctx.destroy()
     if ses is not None:
         ses.close()
     if conn is not None:    

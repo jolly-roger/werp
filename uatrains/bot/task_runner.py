@@ -26,7 +26,6 @@ TRY_COUNT = 5
 def run_task(task_id):
     conn = None
     ses = None
-    ctx = None
     try:
         ctx = zmq.Context()
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
@@ -95,13 +94,10 @@ def run_task(task_id):
                 try_count += 1
             task.status = task_status.completed
             ses.commit()
-        ctx.destroy()
         ses.close()
         conn.close()
     except:
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
-        if ctx is not None:
-            ctx.destroy()
         if ses is not None:
             ses.close()
         if conn is not None:    
@@ -125,7 +121,6 @@ try:
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
         {'url': drv.passengers.domain}}))
     froxly_data_server_socket.recv_unicode()
-    ctx.destroy()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
