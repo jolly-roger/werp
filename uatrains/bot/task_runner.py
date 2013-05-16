@@ -35,63 +35,57 @@ def run_task(task_id):
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
         if task is not None:
-            
-            nlog.info('uatrains bot - task runner info', '0')
-            
             task.status = task_status.running
             ses.commit()
             task.http_status = 0
-            #try_count = 0
-            #while task.http_status <= 0 and try_count < TRY_COUNT:
-            rnd_user_agent_socket.send_unicode('')
-            rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd', 'params': None}))
-            rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
-            rnd_proxy = None
-            if rnd_proxy_res is not None:
-                rnd_proxy = rnd_proxy_res['result']
-            exc = None
-            
-            nlog.info('uatrains bot - task runner info', '1')
-            
-            try:
+            try_count = 0
+            while task.http_status <= 0 and try_count < TRY_COUNT:
+                rnd_user_agent_socket.send_unicode('')
+                rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+                domain = None
                 if task.drv == task_drvs.southwest:
-                    drv.southwest.get_train_data(task.data, rnd_proxy, rnd_user_agent)
+                    domain = drv.southwest.domain
                 elif task.drv == task_drvs.passengers:
-                    drv.passengers.get_train_data(task.data, rnd_proxy, rnd_user_agent)
-            except werp.froxly.errors.ProxyError as e:
-                
-                nlog.info('uatrains bot - task runner info', traceback.format_exc())
-                
-                exc = e
-                task.http_status_reason = str(e)
-                if e.proxy is not None:
-                    if isinstance(e.base_exception, HTTPError):
-                        task.http_status = -1
-                    else:
-                        task.http_status = -11
-                        domain = ''
-                        if task.drv == task_drvs.passengers:
-                            domain = drv.passengers.domain
+                    domain = drv.passengers.domain
+                froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd_for_url', 'params':
+                    {'url': domain}}))
+                rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
+                rnd_proxy = None
+                if rnd_proxy_res is not None:
+                    rnd_proxy = rnd_proxy_res['result']
+                exc = None
+                try:
+                    if task.drv == task_drvs.southwest:
+                        drv.southwest.get_train_data(task.data, rnd_proxy, rnd_user_agent)
+                    elif task.drv == task_drvs.passengers:
+                        drv.passengers.get_train_data(task.data, rnd_proxy, rnd_user_agent)
+                except werp.froxly.errors.ProxyError as e:
+                    exc = e
+                    task.http_status_reason = str(e)
+                    if e.proxy is not None:
+                        if isinstance(e.base_exception, HTTPError):
+                            task.http_status = -1
                         else:
-                            domain = drv.southwest.domain
-                        sproxy = data_server_common.jproxy2sproxy(e.proxy)
-                        froxly_data_server_socket = ctx.socket(zmq.REQ)
-                        froxly_data_server_socket.connect(sockets.froxly_data_server)
-                        froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
-                            {'url': domain, 'proxy': sproxy}}))
-                        froxly_data_server_socket.recv_unicode()
-            except Exception as e:
-                exc = e
-                task.http_status = -2
-                task.http_status_reason = str(e)
-                nlog.info('uatrains bot - task runner error', traceback.format_exc())
-            if exc is None:
-                task.http_status = 200
-            
-            nlog.info('uatrains bot - task runner info', '100')    
-            
-            #try_count += 1
+                            task.http_status = -11
+                            domain = ''
+                            if task.drv == task_drvs.passengers:
+                                domain = drv.passengers.domain
+                            else:
+                                domain = drv.southwest.domain
+                            sproxy = data_server_common.jproxy2sproxy(e.proxy)
+                            froxly_data_server_socket = ctx.socket(zmq.REQ)
+                            froxly_data_server_socket.connect(sockets.froxly_data_server)
+                            froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
+                                {'url': domain, 'proxy': sproxy}}))
+                            froxly_data_server_socket.recv_unicode()
+                except Exception as e:
+                    exc = e
+                    task.http_status = -2
+                    task.http_status_reason = str(e)
+                    nlog.info('uatrains bot - task runner error', traceback.format_exc())
+                if exc is None:
+                    task.http_status = 200
+                try_count += 1
             task.status = task_status.completed
             ses.commit()
         ses.close()

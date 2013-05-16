@@ -223,7 +223,6 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 def get_train_data(tid, rnd_proxy, rnd_user_agent):
 	ses = None
 	conn = None
-	rnd_proxy = None
 	try:
 		conn = orm.null_engine.connect()
 		ses = orm.sescls(bind=conn)

@@ -23,7 +23,7 @@ try:
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     def rnd(msg):
         rnd_free_proxy = None
-        if msg is not None and msg['params'] is not None and 'url' in msg['params']:
+        if msg is not None and msg['params'] is not None and 'url' in msg['params'] and msg['params']['url'] is not None:
             url_red_key = red_keys.froxly_url_free_proxy_prefix + msg['params']['url']
             if red.exists(url_red_key) and red.scard(url_red_key) > 0:
                 rnd_free_proxy = red.srandmember(url_red_key)
