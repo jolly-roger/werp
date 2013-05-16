@@ -35,6 +35,9 @@ def run_task(task_id):
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
         if task is not None:
+            
+            nlog.info('uatrains bot - task runner info', '0')
+            
             task.status = task_status.running
             ses.commit()
             task.http_status = 0
@@ -48,6 +51,9 @@ def run_task(task_id):
             if rnd_proxy_res is not None:
                 rnd_proxy = rnd_proxy_res['result']
             exc = None
+            
+            nlog.info('uatrains bot - task runner info', '1')
+            
             try:
                 if task.drv == task_drvs.southwest:
                     drv.southwest.get_train_data(task.data, rnd_proxy, rnd_user_agent)
@@ -82,6 +88,9 @@ def run_task(task_id):
                 nlog.info('uatrains bot - task runner error', traceback.format_exc())
             if exc is None:
                 task.http_status = 200
+            
+            nlog.info('uatrains bot - task runner info', '100')    
+            
             #try_count += 1
             task.status = task_status.completed
             ses.commit()
