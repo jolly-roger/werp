@@ -24,6 +24,9 @@ from werp.froxly.data_server import common as data_server_common
 TRY_COUNT = 5
 
 def run_task(task_id):
+    conn = None
+    ses = None
+    ctx = None
     try:
         ctx = zmq.Context()
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
@@ -92,11 +95,17 @@ def run_task(task_id):
                 try_count += 1
             task.status = task_status.completed
             ses.commit()
+        ctx.destroy()
         ses.close()
         conn.close()
-        ctx.destroy()
     except:
         nlog.info('uatrains bot - task runner error', traceback.format_exc())
+        if ctx is not None:
+            ctx.destroy()
+        if ses is not None:
+            ses.close()
+        if conn is not None:    
+            conn.close()
 
 try:
     start_dt = datetime.datetime.now()
