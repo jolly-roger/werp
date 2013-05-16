@@ -26,7 +26,6 @@ expire_delta = datetime.timedelta(days=1)
 def base_ventilator(url):
     conn = None
     ses = None
-    ctx = None
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PUSH)
@@ -51,7 +50,6 @@ def base_ventilator(url):
         if conn is not None:    
             conn.close()
 def url_ventilator(url):
-    ctx = None
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PUSH)
@@ -70,7 +68,6 @@ def url_ventilator(url):
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
 def worker():
-    ctx = None
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PULL)
@@ -100,7 +97,6 @@ def worker():
 def result_manager():
     conn = None
     ses = None
-    ctx = None
     try:
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         conn = orm.null_engine.connect()

@@ -9,7 +9,6 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
 
-ctx = None
 try:
     start_dt = datetime.datetime.now()
     start_time = time.time()

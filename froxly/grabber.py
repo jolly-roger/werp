@@ -21,7 +21,6 @@ TRY_COUNT = 11
 url = 'http://www.hidemyass.com/proxy-list/'
 conn = None
 ses = None
-ctx = None
 try:
     start_dt = datetime.datetime.now()
     start_time = time.time()

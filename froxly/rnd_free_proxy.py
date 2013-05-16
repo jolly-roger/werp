@@ -9,7 +9,6 @@ from werp import orm
 from werp import nlog
 from werp.common import sockets
 
-ctx = None
 try:
     ctx = zmq.Context()
     froxly_data_server_socket = ctx.socket(zmq.REQ)
