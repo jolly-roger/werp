@@ -19,7 +19,6 @@ try:
     froxly_data_server_socket.connect(sockets.froxly_data_server)
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'check', 'params': None}))
     froxly_data_server_socket.recv_unicode()
-    ctx.term()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
     red = redis.StrictRedis(unix_socket_path=sockets.redis)

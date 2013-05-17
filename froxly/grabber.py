@@ -88,7 +88,6 @@ try:
             ses.commit()
     ses.close()
     conn.close()
-    ctx.term()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
