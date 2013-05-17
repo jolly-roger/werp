@@ -11,6 +11,7 @@ from werp.common import red_keys
 
 conn = None
 ses = None
+ctx = None
 try:
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REP)
@@ -40,3 +41,5 @@ except:
         ses.close()
     if conn is not None:    
         conn.close()
+    if ctx is not None:
+        ctx.term()

@@ -22,21 +22,21 @@ from werp.froxly.data_server import common as data_server_common
 
 worker_pool = 32
 expire_delta = datetime.timedelta(days=1)
+ctx = zmq.Context()
+froxly_checker_req_push = ctx.socket(zmq.PUSH)
+froxly_checker_req_push.bind(sockets.froxly_checker_req)
 
 def base_ventilator(url):
     conn = None
     ses = None
     try:
-        ctx = zmq.Context()
-        froxly_checker_req = ctx.socket(zmq.PUSH)
-        froxly_checker_req.bind(sockets.froxly_checker_req)
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
         for proxy in proxies:
             task = {'url': url, 'red_key': red_keys.froxly_base_check_free_proxy,
                 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
-            froxly_checker_req.send_unicode(json.dumps(task))
+            froxly_checker_req_push.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
@@ -51,16 +51,13 @@ def base_ventilator(url):
             conn.close()
 def url_ventilator(url):
     try:
-        ctx = zmq.Context()
-        froxly_checker_req = ctx.socket(zmq.PUSH)
-        froxly_checker_req.bind(sockets.froxly_checker_req)
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
         for p in proxies:
             proxy = json.loads(p.decode('utf-8'))
             task = {'url': url, 'red_key': red_keys.froxly_url_free_proxy_prefix + url,
                 'proxy': {'id': proxy['id'], 'ip': proxy['ip'], 'port': proxy['port'], 'protocol': proxy['protocol']}}
-            froxly_checker_req.send_unicode(json.dumps(task))
+            froxly_checker_req_push.send_unicode(json.dumps(task))
         froxly_checker_finish = ctx.socket(zmq.REQ)
         froxly_checker_finish.connect(sockets.froxly_checker_finish)
         froxly_checker_finish.send_unicode(str(len(proxies)))
@@ -68,16 +65,17 @@ def url_ventilator(url):
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
 def worker():
+    ctx = None
     try:
         ctx = zmq.Context()
-        froxly_checker_req = ctx.socket(zmq.PULL)
-        froxly_checker_req.connect(sockets.froxly_checker_req)
+        froxly_checker_req_pull = ctx.socket(zmq.PULL)
+        froxly_checker_req_pull.connect(sockets.froxly_checker_req)
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         froxly_checker_res = ctx.socket(zmq.PUSH)
         froxly_checker_res.connect(sockets.froxly_checker_res)
         while True:
-            task = json.loads(froxly_checker_req.recv_unicode())
+            task = json.loads(froxly_checker_req_pull.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
@@ -94,9 +92,12 @@ def worker():
             froxly_checker_res.send_unicode(json.dumps(task))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
+        if ctx is not None:
+            ctx.term()
 def result_manager():
     conn = None
     ses = None
+    ctx = None
     try:
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         conn = orm.null_engine.connect()
@@ -130,6 +131,8 @@ def result_manager():
             ses.close()
         if conn is not None:    
             conn.close()
+        if ctx is not None:
+            ctx.term()
 def base_check(url = 'http://user-agent-list.com'):
     try:
         base_ventilator(url)

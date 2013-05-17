@@ -15,6 +15,7 @@ from werp.froxly.data_server import common as data_server_common
 expire_delta = datetime.timedelta(days=1)
 conn = None
 ses = None
+ctx = None
 try:
     ctx = zmq.Context()
     froxly_data_server_socket = ctx.socket(zmq.REP)
@@ -93,3 +94,5 @@ except:
         ses.close()
     if conn is not None:    
         conn.close()
+    if ctx is not None:
+        ctx.term()

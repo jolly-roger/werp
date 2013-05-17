@@ -21,6 +21,7 @@ TRY_COUNT = 11
 url = 'http://www.hidemyass.com/proxy-list/'
 conn = None
 ses = None
+ctx = None
 try:
     start_dt = datetime.datetime.now()
     start_time = time.time()
@@ -87,6 +88,7 @@ try:
             ses.commit()
     ses.close()
     conn.close()
+    ctx.term()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
@@ -97,3 +99,5 @@ except:
         ses.close()
     if conn is not None:    
         conn.close()
+    if ctx is not None:
+        ctx.term()

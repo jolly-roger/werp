@@ -21,3 +21,4 @@ try:
         conn.close()
 except:
     nlog.info('req_logger - log error', traceback.format_exc())
+    ctx.term()
