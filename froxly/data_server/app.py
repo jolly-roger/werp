@@ -94,5 +94,3 @@ except:
         ses.close()
     if conn is not None:    
         conn.close()
-    if ctx is not None:
-        ctx.term()

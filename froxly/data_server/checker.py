@@ -49,8 +49,6 @@ def base_ventilator(url):
             ses.close()
         if conn is not None:    
             conn.close()
-        if ctx is not None:
-            ctx.term()
 def url_ventilator(url):
     ctx = None
     try:
@@ -70,8 +68,6 @@ def url_ventilator(url):
         froxly_checker_finish.recv_unicode()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.term()
 def worker():
     ctx = None
     try:
@@ -100,8 +96,6 @@ def worker():
             froxly_checker_res.send_unicode(json.dumps(task))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
-        if ctx is not None:
-            ctx.term()
 def result_manager():
     conn = None
     ses = None
@@ -139,8 +133,6 @@ def result_manager():
             ses.close()
         if conn is not None:    
             conn.close()
-        if ctx is not None:
-            ctx.term()
 def base_check(url = 'http://user-agent-list.com'):
     try:
         base_ventilator(url)

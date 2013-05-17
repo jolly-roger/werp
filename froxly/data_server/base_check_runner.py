@@ -25,5 +25,3 @@ try:
     red.rpush(red_keys.exec_time_log, 'froxly base check %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('froxly - base check fatal', traceback.format_exc())
-    if ctx is not None:
-        ctx.term()

@@ -103,8 +103,6 @@ def run_task(task_id):
             ses.close()
         if conn is not None:    
             conn.close()
-        if ctx is not None:
-            ctx.term()
 
 try:
     start_dt = datetime.datetime.now()
