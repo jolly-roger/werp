@@ -26,7 +26,6 @@ TRY_COUNT = 5
 def run_task(task_id):
     conn = None
     ses = None
-    ctx = None
     try:
         ctx = zmq.Context()
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
@@ -82,7 +81,7 @@ def run_task(task_id):
                             froxly_data_server_socket = ctx.socket(zmq.REQ)
                             froxly_data_server_socket.connect(sockets.froxly_data_server)
                             froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
-                                {'url': domain, 'proxy': sproxy}}))
+                                {'url': domain, 'proxy': sproxy, 'reason': task.http_status_reason}}))
                             froxly_data_server_socket.recv_unicode()
                 except Exception as e:
                     exc = e

@@ -9,7 +9,7 @@ from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
-from werp.froxly.data_server import checker
+from werp.froxly.data_server.checker import app as checker_app
 from werp.froxly.data_server import common as data_server_common
 
 expire_delta = datetime.timedelta(days=1)
@@ -55,14 +55,16 @@ try:
     def deactivate(msg):
         pass
     def check(msg):
-        checker.base_check()
+        checker_app.base_check()
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_url(msg):
-        checker.url_check(msg['params']['url'])
+        checker_app.url_check(msg['params']['url'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def deactivate_for_url(msg):
         if 'proxy' in msg['params'] and 'url' in msg['params']:
             red.srem(red_keys.froxly_url_free_proxy_prefix + msg['params']['url'], msg['params']['proxy'])
+            if 'reason' in msg['params']:
+                red.sadd(red_keys.froxly_url_free_proxy_log_prefix + msg['params']['url'], msg['params']['reason'])
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def rnd_for_url(msg):
         rnd(msg)
@@ -79,7 +81,7 @@ try:
     methods[deactivate_for_url.__name__] = deactivate_for_url
     methods[rnd_for_url.__name__] = rnd_for_url
     methods[clear_for_url.__name__] = clear_for_url
-    checker.init()
+    checker_app.init()
     while True:
         try:
             msg = json.loads(froxly_data_server_socket.recv_unicode())
