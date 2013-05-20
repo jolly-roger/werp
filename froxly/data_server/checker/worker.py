@@ -29,7 +29,7 @@ def run():
             #req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
-                s.connect(url_obj.netloc, 80)
+                s.connect((url_obj.netloc, 80))
                 req_str = 'GET ' + url_obj.path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.send(req_str.encode())
                 res = s.recv(15).decode()
