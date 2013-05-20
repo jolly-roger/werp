@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import traceback
 import zmq
 import json
@@ -7,6 +8,7 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
+from werp.thirdparty import socks
 
 def run():
     try:
@@ -21,13 +23,21 @@ def run():
             task = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
-            req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
+            url_obj = urllib.parse.urlparse(task['url'])
+            s = socks.socksocket()
+            #req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
+            #req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
-                res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
-                res.read()
-                if res.getcode() == 200:
-                    task['proxy']['http_status'] = res.getcode()
+                s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
+                s.connect(url_obj.netloc, 80)
+                req_str = 'GET ' + url_obj.path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+                s.send(req_str.encode())
+                res = s.recv(15).decode()
+                #res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
+                #res.read()
+                #if res.getcode() == 200:
+                if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
+                    task['proxy']['http_status'] = 200
                     task['proxy']['http_status_reason'] = None
             except Exception as e:
                 task['proxy']['http_status'] = -1
