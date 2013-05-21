@@ -9,7 +9,6 @@ from werp import nlog
 from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
-from werp.thirdparty import socks
 
 def run():
     try:
@@ -25,7 +24,7 @@ def run():
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             try:
-                s = socks.socksocket()
+                s = socket.socket()
                 s.settimeout(timeouts.froxly_checker)
                 url_obj = urllib.parse.urlparse(task['url'])
                 #s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
@@ -33,7 +32,7 @@ def run():
                 #req_path = '/'
                 #if url_obj.path is not None and url_obj.path != '':
                 #    req_path = url_obj.path
-                req_str = 'GET ' + task['url'] + ' HTTP/1.0\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+                req_str = 'GET ' + task['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(req_str.encode())
                 res = s.recv(15).decode()
                 #s.shutdown(socket.SHUT_RDWR)
