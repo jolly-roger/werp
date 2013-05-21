@@ -3,6 +3,7 @@ import urllib.parse
 import traceback
 import zmq
 import json
+import socket
 
 from werp import nlog
 from werp.common import sockets
@@ -28,20 +29,17 @@ def run():
             #req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
             #req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
+                s.settimeout(timeout=timeouts.froxly_checker)
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((url_obj.netloc, 80))
                 req_path = '/'
                 if url_obj.path is not None and url_obj.path != '':
                     req_path = url_obj.path
                 req_str = 'GET ' + req_path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
-                
-                nlog.info('froxly - checher worker info', req_str)
-                
                 s.send(req_str.encode())
                 res = s.recv(15).decode()
-                
-                nlog.info('froxly - checher worker info', res)
-                
+                s.shutdown(socket.SHUT_RDWR)
+                s.close()
                 #res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
                 #res.read()
                 #if res.getcode() == 200:
