@@ -25,7 +25,6 @@ def run():
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             try:
-                nlog.info('froxly - checher worker info', task['proxy']['id'])
                 url_obj = urllib.parse.urlparse(task['url'])
                 s = socks.socksocket()
                 s.settimeout(timeouts.froxly_checker)
