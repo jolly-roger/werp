@@ -44,6 +44,7 @@ def run():
                 else:
                     nlog.info('froxly - checher worker response info', res)
                     task['proxy']['http_status'] = -1
+                    task['proxy']['http_status_reason'] = res
             except Exception as e:
                 task['proxy']['http_status'] = -1
                 task['proxy']['http_status_reason'] = str(e)
