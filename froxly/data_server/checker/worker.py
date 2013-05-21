@@ -25,6 +25,7 @@ def run():
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             try:
+                nlog.info('froxly - checher worker info', task['proxy']['id'])
                 url_obj = urllib.parse.urlparse(task['url'])
                 s = socks.socksocket()
                 s.settimeout(timeouts.froxly_checker)
@@ -36,7 +37,7 @@ def run():
                 req_str = 'GET ' + req_path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.send(req_str.encode())
                 res = s.recv(15).decode()
-                #s.shutdown(socket.SHUT_RDWR)
+                s.shutdown(socket.SHUT_RDWR)
                 s.close()
                 if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                     task['proxy']['http_status'] = 200
