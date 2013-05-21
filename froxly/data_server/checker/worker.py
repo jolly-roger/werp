@@ -24,9 +24,9 @@ def run():
             task = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-            url_obj = urllib.parse.urlparse(task['url'])
-            s = socks.socksocket()
             try:
+                url_obj = urllib.parse.urlparse(task['url'])
+                s = socks.socksocket()
                 s.settimeout(timeouts.froxly_checker)
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((url_obj.netloc, 80))
@@ -36,7 +36,7 @@ def run():
                 req_str = 'GET ' + req_path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.send(req_str.encode())
                 res = s.recv(15).decode()
-                s.shutdown(socket.SHUT_RDWR)
+                #s.shutdown(socket.SHUT_RDWR)
                 s.close()
                 if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                     task['proxy']['http_status'] = 200
