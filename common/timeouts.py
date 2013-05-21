@@ -1,3 +1,3 @@
 froxly_grabber = 7
-froxly_checker = 7
+froxly_checker = 7.0
 uatrains_bot = 7
