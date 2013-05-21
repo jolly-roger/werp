@@ -34,10 +34,10 @@ def run():
                 if url_obj.path is not None and url_obj.path != '':
                     req_path = url_obj.path
                 req_str = 'GET ' + req_path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
-                s.send(req_str.encode())
+                s.sendall(req_str.encode())
                 res = s.recv(15).decode()
                 #s.shutdown(socket.SHUT_RDWR)
-                #s.close()
+                s.close()
                 if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                     task['proxy']['http_status'] = 200
                     task['proxy']['http_status_reason'] = None
