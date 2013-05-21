@@ -20,15 +20,13 @@ def run():
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         froxly_checker_res = ctx.socket(zmq.PUSH)
         froxly_checker_res.connect(sockets.froxly_checker_res)
-        
-        s = socks.socksocket()
-        s.settimeout(timeouts.froxly_checker)
-        
         while True:
             task = json.loads(froxly_checker_req.recv_unicode())
             rnd_user_agent_socket.send_unicode('')
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             try:
+                s = socks.socksocket()
+                s.settimeout(timeouts.froxly_checker)
                 url_obj = urllib.parse.urlparse(task['url'])
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((url_obj.netloc, 80))
