@@ -29,7 +29,7 @@ def run():
             #req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
             #req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
-                s.settimeout(timeout=timeouts.froxly_checker)
+                s.settimeout(timeouts.froxly_checker)
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((url_obj.netloc, 80))
                 req_path = '/'
