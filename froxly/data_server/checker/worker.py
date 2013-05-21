@@ -26,8 +26,6 @@ def run():
             rnd_user_agent = rnd_user_agent_socket.recv_unicode()
             url_obj = urllib.parse.urlparse(task['url'])
             s = socks.socksocket()
-            #req = urllib.request.Request(task['url'], headers={'User-Agent': rnd_user_agent})#, method='HEAD')
-            #req.set_proxy(task['proxy']['ip'] + ':' + task['proxy']['port'], task['proxy']['protocol'])
             try:
                 s.settimeout(timeouts.froxly_checker)
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
@@ -40,12 +38,12 @@ def run():
                 res = s.recv(15).decode()
                 s.shutdown(socket.SHUT_RDWR)
                 s.close()
-                #res = urllib.request.urlopen(req, timeout=timeouts.froxly_checker)
-                #res.read()
-                #if res.getcode() == 200:
                 if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                     task['proxy']['http_status'] = 200
                     task['proxy']['http_status_reason'] = None
+                else:
+                    nlog.info('froxly - checher worker response info', res)
+                    task['proxy']['http_status'] = -1
             except Exception as e:
                 task['proxy']['http_status'] = -1
                 task['proxy']['http_status_reason'] = str(e)
