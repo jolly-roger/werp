@@ -30,7 +30,10 @@ def run():
             try:
                 s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((url_obj.netloc, 80))
-                req_str = 'GET ' + url_obj.path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+                req_path = '/'
+                if url_obj.path is not None and url_obj.path != '':
+                    req_path = url_obj.path
+                req_str = 'GET ' + req_path + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 
                 nlog.info('froxly - checher worker info', req_str)
                 
