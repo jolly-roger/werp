@@ -29,7 +29,7 @@ def run():
                 s.settimeout(timeouts.froxly_checker)
                 url_obj = urllib.parse.urlparse(task['url'])
                 #s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
-                s.connect(task['proxy']['ip'], int(task['proxy']['port']))
+                s.connect((task['proxy']['ip'], int(task['proxy']['port'])))
                 #req_path = '/'
                 #if url_obj.path is not None and url_obj.path != '':
                 #    req_path = url_obj.path
