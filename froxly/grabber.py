@@ -49,8 +49,14 @@ try:
             url_obj = urllib.parse.urlparse(url)
             s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
             req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+            
+            nlog.info('froxly - grabber info', req_str)
+            
             s.sendall(req_str.encode())
             res = s.recv(15).decode()
+            
+            nlog.info('froxly - grabber info', res)
+            
             if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                 buf = s.recv(1024)
                 while buf:
