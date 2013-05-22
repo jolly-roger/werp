@@ -46,10 +46,12 @@ try:
     while True:
         try:
             msg = json.loads(froxly_checker_server_socket.recv_unicode())
+            
+            nlog.info('froxly - checker server info', json.dumps(msg))
+            
             if msg['method'] in methods:
                 methods[msg['method']](msg)
         except:
-            froxly_checker_server_socket.send_unicode(json.dumps({'result': None}))
             nlog.info('froxly - checker server error', traceback.format_exc())
 except:
     nlog.info('froxly - checher fatal', traceback.format_exc())
