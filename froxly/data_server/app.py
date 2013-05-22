@@ -19,7 +19,7 @@ try:
     froxly_data_server_socket = ctx.socket(zmq.REP)
     froxly_data_server_socket.bind(sockets.froxly_data_server)
     froxly_checker_server_socket = ctx.socket(zmq.PUSH)
-    froxly_checker_server_socket.connect(sockets.froxly_checker_server)
+    froxly_checker_server_socket.bind(sockets.froxly_checker_server)
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     def rnd(msg):
         rnd_free_proxy = None

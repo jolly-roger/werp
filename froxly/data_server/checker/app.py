@@ -18,7 +18,7 @@ worker_pool = 32
 try:
     ctx = zmq.Context()
     froxly_checker_server_socket = ctx.socket(zmq.PULL)
-    froxly_checker_server_socket.bind(sockets.froxly_checker_server)
+    froxly_checker_server_socket.connect(sockets.froxly_checker_server)
     def base_check(msg):
         try:
             ventilator.base_run('http://user-agent-list.com')
