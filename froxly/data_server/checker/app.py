@@ -21,7 +21,13 @@ try:
     froxly_checker_server_socket.bind(sockets.froxly_checker_server)
     def base_check(msg):
         try:
+            start_dt = datetime.datetime.now()
+            start_time = time.time()
             ventilator.base_run('http://user-agent-list.com')
+            end_time = time.time()
+            exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+            red = redis.StrictRedis(unix_socket_path=sockets.redis)
+            red.rpush(red_keys.exec_time_log, 'froxly base check %s %s' % (str(start_dt), str(exec_delta)))
         except:
             nlog.info('froxly - checher error', traceback.format_exc())
     def url_check(msg):
