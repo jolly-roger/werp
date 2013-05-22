@@ -49,10 +49,15 @@ try:
             s.settimeout(timeouts.froxly_grabber)
             url_obj = urllib.parse.urlparse(url)
             s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n' #'\r\nUser-Agent:' + rnd_user_agent +\
-                #'\r\n\r\n'
+            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+            
+            nlog.info('froxly - grabber info', req_str)
+            
             s.sendall(req_str.encode())
             res = s.recv(15).decode()
+            
+            nlog.info('froxly - grabber info', res)
+            
             if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                 buf = s.recv(1024)
                 while buf:
@@ -62,7 +67,11 @@ try:
                 res_data = res[start_body + 4:]
                 res = None
             s.close()
+            nlog.info('froxly - grabber info', res_data)
         except:
+            
+            nlog.info('froxly - grabber info', traceback.format_exc())
+            
             res = None
         try_count = try_count + 1
         if try_count >= TRY_COUNT:
