@@ -36,9 +36,6 @@ def run():
                     if red.exists(task['red_key']) and red.sismember(task['red_key'], sproxy):
                         red.srem(task['red_key'], sproxy)
                 proxy_count = proxy_count - 1
-                
-                nlog.info('froxly - checher sink info', str(proxy_count))
-                
                 if proxy_count == 0:
                     break
             froxly_checker_finish.send_unicode(str(0))

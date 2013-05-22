@@ -46,9 +46,6 @@ try:
     while True:
         try:
             msg = json.loads(froxly_checker_server_socket.recv_unicode())
-            
-            nlog.info('froxly - checker server info', json.dumps(msg))
-            
             if msg['method'] in methods:
                 methods[msg['method']](msg)
         except:
