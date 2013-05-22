@@ -55,9 +55,12 @@ try:
     def deactivate(msg):
         pass
     def check(msg):
+        
+        nlog.info('froxly - data server info', '0')
+        
         msg['method'] = 'base_check'
         
-        nlog.info('froxly - data server info', json.dumps(msg))
+        nlog.info('froxly - data server info', '1')
         
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
