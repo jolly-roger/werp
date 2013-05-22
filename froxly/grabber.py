@@ -43,13 +43,24 @@ try:
             rnd_proxy = rnd_proxy_res['result']        
         rnd_user_agent_socket.send_unicode('')
         rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-        req = urllib.request.Request(url, headers={'User-Agent': rnd_user_agent})
-        req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
         try:
-            res = urllib.request.urlopen(req, timeout=timeouts.froxly_grabber)
-            if res.getcode() != 200:
+            s = socket.socket()
+            s.settimeout(timeouts.froxly_grabber)
+            url_obj = urllib.parse.urlparse(url)
+            s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
+            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+            s.sendall(req_str.encode())
+            res = s.recv(15).decode()
+            if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
+                buf = s.recv(1024)
+                while buf:
+                    res += buf.decode()
+                    buf = s.recv(1024)
+                start_body = res.find('\r\n\r\n')
+                res_data = res[start_body + 4:]
                 res = None
-            res_data = res.read().decode('utf-8')
+            s.close()
+            nlog.info('froxly - grabber info', res_data)
         except:
             res = None
         try_count = try_count + 1
