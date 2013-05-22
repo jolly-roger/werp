@@ -68,6 +68,9 @@ try:
             s.close()
             nlog.info('froxly - grabber info', res_data)
         except:
+            
+            nlog.info('froxly - grabber info', traceback.format_exc())
+            
             res = None
         try_count = try_count + 1
         if try_count >= TRY_COUNT:
