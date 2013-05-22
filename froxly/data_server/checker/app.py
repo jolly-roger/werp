@@ -3,6 +3,7 @@ import threading
 import time
 import datetime
 import redis
+import zmq
 
 from werp import nlog
 from werp.common import sockets
@@ -13,28 +14,41 @@ from werp.froxly.data_server.checker import ventilator
 
 worker_pool = 32
 
-def base_check(url = 'http://user-agent-list.com'):
-    try:
-        ventilator.base_run(url)
-    except:
-        nlog.info('froxly - checher error', traceback.format_exc())
-def url_check(url = 'http://user-agent-list.com'):
-    try:
-        start_dt = datetime.datetime.now()
-        start_time = time.time()
-        ventilator.url_run(url)
-        end_time = time.time()
-        exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        red = redis.StrictRedis(unix_socket_path=sockets.redis)
-        red.rpush(red_keys.exec_time_log, 'froxly url (' + url + ') check %s %s' % (str(start_dt), str(exec_delta)))
-    except:
-        nlog.info('froxly - checher error', traceback.format_exc())
-def init():
-    try:
-       for wrk_num in range(worker_pool):
-           thr = threading.Thread(target=worker.run)
-           thr.start()
-       manager = threading.Thread(target=sink.run)
-       manager.start()
-    except:
-       nlog.info('froxly - checher error', traceback.format_exc())
+try:
+    ctx = zmq.Context()
+    froxly_checker_server_socket = ctx.socket(zmq.PULL)
+    froxly_checker_server_socket.bind(sockets.froxly_checker_server)
+    def base_check(msg):
+        try:
+            ventilator.base_run('http://user-agent-list.com')
+        except:
+            nlog.info('froxly - checher error', traceback.format_exc())
+    def url_check(msg):
+        try:
+            start_dt = datetime.datetime.now()
+            start_time = time.time()
+            ventilator.url_run(msg['params']['url'])
+            end_time = time.time()
+            exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+            red = redis.StrictRedis(unix_socket_path=sockets.redis)
+            red.rpush(red_keys.exec_time_log, 'froxly url (' + url + ') check %s %s' % (str(start_dt), str(exec_delta)))
+        except:
+            nlog.info('froxly - checher error', traceback.format_exc())
+    for wrk_num in range(worker_pool):
+        thr = threading.Thread(target=worker.run)
+        thr.start()
+    manager = threading.Thread(target=sink.run)
+    manager.start()
+    methods = {}
+    methods[base_check.__name__] = base_check
+    methods[url_check.__name__] = url_check
+    while True:
+        try:
+            msg = json.loads(froxly_checker_server_socket.recv_unicode())
+            if msg['method'] in methods:
+                methods[msg['method']](msg)
+        except:
+            froxly_checker_server_socket.send_unicode(json.dumps({'result': None}))
+            nlog.info('froxly - checker server error', traceback.format_exc())
+except:
+    nlog.info('froxly - checher fatal', traceback.format_exc())

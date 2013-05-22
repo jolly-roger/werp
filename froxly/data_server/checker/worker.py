@@ -27,15 +27,10 @@ def run():
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_checker)
                 url_obj = urllib.parse.urlparse(task['url'])
-                #s.setproxy(socks.PROXY_TYPE_HTTP, task['proxy']['ip'], int(task['proxy']['port']))
                 s.connect((task['proxy']['ip'], int(task['proxy']['port'])))
-                #req_path = '/'
-                #if url_obj.path is not None and url_obj.path != '':
-                #    req_path = url_obj.path
                 req_str = 'GET ' + task['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(req_str.encode())
                 res = s.recv(15).decode()
-                #s.shutdown(socket.SHUT_RDWR)
                 s.close()
                 if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
                     task['proxy']['http_status'] = 200

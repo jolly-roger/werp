@@ -18,6 +18,8 @@ try:
     ctx = zmq.Context()
     froxly_data_server_socket = ctx.socket(zmq.REP)
     froxly_data_server_socket.bind(sockets.froxly_data_server)
+    froxly_checker_server_socket = ctx.socket(zmq.PUSH)
+    froxly_checker_server_socket.connect(sockets.froxly_checker_server)
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     def rnd(msg):
         rnd_free_proxy = None
@@ -53,10 +55,12 @@ try:
     def deactivate(msg):
         pass
     def check(msg):
-        checker_app.base_check()
+        msg['method'] = 'base_check'
+        froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_url(msg):
-        checker_app.url_check(msg['params']['url'])
+        msg['method'] = 'url_check'
+        froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def deactivate_for_url(msg):
         if 'proxy' in msg['params'] and 'url' in msg['params']:
@@ -79,7 +83,6 @@ try:
     methods[deactivate_for_url.__name__] = deactivate_for_url
     methods[rnd_for_url.__name__] = rnd_for_url
     methods[clear_for_url.__name__] = clear_for_url
-    checker_app.init()
     while True:
         try:
             msg = json.loads(froxly_data_server_socket.recv_unicode())
