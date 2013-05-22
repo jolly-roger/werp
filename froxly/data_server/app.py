@@ -56,6 +56,9 @@ try:
         pass
     def check(msg):
         msg['method'] = 'base_check'
+        
+        nlog.info('froxly - data server info', json.dumps(msg))
+        
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def list_for_url(msg):
