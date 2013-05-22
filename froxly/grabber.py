@@ -49,8 +49,8 @@ try:
             s.settimeout(timeouts.froxly_grabber)
             url_obj = urllib.parse.urlparse(url)
             s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\nUser-Agent:' + rnd_user_agent +\
-                '\r\n\r\n'
+            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n' #'\r\nUser-Agent:' + rnd_user_agent +\
+                #'\r\n\r\n'
             s.sendall(req_str.encode())
             res = s.recv(15).decode()
             if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':

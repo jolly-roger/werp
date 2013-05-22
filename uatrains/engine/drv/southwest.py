@@ -1,6 +1,5 @@
 import datetime
 import traceback
-import urllib.request
 import urllib.parse
 from lxml import etree
 import io
@@ -252,24 +251,61 @@ def get_train_data(tid, rnd_proxy, rnd_user_agent):
 		ua_dom_tree = None
 		ru_dom_tree = None
 		en_dom_tree = None
+		ua_res_data = None
+		ru_res_data = None
+		en_res_data = None
+
+		ua_s = socket.socket()
+		ua_s.settimeout(timeouts.uatrains_bot)
+		ua_url_obj = urllib.parse.urlparse(ua_url.replace('(tid)', str(tid)))
+		ua_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
+		ua_req_str = 'GET ' + ua_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + ua_url_obj.netloc +\
+			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
+		ua_s.sendall(ua_req_str.encode())
+		ua_res = ua_s.recv(15).decode('cp1251')
+		if ua_res == 'HTTP/1.1 200 OK' or ua_res == 'HTTP/1.0 200 OK':
+			buf = ua_s.recv(1024)
+			while buf:
+				ua_res += buf.decode('cp1251')
+				buf = ua_s.recv(1024)
+			start_body = ua_res.find('\r\n\r\n')
+			ua_res_data = ua_res[start_body + 4:]
+		ua_s.close()
 		
+		ru_s = socket.socket()
+		ru_s.settimeout(timeouts.uatrains_bot)
+		ru_url_obj = urllib.parse.urlparse(ru_url.replace('(tid)', str(tid)))
+		ru_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
+		ru_req_str = 'GET ' + ru_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + ru_url_obj.netloc +\
+			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
+		ru_s.sendall(ru_req_str.encode())
+		ru_res = ru_s.recv(15).decode('cp1251')
+		if ru_res == 'HTTP/1.1 200 OK' or ru_res == 'HTTP/1.0 200 OK':
+			buf = ru_s.recv(1024)
+			while buf:
+				ru_res += buf.decode('cp1251')
+				buf = ru_s.recv(1024)
+			start_body = ru_res.find('\r\n\r\n')
+			ru_res_data = ru_res[start_body + 4:]
+		ru_s.close()
 		
-		ua_req = urllib.request.Request(ua_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
-		ua_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])		
-		ua_res = urllib.request.urlopen(ua_req, timeout=timeouts.uatrains_bot)
-		ua_res_data = ua_res.read().decode('cp1251')
-		
-		ru_req = urllib.request.Request(ru_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
-		ru_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
-		ru_res = urllib.request.urlopen(ru_req, timeout=timeouts.uatrains_bot)
-		ru_res_data = ru_res.read().decode('cp1251')
-		
-		en_req = urllib.request.Request(en_url.replace('(tid)', str(tid)), headers={'User-Agent': rnd_user_agent})
-		en_req.set_proxy(rnd_proxy['ip'] + ':' + rnd_proxy['port'], rnd_proxy['protocol'])
-		en_res = urllib.request.urlopen(en_req, timeout=timeouts.uatrains_bot)
-		en_res_data = en_res.read().decode('cp1251')
-		
-		
+		en_s = socket.socket()
+		en_s.settimeout(timeouts.uatrains_bot)
+		en_url_obj = urllib.parse.urlparse(en_url.replace('(tid)', str(tid)))
+		en_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
+		en_req_str = 'GET ' + en_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + en_url_obj.netloc +\
+			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
+		en_s.sendall(en_req_str.encode())
+		en_res = en_s.recv(15).decode('cp1251')
+		if en_res == 'HTTP/1.1 200 OK' or en_res == 'HTTP/1.0 200 OK':
+			buf = en_s.recv(1024)
+			while buf:
+				en_res += buf.decode('cp1251')
+				buf = en_s.recv(1024)
+			start_body = en_res.find('\r\n\r\n')
+			en_res_data = en_res[start_body + 4:]
+		en_s.close()
+
 		parser = etree.HTMLParser()
 		ua_dom_tree = etree.parse(io.StringIO(ua_res_data), parser)
 		ru_dom_tree = etree.parse(io.StringIO(ru_res_data), parser)
@@ -348,4 +384,4 @@ def is_empty(e):
 	ret = False
 	if e.ua_title is None and e.ru_title is None and e.en_title is None:
 		ret = True
-	return ret  
+	return ret
