@@ -10,6 +10,7 @@ import traceback
 import zmq
 import json
 import redis
+import socket
 
 from werp import orm
 from werp import nlog
