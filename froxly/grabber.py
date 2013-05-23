@@ -63,6 +63,7 @@ try:
                 #res_data = res[start_data + 4:len(res)-1]
                 #start_data = res_data.find('<')
                 #res_data = res_data[start_data:]
+            else:
                 res = None
             s.close()
         except:
