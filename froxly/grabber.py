@@ -107,7 +107,7 @@ try:
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     red.rpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
 except:
-    nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + res_data)
+    nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + str(res_data))
     if ses is not None:
         ses.close()
     if conn is not None:    
