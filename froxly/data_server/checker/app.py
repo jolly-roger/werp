@@ -38,7 +38,7 @@ try:
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            red.rpush(red_keys.exec_time_log, 'froxly url (' + url + ') check %s %s' % (str(start_dt), str(exec_delta)))
+            red.rpush(red_keys.exec_time_log, 'froxly url (' + msg['params']['url'] + ') check %s %s' % (str(start_dt), str(exec_delta)))
         except:
             nlog.info('froxly - checher error', traceback.format_exc())
     for wrk_num in range(worker_pool):
