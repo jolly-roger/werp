@@ -23,13 +23,13 @@ url = 'http://www.hidemyass.com/proxy-list/'
 conn = None
 ses = None
 ctx = None
+res_data = None
 try:
     start_dt = datetime.datetime.now()
     start_time = time.time()
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     res = None
-    res_data = None
     try_count = 0
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REQ)
@@ -107,7 +107,7 @@ try:
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     red.rpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
 except:
-    nlog.info('froxly - grabber error', traceback.format_exc())
+    nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + res_data)
     if ses is not None:
         ses.close()
     if conn is not None:    
