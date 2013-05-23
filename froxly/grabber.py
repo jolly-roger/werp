@@ -59,9 +59,10 @@ try:
                     res += buf.decode()
                     buf = s.recv(1024)
                 start_data = res.find('\r\n\r\n')
-                res_data = res[start_data + 4:len(res)-1]
-                start_data = res_data.find('<')
-                res_data = res_data[start_data:]
+                res_data = res[start_data + 4:]
+                #res_data = res[start_data + 4:len(res)-1]
+                #start_data = res_data.find('<')
+                #res_data = res_data[start_data:]
                 res = None
             s.close()
         except:
