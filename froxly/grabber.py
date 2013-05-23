@@ -103,7 +103,8 @@ try:
                 ses.add(fp)
                 ses.commit()
         except:
-            nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + str(raw_proxy))
+            nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + \
+                etree.tostring(raw_proxy).decode('utf-8'))
     ses.close()
     conn.close()
     end_time = time.time()
