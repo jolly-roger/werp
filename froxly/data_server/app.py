@@ -39,7 +39,7 @@ try:
         msg['params']['proxy'] = proxy
         froxly_requester_server_socket.send_unicode(json.dumps(msg))
         res_msg = froxly_requester_server_socket.recv_unicode()
-        froxly_requester_server_socket.send_unicode(res_msg)
+        froxly_data_server_socket.send_unicode(res_msg)
     for wrk_num in range(WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
