@@ -42,7 +42,7 @@ def run():
                     res['result']['http_status'] = 200
                     res['result']['http_status_reason'] = None
                 else:
-                    res['result']['http_status'] = -1
+                    res['result']['http_status'] = -11
                     res['result']['http_status_reason'] = remote_res
                 s.close()
             except Exception as e:

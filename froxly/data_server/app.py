@@ -31,15 +31,24 @@ try:
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def request(msg):
         url_obj = urllib.parse.urlparse(msg['params']['url'])
-        proxy_req = {'method': 'rnd_for_url', 'params': None}
+        rnd_proxy_req = {'method': 'rnd_for_url', 'params': None}
+        rnd_proxy_url = None
         if url_obj.netloc is not None and url_obj.netloc != '':
-            proxy_req['params'] = {'url': url_obj.scheme + '://' + url_obj.netloc}
-        froxly_data_worker_socket.send_unicode(json.dumps(proxy_req))
-        proxy = json.loads(froxly_data_worker_socket.recv_unicode())['result']
-        msg['params']['proxy'] = proxy
+            rnd_proxy_url = url_obj.scheme + '://' + url_obj.netloc
+            rnd_proxy_req['params'] = {'url': rnd_proxy_url}
+        froxly_data_worker_socket.send_unicode(json.dumps(rnd_proxy_req))
+        rnd_proxy = json.loads(froxly_data_worker_socket.recv_unicode())['result']
+        msg['params']['proxy'] = rnd_proxy
         froxly_requester_server_socket.send_unicode(json.dumps(msg))
-        res_msg = froxly_requester_server_socket.recv_unicode()
-        froxly_data_server_socket.send_unicode(res_msg)
+        worker_res_msg = froxly_requester_server_socket.recv_unicode()
+        worker_res = json.loads(worker_res_msg)
+        if rnd_proxy_url is not None and worker_res['result']['http_status'] is not None and \
+            worker_res['result']['http_status'] == -11:
+            deactivate_proxy_req = {'method': 'deactivate_for_url', 'params':
+                {'url': rnd_proxy_url, 'proxy': rnd_proxy, 'reason':  worker_res['result']['http_status_reason']}}
+            froxly_data_worker_socket.send_unicode(json.dumps(deactivate_proxy_req))
+            froxly_data_worker_socket.recv_unicode()
+        froxly_data_server_socket.send_unicode(worker_res_msg)
     for wrk_num in range(WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
