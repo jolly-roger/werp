@@ -34,11 +34,12 @@ try:
     methods[list_for_url.__name__] = list_for_url
     while True:
         try:
-            msg = json.loads(froxly_data_server_socket.recv_unicode())
+            req_msg = froxly_data_server_socket.recv_unicode()
+            msg = json.loads(req_msg)
             if msg['method'] in methods:
                 methods[msg['method']](msg)
             else:
-                froxly_data_worker_socket.send_unicode(msg)
+                froxly_data_worker_socket.send_unicode(req_msg)
                 res_msg = froxly_data_worker_socket.recv_unicode()
                 froxly_data_server_socket.send_unicode(res_msg)
         except:
