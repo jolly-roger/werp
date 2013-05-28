@@ -16,8 +16,6 @@ def run():
         froxly_requester_server_socket.connect(sockets.froxly_requester_server)
         rnd_user_agent_socket = ctx.socket(zmq.REQ)
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
-        froxly_data_server_socket = ctx.socket(zmq.REQ)
-        froxly_data_server_socket.connect(sockets.froxly_data_server)
         while True:
             req_msg = froxly_requester_server_socket.recv_unicode()
             
@@ -35,17 +33,9 @@ def run():
                 rnd_user_agent_socket.send_unicode('')
                 rnd_user_agent = rnd_user_agent_socket.recv_unicode()
                 
-                nlog.info('froxly - requester worker info', '2')
-                
-                proxy_req = {'method': 'rnd_for_url', 'params': None}
-                if url_obj.netloc is not None and url_obj.netloc != '':
-                    proxy_req['params'] = {'url': url_obj.scheme + '://' + url_obj.netloc}
-                froxly_data_server_socket.send_unicode(json.dumps(proxy_req))
-                proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
-                
                 nlog.info('froxly - requester worker info', '3')
                 
-                s.connect((proxy['ip'], int(proxy['port'])))
+                s.connect((req['params']['proxy']['ip'], int(req['params']['proxy']['port'])))
                 remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(remote_req_str.encode())
                 remote_charset = 'utf-8'
