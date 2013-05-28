@@ -7,6 +7,7 @@ import threading
 
 from werp import nlog
 from werp.common import sockets
+from werp.froxly.data_server import common as data_server_common
 from werp.froxly.data_server import worker
 
 WORKER_POOL = 32
@@ -44,8 +45,9 @@ try:
         worker_res = json.loads(worker_res_msg)
         if rnd_proxy_url is not None and worker_res['result']['http_status'] is not None and \
             worker_res['result']['http_status'] == -11:
+            sproxy = data_server_common.jproxy2sproxy(rnd_proxy)
             deactivate_proxy_req = {'method': 'deactivate_for_url', 'params':
-                {'url': rnd_proxy_url, 'proxy': rnd_proxy, 'reason':  worker_res['result']['http_status_reason']}}
+                {'url': rnd_proxy_url, 'proxy': sproxy, 'reason': worker_res['result']['http_status_reason']}}
             froxly_data_worker_socket.send_unicode(json.dumps(deactivate_proxy_req))
             froxly_data_worker_socket.recv_unicode()
         froxly_data_server_socket.send_unicode(worker_res_msg)
