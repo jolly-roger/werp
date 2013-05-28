@@ -19,7 +19,7 @@ def run():
         froxly_data_server_socket = ctx.socket(zmq.REQ)
         froxly_data_server_socket.connect(sockets.froxly_data_server)
         while True:
-            req_msg = froxly_checker_req.recv_unicode()
+            req_msg = froxly_requester_server_socket.recv_unicode()
             res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None}}
             try:
                 s = socket.socket()
