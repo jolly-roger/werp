@@ -17,33 +17,21 @@ def run():
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         while True:
             req_msg = froxly_requester_server_socket.recv_unicode()
-            
-            nlog.info('froxly - requester worker info', '0')
-            
             res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None}}
             try:
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_requester)
                 req = json.loads(req_msg)
                 url_obj = urllib.parse.urlparse(req['params']['url'])
-                
-                nlog.info('froxly - requester worker info', '1')
-                
                 rnd_user_agent_socket.send_unicode('')
                 rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-                
-                nlog.info('froxly - requester worker info', '3')
-                
                 s.connect((req['params']['proxy']['ip'], int(req['params']['proxy']['port'])))
                 remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(remote_req_str.encode())
                 remote_charset = 'utf-8'
                 if 'charset' in req['params'] and req['params']['charset'] is not None:
                     remote_charset = req['params']['charset']
-                remote_res = ua_s.recv(15).decode(remote_charset)
-                
-                nlog.info('froxly - requester worker info', '4')
-                
+                remote_res = s.recv(15).decode(remote_charset)
                 if remote_res == 'HTTP/1.1 200 OK' or remote_res == 'HTTP/1.0 200 OK':
                     buf = s.recv(1024)
                     while buf:
@@ -56,16 +44,10 @@ def run():
                 else:
                     res['result']['http_status'] = -1
                     res['result']['http_status_reason'] = remote_res
-                
-                nlog.info('froxly - requester worker info', '5')
-
                 s.close()
             except Exception as e:
                 res['result']['http_status'] = -1
                 res['result']['http_status_reason'] = str(e)
-            
-            nlog.info('froxly - requester worker info', '6')
-            
             froxly_requester_server_socket.send_unicode(json.dumps(res))
     except:
         nlog.info('froxly - requester worker error', traceback.format_exc())
