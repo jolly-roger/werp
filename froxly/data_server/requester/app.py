@@ -2,6 +2,7 @@ import traceback
 import threading
 
 from werp import nlog
+from werp.froxly.data_server.requester import worker
 
 WORKER_POOL = 32
 
