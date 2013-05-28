@@ -29,6 +29,9 @@ try:
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
     def request(msg):
+        
+        nlog.info('froxly - data server info', json.dumps(msg))
+        
         froxly_requester_server_socket.send_unicode(json.dumps(msg))
         res_msg = froxly_requester_server_socket.recv_unicode()
         froxly_requester_server_socket.send_unicode(res_msg)
