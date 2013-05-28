@@ -47,7 +47,7 @@ try:
             if msg['method'] in checker_methods:
                 checker_methods[msg['method']](msg)
             elif msg['method'] in requester_methods:
-                checker_methods[msg['method']](msg)
+                requester_methods[msg['method']](msg)
             else:
                 froxly_data_worker_socket.send_unicode(req_msg)
                 res_msg = froxly_data_worker_socket.recv_unicode()
