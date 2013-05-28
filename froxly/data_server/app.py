@@ -18,6 +18,8 @@ try:
     froxly_checker_server_socket.connect(sockets.froxly_checker_server)
     froxly_data_worker_socket = ctx.socket(zmq.REQ)
     froxly_data_worker_socket.bind(sockets.froxly_data_worker)
+    froxly_requester_server_socket = ctx.socket(zmq.REQ)
+    froxly_requester_server_socket.bind(sockets.froxly_requester_server)
     def check(msg):
         msg['method'] = 'base_check'
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
@@ -26,18 +28,26 @@ try:
         msg['method'] = 'url_check'
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
         froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
+    def request(msg):
+        froxly_requester_server_socket.send_unicode(json.dumps(msg))
+        res_msg = froxly_requester_server_socket.recv_unicode()
+        froxly_requester_server_socket.send_unicode(res_msg)
     for wrk_num in range(WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
-    methods = {}
-    methods[check.__name__] = check
-    methods[list_for_url.__name__] = list_for_url
+    checker_methods = {}
+    checker_methods[check.__name__] = check
+    checker_methods[list_for_url.__name__] = list_for_url
+    requester_methods = {}
+    requester_methods[request.__name__] = request
     while True:
         try:
             req_msg = froxly_data_server_socket.recv_unicode()
             msg = json.loads(req_msg)
-            if msg['method'] in methods:
-                methods[msg['method']](msg)
+            if msg['method'] in checker_methods:
+                checker_methods[msg['method']](msg)
+            elif msg['method'] in requester_methods:
+                checker_methods[msg['method']](msg)
             else:
                 froxly_data_worker_socket.send_unicode(req_msg)
                 res_msg = froxly_data_worker_socket.recv_unicode()
