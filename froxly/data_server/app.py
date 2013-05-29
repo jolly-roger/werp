@@ -87,7 +87,7 @@ try:
                 elif msg['method'] in requester_methods:
                     requester_methods[msg['method']](msg)
                 else:
-                    froxly_data_worker_socket.send_multipart(message)
+                    froxly_data_worker_socket.send_multipart(req_msg)
             
             # data server worker backend
             if froxly_data_worker_socket in sockets and  sockets[froxly_data_worker_socket] == zmq.POLLIN:
