@@ -17,6 +17,9 @@ def run():
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         while True:
             req_msg = froxly_requester_server_socket.recv_unicode()
+            
+            nlog.info('froxly - requester worker info', req_msg)
+            
             res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None, 'url': None}}
             try:
                 s = socket.socket()
