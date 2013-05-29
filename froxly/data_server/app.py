@@ -90,17 +90,17 @@ try:
             # requester server backend
             if froxly_requester_server_socket in socks and socks[froxly_requester_server_socket] == zmq.POLLIN:
                 res_msg = froxly_requester_server_socket.recv_multipart()
-                res = json.loads(res_msg[2].decode())
-                req_url = res['result']['url']
-                if req_url is not None and res['result']['http_status'] is not None and \
-                    res['result']['http_status'] == -11:
-                    sproxy = data_server_common.jproxy2sproxy(rnd_proxy)
-                    deactivate_proxy_req = {'method': 'deactivate_for_url', 'params':
-                        {'url': req_url, 'proxy': sproxy, 'reason': res['result']['http_status_reason']}}
-                    froxly_data_server_req_socket = ctx.socket(zmq.REQ)
-                    froxly_data_server_req_socket.connect(sockets.froxly_data_server)
-                    froxly_data_server_req_socket.send_unicode(json.dumps(deactivate_proxy_req))
-                    froxly_data_server_req_socket.recv_unicode()
+                #res = json.loads(res_msg[2].decode())
+                #req_url = res['result']['url']
+                #if req_url is not None and res['result']['http_status'] is not None and \
+                #    res['result']['http_status'] == -11:
+                #    sproxy = data_server_common.jproxy2sproxy(rnd_proxy)
+                #    deactivate_proxy_req = {'method': 'deactivate_for_url', 'params':
+                #        {'url': req_url, 'proxy': sproxy, 'reason': res['result']['http_status_reason']}}
+                #    froxly_data_server_req_socket = ctx.socket(zmq.REQ)
+                #    froxly_data_server_req_socket.connect(sockets.froxly_data_server)
+                #    froxly_data_server_req_socket.send_unicode(json.dumps(deactivate_proxy_req))
+                #    froxly_data_server_req_socket.recv_unicode()
                 froxly_data_server_socket.send_multipart(res_msg) 
         except:
             #froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
