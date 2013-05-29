@@ -69,10 +69,10 @@ try:
     requester_methods[request.__name__] = request
     
     while True:
-        sockets = dict(poller.poll())
+        socks = dict(poller.poll())
         try:
             # data server frontend
-            if froxly_data_server_socket in sockets and  sockets[froxly_data_server_socket] == zmq.POLLIN:
+            if froxly_data_server_socket in socks and socks[froxly_data_server_socket] == zmq.POLLIN:
                 req_msg = froxly_data_server_socket.recv_multipart()
                 msg = json.loads(req_msg[2].decode())
                 if msg['method'] in checker_methods:
@@ -83,12 +83,12 @@ try:
                     froxly_data_worker_socket.send_multipart(req_msg)
             
             # data server worker backend
-            if froxly_data_worker_socket in sockets and  sockets[froxly_data_worker_socket] == zmq.POLLIN:
+            if froxly_data_worker_socket in socks and  socks[froxly_data_worker_socket] == zmq.POLLIN:
                 res_msg = froxly_data_worker_socket.recv_multipart()
                 froxly_data_server_socket.send_multipart(res_msg)
             
             # requester server backend
-            if froxly_requester_server_socket in sockets and  sockets[froxly_requester_server_socket] == zmq.POLLIN:
+            if froxly_requester_server_socket in socks and socks[froxly_requester_server_socket] == zmq.POLLIN:
                 res_msg = froxly_requester_server_socket.recv_multipart()
                 res = json.loads(res_msg[2].decode())
                 req_url = res['result']['url']
