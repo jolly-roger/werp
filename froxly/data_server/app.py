@@ -36,15 +36,17 @@ try:
     poller.register(froxly_data_worker_socket, zmq.POLLIN)
     poller.register(froxly_requester_server_socket, zmq.POLLIN)
 
-    def check(msg):
+    def check(msg, req_msg):
         msg['method'] = 'base_check'
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
-        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
-    def list_for_url(msg):
+        req_msg[2] = json.dumps({'result': None}).encode()
+        froxly_data_server_socket.send_multipart(req_msg)
+    def list_for_url(msg, req_msg):
         msg['method'] = 'url_check'
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
-        froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
-    def request(msg):
+        req_msg[2] = json.dumps({'result': None}).encode()
+        froxly_data_server_socket.send_multipart(req_msg)
+    def request(msg, req_msg):
         url_obj = urllib.parse.urlparse(msg['params']['url'])
         rnd_proxy_req = {'method': 'rnd_for_url', 'params': None}
         rnd_proxy_url = None
@@ -70,8 +72,8 @@ try:
         thr = threading.Thread(target=worker.run)
         thr.start()
     checker_methods = {}
-    #checker_methods[check.__name__] = check
-    #checker_methods[list_for_url.__name__] = list_for_url
+    checker_methods[check.__name__] = check
+    checker_methods[list_for_url.__name__] = list_for_url
     requester_methods = {}
     #requester_methods[request.__name__] = request
     
@@ -83,9 +85,9 @@ try:
                 req_msg = froxly_data_server_socket.recv_multipart()
                 msg = json.loads(req_msg[2].decode())
                 if msg['method'] in checker_methods:
-                    checker_methods[msg['method']](msg)
+                    checker_methods[msg['method']](msg, req_msg)
                 elif msg['method'] in requester_methods:
-                    requester_methods[msg['method']](msg)
+                    requester_methods[msg['method']](msg, req_msg)
                 else:
                     froxly_data_worker_socket.send_multipart(req_msg)
             
