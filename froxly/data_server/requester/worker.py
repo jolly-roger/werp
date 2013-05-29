@@ -17,11 +17,12 @@ def run():
         rnd_user_agent_socket.connect(sockets.rnd_user_agent)
         while True:
             req_msg = froxly_requester_server_socket.recv_unicode()
-            res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None}}
+            res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None, 'url': None}}
             try:
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_requester)
                 req = json.loads(req_msg)
+                res['result']['url'] = req['params']['url']
                 url_obj = urllib.parse.urlparse(req['params']['url'])
                 rnd_user_agent_socket.send_unicode('')
                 rnd_user_agent = rnd_user_agent_socket.recv_unicode()
