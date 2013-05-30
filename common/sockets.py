@@ -10,6 +10,5 @@ froxly_requester_server = 'ipc:///home/www/sockets/froxly_requester_server.socke
 froxly_requester_worker = 'ipc:///home/www/sockets/froxly_requester_worker.socket'
 
 rnd_user_agent = 'ipc:///home/www/sockets/rnd_user_agent.socket'
-rnd_free_proxy = 'ipc:///home/www/sockets/rnd_free_proxy.socket'
 
 redis = '/tmp/redis.socket'

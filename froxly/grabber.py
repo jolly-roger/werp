@@ -5,17 +5,14 @@ import datetime
 import time
 import io
 import re
-import random
 import traceback
 import zmq
 import json
 import redis
-import socket
 
 from werp import orm
 from werp import nlog
 from werp.common import sockets
-from werp.common import timeouts
 from werp.common import red_keys
 
 TRY_COUNT = 11
@@ -32,40 +29,17 @@ try:
     res = None
     try_count = 0
     ctx = zmq.Context()
-    rnd_user_agent_socket = ctx.socket(zmq.REQ)
-    rnd_user_agent_socket.connect(sockets.rnd_user_agent)
     froxly_data_server_socket = ctx.socket(zmq.REQ)
     froxly_data_server_socket.connect(sockets.froxly_data_server)
     while res is None and try_count < TRY_COUNT:
-        rnd_proxy = None
-        froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd', 'params': None}))
-        rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
-        if rnd_proxy_res is not None:
-            rnd_proxy = rnd_proxy_res['result']        
-        rnd_user_agent_socket.send_unicode('')
-        rnd_user_agent = rnd_user_agent_socket.recv_unicode()
         try:
-            s = socket.socket()
-            s.settimeout(timeouts.froxly_grabber)
-            url_obj = urllib.parse.urlparse(url)
-            s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-            req_str = 'GET ' + url + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\nUser-Agent:' + rnd_user_agent +\
-                '\r\n\r\n'
-            s.sendall(req_str.encode())
-            res = s.recv(15).decode()
-            if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
-                buf = s.recv(1024)
-                while buf:
-                    res += buf.decode()
-                    buf = s.recv(1024)
-                start_data = res.find('\r\n\r\n')
-                res_data = res[start_data + 4:]
-                #res_data = res[start_data + 4:len(res)-1]
-                #start_data = res_data.find('<')
-                #res_data = res_data[start_data:]
+            froxly_data_server_socket.send_unicode(
+                json.dumps({'method': 'request', 'params': {'url': 'http://www.swrailway.gov.ua', 'charset': 'utf-8'}}))
+            result_res = json.loads(froxly_data_server_socket.recv_unicode())
+            if result_res['result']['http_status'] == 200:
+                res = result_res['result']['data']
             else:
                 res = None
-            s.close()
         except:
             res = None
         try_count = try_count + 1
