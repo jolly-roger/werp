@@ -24,10 +24,6 @@ def run():
         
         while True:
             req_msg = froxly_requester_worker_socket.recv_unicode()
-            
-            nlog.info('froxly - requester worker info', req_msg)
-            
-            
             req_url = None
             res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None}}
             try:
@@ -64,9 +60,6 @@ def run():
                     res['result']['http_status_reason'] = remote_res
                 s.close()
             except Exception as e:
-                
-                nlog.info('froxly - requester worker error', traceback.format_exc())
-                
                 res['result']['http_status'] = -11
                 res['result']['http_status_reason'] = str(e)
                 if req_url is not None:
@@ -75,6 +68,6 @@ def run():
                         {'url': req_url, 'proxy': sproxy, 'reason': res['result']['http_status_reason']}}
                     froxly_data_server_socket.send_unicode(json.dumps(deactivate_proxy_req))
                     froxly_data_server_socket.recv_unicode()
-            froxly_requester_server_socket.send_unicode(json.dumps(res))
+            froxly_requester_worker_socket.send_unicode(json.dumps(res))
     except:
         nlog.info('froxly - requester worker error', traceback.format_exc())
