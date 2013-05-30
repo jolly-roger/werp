@@ -15,14 +15,14 @@ def run():
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PULL)
         froxly_checker_req.connect(sockets.froxly_checker_req)
-        rnd_user_agent_socket = ctx.socket(zmq.REQ)
-        rnd_user_agent_socket.connect(sockets.rnd_user_agent)
+        ugently_data_server_socket = ctx.socket(zmq.REQ)
+        ugently_data_server_socket.connect(sockets.ugently_data_server)
         froxly_checker_res = ctx.socket(zmq.PUSH)
         froxly_checker_res.connect(sockets.froxly_checker_res)
         while True:
             task = json.loads(froxly_checker_req.recv_unicode())
-            rnd_user_agent_socket.send_unicode('')
-            rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+            ugently_data_server_socket.send_unicode('')
+            rnd_user_agent = ugently_data_server_socket.recv_unicode()
             try:
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_checker)

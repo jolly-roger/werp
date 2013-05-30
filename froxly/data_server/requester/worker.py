@@ -16,8 +16,8 @@ def run():
         froxly_requester_worker_socket = ctx.socket(zmq.REP)
         froxly_requester_worker_socket.connect(sockets.froxly_requester_worker)
         
-        rnd_user_agent_socket = ctx.socket(zmq.REQ)
-        rnd_user_agent_socket.connect(sockets.rnd_user_agent)
+        ugently_data_server_socket = ctx.socket(zmq.REQ)
+        ugently_data_server_socket.connect(sockets.ugently_data_server)
         
         froxly_data_server_socket = ctx.socket(zmq.REQ)
         froxly_data_server_socket.connect(sockets.froxly_data_server)
@@ -32,8 +32,8 @@ def run():
                 req = json.loads(req_msg)
                 req_url = req['params']['url']
                 url_obj = urllib.parse.urlparse(req['params']['url'])
-                rnd_user_agent_socket.send_unicode('')
-                rnd_user_agent = rnd_user_agent_socket.recv_unicode()
+                ugently_data_server_socket.send_unicode('')
+                rnd_user_agent = ugently_data_server_socket.recv_unicode()
                 rnd_proxy_req = {'method': 'rnd_for_url', 'params': None}
                 if url_obj.netloc is not None and url_obj.netloc != '':
                     rnd_proxy_req['params'] = {'url': url_obj.scheme + '://' + url_obj.netloc}                
