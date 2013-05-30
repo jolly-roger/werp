@@ -42,7 +42,7 @@ try:
                 res = None
         except:
             
-            nlog.info('froxly - grabber error - request data', traceback.format_exc())
+            nlog.info('froxly - grabber info - request data', traceback.format_exc())
             
             res = None
         try_count = try_count + 1
