@@ -9,6 +9,8 @@ froxly_data_worker = 'ipc:///home/www/sockets/froxly_data_worker.socket'
 froxly_requester_server = 'ipc:///home/www/sockets/froxly_requester_server.socket'
 froxly_requester_worker = 'ipc:///home/www/sockets/froxly_requester_worker.socket'
 
+ugently_data_server = 'ipc:///home/www/sockets/ugently_data_server.socket'
+ugently_data_worker = 'ipc:///home/www/sockets/ugently_data_worker.socket'
 rnd_user_agent = 'ipc:///home/www/sockets/rnd_user_agent.socket'
 
 redis = '/tmp/redis.socket'

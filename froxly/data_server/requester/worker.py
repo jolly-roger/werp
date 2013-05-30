@@ -70,4 +70,4 @@ def run():
                     froxly_data_server_socket.recv_unicode()
             froxly_requester_worker_socket.send_unicode(json.dumps(res))
     except:
-        nlog.info('froxly - requester worker error', traceback.format_exc())
+        nlog.info('froxly - requester worker fatal', traceback.format_exc())

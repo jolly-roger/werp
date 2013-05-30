@@ -2,7 +2,6 @@ import datetime
 import zmq
 import traceback
 import redis
-import random
 
 from werp import orm
 from werp import nlog
@@ -11,7 +10,6 @@ from werp.common import red_keys
 
 conn = None
 ses = None
-ctx = None
 try:
     ctx = zmq.Context()
     rnd_user_agent_socket = ctx.socket(zmq.REP)

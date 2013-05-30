@@ -82,4 +82,4 @@ def run():
                 froxly_data_worker_socket.send_unicode(json.dumps({'result': None}))
                 nlog.info('froxly - data server error', traceback.format_exc())
     except:
-        nlog.info('froxly - data worker error', traceback.format_exc())
+        nlog.info('froxly - data worker fatal', traceback.format_exc())
