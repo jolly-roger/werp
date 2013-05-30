@@ -31,6 +31,9 @@ try:
             # frontend
             if froxly_requester_server_socket in socks and socks[froxly_requester_server_socket] == zmq.POLLIN:
                 req_msg = froxly_requester_server_socket.recv_multipart()
+                
+                nlog.info('froxly - requester server info', str(req_msg))
+                
                 froxly_requester_worker_socket.send_multipart(req_msg)
             
             # backend
