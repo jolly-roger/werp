@@ -41,9 +41,6 @@ try:
             else:
                 res = None
         except:
-            
-            nlog.info('froxly - grabber info - request data', traceback.format_exc())
-            
             res = None
         try_count = try_count + 1
         if try_count >= TRY_COUNT:

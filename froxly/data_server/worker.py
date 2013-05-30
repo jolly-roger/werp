@@ -43,9 +43,6 @@ def run():
                 else:
                     nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
                     rnd_free_proxy = base_rnd()
-                    
-                    nlog.info('froxly - rnd free proxy info', str(rnd_free_proxy))
-                    
             else:
                 rnd_free_proxy = base_rnd()
             if rnd_free_proxy is not None:
