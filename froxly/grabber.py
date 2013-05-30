@@ -34,13 +34,16 @@ try:
     while res is None and try_count < TRY_COUNT:
         try:
             froxly_data_server_socket.send_unicode(
-                json.dumps({'method': 'request', 'params': {'url': 'http://www.swrailway.gov.ua', 'charset': 'utf-8'}}))
+                json.dumps({'method': 'request', 'params': {'url': url, 'charset': 'utf-8'}}))
             result_res = json.loads(froxly_data_server_socket.recv_unicode())
             if result_res['result']['http_status'] == 200:
                 res = result_res['result']['data']
             else:
                 res = None
         except:
+            
+            nlog.info('froxly - grabber error - request data', traceback.format_exc())
+            
             res = None
         try_count = try_count + 1
         if try_count >= TRY_COUNT:
