@@ -14,16 +14,13 @@ def run():
     try:
         ctx = zmq.Context()
         
-        froxly_requester_worker_socket = ctx.socket(zmq.REP)
-        froxly_requester_worker_socket.connect(sockets.froxly_requester_worker)
+        ugently_data_worker_socket = ctx.socket(zmq.REP)
+        ugently_data_worker_socket.connect(sockets.ugently_data_worker)
         
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         
         while True:
-            msg = froxly_requester_worker_socket.recv_unicode()
-            
-            nlog.info('ugently - data worker info', msg)
-            
+            msg = ugently_data_worker_socket.recv_unicode()
             rnd_user_agent = None
             if red.exists(red_keys.ugently_user_agent_value) and red.scard(red_keys.ugently_user_agent_value) > 0:
                 rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
@@ -37,10 +34,10 @@ def run():
                 conn.close()
                 rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
             if rnd_user_agent is not None:
-                froxly_requester_worker_socket.send_unicode(rnd_user_agent.decode('utf-8'))
+                ugently_data_worker_socket.send_unicode(rnd_user_agent.decode('utf-8'))
             else:
                 nlog.info('ugently - data worker error', 'Random user agent is None')
-                froxly_requester_worker_socket.send_unicode('')
+                ugently_data_worker_socket.send_unicode('')
     except:
         nlog.info('ugently - data worker fatal', traceback.format_exc())
         if ses is not None:
