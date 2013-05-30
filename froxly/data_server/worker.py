@@ -20,14 +20,7 @@ def run():
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         def rnd(msg):
             rnd_free_proxy = None
-            if msg is not None and msg['params'] is not None and 'url' in msg['params'] and msg['params']['url'] is not None:
-                url_red_key = red_keys.froxly_url_free_proxy_prefix + msg['params']['url']
-                if red.exists(url_red_key) and red.scard(url_red_key) > 0:
-                    rnd_free_proxy = red.srandmember(url_red_key)
-                else:
-                    nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
-                    rnd_free_proxy = rnd(None)
-            else:
+            def base_rnd():
                 if red.exists(red_keys.froxly_base_check_free_proxy) and \
                     red.scard(red_keys.froxly_base_check_free_proxy) > 0:
                     rnd_free_proxy = red.srandmember(red_keys.froxly_base_check_free_proxy)
@@ -42,6 +35,15 @@ def run():
                     ses.close()
                     conn.close()
                     rnd_free_proxy = red.srandmember(red_keys.froxly_base_check_free_proxy)
+            if msg is not None and msg['params'] is not None and 'url' in msg['params'] and msg['params']['url'] is not None:
+                url_red_key = red_keys.froxly_url_free_proxy_prefix + msg['params']['url']
+                if red.exists(url_red_key) and red.scard(url_red_key) > 0:
+                    rnd_free_proxy = red.srandmember(url_red_key)
+                else:
+                    nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
+                    base_rnd()
+            else:
+                base_rnd()
             if rnd_free_proxy is not None:
                 froxly_data_worker_socket.send_unicode(json.dumps({'result': json.loads(rnd_free_proxy.decode('utf-8'))}))
             else:
