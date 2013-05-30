@@ -63,6 +63,9 @@ try:
                 if msg['method'] in checker_methods:
                     checker_methods[msg['method']](msg, req_msg)
                 elif msg['method'] == 'request':
+                    
+                    nlog.info('froxly - data server info', str(req_msg))
+                    
                     froxly_requester_server_socket.send_multipart(req_msg)
                 else:
                     froxly_data_worker_socket.send_multipart(req_msg)
