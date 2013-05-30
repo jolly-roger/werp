@@ -21,6 +21,9 @@ def run():
         
         while True:
             msg = froxly_requester_worker_socket.recv_unicode()
+            
+            nlog.info('ugently - data worker info', msg)
+            
             rnd_user_agent = None
             if red.exists(red_keys.ugently_user_agent_value) and red.scard(red_keys.ugently_user_agent_value) > 0:
                 rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)

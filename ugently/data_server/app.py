@@ -31,6 +31,9 @@ try:
             # frontend
             if ugently_data_server_socket in socks and socks[ugently_data_server_socket] == zmq.POLLIN:
                 req_msg = ugently_data_server_socket.recv_multipart()
+                
+                nlog.info('ugently - data server info', str(req_msg))
+                
                 ugently_data_worker_socket.send_multipart(req_msg)
             
             # backend
