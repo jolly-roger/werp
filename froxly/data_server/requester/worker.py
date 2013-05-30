@@ -64,6 +64,9 @@ def run():
                     res['result']['http_status_reason'] = remote_res
                 s.close()
             except Exception as e:
+                
+                nlog.info('froxly - requester worker error', traceback.format_exc())
+                
                 res['result']['http_status'] = -11
                 res['result']['http_status_reason'] = str(e)
                 if req_url is not None:
