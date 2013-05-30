@@ -24,6 +24,10 @@ def run():
         
         while True:
             req_msg = froxly_requester_worker_socket.recv_unicode()
+            
+            nlog.info('froxly - requester worker info', req_msg)
+            
+            
             req_url = None
             res = {'result': {'data': None, 'http_status': None, 'http_status_reason': None}}
             try:
