@@ -35,9 +35,9 @@ try:
         try:
             froxly_data_server_socket.send_unicode(
                 json.dumps({'method': 'request', 'params': {'url': url, 'charset': 'utf-8'}}))
-            result_res = json.loads(froxly_data_server_socket.recv_unicode())
-            if result_res['result']['http_status'] == 200:
-                res = result_res['result']['data']
+            res = json.loads(froxly_data_server_socket.recv_unicode())
+            if res['result']['http_status'] == 200:
+                res_data = res['result']['data']
             else:
                 res = None
         except:
