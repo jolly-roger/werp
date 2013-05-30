@@ -6,7 +6,7 @@ from werp import nlog
 from werp.common import sockets
 from werp.ugently.data_server import worker
 
-WORKER_POOL = 32
+WORKER_POOL = 64
 
 try:
     ctx = zmq.Context()
