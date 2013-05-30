@@ -7,7 +7,6 @@ import threading
 
 from werp import nlog
 from werp.common import sockets
-from werp.froxly.data_server import common as data_server_common
 from werp.froxly.data_server import worker
 
 WORKER_POOL = 32
@@ -25,7 +24,7 @@ try:
     
     # requester server backend socket
     froxly_requester_server_socket = ctx.socket(zmq.DEALER)
-    froxly_requester_server_socket.bind(sockets.froxly_requester_server)
+    froxly_requester_server_socket.connect(sockets.froxly_requester_server)
     
     # checker server backend socket
     froxly_checker_server_socket = ctx.socket(zmq.PUSH)
@@ -46,18 +45,6 @@ try:
         froxly_checker_server_socket.send_unicode(json.dumps(msg))
         req_msg[2] = json.dumps({'result': None}).encode()
         froxly_data_server_socket.send_multipart(req_msg)
-    def request(msg, req_msg):
-        url_obj = urllib.parse.urlparse(msg['params']['url'])
-        rnd_proxy_req = {'method': 'rnd_for_url', 'params': None}
-        if url_obj.netloc is not None and url_obj.netloc != '':
-            rnd_proxy_req['params'] = {'url': url_obj.scheme + '://' + url_obj.netloc}
-        froxly_data_server_req_socket = ctx.socket(zmq.REQ)
-        froxly_data_server_req_socket.connect(sockets.froxly_data_server)
-        froxly_data_server_req_socket.send_unicode(json.dumps(rnd_proxy_req))
-        rnd_proxy = json.loads(froxly_data_server_req_socket.recv_unicode())['result']
-        msg['params']['proxy'] = rnd_proxy
-        req_msg[2] = json.dumps(msg).encode()
-        froxly_requester_server_socket.send_multipart(req_msg)
         
     for wrk_num in range(WORKER_POOL):
         thr = threading.Thread(target=worker.run)
@@ -65,8 +52,6 @@ try:
     checker_methods = {}
     checker_methods[check.__name__] = check
     checker_methods[list_for_url.__name__] = list_for_url
-    requester_methods = {}
-    requester_methods[request.__name__] = request
     
     while True:
         socks = dict(poller.poll())
@@ -77,8 +62,8 @@ try:
                 msg = json.loads(req_msg[2].decode())
                 if msg['method'] in checker_methods:
                     checker_methods[msg['method']](msg, req_msg)
-                elif msg['method'] in requester_methods:
-                    requester_methods[msg['method']](msg, req_msg)
+                elif msg['method'] == 'request':
+                    froxly_requester_server_socket.send_multipart(req_msg)
                 else:
                     froxly_data_worker_socket.send_multipart(req_msg)
             
@@ -90,17 +75,6 @@ try:
             # requester server backend
             if froxly_requester_server_socket in socks and socks[froxly_requester_server_socket] == zmq.POLLIN:
                 res_msg = froxly_requester_server_socket.recv_multipart()
-                #res = json.loads(res_msg[2].decode())
-                #req_url = res['result']['url']
-                #if req_url is not None and res['result']['http_status'] is not None and \
-                #    res['result']['http_status'] == -11:
-                #    sproxy = data_server_common.jproxy2sproxy(rnd_proxy)
-                #    deactivate_proxy_req = {'method': 'deactivate_for_url', 'params':
-                #        {'url': req_url, 'proxy': sproxy, 'reason': res['result']['http_status_reason']}}
-                #    froxly_data_server_req_socket = ctx.socket(zmq.REQ)
-                #    froxly_data_server_req_socket.connect(sockets.froxly_data_server)
-                #    froxly_data_server_req_socket.send_unicode(json.dumps(deactivate_proxy_req))
-                #    froxly_data_server_req_socket.recv_unicode()
                 froxly_data_server_socket.send_multipart(res_msg) 
         except:
             #froxly_data_server_socket.send_unicode(json.dumps({'result': None}))
