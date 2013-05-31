@@ -10,7 +10,7 @@ from .. import trainstation
 
 logger = logging.getLogger('werp_error.uatrains_spider')
 
-charset = 'utf8'
+charset = 'utf-8'
 domain = 'http://www.uz.gov.ua'
 ua_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'
 ru_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'

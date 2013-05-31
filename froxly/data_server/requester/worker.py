@@ -42,7 +42,7 @@ def run():
                 s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
                 remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(remote_req_str.encode())
-                remote_charset = 'utf8'
+                remote_charset = 'utf-8'
                 if 'charset' in req['params'] and req['params']['charset'] is not None:
                     remote_charset = req['params']['charset']
                 remote_res = s.recv(15).decode(remote_charset, 'replace')
