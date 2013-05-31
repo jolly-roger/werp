@@ -30,13 +30,13 @@ def run():
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_requester)
                 req = json.loads(req_msg)
-                req_url = req['params']['url']
                 url_obj = urllib.parse.urlparse(req['params']['url'])
                 ugently_data_server_socket.send_unicode('')
                 rnd_user_agent = ugently_data_server_socket.recv_unicode()
                 rnd_proxy_req = {'method': 'rnd_for_url', 'params': None}
                 if url_obj.netloc is not None and url_obj.netloc != '':
-                    rnd_proxy_req['params'] = {'url': url_obj.scheme + '://' + url_obj.netloc}                
+                    req_url = url_obj.scheme + '://' + url_obj.netloc
+                    rnd_proxy_req['params'] = {'url': req_url}
                 froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
                 s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
