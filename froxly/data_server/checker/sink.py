@@ -29,12 +29,20 @@ def run():
                 proxy.http_status = task['proxy']['http_status']
                 proxy.http_status_reason = task['proxy']['http_status_reason']
                 ses.commit()
-                sproxy = data_server_common.jproxy2sproxy(task['proxy'])
                 if task['proxy']['http_status'] == 200:
+                    sproxy = data_server_common.jproxy2sproxy(task['proxy'])
                     red.sadd(task['red_key'], sproxy)
                 else:
-                    if red.exists(task['red_key']) and red.sismember(task['red_key'], sproxy):
-                        red.srem(task['red_key'], sproxy)
+                    http_1_1_proxy = task['proxy']
+                    http_1_1_proxy['protocol_version'] = '1.1'
+                    http_1_1_sproxy = data_server_common.jproxy2sproxy(http_1_1_proxy)
+                    if red.exists(task['red_key']) and red.sismember(task['red_key'], http_1_1_sproxy):
+                        red.srem(task['red_key'], http_1_1_sproxy)
+                    http_1_0_proxy = task['proxy']
+                    http_1_0_proxy['protocol_version'] = '1.0'
+                    http_1_0_sproxy = data_server_common.jproxy2sproxy(http_1_0_proxy)
+                    if red.exists(task['red_key']) and red.sismember(task['red_key'], http_1_0_sproxy):
+                        red.srem(task['red_key'], http_1_0_sproxy)
                 proxy_count = proxy_count - 1
                 if proxy_count == 0:
                     break
