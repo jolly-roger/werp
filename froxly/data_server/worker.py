@@ -1,6 +1,7 @@
 import urllib.request
 import urllib.parse
 import traceback
+import datetime
 import zmq
 import json
 import socket
@@ -58,7 +59,8 @@ def run():
             if 'proxy' in msg['params'] and 'url' in msg['params']:
                 red.srem(red_keys.froxly_url_free_proxy_prefix + msg['params']['url'], msg['params']['proxy'])
                 if 'reason' in msg['params']:
-                    red.sadd(red_keys.froxly_url_free_proxy_log_prefix + msg['params']['url'], msg['params']['reason'])
+                    red.sadd(red_keys.froxly_url_free_proxy_log_prefix + msg['params']['url'],
+                        '[' + str(datetime.datetime.now()) + '] ' + msg['params']['reason'])
             froxly_data_worker_socket.send_unicode(json.dumps({'result': None}))
         def rnd_for_url(msg):
             rnd(msg)

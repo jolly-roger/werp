@@ -24,6 +24,9 @@ def run():
             ugently_data_server_socket.send_unicode('')
             rnd_user_agent = ugently_data_server_socket.recv_unicode()
             try:
+                is_1_1 = False
+                
+                # HTTP 1.1
                 s = socket.socket()
                 s.settimeout(timeouts.froxly_checker)
                 url_obj = urllib.parse.urlparse(task['url'])
@@ -32,12 +35,32 @@ def run():
                 s.sendall(req_str.encode())
                 res = s.recv(15).decode()
                 s.close()
-                if res == 'HTTP/1.1 200 OK' or res == 'HTTP/1.0 200 OK':
+                if res == 'HTTP/1.1 200 OK':
+                    is_1_1 = True
                     task['proxy']['http_status'] = 200
                     task['proxy']['http_status_reason'] = None
+                    task['proxy']['protocol_version'] = '1.1'
                 else:
                     task['proxy']['http_status'] = -1
                     task['proxy']['http_status_reason'] = res
+                
+                # HTTP 1.0
+                if not is_1_1:
+                    s = socket.socket()
+                    s.settimeout(timeouts.froxly_checker)
+                    url_obj = urllib.parse.urlparse(task['url'])
+                    s.connect((task['proxy']['ip'], int(task['proxy']['port'])))
+                    req_str = 'GET ' + task['url'] + ' HTTP/1.0\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+                    s.sendall(req_str.encode())
+                    res = s.recv(15).decode()
+                    s.close()
+                    if res == 'HTTP/1.0 200 OK':
+                        task['proxy']['http_status'] = 200
+                        task['proxy']['http_status_reason'] = None
+                        task['proxy']['protocol_version'] = '1.0'
+                    else:
+                        task['proxy']['http_status'] = -1
+                        task['proxy']['http_status_reason'] = res
             except Exception as e:
                 task['proxy']['http_status'] = -1
                 task['proxy']['http_status_reason'] = str(e)
