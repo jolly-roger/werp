@@ -45,11 +45,11 @@ def run():
                 remote_charset = 'utf-8'
                 if 'charset' in req['params'] and req['params']['charset'] is not None:
                     remote_charset = req['params']['charset']
-                remote_res = s.recv(15).decode(remote_charset, 'replace')
+                remote_res = s.recv(15).decode(remote_charset, 'ignore')
                 if remote_res == 'HTTP/1.1 200 OK' or remote_res == 'HTTP/1.0 200 OK':
                     buf = s.recv(1024)
                     while buf:
-                        remote_res += buf.decode(remote_charset, 'replace')
+                        remote_res += buf.decode(remote_charset, 'ignore')
                         buf = s.recv(1024)
                     start_body = remote_res.find('\r\n\r\n')
                     res['result']['data'] = remote_res[start_body + 4:]
