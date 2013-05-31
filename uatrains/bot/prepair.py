@@ -4,6 +4,7 @@ import json
 
 from werp import nlog
 from werp.common import sockets
+from werp.uatrains.engine import drv
 
 try:
     ctx = zmq.Context()
