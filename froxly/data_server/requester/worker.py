@@ -40,7 +40,8 @@ def run():
                 froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
                 s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-                remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
+                remote_req_str = 'GET ' + req['params']['url'] + '' + rnd_proxy['protocol_version'] + \
+                    '\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                 s.sendall(remote_req_str.encode())
                 remote_charset = 'utf-8'
                 if 'charset' in req['params'] and req['params']['charset'] is not None:
