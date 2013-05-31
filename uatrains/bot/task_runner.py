@@ -3,14 +3,12 @@ from http.client import *
 import multiprocessing
 import traceback
 import threading
-import socket
 import zmq
 import json
 import time
 import datetime
 import redis
 
-import werp.froxly.errors
 from werp import orm
 from werp.orm import uatrains
 from werp import nlog
@@ -19,7 +17,6 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 from werp.common import sockets
 from werp.common import red_keys
-from werp.froxly.data_server import common as data_server_common
 
 TRY_COUNT = 5
 
@@ -28,10 +25,10 @@ def run_task(task_id):
     ses = None
     try:
         ctx = zmq.Context()
-        rnd_user_agent_socket = ctx.socket(zmq.REQ)
-        rnd_user_agent_socket.connect(sockets.rnd_user_agent)
+        
         froxly_data_server_socket = ctx.socket(zmq.REQ)
         froxly_data_server_socket.connect(sockets.froxly_data_server)
+        
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         task = None
@@ -44,53 +41,57 @@ def run_task(task_id):
             ses.commit()
             task.http_status = 0
             try_count = 0
+            ua_res_data = None
+            ru_res_data = None
+            en_res_data = None
             while task.http_status <= 0 and try_count < TRY_COUNT:
-                rnd_user_agent_socket.send_unicode('')
-                rnd_user_agent = rnd_user_agent_socket.recv_unicode()
-                domain = None
+                current_drv = None
                 if task.drv == task_drvs.southwest:
-                    domain = drv.southwest.domain
+                    current_drv = drv.southwest
                 elif task.drv == task_drvs.passengers:
-                    domain = drv.passengers.domain
-                froxly_data_server_socket.send_unicode(json.dumps({'method': 'rnd_for_url', 'params':
-                    {'url': domain}}))
-                rnd_proxy_res = json.loads(froxly_data_server_socket.recv_unicode())
-                rnd_proxy = None
-                if rnd_proxy_res is not None:
-                    rnd_proxy = rnd_proxy_res['result']
-                exc = None
+                    current_drv = drv.passengers
+                if ua_res_data is None:
+                    ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
+                    ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
+                    froxly_data_server_socket.send_unicode(json.dumps(ua_req))
+                    ua_res = json.loads(froxly_data_server_socket.recv_unicode())
+                    if 'http_status' in ua_res['result'] and 'data' in ua_res['result'] and \
+                        ua_res['result']['http_status'] == 200:
+                        ua_res_data = ua_res['result']['data']
+                    else:
+                        task.http_status = ua_res['result']['http_status']
+                        task.http_status_reason = ua_res['result']['http_status_reason']
+                if ru_res_data is None:
+                    ru_url = current_drv.ru_url.replace('(tid)', str(task.data))
+                    ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset}}
+                    froxly_data_server_socket.send_unicode(json.dumps(ru_req))
+                    ru_res = json.loads(froxly_data_server_socket.recv_unicode())
+                    if 'http_status' in ru_res['result'] and 'data' in ru_res['result'] and \
+                        ru_res['result']['http_status'] == 200:
+                        ru_res_data = ru_res['result']['data']
+                    else:
+                        task.http_status = ua_res['result']['http_status']
+                        task.http_status_reason = ua_res['result']['http_status_reason']
+                if en_res_data is None:
+                    en_url = current_drv.en_url.replace('(tid)', str(task.data))
+                    en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset}}
+                    froxly_data_server_socket.send_unicode(json.dumps(en_req))
+                    en_res = json.loads(froxly_data_server_socket.recv_unicode())
+                    if 'http_status' in en_res['result'] and 'data' in en_res['result'] and \
+                        en_res['result']['http_status'] == 200:
+                        en_res_data = en_res['result']['data']
+                    else:
+                        task.http_status = ua_res['result']['http_status']
+                        task.http_status_reason = ua_res['result']['http_status_reason']
                 try:
-                    if task.drv == task_drvs.southwest:
-                        drv.southwest.get_train_data(task.data, rnd_proxy, rnd_user_agent)
-                    elif task.drv == task_drvs.passengers:
-                        drv.passengers.get_train_data(task.data, rnd_proxy, rnd_user_agent)
-                except werp.froxly.errors.ProxyError as e:
-                    exc = e
-                    task.http_status_reason = str(e)
-                    if e.proxy is not None:
-                        if isinstance(e.base_exception, HTTPError):
-                            task.http_status = -1
-                        else:
-                            task.http_status = -11
-                            domain = ''
-                            if task.drv == task_drvs.passengers:
-                                domain = drv.passengers.domain
-                            else:
-                                domain = drv.southwest.domain
-                            sproxy = data_server_common.jproxy2sproxy(e.proxy)
-                            froxly_data_server_socket = ctx.socket(zmq.REQ)
-                            froxly_data_server_socket.connect(sockets.froxly_data_server)
-                            froxly_data_server_socket.send_unicode(json.dumps({'method': 'deactivate_for_url', 'params':
-                                {'url': domain, 'proxy': sproxy, 'reason': task.http_status_reason}}))
-                            froxly_data_server_socket.recv_unicode()
+                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
+                        current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
+                        task.http_status = 200
+                        task.http_status_reason = None
                 except Exception as e:
-                    exc = e
                     task.http_status = -2
                     task.http_status_reason = str(e)
                     nlog.info('uatrains bot - task runner error', traceback.format_exc())
-                if exc is None:
-                    task.http_status = 200
-                    task.http_status_reason = None
                 try_count += 1
             task.status = task_status.completed
             ses.commit()
@@ -106,21 +107,6 @@ def run_task(task_id):
 try:
     start_dt = datetime.datetime.now()
     start_time = time.time()
-    ctx = zmq.Context()
-    froxly_data_server_socket = ctx.socket(zmq.REQ)
-    froxly_data_server_socket.connect(sockets.froxly_data_server)
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
-        {'url': drv.southwest.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'clear_for_url', 'params':
-        {'url': drv.passengers.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-        {'url': drv.southwest.domain}}))
-    froxly_data_server_socket.recv_unicode()
-    froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-        {'url': drv.passengers.domain}}))
-    froxly_data_server_socket.recv_unicode()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()

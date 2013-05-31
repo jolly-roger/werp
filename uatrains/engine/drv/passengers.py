@@ -1,26 +1,17 @@
-import datetime
 import traceback
-import urllib.request
 import urllib.parse
 from lxml import etree
 import io
 import logging
-import json
-
-import werp.orm
-import werp.froxly.errors
-from werp.common import sockets
-from werp.common import timeouts
 
 from ...common import etype
 from ... import orm
 from .. import trainstation
 
-
 logger = logging.getLogger('werp_error.uatrains_spider')
 
+charset = 'utf-8'
 domain = 'http://www.uz.gov.ua'
-#http://www.uz.gov.ua/passengers/timetables/?ntrain=25090&by_id=1
 ua_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'
 ru_url = 'http://www.uz.gov.ua/passengers/timetables/?ntrain=(tid)&by_id=1'
 en_url = 'http://www.uz.gov.ua/en/passengers/timetables/?ntrain=(tid)&by_id=1'
@@ -220,71 +211,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
                             elif trainstation.is_changed(ts, ses):
                                 trainstation.load_changes(ts, ses)
                             ses.commit()
-def get_train_data(tid, rnd_proxy, rnd_user_agent):
+def get_train_data(tid, ua_res_data, ru_res_data, en_res_data):
 	ses = None
 	conn = None
 	try:
 		conn = orm.null_engine.connect()
 		ses = orm.sescls(bind=conn)
 		e = None
-		ua_dom_tree = None
-		ru_dom_tree = None
-		en_dom_tree = None
-		ua_res_data = None
-		ru_res_data = None
-		en_res_data = None
-		
-		ua_s = socket.socket()
-		ua_s.settimeout(timeouts.uatrains_bot)
-		ua_url_obj = urllib.parse.urlparse(ua_url.replace('(tid)', str(tid)))
-		ua_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-		ua_req_str = 'GET ' + ua_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + ua_url_obj.netloc +\
-			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
-		ua_s.sendall(ua_req_str.encode())
-		ua_res = ua_s.recv(15).decode()
-		if ua_res == 'HTTP/1.1 200 OK' or ua_res == 'HTTP/1.0 200 OK':
-			buf = ua_s.recv(1024)
-			while buf:
-				ua_res += buf.decode()
-				buf = ua_s.recv(1024)
-			start_body = ua_res.find('\r\n\r\n')
-			ua_res_data = ua_res[start_body + 4:]
-		ua_s.close()
-		
-		ru_s = socket.socket()
-		ru_s.settimeout(timeouts.uatrains_bot)
-		ru_url_obj = urllib.parse.urlparse(ru_url.replace('(tid)', str(tid)))
-		ru_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-		ru_req_str = 'GET ' + ru_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + ru_url_obj.netloc +\
-			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
-		ru_s.sendall(ru_req_str.encode())
-		ru_res = ru_s.recv(15).decode()
-		if ru_res == 'HTTP/1.1 200 OK' or ru_res == 'HTTP/1.0 200 OK':
-			buf = ru_s.recv(1024)
-			while buf:
-				ru_res += buf.decode()
-				buf = ru_s.recv(1024)
-			start_body = ru_res.find('\r\n\r\n')
-			ru_res_data = ru_res[start_body + 4:]
-		ru_s.close()
-		
-		en_s = socket.socket()
-		en_s.settimeout(timeouts.uatrains_bot)
-		en_url_obj = urllib.parse.urlparse(en_url.replace('(tid)', str(tid)))
-		en_s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-		en_req_str = 'GET ' + en_url.replace('(tid)', str(tid)) + ' HTTP/1.1\r\nHost:' + en_url_obj.netloc +\
-			'\r\nUser-Agent:' + rnd_user_agent + '\r\n\r\n'
-		en_s.sendall(en_req_str.encode())
-		en_res = en_s.recv(15).decode()
-		if en_res == 'HTTP/1.1 200 OK' or en_res == 'HTTP/1.0 200 OK':
-			buf = en_s.recv(1024)
-			while buf:
-				en_res += buf.decode()
-				buf = en_s.recv(1024)
-			start_body = en_res.find('\r\n\r\n')
-			en_res_data = en_res[start_body + 4:]
-		en_s.close()
-		
 		parser = etree.HTMLParser()
 		ua_dom_tree = etree.parse(io.StringIO(ua_res_data), parser)
 		ru_dom_tree = etree.parse(io.StringIO(ru_res_data), parser)
@@ -316,7 +249,7 @@ def get_train_data(tid, rnd_proxy, rnd_user_agent):
 			ses.close()
 		if conn is not None:
 			conn.close()
-		raise werp.froxly.errors.ProxyError(e, rnd_proxy)
+		raise e
 def get_t(e, ses):
 	t = None
 	try:
