@@ -36,7 +36,7 @@ def run():
                     conn_req = conn_req + chr(0x00).encode()
                     s.sendall(conn_req)
                     conn_resp = s.recv(8)
-                    if resp[0:1] == chr(0x00).encode() or resp[1:2] == chr(0x5A).encode():
+                    if conn_resp[0:1] == chr(0x00).encode() or conn_resp[1:2] == chr(0x5A).encode():
                         s.close()
                         raise Exception('Socks proxy error')
                     req_str = 'GET ' + task['url'] + ' HTTP/1.1\r\nHost:' + url_obj.netloc + '\r\n\r\n'
