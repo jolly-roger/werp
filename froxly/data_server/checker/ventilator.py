@@ -18,7 +18,7 @@ def base_run(url):
         froxly_checker_req.bind(sockets.froxly_checker_req)
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
-        proxies = ses.query(orm.FreeProxy).filter(orm.FreeProxy.protocol == 'http').all()
+        proxies = ses.query(orm.FreeProxy).all()
         for proxy in proxies:
             task = {'url': url, 'red_key': red_keys.froxly_base_check_free_proxy,
                 'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
