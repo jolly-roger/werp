@@ -8,8 +8,7 @@ import threading
 from werp import nlog
 from werp.common import sockets
 from werp.froxly.data_server import worker
-
-WORKER_POOL = 32
+from werp.froxly.data_server import common as data_server_common
 
 try:
     ctx = zmq.Context()
@@ -46,7 +45,7 @@ try:
         req_msg[2] = json.dumps({'result': None}).encode()
         froxly_data_server_socket.send_multipart(req_msg)
         
-    for wrk_num in range(WORKER_POOL):
+    for wrk_num in range(data_server_common.DATA_SERVER_WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
     checker_methods = {}

@@ -9,11 +9,10 @@ import json
 from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
+from werp.froxly.data_server import common as data_server_common
 from werp.froxly.data_server.checker import worker
 from werp.froxly.data_server.checker import sink
 from werp.froxly.data_server.checker import ventilator
-
-WORKER_POOL = 32
 
 try:
     ctx = zmq.Context()
@@ -41,7 +40,7 @@ try:
             red.rpush(red_keys.exec_time_log, 'froxly url (' + msg['params']['url'] + ') check %s %s' % (str(start_dt), str(exec_delta)))
         except:
             nlog.info('froxly - checher error', traceback.format_exc())
-    for wrk_num in range(WORKER_POOL):
+    for wrk_num in range(data_server_common.CHECKER_WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
     manager = threading.Thread(target=sink.run)

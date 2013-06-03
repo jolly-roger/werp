@@ -4,9 +4,8 @@ import zmq
 
 from werp import nlog
 from werp.common import sockets
+from werp.froxly.data_server import common as data_server_common
 from werp.froxly.data_server.requester import worker
-
-WORKER_POOL = 32
 
 try:
     ctx = zmq.Context()
@@ -21,7 +20,7 @@ try:
     poller.register(froxly_requester_server_socket, zmq.POLLIN)
     poller.register(froxly_requester_worker_socket, zmq.POLLIN)
     
-    for wrk_num in range(WORKER_POOL):
+    for wrk_num in range(data_server_common.REQUESTER_WORKER_POOL):
         thr = threading.Thread(target=worker.run)
         thr.start()
     
