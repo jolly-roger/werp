@@ -5,7 +5,7 @@ def dbproxy2sproxy(proxy):
     protocol_version = ''
     if proxy.protocol == 'http':
         protocol_version = '1.0'
-    elif proxy.protocol == 'socks':
+    elif proxy.protocol == 'socks4/5':
         protocol_version = '4'
     return '{"id": ' + str(proxy.id) + ',"ip": "' + str(proxy.ip) + '", "port": "' + str(proxy.port) + \
         '", "protocol": "' + str(proxy.protocol) + '", "protocol_version": "' + protocol_version + '"}'

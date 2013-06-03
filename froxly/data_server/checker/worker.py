@@ -25,7 +25,7 @@ def run():
             ugently_data_server_socket.send_unicode('')
             rnd_user_agent = ugently_data_server_socket.recv_unicode()
             try:
-                if task['proxy']['protocol'] == 'socks':
+                if task['proxy']['protocol'] == 'socks4/5':
                     s = socket.socket()
                     s.settimeout(timeouts.froxly_checker)
                     url_obj = urllib.parse.urlparse(task['url'])
