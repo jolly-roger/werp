@@ -39,7 +39,7 @@ def run():
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
                 if task['proxy']['porotocol'] == 'socks':
                     s = socket.socket()
-                    s.settimeout(timeouts.froxly_checker)
+                    s.settimeout(timeouts.froxly_requester)
                     url_obj = urllib.parse.urlparse(task['url'])
                     s.connect((task['proxy']['ip'], int(task['proxy']['port'])))
                     ipaddr = socket.inet_aton(socket.gethostbyname(url_obj.netloc))
