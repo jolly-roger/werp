@@ -37,7 +37,7 @@ def run():
                     rnd_proxy_req['params'] = {'url': req_url}
                 froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
-                if rnd_proxy['porotocol'] == 'socks4/5':
+                if rnd_proxy['protocol'] == 'socks4/5':
                     s = socket.socket()
                     s.settimeout(timeouts.froxly_requester)
                     s.connect((rnd_proxy['proxy']['ip'], int(rnd_proxy['proxy']['port'])))
