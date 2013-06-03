@@ -115,7 +115,7 @@ try:
         task_ids.append(t.id)
     ses.close()
     conn.close()
-    with multiprocessing.Pool(processes=16) as ppool:
+    with multiprocessing.Pool(processes=8) as ppool:
         ppool.map(run_task, [task_id for task_id in task_ids])
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
