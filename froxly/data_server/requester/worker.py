@@ -37,11 +37,10 @@ def run():
                     rnd_proxy_req['params'] = {'url': req_url}
                 froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
-                if task['proxy']['porotocol'] == 'socks4/5':
+                if rnd_proxy['porotocol'] == 'socks4/5':
                     s = socket.socket()
                     s.settimeout(timeouts.froxly_requester)
-                    url_obj = urllib.parse.urlparse(task['url'])
-                    s.connect((task['proxy']['ip'], int(task['proxy']['port'])))
+                    s.connect((rnd_proxy['proxy']['ip'], int(rnd_proxy['proxy']['port'])))
                     ipaddr = socket.inet_aton(socket.gethostbyname(url_obj.netloc))
                     destport = 80
                     conn_req = struct.pack(">BBH", 0x04, 0x01, destport) + ipaddr
@@ -51,7 +50,7 @@ def run():
                     if resp[0:1] == chr(0x00).encode() or resp[1:2] == chr(0x5A).encode():
                         s.close()
                         raise Exception('Socks proxy error')
-                    remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/' + rnd_proxy['protocol_version'] + \
+                    remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/1.1' + \
                         '\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                     s.sendall(remote_req_str.encode())
                     remote_charset = 'utf-8'
