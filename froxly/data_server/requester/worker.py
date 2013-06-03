@@ -51,7 +51,7 @@ def run():
                     if resp[0:1] == chr(0x00).encode() or resp[1:2] == chr(0x5A).encode():
                         s.close()
                         raise Exception('Socks proxy error')
-                    remote_req_str = 'GET ' + req['params']['url'] + ' ' + rnd_proxy['protocol_version'] + \
+                    remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/' + rnd_proxy['protocol_version'] + \
                         '\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                     s.sendall(remote_req_str.encode())
                     remote_charset = 'utf-8'
@@ -75,7 +75,7 @@ def run():
                     s = socket.socket()
                     s.settimeout(timeouts.froxly_requester)
                     s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
-                    remote_req_str = 'GET ' + req['params']['url'] + ' ' + rnd_proxy['protocol_version'] + \
+                    remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/' + rnd_proxy['protocol_version'] + \
                         '\r\nHost:' + url_obj.netloc + '\r\n\r\n'
                     s.sendall(remote_req_str.encode())
                     remote_charset = 'utf-8'
