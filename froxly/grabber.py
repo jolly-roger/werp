@@ -71,12 +71,13 @@ try:
             fp.ip = ''.join(ip_parts)
             fp.port = raw_proxy[2].text.strip()
             fp.protocol = raw_proxy[6].text.lower().strip()
-            try:
-                ses.query(orm.FreeProxy).filter(orm.and_(orm.and_(orm.FreeProxy.ip == fp.ip, orm.FreeProxy.port == fp.port),
-                    orm.FreeProxy.protocol == fp.protocol)).one()
-            except orm.NoResultFound:
-                ses.add(fp)
-                ses.commit()
+            if fp.protocol in ('socks4/5', 'https', 'http'):
+                try:
+                    ses.query(orm.FreeProxy).filter(orm.and_(orm.and_(orm.FreeProxy.ip == fp.ip, orm.FreeProxy.port == fp.port),
+                        orm.FreeProxy.protocol == fp.protocol)).one()
+                except orm.NoResultFound:
+                    ses.add(fp)
+                    ses.commit()
         except:
             nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + \
                 etree.tostring(raw_proxy).decode('utf-8'))

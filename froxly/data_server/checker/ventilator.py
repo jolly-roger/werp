@@ -52,7 +52,7 @@ def url_run(url):
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
         for p in proxies:
-            proxy = json.loads(p.decode('utf-8', 'ignore'))
+            proxy = json.loads(p.decode('utf-8'))
             task = {'url': url, 'red_key': red_keys.froxly_url_free_proxy_prefix + url,
                 'proxy': {'id': proxy['id'], 'ip': proxy['ip'], 'port': proxy['port'], 'protocol': proxy['protocol']}}
             froxly_checker_req.send_unicode(json.dumps(task))
