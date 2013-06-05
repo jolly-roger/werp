@@ -11,7 +11,7 @@ from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
 
-def run():
+def run(url=None):
     try:
         ctx = zmq.Context()
         froxly_checker_req = ctx.socket(zmq.PULL)

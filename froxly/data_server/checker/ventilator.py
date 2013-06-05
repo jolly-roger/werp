@@ -2,11 +2,13 @@ import traceback
 import zmq
 import json
 import redis
+import threading
 
 from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
+from werp.froxly.data_server import common as data_server_common
 
 def base_run(url):
     conn = None
@@ -39,8 +41,14 @@ def url_run(url):
     ctx = None
     try:
         ctx = zmq.Context()
+        #socket_address = sockets.froxly_checker_req + '_' + 
         froxly_checker_req = ctx.socket(zmq.PUSH)
         froxly_checker_req.bind(sockets.froxly_checker_req)
+        
+        #for wrk_num in range(data_server_common.CHECKER_WORKER_POOL):
+        #    thr = threading.Thread(target=worker.run, args=(None,))
+        #    thr.start()
+        
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
         for p in proxies:

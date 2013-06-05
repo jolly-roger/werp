@@ -145,7 +145,11 @@ class uatrains(object):
         ses = orm.sescls(bind=conn)
         id = None
         try:
-            s = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(sid), orm.E.etype == etype.station)).one()
+            ss = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(sid), orm.E.etype == etype.station)).all()
+            s = ss[0]
+            for station in ss:
+                if s.oid > station.oid:
+                    s = station
             id = s.id
         except:
             notifier.notify('Uatrains error', 'Can\'t find station by sid = ' + str(sid) + '\n' +\
@@ -174,7 +178,11 @@ class uatrains(object):
         ses = orm.sescls(bind=conn)
         id = None
         try:
-            t = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(tid), orm.E.etype == etype.train)).one()
+            ts = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(tid), orm.E.etype == etype.train)).all()
+            t = ts[0]
+            for train in ts:
+                if t.oid > train.oid:
+                    t = train
             id = t.id
         except:
             notifier.notify('Uatrains error', 'Can\'t find train by tid = ' + str(tid) + '\n' +\

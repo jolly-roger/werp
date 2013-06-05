@@ -41,7 +41,7 @@ try:
         except:
             nlog.info('froxly - checher error', traceback.format_exc())
     for wrk_num in range(data_server_common.CHECKER_WORKER_POOL):
-        thr = threading.Thread(target=worker.run)
+        thr = threading.Thread(target=worker.run, args=(None,))
         thr.start()
     manager = threading.Thread(target=sink.run)
     manager.start()
@@ -52,7 +52,9 @@ try:
         try:
             msg = json.loads(froxly_checker_server_socket.recv_unicode())
             if msg['method'] in methods:
-                methods[msg['method']](msg)
+                #methods[msg['method']](msg)
+                thr = threading.Thread(target=methods[msg['method']], args=(msg,))
+                thr.start()
         except:
             nlog.info('froxly - checker server error', traceback.format_exc())
 except:
