@@ -276,20 +276,19 @@ def get_train_data(tid, ua_res_data, ru_res_data, en_res_data):
 def get_t(e, ses):
 	t = None
 	try:
-		t = ses.query(orm.E).filter(orm.and_(orm.and_(orm.and_(orm.and_(orm.and_(
-			orm.E.etype == e.etype, orm.E.oid == e.oid),
-			orm.E.ua_title == e.ua_title), orm.E.ru_title == e.ru_title),
-			orm.E.en_title == e.en_title), orm.E.value == e.value)).one()
+		t = ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == t.etype, orm.E.oid == t.oid),
+			orm.E.value == t.value)).\
+			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == t.ua_title), orm.E.ru_title == t.ru_title),
+			orm.E.en_title == t.en_title)).one()
 	except:
 		logger.error(traceback.format_exc())
 	return t
 def get_s(e, ses):
 	s = None
 	try:
-		s = ses.query(orm.E).filter(orm.and_(orm.and_(orm.and_(orm.and_(
-			orm.E.etype == e.etype, orm.E.oid == e.oid),
-			orm.E.ua_title == e.ua_title), orm.E.ru_title == e.ru_title),
-			orm.E.en_title == e.en_title)).one()
+		s = ses.query(orm.E).filter(orm.and_(orm.E.etype == s.etype, orm.E.oid == s.oid)).\
+			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == s.ua_title), orm.E.ru_title == s.ru_title),
+			orm.E.en_title == s.en_title)).one()
 	except:
 		logger.error(traceback.format_exc())
 	return s
