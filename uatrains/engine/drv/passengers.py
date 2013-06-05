@@ -274,28 +274,30 @@ def get_s(e, ses):
 def is_t_added(t, ses):
 	ret = False
 	try:
-		ses.query(orm.E).filter(orm.and_(orm.and_(orm.and_(orm.and_(orm.and_(
-			orm.E.etype == t.etype, orm.E.oid == t.oid),
-			orm.E.ua_title == t.ua_title), orm.E.ru_title == t.ru_title),
-			orm.E.en_title == t.en_title), orm.E.value == t.value)).one()
+		ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == t.etype, orm.E.oid == t.oid), orm.E.value == t.value)).\
+			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == t.ua_title), orm.E.ru_title == t.ru_title),
+			orm.E.en_title == t.en_title)).one()
 		ret = True
 	except orm.NoResultFound:
 		pass
 	return ret
 def is_s_added(s, ses):
-    ret = False
-    try:
-        prepared_ua_title = s.ua_title.replace(' ', '%').replace('-', '%')
-        ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == s.etype, orm.E.ua_title.ilike(prepared_ua_title)),
-            orm.E.value == s.value)).one()
-        ret = True
-    except orm.NoResultFound:
-        pass
-    except:
-        logger.info(str(s.value) + ' ' + str(s.ua_title))
-        logger.error(traceback.format_exc())
-        ret = True
-    return ret
+	ret = False
+	try:
+		prepared_ua_title = s.ua_title.replace(' ', '%').replace('-', '%')
+		prepared_ru_title = s.ru_title.replace(' ', '%').replace('-', '%')
+		prepared_en_title = s.en_title.replace(' ', '%').replace('-', '%')
+		ses.query(orm.E).filter(orm.and_(orm.E.etype == s.etype, orm.E.value == s.value)).\
+			filter(orm.or_(orm.or_(orm.E.ua_title.ilike(prepared_ua_title, orm.E.ru_title.ilike(prepared_ru_title))),
+				orm.E.en_title.ilike(prepared_en_title))).one()
+		ret = True
+	except orm.NoResultFound:
+		pass
+	except:
+		logger.info(str(s.value) + ' ' + str(s.ua_title))
+		logger.error(traceback.format_exc())
+		ret = True
+	return ret
 def is_empty(e):
 	ret = False
 	if e.ua_title is None and e.ru_title is None and e.en_title is None:
