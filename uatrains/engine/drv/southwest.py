@@ -291,6 +291,6 @@ def get_s(e, ses):
 	return s
 def is_empty(e):
 	ret = False
-	if e.ua_title is None and e.ru_title is None and e.en_title is None:
+	if e.ua_title is None and e.ru_title is None and e.en_title is None and e.value is None:
 		ret = True
 	return ret
