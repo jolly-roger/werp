@@ -44,12 +44,12 @@ def run_task(task_id):
             ua_res_data = None
             ru_res_data = None
             en_res_data = None
+            current_drv = None
+            if task.drv == task_drvs.southwest:
+                current_drv = drv.southwest
+            elif task.drv == task_drvs.passengers:
+                current_drv = drv.passengers
             while task.http_status <= 0 and try_count < TRY_COUNT:
-                current_drv = None
-                if task.drv == task_drvs.southwest:
-                    current_drv = drv.southwest
-                elif task.drv == task_drvs.passengers:
-                    current_drv = drv.passengers
                 if ua_res_data is None:
                     ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                     ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
@@ -84,8 +84,10 @@ def run_task(task_id):
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 try:
-                    nlog.info('uatrains bot - task runner info', 'ua_res_data:\n' + str(ua_res_data) +\
-                            '\nru_res_data:\n' + str(ru_res_data) + '\nen_res_data:\n' + str(en_res_data))
+                    #nlog.info('uatrains bot - task runner info', 'ua_res_data:\n' + str(ua_res_data) +\
+                    #        '\nru_res_data:\n' + str(ru_res_data) + '\nen_res_data:\n' + str(en_res_data))
+                    
+                    nlog.info('uatrains bot - task runner info', '0')
                     
                     if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:                        
                         current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
