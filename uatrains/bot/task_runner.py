@@ -84,11 +84,10 @@ def run_task(task_id):
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 try:
-                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
-                        
-                        nlog.info('uatrains bot - task runner info', 'ua_res_data:\n' + str(ua_res_data) +\
+                    nlog.info('uatrains bot - task runner info', 'ua_res_data:\n' + str(ua_res_data) +\
                             '\nru_res_data:\n' + str(ru_res_data) + '\nen_res_data:\n' + str(en_res_data))
-                        
+                    
+                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:                        
                         current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
                         task.http_status = 200
                         task.http_status_reason = None
