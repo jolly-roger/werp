@@ -103,6 +103,7 @@ def run_task(task_id):
                     task.http_status = -2
                     task.http_status_reason = str(e)
                     nlog.info('uatrains bot - task runner error', traceback.format_exc())
+                nlog.info('uatrains bot - task runner info', 'http status: ' + str(task.http_status))
                 try_count += 1
             task.status = task_status.completed
             ses.commit()
