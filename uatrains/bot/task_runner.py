@@ -50,6 +50,9 @@ def run_task(task_id):
             elif task.drv == task_drvs.passengers:
                 current_drv = drv.passengers
             while task.http_status <= 0 and try_count < TRY_COUNT:
+                
+                nlog.info('uatrains bot - task runner info', 'try_count: ' + str(try_count))
+                
                 if ua_res_data is None:
                     ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                     ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
@@ -89,7 +92,10 @@ def run_task(task_id):
                     
                     nlog.info('uatrains bot - task runner info', '0')
                     
-                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:                        
+                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
+                        
+                        nlog.info('uatrains bot - task runner info', '1')
+                        
                         current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
                         task.http_status = 200
                         task.http_status_reason = None
