@@ -94,7 +94,7 @@ def run_task(task_id):
                     
                     if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
                         
-                        nlog.info('uatrains bot - task runner info', '1')
+                        nlog.info('uatrains bot - task runner info', '100')
                         
                         current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
                         task.http_status = 200
