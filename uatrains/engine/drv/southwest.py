@@ -197,14 +197,10 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
 					if not is_empty(e):
-						s = None
-						if not is_s_added(e, ses):
+						s = get_s(e, ses)
+						if s is None:
 							ses.add(e)
 							ses.commit()
-						else:
-							oe = get_s(e, ses)
-							s = oe
-						if s is None:
 							s = e
 						order = None
 						arrival = None
@@ -248,18 +244,15 @@ def get_train_data(tid, ua_res_data, ru_res_data, en_res_data):
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
 			if not is_empty(e):
-				t = None
-				if not is_t_added(e, ses):
-					ses.add(e)
-				else:
-					oe = get_t(e, ses)
-					oe.ua_period = e.ua_period
-					oe.ru_period = e.ru_period
-					oe.en_period = e.en_period
-					t = oe
-				ses.commit()
+				t = get_t(e, ses)
 				if t is None:
+					ses.add(e)
 					t = e
+				else:
+					t.ua_period = e.ua_period
+					t.ru_period = e.ru_period
+					t.en_period = e.en_period
+				ses.commit()
 				link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 		ses.commit()
 		ses.close()
@@ -276,42 +269,26 @@ def get_train_data(tid, ua_res_data, ru_res_data, en_res_data):
 def get_t(e, ses):
 	t = None
 	try:
-		t = ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == t.etype, orm.E.oid == t.oid),
-			orm.E.value == t.value)).\
-			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == t.ua_title), orm.E.ru_title == t.ru_title),
-			orm.E.en_title == t.en_title)).one()
+		t = ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == e.etype, orm.E.oid == e.oid),
+			orm.E.value == e.value)).\
+			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == e.ua_title), orm.E.ru_title == e.ru_title),
+			orm.E.en_title == e.en_title)).one()
+	except orm.NoResultFound:
+		pass
 	except:
 		logger.error(traceback.format_exc())
 	return t
 def get_s(e, ses):
 	s = None
 	try:
-		s = ses.query(orm.E).filter(orm.and_(orm.E.etype == s.etype, orm.E.oid == s.oid)).\
-			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == s.ua_title), orm.E.ru_title == s.ru_title),
-			orm.E.en_title == s.en_title)).one()
+		s = ses.query(orm.E).filter(orm.and_(orm.E.etype == e.etype, orm.E.oid == e.oid)).\
+			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == e.ua_title), orm.E.ru_title == e.ru_title),
+			orm.E.en_title == e.en_title)).one()
+	except orm.NoResultFound:
+		pass
 	except:
 		logger.error(traceback.format_exc())
 	return s
-def is_t_added(t, ses):
-	ret = False
-	try:
-		ses.query(orm.E).filter(orm.and_(orm.and_(orm.E.etype == t.etype, orm.E.oid == t.oid), orm.E.value == t.value)).\
-			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == t.ua_title), orm.E.ru_title == t.ru_title),
-			orm.E.en_title == t.en_title)).one()
-		ret = True
-	except orm.NoResultFound:
-		pass
-	return ret
-def is_s_added(s, ses):
-	ret = False
-	try:
-		ses.query(orm.E).filter(orm.and_(orm.E.etype == s.etype, orm.E.oid == s.oid)).\
-			filter(orm.or_(orm.or_(orm.or_(orm.E.ua_title == s.ua_title), orm.E.ru_title == s.ru_title),
-			orm.E.en_title == s.en_title)).one()
-		ret = True
-	except orm.NoResultFound:
-		pass
-	return ret
 def is_empty(e):
 	ret = False
 	if e.ua_title is None and e.ru_title is None and e.en_title is None:
