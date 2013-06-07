@@ -103,7 +103,7 @@ def run_task(task_id):
                     task.http_status_reason = en_res['result']['http_status_reason']
                 try:
                     if ua_dom_tree is not None and ru_dom_tree is not None and en_dom_tree is not None:
-                        current_drv.get_train_data(task.data, ua_dom_tree, ru_dom_tree, en_dom_tree)
+                        current_drv.get_train_data(int(task.data), ua_dom_tree, ru_dom_tree, en_dom_tree)
                         task.http_status = 200
                         task.http_status_reason = None
                 except Exception as e:

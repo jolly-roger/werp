@@ -81,31 +81,13 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 				value = '/'.join(value_parts[:len(value_parts) - 1])
 	if raw_ua_period is not None and len(raw_ua_period) > 0 and raw_ua_period[0] is not None and \
 		raw_ua_period[0].strip() != '':
-		ua_period = raw_ua_period[0].strip()
-		period_parts = ua_period.split('/')
-		if len(period_parts) > 1:
-			try:
-				int(period_parts[-1])
-			except:
-				ua_period = period_parts[-1]
+		ua_period = raw_ua_period[-1].strip()
 	if raw_ru_period is not None and len(raw_ru_period) > 0 and raw_ru_period[0] is not None and \
 		raw_ru_period[0].strip() != '':
-		ru_period = raw_ru_period[0].strip()
-		period_parts = ru_period.split('/')
-		if len(period_parts) > 1:
-			try:
-				int(period_parts[-1])
-			except:
-				ru_period = period_parts[-1]
+		ru_period = raw_ru_period[-1].strip()
 	if raw_en_period is not None and len(raw_en_period) > 0 and raw_en_period[0] is not None and \
 		raw_en_period[0].strip() != '':
-		en_period = raw_en_period[0].strip()
-		period_parts = en_period.split('/')
-		if len(period_parts) > 1:
-			try:
-				int(period_parts[-1])
-			except:
-				en_period = period_parts[-1]
+		en_period = raw_en_period[-1].strip()
 	return orm.E(etype.train, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
 def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 	raw_ua_s_titles = None
