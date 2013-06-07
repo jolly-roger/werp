@@ -60,8 +60,14 @@ def run_task(task_id):
                     ua_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in ua_res['result'] and 'data' in ua_res['result'] and \
                         ua_res['result']['http_status'] == 200:
+                        
+                        nlog.info('uatrains bot - task runner info', 'ua data')
+                        
                         ua_res_data = ua_res['result']['data']
                     else:
+                        
+                        nlog.info('uatrains bot - task runner info', 'ua no data')
+                        
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 if ru_res_data is None:
@@ -71,8 +77,14 @@ def run_task(task_id):
                     ru_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in ru_res['result'] and 'data' in ru_res['result'] and \
                         ru_res['result']['http_status'] == 200:
+                        
+                        nlog.info('uatrains bot - task runner info', 'ru data')
+                        
                         ru_res_data = ru_res['result']['data']
                     else:
+                        
+                        nlog.info('uatrains bot - task runner info', 'ru no data')
+                        
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 if en_res_data is None:
@@ -82,16 +94,17 @@ def run_task(task_id):
                     en_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in en_res['result'] and 'data' in en_res['result'] and \
                         en_res['result']['http_status'] == 200:
+                        
+                        nlog.info('uatrains bot - task runner info', 'en data')
+                        
                         en_res_data = en_res['result']['data']
                     else:
+                        
+                        nlog.info('uatrains bot - task runner info', 'en no data')
+                        
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 try:
-                    #nlog.info('uatrains bot - task runner info', 'ua_res_data:\n' + str(ua_res_data) +\
-                    #        '\nru_res_data:\n' + str(ru_res_data) + '\nen_res_data:\n' + str(en_res_data))
-                    
-                    nlog.info('uatrains bot - task runner info', '0')
-                    
                     if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
                         
                         nlog.info('uatrains bot - task runner info', '100')
