@@ -1,3 +1,4 @@
+from lxml import etree
 import traceback
 import urllib.parse
 import logging
@@ -5,6 +6,8 @@ import logging
 from ...common import etype
 from ... import orm
 from .. import trainstation
+
+from werp import nlog
 
 logger = logging.getLogger('werp_error.uatrains_spider')
 
@@ -247,6 +250,12 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 					t.en_period = e.en_period
 				ses.commit()
 				link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
+			else:
+				nlog.info('uatrains bot - southwest driver info',
+					'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True) + '\n\n' + \
+					'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True) + '\n\n' + \
+					'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True))
+				raise Exception('Southwest driver train entity has empty fields')
 		ses.commit()
 		ses.close()
 		conn.close()
@@ -284,6 +293,6 @@ def get_s(e, ses):
 	return s
 def is_empty(e):
 	ret = False
-	if e.ua_title is None and e.ru_title is None and e.en_title is None and e.value is None:
+	if e.ua_title is None or e.ru_title is None or e.en_title is None or e.value is None:
 		ret = True
 	return ret
