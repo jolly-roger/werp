@@ -56,9 +56,6 @@ def run_task(task_id):
                 ua_res = None
                 ru_res = None
                 en_res = None
-                
-                nlog.info('uatrains bot - task runner info', 'try_count: ' + str(try_count))
-                
                 if ua_dom_tree is None:
                     ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                     ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
@@ -66,8 +63,6 @@ def run_task(task_id):
                     ua_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in ua_res['result'] and 'data' in ua_res['result'] and \
                         ua_res['result']['http_status'] == 200:
-                        
-                        nlog.info('uatrains bot - task runner info', 'ua data')
                         try:
                             ua_dom_tree = etree.parse(io.StringIO(ua_res['result']['data']), parser)
                         except Exception as e:
@@ -80,8 +75,6 @@ def run_task(task_id):
                     ru_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in ru_res['result'] and 'data' in ru_res['result'] and \
                         ru_res['result']['http_status'] == 200:
-                        
-                        nlog.info('uatrains bot - task runner info', 'ru data')
                         try:
                             ru_dom_tree = etree.parse(io.StringIO(ru_res['result']['data']), parser)
                         except Exception as e:
@@ -94,8 +87,6 @@ def run_task(task_id):
                     en_res = json.loads(froxly_data_server_socket.recv_unicode())
                     if 'http_status' in en_res['result'] and 'data' in en_res['result'] and \
                         en_res['result']['http_status'] == 200:
-                        
-                        nlog.info('uatrains bot - task runner info', 'en data')
                         try:
                             en_dom_tree = etree.parse(io.StringIO(en_res['result']['data']), parser)
                         except Exception as e:
@@ -112,9 +103,6 @@ def run_task(task_id):
                     task.http_status_reason = en_res['result']['http_status_reason']
                 try:
                     if ua_dom_tree is not None and ru_dom_tree is not None and en_dom_tree is not None:
-                        
-                        nlog.info('uatrains bot - task runner info', '100')
-                        
                         current_drv.get_train_data(task.data, ua_dom_tree, ru_dom_tree, en_dom_tree)
                         task.http_status = 200
                         task.http_status_reason = None
@@ -122,7 +110,6 @@ def run_task(task_id):
                     task.http_status = -2
                     task.http_status_reason = str(e)
                     nlog.info('uatrains bot - task runner error', traceback.format_exc())
-                nlog.info('uatrains bot - task runner info', 'http status: ' + str(task.http_status))
                 try_count += 1
             task.status = task_status.completed
             ses.commit()

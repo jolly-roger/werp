@@ -1,7 +1,5 @@
 import traceback
 import urllib.parse
-from lxml import etree
-import io
 import logging
 
 from ...common import etype
