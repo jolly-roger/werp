@@ -240,23 +240,24 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
 			if not is_empty(e):
-				t = get_t(e, ses)
-				if t is None:
-					ses.add(e)
-					t = e
+				if is_has_all_data(e):
+					t = get_t(e, ses)
+					if t is None:
+						ses.add(e)
+						t = e
+					else:
+						t.ua_period = e.ua_period
+						t.ru_period = e.ru_period
+						t.en_period = e.en_period
+					ses.commit()
+					link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 				else:
-					t.ua_period = e.ua_period
-					t.ru_period = e.ru_period
-					t.en_period = e.en_period
-				ses.commit()
-				link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
-			else:
-				nlog.info('uatrains bot - southwest driver info',
-					'tid: ' + str(tid) + '\n\n' + \
-					'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
-					'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
-					'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
-				raise Exception('Southwest driver train entity has empty fields')
+					nlog.info('uatrains bot - southwest driver info',
+						'tid: ' + str(tid) + '\n\n' + \
+						'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
+						'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
+						'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+					raise Exception('Southwest driver train entity has empty fields')
 		ses.commit()
 		ses.close()
 		conn.close()
@@ -294,6 +295,11 @@ def get_s(e, ses):
 	return s
 def is_empty(e):
 	ret = False
-	if e.ua_title is None or e.ru_title is None or e.en_title is None or e.value is None:
+	if e.ua_title is None and e.ru_title is None and e.en_title is None and e.value is None:
+		ret = True
+	return ret
+def is_has_all_data(e):
+	ret = False
+	if e.ua_title is not None or e.ru_title is not None or e.en_title is not None or e.value is not None:
 		ret = True
 	return ret
