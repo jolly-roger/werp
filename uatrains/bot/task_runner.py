@@ -1,5 +1,7 @@
 from urllib.error import *
 from http.client import *
+from lxml import etree
+import io
 import multiprocessing
 import traceback
 import threading
@@ -41,10 +43,11 @@ def run_task(task_id):
             ses.commit()
             task.http_status = 0
             try_count = 0
-            ua_res_data = None
-            ru_res_data = None
-            en_res_data = None
+            ua_dom_tree = None
+            ru_dom_tree = None
+            en_dom_tree = None
             current_drv = None
+            parser = etree.HTMLParser()
             if task.drv == task_drvs.southwest:
                 current_drv = drv.southwest
             elif task.drv == task_drvs.passengers:
@@ -53,7 +56,7 @@ def run_task(task_id):
                 
                 nlog.info('uatrains bot - task runner info', 'try_count: ' + str(try_count))
                 
-                if ua_res_data is None:
+                if ua_dom_tree is None:
                     ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                     ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
                     froxly_data_server_socket.send_unicode(json.dumps(ua_req))
@@ -62,15 +65,15 @@ def run_task(task_id):
                         ua_res['result']['http_status'] == 200:
                         
                         nlog.info('uatrains bot - task runner info', 'ua data')
-                        
-                        ua_res_data = ua_res['result']['data']
+
+                        ua_dom_tree = etree.parse(io.StringIO(ua_res['result']['data']), parser)
                     else:
                         
                         nlog.info('uatrains bot - task runner info', 'ua no data')
                         
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
-                if ru_res_data is None:
+                if ru_dom_tree is None:
                     ru_url = current_drv.ru_url.replace('(tid)', str(task.data))
                     ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset}}
                     froxly_data_server_socket.send_unicode(json.dumps(ru_req))
@@ -80,14 +83,14 @@ def run_task(task_id):
                         
                         nlog.info('uatrains bot - task runner info', 'ru data')
                         
-                        ru_res_data = ru_res['result']['data']
+                        ru_dom_tree = etree.parse(io.StringIO(ru_res['result']['data']), parser)
                     else:
                         
                         nlog.info('uatrains bot - task runner info', 'ru no data')
                         
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
-                if en_res_data is None:
+                if en_dom_tree is None:
                     en_url = current_drv.en_url.replace('(tid)', str(task.data))
                     en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset}}
                     froxly_data_server_socket.send_unicode(json.dumps(en_req))
@@ -97,7 +100,7 @@ def run_task(task_id):
                         
                         nlog.info('uatrains bot - task runner info', 'en data')
                         
-                        en_res_data = en_res['result']['data']
+                        en_dom_tree = etree.parse(io.StringIO(en_res['result']['data']), parser)
                     else:
                         
                         nlog.info('uatrains bot - task runner info', 'en no data')
@@ -105,11 +108,11 @@ def run_task(task_id):
                         task.http_status = ua_res['result']['http_status']
                         task.http_status_reason = ua_res['result']['http_status_reason']
                 try:
-                    if ua_res_data is not None and ru_res_data is not None and en_res_data is not None:
+                    if ua_dom_tree is not None and ru_dom_tree is not None and en_dom_tree is not None:
                         
                         nlog.info('uatrains bot - task runner info', '100')
                         
-                        current_drv.get_train_data(task.data, ua_res_data, ru_res_data, en_res_data)
+                        current_drv.get_train_data(task.data, ua_dom_tree, ru_dom_tree, en_dom_tree)
                         task.http_status = 200
                         task.http_status_reason = None
                 except Exception as e:
