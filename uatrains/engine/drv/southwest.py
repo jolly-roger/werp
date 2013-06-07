@@ -239,8 +239,8 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 		ses = orm.sescls(bind=conn)
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
-			if not is_empty(e):
-				if is_has_all_data(e):
+			if is_not_empty(e):
+				if has_all_data(e):
 					t = get_t(e, ses)
 					if t is None:
 						ses.add(e)
@@ -293,12 +293,12 @@ def get_s(e, ses):
 	except:
 		logger.error(traceback.format_exc())
 	return s
-def is_empty(e):
+def is_not_empty(e):
 	ret = False
-	if e.ua_title is None and e.ru_title is None and e.en_title is None and e.value is None:
+	if e.ua_title is not None and e.ru_title is not None and e.en_title is not None and e.value is not None:
 		ret = True
 	return ret
-def is_has_all_data(e):
+def has_all_data(e):
 	ret = False
 	if e.ua_title is not None or e.ru_title is not None or e.en_title is not None or e.value is not None:
 		ret = True
