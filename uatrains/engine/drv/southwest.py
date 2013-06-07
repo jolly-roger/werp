@@ -228,9 +228,12 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 						ses.add(e)
 						t = e
 					else:
-						t.ua_period = e.ua_period
-						t.ru_period = e.ru_period
-						t.en_period = e.en_period
+						if e.ua_period is not None:
+							t.ua_period = e.ua_period
+						if e.ru_period is not None:
+							t.ru_period = e.ru_period
+						if e.en_period is not None:
+							t.en_period = e.en_period
 					ses.commit()
 					link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 				else:
