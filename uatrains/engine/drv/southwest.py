@@ -197,7 +197,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							en_s_title = en_s_title.replace('st.', '').strip()
 				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
-					if not is_empty(e):
+					if is_not_empty(e):
 						s = get_s(e, ses)
 						if s is None:
 							ses.add(e)
