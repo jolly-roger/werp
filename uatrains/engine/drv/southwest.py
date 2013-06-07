@@ -252,6 +252,7 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 				link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 			else:
 				nlog.info('uatrains bot - southwest driver info',
+					'tid: ' + str(tid) + '\n\n' + \
 					'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
 					'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
 					'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
