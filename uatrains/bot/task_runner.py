@@ -93,13 +93,13 @@ def run_task(task_id):
                         
                         en_dom_tree = etree.parse(io.StringIO(en_res['result']['data']), parser)
                 
-                if http_status in ua_res['result'] and ua_res['result']['http_status'] < 0:
+                if 'http_status' in ua_res['result'] and ua_res['result']['http_status'] < 0:
                     task.http_status = ua_res['result']['http_status']
                     task.http_status_reason = ua_res['result']['http_status_reason']
-                if http_status in ru_res['result'] and ru_res['result']['http_status'] < 0:
+                if 'http_status' in ru_res['result'] and ru_res['result']['http_status'] < 0:
                     task.http_status = ru_res['result']['http_status']
                     task.http_status_reason = ru_res['result']['http_status_reason']
-                if http_status in en_res['result'] and en_res['result']['http_status'] < 0:
+                if 'http_status' in en_res['result'] and en_res['result']['http_status'] < 0:
                     task.http_status = en_res['result']['http_status']
                     task.http_status_reason = en_res['result']['http_status_reason']
                 try:
