@@ -53,6 +53,9 @@ def run_task(task_id):
             elif task.drv == task_drvs.passengers:
                 current_drv = drv.passengers
             while task.http_status <= 0 and try_count < TRY_COUNT:
+                ua_res = None
+                ru_res = None
+                en_res = None
                 
                 nlog.info('uatrains bot - task runner info', 'try_count: ' + str(try_count))
                 
@@ -65,14 +68,8 @@ def run_task(task_id):
                         ua_res['result']['http_status'] == 200:
                         
                         nlog.info('uatrains bot - task runner info', 'ua data')
-
+                        
                         ua_dom_tree = etree.parse(io.StringIO(ua_res['result']['data']), parser)
-                    else:
-                        
-                        nlog.info('uatrains bot - task runner info', 'ua no data')
-                        
-                        task.http_status = ua_res['result']['http_status']
-                        task.http_status_reason = ua_res['result']['http_status_reason']
                 if ru_dom_tree is None:
                     ru_url = current_drv.ru_url.replace('(tid)', str(task.data))
                     ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset}}
@@ -84,12 +81,6 @@ def run_task(task_id):
                         nlog.info('uatrains bot - task runner info', 'ru data')
                         
                         ru_dom_tree = etree.parse(io.StringIO(ru_res['result']['data']), parser)
-                    else:
-                        
-                        nlog.info('uatrains bot - task runner info', 'ru no data')
-                        
-                        task.http_status = ua_res['result']['http_status']
-                        task.http_status_reason = ua_res['result']['http_status_reason']
                 if en_dom_tree is None:
                     en_url = current_drv.en_url.replace('(tid)', str(task.data))
                     en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset}}
@@ -101,12 +92,16 @@ def run_task(task_id):
                         nlog.info('uatrains bot - task runner info', 'en data')
                         
                         en_dom_tree = etree.parse(io.StringIO(en_res['result']['data']), parser)
-                    else:
-                        
-                        nlog.info('uatrains bot - task runner info', 'en no data')
-                        
-                        task.http_status = ua_res['result']['http_status']
-                        task.http_status_reason = ua_res['result']['http_status_reason']
+                
+                if http_status in ua_res['result'] and ua_res['result']['http_status'] < 0:
+                    task.http_status = ua_res['result']['http_status']
+                    task.http_status_reason = ua_res['result']['http_status_reason']
+                if http_status in ru_res['result'] and ru_res['result']['http_status'] < 0:
+                    task.http_status = ru_res['result']['http_status']
+                    task.http_status_reason = ru_res['result']['http_status_reason']
+                if http_status in en_res['result'] and en_res['result']['http_status'] < 0:
+                    task.http_status = en_res['result']['http_status']
+                    task.http_status_reason = en_res['result']['http_status_reason']
                 try:
                     if ua_dom_tree is not None and ru_dom_tree is not None and en_dom_tree is not None:
                         

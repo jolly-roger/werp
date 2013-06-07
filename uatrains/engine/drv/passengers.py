@@ -207,17 +207,12 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							elif trainstation.is_changed(ts, ses):
 								trainstation.load_changes(ts, ses)
 							ses.commit()
-def get_train_data(tid, ua_res_data, ru_res_data, en_res_data):
+def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 	ses = None
 	conn = None
 	try:
 		conn = orm.null_engine.connect()
 		ses = orm.sescls(bind=conn)
-		e = None
-		parser = etree.HTMLParser()
-		ua_dom_tree = etree.parse(io.StringIO(ua_res_data), parser)
-		ru_dom_tree = etree.parse(io.StringIO(ru_res_data), parser)
-		en_dom_tree = etree.parse(io.StringIO(en_res_data), parser)
 		e = from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid)
 		if e is not None:
 			if not is_empty(e):
