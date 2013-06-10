@@ -17,6 +17,7 @@ ua_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ua'
 ru_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ru'
 en_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_en'
 xttitle = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[2]/b'
+			/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[6]/td[2]/a/b
 xtvalue = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[3]/b'
 xtperiod = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[3]/text()'
 xts = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr'
@@ -201,10 +202,10 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
 							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '':
 							departure = default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip()
-						if len(default_raw_s_title) >= 4 and \
+						if len(default_raw_s_title) >= 5 and \
 							len(default_raw_s_title[4].xpath('descendant-or-self::*/text()')) > 0 and \
 							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
+							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
 							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '':
 							halt = default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip()
 						ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
@@ -247,10 +248,7 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 		ses.close()
 		conn.close()
 	except Exception as e:
-		logger.fatal('Train id: ' + str(tid) + ' For more details see following record.')
-		logger.fatal(traceback.format_exc())
 		if ses is not None:
-			ses.commit()
 			ses.close()
 		if conn is not None:
 			conn.close()
