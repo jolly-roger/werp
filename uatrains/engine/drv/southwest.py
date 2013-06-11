@@ -188,7 +188,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								s = e
 						else:
 							nlog.info('uatrains bot - southwest driver info',
-								'sid: ' + str(sid) + '\n\n' + \
+								'sid: ' + str(sid) + '\n' + \
+								'tid: ' + str(t.oid) + '\n\n' + \
 								'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
 								'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
 								'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
@@ -223,7 +224,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						ses.commit()
 					else:
 						nlog.info('uatrains bot - southwest driver info',
-							'sid: ' + str(sid) + '\n\n' + \
+							'sid: ' + str(sid) + '\n' + \
+							'tid: ' + str(t.oid) + '\n\n' + \
 							'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
 							'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
 							'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
