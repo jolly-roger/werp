@@ -180,11 +180,19 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
 					if is_not_empty(e):
-						s = get_s(e, ses)
-						if s is None:
-							ses.add(e)
-							ses.commit()
-							s = e
+						if has_all_data(e):
+							s = get_s(e, ses)
+							if s is None:
+								ses.add(e)
+								ses.commit()
+								s = e
+						else:
+							nlog.info('uatrains bot - southwest driver info',
+								'sid: ' + str(sid) + '\n\n' + \
+								'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
+								'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
+								'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+							raise Exception('Southwest driver station entity has empty fields')
 						order = None
 						arrival = None
 						departure = None
@@ -213,6 +221,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						elif trainstation.is_changed(ts, ses):
 							trainstation.load_changes(ts, ses)
 						ses.commit()
+					else:
+						nlog.info('uatrains bot - southwest driver info',
+							'sid: ' + str(sid) + '\n\n' + \
+							'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
+							'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
+							'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+						raise Exception('Southwest driver station entity has empty fields')
 def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 	ses = None
 	conn = None
@@ -277,11 +292,13 @@ def get_s(e, ses):
 	return s
 def is_not_empty(e):
 	ret = False
-	if e.ua_title is not None and e.ru_title is not None and e.en_title is not None and e.value is not None:
+	if e.ua_title is not None and e.ru_title is not None and e.en_title is not None and e.value is not None and \
+		e.oid is not None:
 		ret = True
 	return ret
 def has_all_data(e):
 	ret = False
-	if e.ua_title is not None or e.ru_title is not None or e.en_title is not None or e.value is not None:
+	if e.ua_title is not None or e.ru_title is not None or e.en_title is not None or e.value is not None or \
+		e.oid is not None:
 		ret = True
 	return ret
