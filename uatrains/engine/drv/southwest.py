@@ -248,6 +248,12 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 						ses.add(e)
 						t = e
 					else:
+						if t.ua_title is None:
+							t.ua_title = e.ua_tile
+						if t.ru_title is None:
+							t.ru_title = e.ru_tile
+						if t.en_title is None:
+							t.en_title = e.en_tile
 						if e.ua_period is not None:
 							t.ua_period = e.ua_period
 						if e.ru_period is not None:
