@@ -226,7 +226,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						ses.commit()
 					else:
 						nlog.info('uatrains bot - southwest driver info',
-								'Station has is empty\n' + \
+								'Station is empty\n' + \
 								'sid: ' + str(sid) + '\n' + \
 								'tid: ' + str(t.oid) + '\n' + \
 								'value: ' + str(value) + '\n' + \
@@ -258,10 +258,8 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 					link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 				else:
 					nlog.info('uatrains bot - southwest driver info',
-						'tid: ' + str(tid) + '\n\n' + \
-						'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
-						'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
-						'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+						'Train has no all data\n' + \
+						'tid: ' + str(tid))
 					raise Exception('Southwest driver train entity has empty fields')
 		ses.commit()
 		ses.close()
