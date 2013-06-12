@@ -233,7 +233,6 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								'ua_s_title: ' + str(ua_s_title) + '\n' + \
 								'ru_s_title: ' + str(ru_s_title) + '\n' + \
 								'en_s_title: ' + str(en_s_title))
-						raise Exception('Southwest driver station entity has empty fields')
 def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 	ses = None
 	conn = None
