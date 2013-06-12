@@ -188,11 +188,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								s = e
 						else:
 							nlog.info('uatrains bot - southwest driver info',
+								'Station has no all data\n' + \
 								'sid: ' + str(sid) + '\n' + \
-								'tid: ' + str(t.oid) + '\n\n' + \
-								'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
-								'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
-								'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+								'tid: ' + str(t.oid) + '\n' + \
+								'value: ' + str(value) + '\n' + \
+								'ua_s_title: ' + str(ua_s_title) + '\n' + \
+								'ru_s_title: ' + str(ru_s_title) + '\n' + \
+								'en_s_title: ' + str(en_s_title))
 							raise Exception('Southwest driver station entity has empty fields')
 						order = None
 						arrival = None
@@ -224,11 +226,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						ses.commit()
 					else:
 						nlog.info('uatrains bot - southwest driver info',
-							'sid: ' + str(sid) + '\n' + \
-							'tid: ' + str(t.oid) + '\n\n' + \
-							'ua_dom_tree:\n\n' + etree.tostring(ua_dom_tree, pretty_print=True).decode() + '\n\n' + \
-							'ru_dom_tree:\n\n' + etree.tostring(ru_dom_tree, pretty_print=True).decode() + '\n\n' + \
-							'en_dom_tree:\n\n' + etree.tostring(en_dom_tree, pretty_print=True).decode())
+								'Station has is empty\n' + \
+								'sid: ' + str(sid) + '\n' + \
+								'tid: ' + str(t.oid) + '\n' + \
+								'value: ' + str(value) + '\n' + \
+								'ua_s_title: ' + str(ua_s_title) + '\n' + \
+								'ru_s_title: ' + str(ru_s_title) + '\n' + \
+								'en_s_title: ' + str(en_s_title))
 						raise Exception('Southwest driver station entity has empty fields')
 def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 	ses = None
