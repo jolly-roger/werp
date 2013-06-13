@@ -109,7 +109,8 @@ def run_task(task_id):
                 except Exception as e:
                     task.http_status = -2
                     task.http_status_reason = str(e)
-                    nlog.info('uatrains bot - task runner error', traceback.format_exc())
+                    nlog.info('uatrains bot - task runner error', 'Task data: ' + str(task.data) + '\n\n' + \
+                        traceback.format_exc())
                 try_count += 1
             task.status = task_status.completed
             ses.commit()
@@ -123,6 +124,8 @@ def run_task(task_id):
             conn.close()
 
 try:
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
+    red.delete(red_keys.uatrains_bot_log)
     start_dt = datetime.datetime.now()
     start_time = time.time()
     conn = orm.null_engine.connect()
@@ -137,7 +140,6 @@ try:
         ppool.map(run_task, [task_id for task_id in task_ids])
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-    red = redis.StrictRedis(unix_socket_path=sockets.redis)
     red.rpush(red_keys.exec_time_log, 'uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
