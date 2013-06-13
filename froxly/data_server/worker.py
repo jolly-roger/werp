@@ -43,7 +43,7 @@ def run():
                 if red.exists(url_red_key) and red.scard(url_red_key) > 0:
                     rnd_free_proxy = red.srandmember(url_red_key)
                 else:
-                    nlog.info('froxly - rnd free proxy error', 'No proxies for url: ' + msg['params']['url'])
+                    red.rpush(red_keys.froxly_rnd_free_proxy_log, 'No proxies for url: ' + msg['params']['url'])
                     rnd_free_proxy = base_rnd()
             else:
                 rnd_free_proxy = base_rnd()
