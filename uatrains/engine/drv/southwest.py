@@ -10,6 +10,7 @@ from .. import trainstation
 
 #from werp import nlog
 from werp.common import red_keys
+from werp.common import sockets
 
 logger = logging.getLogger('werp_error.uatrains_spider')
 
