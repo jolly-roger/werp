@@ -203,24 +203,24 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						arrival = None
 						departure = None
 						halt = None
-						if len(default_raw_s_title[0].xpath('descendant-or-self::*/text()')) > 0:
-							order = int(default_raw_s_title[0].xpath('descendant-or-self::*/text()')[0].strip())
-						if len(default_raw_s_title[2].xpath('descendant-or-self::*/text()')) > 0 and \
-							default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
-							default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '':
-							arrival = default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip()
-						if len(default_raw_s_title[3].xpath('descendant-or-self::*/text()')) > 0 and \
-							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
-							default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip() != '':
-							departure = default_raw_s_title[3].xpath('descendant-or-self::*/text()')[0].strip()
+						if len(default_raw_s_title[0].xpath('font/text()')) > 0:
+							order = int(default_raw_s_title[0].xpath('font/text()')[0].strip())
+						if len(default_raw_s_title[2].xpath('text()')) > 0 and \
+							default_raw_s_title[2].xpath('text()')[0].strip() != '–' and \
+							default_raw_s_title[2].xpath('text()')[0].strip() != '-' and \
+							default_raw_s_title[2].xpath('text()')[0].strip() != '':
+							arrival = default_raw_s_title[2].xpath('text()')[0].strip()
+						if len(default_raw_s_title[3].xpath('text()')) > 0 and \
+							default_raw_s_title[3].xpath('text()')[0].strip() != '–' and \
+							default_raw_s_title[3].xpath('text()')[0].strip() != '-' and \
+							default_raw_s_title[3].xpath('text()')[0].strip() != '':
+							departure = default_raw_s_title[3].xpath('text()')[0].strip()
 						if len(default_raw_s_title) >= 5 and \
-							len(default_raw_s_title[4].xpath('descendant-or-self::*/text()')) > 0 and \
-							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
-							default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip() != '':
-							halt = default_raw_s_title[4].xpath('descendant-or-self::*/text()')[0].strip()
+							len(default_raw_s_title[4].xpath('text()')) > 0 and \
+							default_raw_s_title[4].xpath('text()')[0].strip() != '–' and \
+							default_raw_s_title[4].xpath('text()')[0].strip() != '-' and \
+							default_raw_s_title[4].xpath('text()')[0].strip() != '':
+							halt = default_raw_s_title[4].xpath('text()')[0].strip()
 						ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
 						if not trainstation.is_added(ts, ses):
 							ses.add(ts)
