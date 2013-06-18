@@ -191,13 +191,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								s = e
 						else:
 							red.rpush(red_keys.uatrains_bot_log, 
-								'Station has no all data\r\n' + \
+								('Station has no all data\r\n' + \
 								'sid: ' + str(sid) + '\r\n' + \
 								'tid: ' + str(t.oid) + '\r\n' + \
 								'value: ' + str(value) + '\r\n' + \
 								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-								'en_s_title: ' + str(en_s_title))
+								'en_s_title: ' + str(en_s_title)).encode('utf-8'))
 							raise Exception('Southwest driver station entity has empty fields')
 						order = None
 						arrival = None
@@ -229,13 +229,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						ses.commit()
 					else:
 						red.rpush(red_keys.uatrains_bot_log, 
-								'Station is empty\r\n' + \
+								('Station is empty\r\n' + \
 								'sid: ' + str(sid) + '\r\n' + \
 								'tid: ' + str(t.oid) + '\r\n' + \
 								'value: ' + str(value) + '\r\n' + \
 								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-								'en_s_title: ' + str(en_s_title))
+								'en_s_title: ' + str(en_s_title)).encode('utf-8'))
 def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 	ses = None
 	conn = None
@@ -267,8 +267,8 @@ def get_train_data(tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
 					link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
 				else:
 					red.rpush(red_keys.uatrains_bot_log,
-						'Train has no all data\r\n' + \
-						'tid: ' + str(tid))
+						('Train has no all data\r\n' + \
+						'tid: ' + str(tid)).encode('utf-8'))
 					raise Exception('Southwest driver train entity has empty fields')
 		ses.commit()
 		ses.close()
