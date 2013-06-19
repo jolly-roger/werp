@@ -1,6 +1,8 @@
 import redis
 import traceback
 
+from werp.orm import uatrains as orm
+
 def is_not_empty(e):
 	ret = False
 	if e.ua_title is not None and e.ru_title is not None and e.en_title is not None and e.value is not None and \

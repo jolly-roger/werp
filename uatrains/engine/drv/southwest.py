@@ -1,10 +1,10 @@
 import urllib.parse
 
 from ...common import etype
-from ... import orm
 from .. import trainstation
 from . import common
 
+from werp.orm import uatrains as orm
 from werp.uatrains import bot
 
 name = 'southwest'

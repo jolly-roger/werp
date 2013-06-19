@@ -4,7 +4,7 @@ from . import passengers
 
 from . import common
 
-from werp.uatrains import orm
+from werp.orm import uatrains as orm
 from werp.uatrains import bot
 
 def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
