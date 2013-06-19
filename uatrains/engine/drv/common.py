@@ -1,7 +1,7 @@
 import redis
 import traceback
 
-from werp.orm import uatrains as orm
+from werp import orm
 
 def is_not_empty(e):
 	ret = False
@@ -18,9 +18,11 @@ def has_all_data(e):
 def get_t(e, ses):
 	t = None
 	try:
-		t = ses.query(orm.E).\
-			filter(orm.and_(orm.E.etype == e.etype, orm.E.oid == e.oid, orm.E.value == e.value)).\
-			filter(orm.or_(orm.E.ua_title == e.ua_title, orm.E.ru_title == e.ru_title, orm.E.en_title == e.en_title)).\
+		t = ses.query(orm.uatrains.E).\
+			filter(orm.and_(orm.uatrains.E.etype == e.etype, orm.uatrains.E.oid == e.oid,
+				orm.uatrains.E.value == e.value)).\
+			filter(orm.or_(orm.uatrains.E.ua_title == e.ua_title, orm.uatrains.E.ru_title == e.ru_title,
+				orm.uatrains.E.en_title == e.en_title)).\
 			one()
 	except orm.NoResultFound:
 		pass
@@ -33,10 +35,11 @@ def get_s(e, ses):
 		prepared_ua_title = e.ua_title.replace(' ', '%').replace('-', '%')
 		prepared_ru_title = e.ru_title.replace(' ', '%').replace('-', '%')
 		prepared_en_title = e.en_title.replace(' ', '%').replace('-', '%')
-		s = ses.query(orm.E).\
-			filter(orm.and_(orm.E.etype == e.etype, orm.E.value == e.oid)).\
-			filter(orm.or_(orm.E.ua_title.ilike(prepared_ua_title), orm.E.ru_title.ilike(prepared_ru_title),
-				orm.E.en_title.ilike(prepared_en_title))).\
+		s = ses.query(orm.uatrains.E).\
+			filter(orm.and_(orm.uatrains.E.etype == e.etype, orm.uatrains.E.value == e.oid)).\
+			filter(orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
+				orm.uatrains.E.ru_title.ilike(prepared_ru_title),
+				orm.uatrains.E.en_title.ilike(prepared_en_title))).\
 			one()
 	except orm.NoResultFound:
 		pass

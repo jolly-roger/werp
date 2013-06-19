@@ -4,7 +4,7 @@ from ...common import etype
 from .. import trainstation
 from . import common
 
-from werp.orm import uatrains as orm
+from werp import orm
 from werp.uatrains import bot
 
 name = 'southwest'
@@ -85,7 +85,7 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	if raw_en_period is not None and len(raw_en_period) > 0 and raw_en_period[-1] is not None and \
 		raw_en_period[-1].strip() != '':
 		en_period = raw_en_period[-1].strip()
-	return orm.E(etype.train, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
+	return orm.uatrains.E(etype.train, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
 def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 	raw_ua_s_titles = None
 	raw_ru_s_titles = None
@@ -174,7 +174,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							en_s_title = en_s_title.replace('pl.', '').strip()
 						elif en_s_title.startswith('st.'):
 							en_s_title = en_s_title.replace('st.', '').strip()
-				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
+				e = orm.uatrains.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
 					if common.is_not_empty(e):
 						if common.has_all_data(e):
@@ -213,7 +213,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							default_raw_s_title[4].xpath('text()')[0].strip() != '-' and \
 							default_raw_s_title[4].xpath('text()')[0].strip() != '':
 							halt = default_raw_s_title[4].xpath('text()')[0].strip()
-						ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
+						ts = orm.uatrains.TrainStation(t.id, s.id, order, arrival, departure, halt)
 						if not trainstation.is_added(ts, ses):
 							ses.add(ts)
 						elif trainstation.is_changed(ts, ses):
