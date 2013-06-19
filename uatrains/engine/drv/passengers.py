@@ -3,8 +3,8 @@ import urllib.parse
 from ...common import etype
 from .. import trainstation
 from . import common
+from ... import orm
 
-from werp import orm
 from werp.uatrains import bot
 
 name = 'passengers'

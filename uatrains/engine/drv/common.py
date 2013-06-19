@@ -1,7 +1,7 @@
 import redis
 import traceback
 
-from werp import orm
+from ... import orm
 
 def is_not_empty(e):
 	ret = False
