@@ -8,7 +8,6 @@ import json
 
 from werp.uatrains import bot
 from werp import orm
-from werp.orm import uatrains
 from werp.uatrains.engine import drv
 from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
@@ -34,7 +33,7 @@ def run():
         
             task = None
             try:
-                task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
+                task = ses.query(orm.uatrains.BotTask).filter(orm.uatrains.BotTask.id == task_id).one()
             except:
                 bot.logger.error('uatrains bot - task runner error\r\n' + traceback.format_exc())
             if task is not None:

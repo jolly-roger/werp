@@ -5,7 +5,7 @@ from ... import orm
 
 def is_not_empty(e):
 	ret = False
-	if e.ua_title is not None and e.ru_title is not None and e.en_title is not None and e.value is not None and \
+	if (e.ua_title is not None or e.ru_title is not None or e.en_title is not None) and e.value is not None and \
 		e.oid is not None:
 		ret = True
 	return ret

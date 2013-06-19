@@ -179,41 +179,42 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
 					if common.is_not_empty(e):
-						if common.has_all_data(e):
-							s = common.get_s(e, ses)
-							if s is None:
+						s = common.get_s(e, ses)
+						if s is None:
+							if common.has_all_data(e):
 								ses.add(e)
 								ses.commit()
 								s = e
+							else:
+								bot.logger.error('Station has no all data\r\n' + \
+									'sid: ' + str(sid) + '\r\n' + \
+									'tid: ' + str(t.oid) + '\r\n' + \
+									'value: ' + str(value) + '\r\n' + \
+									'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
+									'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
+									'en_s_title: ' + str(en_s_title) + '\r\n')
+								raise Exception('Southwest driver station entity has empty fields')
 						else:
-							bot.logger.error('Station has no all data\r\n' + \
-								'sid: ' + str(sid) + '\r\n' + \
-								'tid: ' + str(t.oid) + '\r\n' + \
-								'value: ' + str(value) + '\r\n' + \
-								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
-								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-								'en_s_title: ' + str(en_s_title))
-							raise Exception('Passengers driver station entity has empty fields')
-						order = i
-						arrival = None
-						departure = None
-						halt = None
-						if len(default_raw_s_title[1].xpath('descendant-or-self::*/text()')) > 0 and \
-							default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
-							default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '':
-							arrival = default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip()
-						if len(default_raw_s_title[2].xpath('descendant-or-self::*/text()')) > 0 and \
-							default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
-							default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
-							default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '':
-							departure = default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip()
-						ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
-						if not trainstation.is_added(ts, ses):
-							ses.add(ts)
-						elif trainstation.is_changed(ts, ses):
-							trainstation.load_changes(ts, ses)
-						ses.commit()
+							order = i
+							arrival = None
+							departure = None
+							halt = None
+							if len(default_raw_s_title[1].xpath('descendant-or-self::*/text()')) > 0 and \
+								default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
+								default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
+								default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip() != '':
+								arrival = default_raw_s_title[1].xpath('descendant-or-self::*/text()')[0].strip()
+							if len(default_raw_s_title[2].xpath('descendant-or-self::*/text()')) > 0 and \
+								default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '–' and \
+								default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '-' and \
+								default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip() != '':
+								departure = default_raw_s_title[2].xpath('descendant-or-self::*/text()')[0].strip()
+							ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
+							if not trainstation.is_added(ts, ses):
+								ses.add(ts)
+							elif trainstation.is_changed(ts, ses):
+								trainstation.load_changes(ts, ses)
+							ses.commit()
 					else:
 						bot.logger.error('Station is empty\r\n' + \
 							'sid: ' + str(sid) + '\r\n' + \
@@ -221,4 +222,4 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							'value: ' + str(value) + '\r\n' + \
 							'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 							'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-							'en_s_title: ' + str(en_s_title))
+							'en_s_title: ' + str(en_s_title) + '\r\n')
