@@ -29,7 +29,7 @@ def run_task():
         froxly_data_server_socket = ctx.socket(zmq.REQ)
         froxly_data_server_socket.connect(sockets.froxly_data_server)
         uatrains_bot_task_socket = ctx.socket(zmq.PULL)
-        uatrains_bot_task_socket.bind(sockets.uatrains_bot_task)
+        uatrains_bot_task_socket.connect(sockets.uatrains_bot_task)
         
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
