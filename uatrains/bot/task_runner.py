@@ -35,7 +35,7 @@ def run_task():
         ses = orm.sescls(bind=conn)
         task = None
         try:
-            task_id = int(uatrains_bot_task_socket.recv_unicode())
+            task_id = uatrains_bot_task_socket.recv_unicode()
             task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
@@ -140,7 +140,7 @@ try:
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
     for t in tasks:
-        uatrains_bot_task_socket.send_unicode(str(t.id))
+        uatrains_bot_task_socket.send_unicode(t.id)
     ses.close()
     conn.close()
     
