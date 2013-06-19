@@ -10,9 +10,9 @@ import time
 import datetime
 import redis
 
+from werp.uatrains import bot
 from werp import orm
 from werp.orm import uatrains
-from werp import nlog
 from werp.uatrains.engine import drv
 from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
@@ -38,7 +38,7 @@ def run_task():
             task_id = uatrains_bot_task_socket.recv_unicode()
             task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
         except:
-            nlog.info('uatrains bot - task runner error', traceback.format_exc())
+            bot.logger.error('uatrains bot - task runner error\r\n' + traceback.format_exc())
         if task is not None:
             task.status = task_status.running
             ses.commit()
@@ -110,7 +110,7 @@ def run_task():
                 except Exception as e:
                     task.http_status = -2
                     task.http_status_reason = str(e)
-                    nlog.info('uatrains bot - task runner error', 'Task data: ' + str(task.data) + '\n\n' + \
+                    bot.logger.error('uatrains bot - task runner error\r\n' + 'Task data: ' + str(task.data) + '\n\n' + \
                         traceback.format_exc())
                 try_count += 1
             task.status = task_status.completed
@@ -118,7 +118,7 @@ def run_task():
         ses.close()
         conn.close()
     except:
-        nlog.info('uatrains bot - task runner error', traceback.format_exc())
+        bot.logger.error('uatrains bot - task runner error\r\n' + traceback.format_exc())
         if ses is not None:
             ses.close()
         if conn is not None:    
@@ -149,4 +149,4 @@ try:
     red = redis.StrictRedis(unix_socket_path=sockets.redis)
     red.rpush(red_keys.exec_time_log, 'uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
 except:
-    nlog.info('uatrains bot - task runner error', traceback.format_exc())
+    bot.logger.error('uatrains bot - task runner error\r\n' + traceback.format_exc())
