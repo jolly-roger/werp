@@ -3,7 +3,7 @@
 	<table>
 		{% for user_agent in user_agents %}
 			<tr>
-				<td>{{user_agent.value}}</td>
+				<td>{{user_agent.value | e}}</td>
 			</tr>
 		{% endfor %}
 	</table>
