@@ -2,7 +2,6 @@ from urllib.error import *
 from http.client import *
 from lxml import etree
 import io
-import multiprocessing
 import traceback
 import threading
 import zmq
@@ -22,19 +21,21 @@ from werp.common import red_keys
 
 TRY_COUNT = 5
 
-def run_task(task_id):
+def run_task():
     conn = None
     ses = None
     try:
-        ctx = zmq.Context()
-        
+        ctx = zmq.Context()        
         froxly_data_server_socket = ctx.socket(zmq.REQ)
         froxly_data_server_socket.connect(sockets.froxly_data_server)
+        uatrains_bot_task_socket = ctx.socket(zmq.PULL)
+        uatrains_bot_task_socket.bind(sockets.uatrains_bot_task)
         
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         task = None
         try:
+            task_id = int(uatrains_bot_task_socket.recv_unicode())
             task = ses.query(uatrains.BotTask).filter(uatrains.BotTask.id == task_id).one()
         except:
             nlog.info('uatrains bot - task runner error', traceback.format_exc())
@@ -124,22 +125,28 @@ def run_task(task_id):
             conn.close()
 
 try:
-    red = redis.StrictRedis(unix_socket_path=sockets.redis)
-    red.delete(red_keys.uatrains_bot_log)
     start_dt = datetime.datetime.now()
     start_time = time.time()
+    
+    ctx = zmq.Context()
+    uatrains_bot_task_socket = ctx.socket(zmq.PUSH)
+    uatrains_bot_task_socket.bind(sockets.uatrains_bot_task)
+    
+    for wrk_num in range(8):
+        thr = threading.Thread(target=run_task)
+        thr.start()
+    
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     tasks = ses.query(uatrains.BotTask).filter(uatrains.BotTask.status == None).all()
-    task_ids = []
     for t in tasks:
-        task_ids.append(t.id)
+        uatrains_bot_task_socket.send_unicode(str(t.id))
     ses.close()
     conn.close()
-    with multiprocessing.Pool(processes=8) as ppool:
-        ppool.map(run_task, [task_id for task_id in task_ids])
+    
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    red = redis.StrictRedis(unix_socket_path=sockets.redis)
     red.rpush(red_keys.exec_time_log, 'uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('uatrains bot - task runner error', traceback.format_exc())
