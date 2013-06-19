@@ -126,8 +126,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				if raw_ua_s_titles is not None and len(raw_ua_s_titles) > 0 and i < len(raw_ua_s_titles):
 					raw_ua_s_title = raw_ua_s_titles[i]
 					if len(raw_ua_s_title) >= 4:
-						if len(raw_ua_s_title[1].xpath('descendant-or-self::*/text()')) > 0:
-							for txt in raw_ua_s_title[1].xpath('descendant-or-self::*/text()'):
+						if len(raw_ua_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()')) > 0:
+							for txt in raw_ua_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()'):
 								if txt.strip() != '':
 									ua_s_title = txt.strip()
 									break
@@ -151,8 +151,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 4:
-						if len(raw_ru_s_title[1].xpath('descendant-or-self::*/text()')) > 0:
-							for txt in raw_ru_s_title[1].xpath('descendant-or-self::*/text()'):
+						if len(raw_ru_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()')) > 0:
+							for txt in raw_ru_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()'):
 								if txt.strip() != '':
 									ru_s_title = txt.strip()
 									break
@@ -164,8 +164,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 				if raw_en_s_titles is not None and len(raw_en_s_titles) > 0 and i < len(raw_en_s_titles):
 					raw_en_s_title = raw_en_s_titles[i]
 					if len(raw_en_s_title) >= 4:
-						if len(raw_en_s_title[1].xpath('descendant-or-self::*/text()')) > 0:
-							for txt in raw_en_s_title[1].xpath('descendant-or-self::*/text()'):
+						if len(raw_en_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()')) > 0:
+							for txt in raw_en_s_title[1].xpath('a/b/text() | a[not(child::b)]/text()'):
 								if txt.strip() != '':
 									en_s_title = txt.strip()
 									break

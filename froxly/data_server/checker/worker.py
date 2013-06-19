@@ -14,12 +14,16 @@ from werp.common import red_keys
 def run(url=None):
     try:
         ctx = zmq.Context()
+        
         froxly_checker_req = ctx.socket(zmq.PULL)
         froxly_checker_req.connect(sockets.froxly_checker_req)
+        
         ugently_data_server_socket = ctx.socket(zmq.REQ)
         ugently_data_server_socket.connect(sockets.ugently_data_server)
-        froxly_checker_res = ctx.socket(zmq.PUSH)
-        froxly_checker_res.connect(sockets.froxly_checker_res)
+        
+        froxly_checker_sink_socket = ctx.socket(zmq.PUSH)
+        froxly_checker_sink_socket.connect(sockets.froxly_checker_sink)
+        
         while True:
             task = json.loads(froxly_checker_req.recv_unicode())
             ugently_data_server_socket.send_unicode('')
@@ -91,7 +95,7 @@ def run(url=None):
             except Exception as e:
                 task['proxy']['http_status'] = -1
                 task['proxy']['http_status_reason'] = str(e)
-            froxly_checker_res.send_unicode(json.dumps(task))
+            froxly_checker_sink_socket.send_unicode(json.dumps(task))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
 

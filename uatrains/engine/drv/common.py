@@ -11,7 +11,10 @@ def is_not_empty(e):
 	return ret
 def has_all_data(e):
 	ret = False
-	if e.ua_title is not None or e.ru_title is not None or e.en_title is not None or e.value is not None or \
+	if e.ua_title is not None and \
+		e.ru_title is not None and \
+		e.en_title is not None and \
+		e.value is not None and \
 		e.oid is not None:
 		ret = True
 	return ret

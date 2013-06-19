@@ -9,22 +9,27 @@ from werp.common import sockets
 from werp.common import red_keys
 from werp.froxly.data_server import common as data_server_common
 
-def run():
+def run(url=''):
     conn = None
     ses = None
     try:
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
+        
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
+        
         ctx = zmq.Context()
-        froxly_checker_res = ctx.socket(zmq.PULL)
-        froxly_checker_res.bind(sockets.froxly_checker_res)
+        
+        froxly_checker_sink_socket = ctx.socket(zmq.PULL)
+        froxly_checker_sink_socket.bind(sockets.froxly_checker_sink)
+        
         froxly_checker_finish = ctx.socket(zmq.REP)
         froxly_checker_finish.bind(sockets.froxly_checker_finish)
+        
         while True:
             proxy_count = int(froxly_checker_finish.recv_unicode())
             while True:
-                task = json.loads(froxly_checker_res.recv_unicode())
+                task = json.loads(froxly_checker_sink_socket.recv_unicode())
                 proxy = ses.query(orm.FreeProxy).filter(orm.FreeProxy.id == task['proxy']['id']).one()
                 proxy.http_status = task['proxy']['http_status']
                 proxy.http_status_reason = task['proxy']['http_status_reason']
