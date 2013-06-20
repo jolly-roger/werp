@@ -216,10 +216,15 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								trainstation.load_changes(ts, ses)
 							ses.commit()
 					else:
-						bot.logger.error('Station is empty\r\n' + \
-							'sid: ' + str(sid) + '\r\n' + \
-							'tid: ' + str(t.oid) + '\r\n' + \
-							'value: ' + str(value) + '\r\n' + \
-							'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
-							'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-							'en_s_title: ' + str(en_s_title) + '\r\n')
+						if sid is not None or \
+							value is not None or \
+							ua_s_title is not None or \
+							ru_s_title is not None or \
+							en_s_title is not None:
+							bot.logger.error('Station is empty\r\n' + \
+								'sid: ' + str(sid) + '\r\n' + \
+								'tid: ' + str(t.oid) + '\r\n' + \
+								'value: ' + str(value) + '\r\n' + \
+								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
+								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
+								'en_s_title: ' + str(en_s_title) + '\r\n')
