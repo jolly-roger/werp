@@ -1,10 +1,11 @@
 import urllib.parse
+import datetime
 
 from ...common import etype
 from .. import trainstation
 from . import common
-from ... import orm
 
+from werp import orm
 from werp.uatrains import bot
 
 name = 'southwest'
@@ -13,6 +14,7 @@ domain = 'http://www.swrailway.gov.ua'
 ua_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ua'
 ru_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_ru'
 en_url = 'http://www.swrailway.gov.ua/timetable/eltrain/?tid=(tid)&lng=_en'
+xtattrs = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[3]'
 xttitle = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[2]/b'
 xtvalue = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[3]/b'
 xtperiod = '/html/body/table/tr[2]/td/table/tr[3]/td[4]/table/tr/td/table/tr[2]/td/center/table/tr/td/table/tr[2]/td[3]/text()'
@@ -27,10 +29,12 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	raw_ru_period = None
 	raw_en_period = None
 	raw_t_value = None
+	raw_t_attrs = None
 	if ua_dom_tree is not None:
 		raw_ua_t_title = ua_dom_tree.xpath(xttitle)
 		raw_ua_period = ua_dom_tree.xpath(xtperiod)
 		raw_t_value = ua_dom_tree.xpath(xtvalue)
+		raw_t_attrs = ua_dom_tree.xpath(xtattrs)
 	if ru_dom_tree is not None:
 		raw_ru_t_title = ru_dom_tree.xpath(xttitle)
 		raw_ru_period = ru_dom_tree.xpath(xtperiod)
@@ -44,6 +48,8 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	ru_period = None
 	en_period = None
 	value = None
+	from_date = None
+	to_date = None
 	if raw_ua_t_title is not None and len(raw_ua_t_title) > 0:
 		if raw_ua_t_title[0].text is not None and \
 			raw_ua_t_title[0].text.strip() != '' and raw_ua_t_title[0].text.strip() != '–':
@@ -76,6 +82,11 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 				int(value_parts[-1])
 			except:
 				value = '/'.join(value_parts[:len(value_parts) - 1])
+	if raw_t_attrs is not None and len(raw_t_attrs) > 0:
+		raw_dates = raw_t_attrs[0].xpath('img/@title')
+		raw_dates_parts = raw_dates[0].split(' ')
+		from_date = datetime.datetime.strptime(raw_dates_parts[1].strip(), '%Y-%m-%d').date()
+		to_date = datetime.datetime.strptime(raw_dates_parts[3].strip(), '%Y-%m-%d').date()
 	if raw_ua_period is not None and len(raw_ua_period) > 0 and raw_ua_period[-1] is not None and \
 		raw_ua_period[-1].strip() != '':
 		ua_period = raw_ua_period[-1].strip()
@@ -85,7 +96,8 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	if raw_en_period is not None and len(raw_en_period) > 0 and raw_en_period[-1] is not None and \
 		raw_en_period[-1].strip() != '':
 		en_period = raw_en_period[-1].strip()
-	return orm.E(etype.train, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
+	return orm.uatrains.E(etype.train, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period,
+		from_date, to_date)
 def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 	raw_ua_s_titles = None
 	raw_ru_s_titles = None
@@ -174,7 +186,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							en_s_title = en_s_title.replace('pl.', '').strip()
 						elif en_s_title.startswith('st.'):
 							en_s_title = en_s_title.replace('st.', '').strip()
-				e = orm.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
+				e = orm.uatrains.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
 				if e is not None:
 					if common.is_not_empty(e):
 						s = common.get_s(e, ses)
@@ -214,7 +226,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								default_raw_s_title[4].xpath('text()')[0].strip() != '-' and \
 								default_raw_s_title[4].xpath('text()')[0].strip() != '':
 								halt = default_raw_s_title[4].xpath('text()')[0].strip()
-							ts = orm.TrainStation(t.id, s.id, order, arrival, departure, halt)
+							ts = orm.uatrains.TrainStation(t.id, s.id, order, arrival, departure, halt)
 							if not trainstation.is_added(ts, ses):
 								ses.add(ts)
 							elif trainstation.is_changed(ts, ses):

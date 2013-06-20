@@ -37,9 +37,12 @@ def run():
                     rnd_proxy_req['params'] = {'url': req_url}
                 froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
                 rnd_proxy = json.loads(froxly_data_server_socket.recv_unicode())['result']
+                timeout = timeouts.froxly_requester
+                if 'timeout' in req['params']:
+                    timeout = req['params']['timeout']
                 if rnd_proxy['protocol'] == 'socks4/5':
                     s = socket.socket()
-                    s.settimeout(timeouts.froxly_requester)
+                    s.settimeout(timeout)
                     s.connect((rnd_proxy['proxy']['ip'], int(rnd_proxy['proxy']['port'])))
                     ipaddr = socket.inet_aton(socket.gethostbyname(url_obj.netloc))
                     destport = 80
@@ -72,7 +75,7 @@ def run():
                     s.close()
                 else:
                     s = socket.socket()
-                    s.settimeout(timeouts.froxly_requester)
+                    s.settimeout(timeout)
                     s.connect((rnd_proxy['ip'], int(rnd_proxy['port'])))
                     remote_req_str = 'GET ' + req['params']['url'] + ' HTTP/' + rnd_proxy['protocol_version'] + \
                         '\r\nHost:' + url_obj.netloc + '\r\n\r\n'

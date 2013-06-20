@@ -3,8 +3,8 @@ from . import southwest
 from . import passengers
 
 from . import common
-from ... import orm
 
+from werp import orm
 from werp.uatrains import bot
 
 def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
@@ -37,6 +37,10 @@ def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
                         t.ru_period = e.ru_period
                     if e.en_period is not None:
                         t.en_period = e.en_period
+                    if e.from_date is not None:
+                        t.from_date = e.from_date
+                    if e.to_date is not None:
+                        t.to_date = e.to_date
                 ses.commit()
                 drv_module.link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses)
         ses.commit()

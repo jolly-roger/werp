@@ -14,6 +14,9 @@ class E(DBase):
     ru_period = Column(String)
     en_period = Column(String)
     vc = Column(BigInteger, nullable=False, default=0)
+    from_date = Column(Date)
+    to_date = Column(Date)
+    ref_id = Column(BigInteger)
     
     t_ss = relationship('TrainStation', primaryjoin='E.id==TrainStation.t_id', foreign_keys='TrainStation.t_id',
         order_by='TrainStation.order', backref='t')
@@ -21,7 +24,7 @@ class E(DBase):
         order_by='[TrainStation.departure, TrainStation.arrival]', backref='s')
     
     def __init__(self, etype=None, value=None, oid=None, ua_title=None, ru_title=None, en_title=None,
-        ua_period=None, ru_period=None, en_period=None):
+        ua_period=None, ru_period=None, en_period=None, from_date=None, to_date=None, ref_id=None):
         self.etype = etype
         self.value = value
         self.oid = oid
@@ -31,3 +34,6 @@ class E(DBase):
         self.ua_period = ua_period
         self.ru_period = ru_period
         self.en_period = en_period
+        self.from_date = from_date
+        self.to_date = to_date
+        self.ref_id = ref_id

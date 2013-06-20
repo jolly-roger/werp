@@ -13,7 +13,8 @@ from werp.uatrains.bot import task_status
 from werp.uatrains.bot import task_drvs
 from werp.common import sockets
 
-TRY_COUNT = 5
+TRY_COUNT = 11
+REQ_TIMEOUT = 33
 
 def run():
     conn = None
@@ -56,7 +57,8 @@ def run():
                     en_res = None
                     if ua_dom_tree is None:
                         ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
-                        ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset}}
+                        ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset,
+                            'timeout': REQ_TIMEOUT}}
                         froxly_data_server_socket.send_unicode(json.dumps(ua_req))
                         ua_res = json.loads(froxly_data_server_socket.recv_unicode())
                         if 'http_status' in ua_res['result'] and 'data' in ua_res['result'] and \
@@ -68,7 +70,8 @@ def run():
                                 ua_res['result']['http_status_reason'] = str(e)
                     if ru_dom_tree is None:
                         ru_url = current_drv.ru_url.replace('(tid)', str(task.data))
-                        ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset}}
+                        ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset,
+                            'timeout': REQ_TIMEOUT}}
                         froxly_data_server_socket.send_unicode(json.dumps(ru_req))
                         ru_res = json.loads(froxly_data_server_socket.recv_unicode())
                         if 'http_status' in ru_res['result'] and 'data' in ru_res['result'] and \
@@ -80,7 +83,8 @@ def run():
                                 ru_res['result']['http_status_reason'] = str(e)
                     if en_dom_tree is None:
                         en_url = current_drv.en_url.replace('(tid)', str(task.data))
-                        en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset}}
+                        en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset,
+                            'timeout': REQ_TIMEOUT}}
                         froxly_data_server_socket.send_unicode(json.dumps(en_req))
                         en_res = json.loads(froxly_data_server_socket.recv_unicode())
                         if 'http_status' in en_res['result'] and 'data' in en_res['result'] and \
