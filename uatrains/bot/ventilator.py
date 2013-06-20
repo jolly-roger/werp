@@ -14,7 +14,7 @@ def run():
         conn = orm.null_engine.connect()
         ses = orm.sescls(bind=conn)
         tasks = ses.query(orm.uatrains.BotTask).filter(orm.uatrains.BotTask.status == None).\
-            order_by(orm.desc(orm.cast(orm.uatrains.BotTask.data, orm.BigInterger))).all()
+            order_by(orm.desc(orm.cast(orm.uatrains.BotTask.data, orm.BigInteger))).all()
         for t in tasks:
             uatrains_bot_task_worker_socket.send_unicode(t.id)
         ses.close()
