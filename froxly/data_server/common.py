@@ -1,6 +1,7 @@
-DATA_SERVER_WORKER_POOL = 256
-CHECKER_WORKER_POOL = 32
-REQUESTER_WORKER_POOL = 128
+DATA_SERVER_WORKER_POOL = 384
+CHECKER_BASE_WORKER_POOL = 128
+CHECKER_WORKER_POOL = 16
+REQUESTER_WORKER_POOL = 256
 
 def jproxy2sproxy(proxy):
     return '{"id": ' + str(proxy['id']) + ',"ip": "' + str(proxy['ip']) + '", "port": "' + str(proxy['port']) + \

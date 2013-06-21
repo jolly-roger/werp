@@ -26,7 +26,7 @@ def base_run(url):
         manager = threading.Thread(target=sink.run, args=(url, len(proxies)))
         manager.start()
         
-        for wrk_num in range(data_server_common.CHECKER_WORKER_POOL):
+        for wrk_num in range(data_server_common.CHECKER_BASE_WORKER_POOL):
             thr = threading.Thread(target=worker.run, args=(url,))
             thr.start()
         

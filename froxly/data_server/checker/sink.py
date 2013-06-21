@@ -49,8 +49,14 @@ def run(url, proxy_count):
                     red.srem(task['red_key'], http_1_0_sproxy)
             proxy_count = proxy_count - 1
             if proxy_count == 0:
+                
+                nlog.info('froxly - checher sink', '0')
+                
                 break
+            
         froxly_checker_finish_socket.send_unicode(str(0))
+        
+        nlog.info('froxly - checher sink', '0')
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ses is not None:
