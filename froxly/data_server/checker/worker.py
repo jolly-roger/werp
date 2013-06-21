@@ -108,6 +108,7 @@ def run(url):
                 froxly_checker_sink_socket.send_unicode(json.dumps(task))
                 
             if froxly_checker_finish_socket in socks and socks[froxly_checker_finish_socket] == zmq.POLLIN:
+                nlog.info('froxly - checher worker finish', '')
                 break
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
