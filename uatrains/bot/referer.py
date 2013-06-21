@@ -21,7 +21,6 @@ try:
                         orm.uatrains.E.ru_title == et.ru_title, orm.uatrains.E.en_title == et.en_title,
                         orm.uatrains.E.etype == 1)).all()
                 if len(similar_etrains) > 1:
-                    last_etrain = similar_etrains[0]
                     for similar_et in similar_etrains:
                         if (similar_et.from_date is not None and similar_et.to_date is not None and \
                                 similar_et.from_date <= datetime.now() and \
