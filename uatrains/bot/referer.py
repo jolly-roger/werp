@@ -13,8 +13,8 @@ try:
         if et.ref_id is None:
             if (et.from_date is None and et.to_date is None) or \
                 (et.from_date is not None and et.to_date is not None and not (\
-                    et.from_date <= datetime.now().date() and \
-                    et.to_date >= datetime.now().date())):
+                    et.from_date <= datetime.now() and \
+                    et.to_date >= datetime.now())):
                 last_etrain = et
                 similar_etrains = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.uatrains.E.value == et.value, orm.uatrains.E.ua_title == et.ua_title,
@@ -24,8 +24,8 @@ try:
                     last_etrain = similar_etrains[0]
                     for similar_et in similar_etrains:
                         if (similar_et.from_date is not None and similar_et.to_date is not None and \
-                                similar_et.from_date <= datetime.now().date() and \
-                                similar_et.to_date >= datetime.now().date()) and \
+                                similar_et.from_date <= datetime.now() and \
+                                similar_et.to_date >= datetime.now()) and \
                             ((last_etrain.from_date is None and last_etrain.to_date is None) or \
                                 (last_etrain.to_date <= similar_et.from_date) or \
                                 (last_etrain.id < similar_et.id)):
