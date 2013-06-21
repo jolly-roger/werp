@@ -18,5 +18,7 @@ uatrains_bot_task_worker = 'ipc:///home/www/sockets/uatrains_bot_task_worker.soc
 redis = '/tmp/redis.socket'
 
 
-def format_socket_path(socket_path, url=''):
-    return socket_path.replace('(url)', url.replace('/', '%'))
+def format_socket_uri(socket_uri, url=''):
+    return socket_uri.replace('(url)', url.replace('/', '%'))
+def get_socket_path(socket_uri, url=''):
+    return format_socket_uri(socket_uri, url).replace('ipc://', '')

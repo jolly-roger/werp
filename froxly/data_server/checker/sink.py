@@ -22,10 +22,10 @@ def run(url, proxy_count):
         ctx = zmq.Context()
         
         froxly_checker_sink_socket = ctx.socket(zmq.PULL)
-        froxly_checker_sink_socket.bind(sockets.format_socket_path(sockets.froxly_checker_sink, url))
+        froxly_checker_sink_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_sink, url))
         
         froxly_checker_finish_socket = ctx.socket(zmq.PUB)
-        froxly_checker_finish_socket.bind(sockets.format_socket_path(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_finish, url))
         
         while True:
             task = json.loads(froxly_checker_sink_socket.recv_unicode())

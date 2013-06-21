@@ -12,9 +12,6 @@ from werp.common import red_keys
 from werp.froxly.data_server.checker import ventilator
 
 try:
-    ctx = zmq.Context()
-    froxly_checker_server_socket = ctx.socket(zmq.PULL)
-    froxly_checker_server_socket.bind(sockets.froxly_checker_server)
     def base_check(msg):
         try:
             start_dt = datetime.datetime.now()
@@ -37,16 +34,23 @@ try:
             red.rpush(red_keys.exec_time_log, 'froxly url (' + msg['params']['url'] + ') check %s %s' % (str(start_dt), str(exec_delta)))
         except:
             nlog.info('froxly - checher error', traceback.format_exc())
+    
     methods = {}
     methods[base_check.__name__] = base_check
     methods[url_check.__name__] = url_check
+    
+    ctx = zmq.Context()
+    
+    froxly_checker_server_socket = ctx.socket(zmq.PULL)
+    froxly_checker_server_socket.bind(sockets.froxly_checker_server)
+    
     while True:
         try:
             msg = json.loads(froxly_checker_server_socket.recv_unicode())
             if msg['method'] in methods:
-                methods[msg['method']](msg)
-                #thr = threading.Thread(target=methods[msg['method']], args=(msg,))
-                #thr.start()
+                #methods[msg['method']](msg)
+                thr = threading.Thread(target=methods[msg['method']], args=(msg,))
+                thr.start()
         except:
             nlog.info('froxly - checker server error', traceback.format_exc())
 except:
