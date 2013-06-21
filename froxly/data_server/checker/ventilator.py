@@ -14,6 +14,10 @@ def base_run(url):
     conn = None
     ses = None
     try:
+        
+        nlog.info('froxly - checher info', sockets.get_socket_path(sockets.froxly_checker_worker, url))
+        nlog.info('froxly - checher info', str(os.path.isfile(sockets.get_socket_path(sockets.froxly_checker_worker, url))))
+        
         if not os.path.isfile(sockets.get_socket_path(sockets.froxly_checker_worker, url)):
             ctx = zmq.Context()
             
