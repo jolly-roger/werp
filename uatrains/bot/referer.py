@@ -29,7 +29,7 @@ try:
                                 (last_etrain.to_date <= similar_et.from_date) or \
                                 (last_etrain.id < similar_et.id)):
                             last_etrain = similar_et
-                if last_etrain.id != et.id:
+                if last_etrain.id > et.id:
                     et.ref_id = last_etrain.id
                     ses.commit()
     ses.close()
