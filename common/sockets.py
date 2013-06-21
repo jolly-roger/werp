@@ -1,6 +1,6 @@
-froxly_checker_worker = 'ipc:///home/www/sockets/froxly_checker_worker(url).socket'
-froxly_checker_finish = 'ipc:///home/www/sockets/froxly_checker_finish(url).socket'
-froxly_checker_sink = 'ipc:///home/www/sockets/froxly_checker_sink(url).socket'
+froxly_checker_worker = 'ipc:///home/www/sockets/froxly_checker_worker_(url).socket'
+froxly_checker_finish = 'ipc:///home/www/sockets/froxly_checker_finish_(url).socket'
+froxly_checker_sink = 'ipc:///home/www/sockets/froxly_checker_sink_(url).socket'
 froxly_checker_server = 'ipc:///home/www/sockets/froxly_checker_server.socket'
 
 froxly_data_server = 'ipc:///home/www/sockets/froxly_data_server.socket'
