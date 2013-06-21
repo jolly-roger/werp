@@ -5,7 +5,7 @@ import traceback
 import logging
     
     
-from . import orm
+from werp import orm
 from .common import etype
 from .layout import layout
 from . import notifier
@@ -27,11 +27,14 @@ class uatrains(object):
         try:
             q = None
             if lng == lngs.UA:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.train).order_by(orm.E.vc.desc(), orm.E.ua_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.train).order_by(orm.E.vc.desc(), orm.E.ru_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.train).order_by(orm.E.vc.desc(), orm.E.en_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).all()
         except Exception:
             notifier.notify('Uatrains error', 'Can\'t find trains\n' + traceback.format_exc())
@@ -39,17 +42,21 @@ class uatrains(object):
         try:
             q = None
             if lng == lngs.UA:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.station).order_by(orm.E.vc.desc(), orm.E.ua_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.station).order_by(orm.E.vc.desc(), orm.E.ru_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
-                q = ses.query(orm.E).filter(orm.E.etype == etype.station).order_by(orm.E.vc.desc(), orm.E.en_title)
+                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ss = q.limit(pc).all()
         except Exception:
             notifier.notify('Uatrains error', 'Can\'t find stations\n' + traceback.format_exc())
         news = []
         try:
-            news = ses.query(orm.New).filter(orm.New.lng == lng).order_by(orm.New.date.desc()).limit(3).all()
+            news = ses.query(orm.uatrains.New).filter(orm.uatrains.New.lng == lng).\
+                order_by(orm.uatrains.New.date.desc()).limit(3).all()
         except:
             notifier.notify('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
         ses.close()
@@ -59,6 +66,7 @@ class uatrains(object):
     def default(self, eid=None):
         lng = get_lng()
         l = ''
+        ref_id = None
         if eid is not None:
             prepared_eid = None
             try:
@@ -71,36 +79,39 @@ class uatrains(object):
                 ses = orm.sescls(bind=conn)
                 e = None
                 try:
-                    e = ses.query(orm.E).filter(orm.E.id == prepared_eid).one()
-                    e.vc = e.vc + 1
-                    ses.commit()
+                    e = ses.query(orm.uatrains.E).filter(orm.uatrains.E.id == prepared_eid).one()
+                    if e.ref_id is not None:
+                        ref_id = e.ref_id
+                    else:
+                        e.vc = e.vc + 1
+                        ses.commit()
                 except:
                     notifier.notify('Uatrains error', 'Can\'t find entity by eid = ' + str(prepared_eid) + '\n' +\
                         traceback.format_exc())
-                if e is not None:
+                if e is not None and ref_id is None:
                     if e.etype == etype.train:
                         try:
-                            t = ses.query(orm.E).\
-                                options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
-                                filter(orm.E.id == prepared_eid).one()
+                            t = ses.query(orm.uatrains.E).\
+                                options(orm.joinedload_all(orm.uatrains.E.t_ss, orm.uatrains.TrainStation.s)).\
+                                filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getTrain(t, t.t_ss, lng)
                         except:
                             notifier.notify('Uatrains error', 'Can\'t find train by id = ' + str(prepared_eid) + '\n' +\
                                 traceback.format_exc())
                     elif e.etype == etype.ptrain:
                         try:
-                            t = ses.query(orm.E).\
-                                options(orm.joinedload_all(orm.E.t_ss, orm.TrainStation.s)).\
-                                filter(orm.E.id == prepared_eid).one()
+                            t = ses.query(orm.uatrains.E).\
+                                options(orm.joinedload_all(orm.uatrains.E.t_ss, orm.uatrains.TrainStation.s)).\
+                                filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getPTrain(t, t.t_ss, lng)
                         except:
                             notifier.notify('Uatrains error', 'Can\'t find ptrain by id = ' + str(prepared_eid) + '\n' +\
                                 traceback.format_exc())
                     elif e.etype == etype.station:
                         try:
-                            s = ses.query(orm.E).\
-                                options(orm.joinedload_all(orm.E.s_ts, orm.TrainStation.t)).\
-                                filter(orm.E.id == prepared_eid).one()
+                            s = ses.query(orm.uatrains.E).\
+                                options(orm.joinedload_all(orm.uatrains.E.s_ts, orm.uatrains.TrainStation.t)).\
+                                filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getStation(s, s.s_ts, lng)
                         except:
                             notifier.notify('Uatrains error', 'Can\'t find station by id = ' + str(prepared_eid) + '\n' +\
@@ -111,7 +122,10 @@ class uatrains(object):
             l = self.index(eid)
         if l == '':
             cherrypy.response.status = 301
-            cherrypy.response.headers['Location'] = '/'
+            if ref_id is not None:
+                cherrypy.response.headers['Location'] = '/' + str(ref_id)
+            else:
+                cherrypy.response.headers['Location'] = '/'
         return l
     @cherrypy.expose
     def getroute(self, rid=-1, is_reverse=False, tid=-1, sid=-1, lng='_ru'):
@@ -145,7 +159,8 @@ class uatrains(object):
         ses = orm.sescls(bind=conn)
         id = None
         try:
-            ss = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(sid), orm.E.etype == etype.station)).all()
+            ss = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.oid == int(sid),
+                orm.uatrains.E.etype == etype.station)).all()
             s = ss[0]
             for station in ss:
                 if s.oid > station.oid:
@@ -178,7 +193,8 @@ class uatrains(object):
         ses = orm.sescls(bind=conn)
         id = None
         try:
-            ts = ses.query(orm.E).filter(orm.and_(orm.E.oid == int(tid), orm.E.etype == etype.train)).all()
+            ts = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.oid == int(tid),
+                orm.uatrains.E.etype == etype.train)).all()
             t = ts[0]
             for train in ts:
                 if t.oid > train.oid:
@@ -210,10 +226,11 @@ class uatrains(object):
         ss = []
         has_next_p = False
         try:
-            q = ses.query(orm.E).filter(orm.E.etype == etype.station).filter(orm.or_(orm.or_(
-                orm.E.ua_title.ilike('%' + ph.lower() + '%'),
-                orm.E.ru_title.ilike('%' + ph.lower() + '%')),
-                orm.E.en_title.ilike('%' + ph.lower() + '%'))).order_by(orm.E.vc.desc(), orm.E.ua_title)
+            q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).filter(orm.or_(orm.or_(
+                orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'),
+                orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%')),
+                orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'))).\
+                order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             ss = q.limit(pc).offset(pn * pc).all()
             next_p_ss = q.limit(pc).offset((pn + 1) * pc).all()
             if len(next_p_ss) > 0:
@@ -240,14 +257,17 @@ class uatrains(object):
         try:
             q = None
             if lng == lngs.UA:
-                q = ses.query(orm.E).filter(orm.and_(orm.E.etype == etype.train,
-                    orm.E.ua_title.ilike('%' + ph.lower() + '%'))).order_by(orm.E.vc.desc(), orm.E.ua_title)
+                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'))).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
-                q = ses.query(orm.E).filter(orm.and_(orm.E.etype == etype.train,
-                    orm.E.ru_title.ilike('%' + ph.lower() + '%'))).order_by(orm.E.vc.desc(), orm.E.ru_title)
+                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%'))).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
-                q = ses.query(orm.E).filter(orm.and_(orm.E.etype == etype.train,
-                    orm.E.en_title.ilike('%' + ph.lower() + '%'))).order_by(orm.E.vc.desc(), orm.E.en_title)
+                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'))).\
+                    order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).offset(pn * pc).all()
             next_p_ts = q.limit(pc).offset((pn + 1) * pc).all()
             if len(next_p_ts) > 0:
@@ -268,13 +288,13 @@ class uatrains(object):
         has_next_p = False
         prepared_ph = ph.replace(' ', '%').replace('-', '%')
         try:
-            q = ses.query(orm.E).filter(orm.or_(orm.or_(orm.or_(
-                orm.E.ua_title.ilike('%' + prepared_ph.lower() + '%'),
-                orm.E.ru_title.ilike('%' + prepared_ph.lower() + '%')),
-                orm.E.en_title.ilike('%' + prepared_ph.lower() + '%')),
-                orm.E.value.op('similar to')('([0-9А-Яа-я]*/)?' + prepared_ph.lower() + \
+            q = ses.query(orm.uatrains.E).filter(orm.or_(orm.or_(orm.or_(
+                orm.uatrains.E.ua_title.ilike('%' + prepared_ph.lower() + '%'),
+                orm.uatrains.E.ru_title.ilike('%' + prepared_ph.lower() + '%')),
+                orm.uatrains.E.en_title.ilike('%' + prepared_ph.lower() + '%')),
+                orm.uatrains.E.value.op('similar to')('([0-9А-Яа-я]*/)?' + prepared_ph.lower() + \
                     '([А-Яа-я]*)?(/[0-9А-Яа-я]*)?(/[0-9А-Яа-я]*)?'))).\
-                order_by(orm.E.etype.desc(), orm.E.vc.desc(), orm.E.ua_title)
+                order_by(orm.uatrains.E.etype.desc(), orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             es = q.limit(pc).offset(pn * pc).all()
             next_p_es = q.limit(pc).offset((pn + 1) * pc).all()
             if len(next_p_es) > 0:
@@ -291,7 +311,8 @@ class uatrains(object):
         ses = orm.sescls(bind=conn)
         news = []
         try:
-            news = ses.query(orm.New).filter(orm.New.lng == lng).order_by(orm.New.date.desc()).all()
+            news = ses.query(orm.uatrains.New).filter(orm.uatrains.New.lng == lng).\
+                order_by(orm.uatrains.New.date.desc()).all()
         except:
             notifier.notify('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
         ses.close()
@@ -329,11 +350,11 @@ class uatrains(object):
         rw = None
         l = ''
         try:
-            rw = ses.query(orm.Railway).\
-                options(orm.joinedload_all(orm.Railway.routes, orm.Route.route_trains, orm.RouteTrain.train,
-                orm.E.t_ss)).\
-                filter(orm.Railway.id == int(rwid)).\
-                all()
+            rw = ses.query(orm.uatrains.Railway).\
+                options(orm.joinedload_all(orm.uatrains.Railway.routes, orm.uatrains.Route.route_trains,
+                    orm.uatrains.RouteTrain.train,
+                orm.uatrains.E.t_ss)).\
+                filter(orm.uatrains.Railway.id == int(rwid)).all()
         except:
             notifier.notify('Uatrains error', 'Can\'t find railway by rwid = ' + str(rwid) + '\n' +\
                 traceback.format_exc())
