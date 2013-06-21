@@ -48,7 +48,6 @@ try:
         try:
             msg = json.loads(froxly_checker_server_socket.recv_unicode())
             if msg['method'] in methods:
-                #methods[msg['method']](msg)
                 thr = threading.Thread(target=methods[msg['method']], args=(msg,))
                 thr.start()
         except:

@@ -28,16 +28,14 @@ try:
         except:
             nlog.info('uatrains bot - server error', traceback.format_exc())
 
-    for wrk_num in range(8):
-        thr = threading.Thread(target=worker.run)
-        thr.start()
     methods = {}
     methods[grab.__name__] = grab
     while True:
         try:
             msg = json.loads(uatrains_bot_server_socket.recv_unicode())
             if msg['method'] in methods:
-                methods[msg['method']](msg)
+                thr = threading.Thread(target=methods[msg['method']], args=(msg,))
+                thr.start()
         except:
             nlog.info('uatrains bot - server error', traceback.format_exc())
         uatrains_bot_server_socket.send_unicode(json.dumps({'result': None}))

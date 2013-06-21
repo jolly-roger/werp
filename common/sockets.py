@@ -14,6 +14,8 @@ ugently_data_worker = 'ipc:///home/www/sockets/ugently_data_worker.socket'
 
 uatrains_bot_server = 'ipc:///home/www/sockets/uatrains_bot_server.socket'
 uatrains_bot_task_worker = 'ipc:///home/www/sockets/uatrains_bot_task_worker.socket'
+uatrains_bot_task_finish = 'ipc:///home/www/sockets/uatrains_bot_task_finish.socket'
+uatrains_bot_task_sink = 'ipc:///home/www/sockets/uatrains_bot_task_sink.socket'
 
 redis = '/tmp/redis.socket'
 
