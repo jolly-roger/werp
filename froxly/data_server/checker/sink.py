@@ -50,7 +50,7 @@ def run(url, proxy_count):
             proxy_count = proxy_count - 1
             if proxy_count == 0:
                 break
-        nlog.info('froxly - checher sink', '0')
+        froxly_checker_finish_socket.send_unicode(str(0))
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ses is not None:
