@@ -37,7 +37,7 @@ def base_run(url):
            
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
         froxly_checker_finish_socket.connect(sockets.format_socket_path(sockets.froxly_checker_finish, url))
-        froxly_checker_finish_socket.setsockopt(zmq.SUBSCRIBE, '')
+        froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         froxly_checker_finish_socket.recv_unicode()
         ses.close()
         conn.close()
@@ -73,6 +73,7 @@ def url_run(url):
         
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
         froxly_checker_finish_socket.connect(sockets.format_socket_path(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         froxly_checker_finish_socket.recv_unicode()
     except:
         nlog.info('froxly - checher error', traceback.format_exc())

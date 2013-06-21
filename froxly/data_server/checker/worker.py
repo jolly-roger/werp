@@ -26,7 +26,7 @@ def run(url):
         
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
         froxly_checker_finish_socket.connect(sockets.format_socket_path(sockets.froxly_checker_finish, url))
-        froxly_checker_finish_socket.setsockopt(zmq.SUBSCRIBE, '')
+        froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         
         poller = zmq.Poller()
         poller.register(froxly_checker_worker_socket, zmq.POLLIN)
@@ -109,7 +109,6 @@ def run(url):
                 froxly_checker_sink_socket.send_unicode(json.dumps(task))
                 
             if froxly_checker_finish_socket in socks and socks[froxly_checker_finish_socket] == zmq.POLLIN:
-                nlog.info('froxly - checher worker finish', '')
                 break
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
