@@ -37,6 +37,7 @@ def base_run(url):
            
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
         froxly_checker_finish_socket.connect(sockets.format_socket_path(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.setsockopt(zmq.SUBSCRIBE, '')
         froxly_checker_finish_socket.recv_unicode()
         ses.close()
         conn.close()

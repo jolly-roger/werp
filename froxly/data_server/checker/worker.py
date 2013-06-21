@@ -26,6 +26,7 @@ def run(url):
         
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
         froxly_checker_finish_socket.connect(sockets.format_socket_path(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.setsockopt(zmq.SUBSCRIBE, '')
         
         poller = zmq.Poller()
         poller.register(froxly_checker_worker_socket, zmq.POLLIN)
