@@ -43,7 +43,7 @@ def base_run(url):
             ses.close()
             conn.close()
         else:
-            nlog.info('froxly - checher info', 'Check for ' + utl + ' already started')
+            nlog.info('froxly - checher info', 'Check for ' + url + ' already started')
     except:
         nlog.info('froxly - checher error', traceback.format_exc())
         if ses is not None:
