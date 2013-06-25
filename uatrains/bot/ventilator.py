@@ -21,7 +21,7 @@ def run():
             tasks = ses.query(orm.uatrains.BotTask).filter(orm.uatrains.BotTask.status == None).\
                 order_by(orm.desc(orm.cast(orm.uatrains.BotTask.data, orm.BigInteger))).all()
             
-            manager = threading.Thread(target=sink.run, args=(len(proxies),))
+            manager = threading.Thread(target=sink.run, args=(len(tasks),))
             manager.start()
             
             for wrk_num in range(8):
