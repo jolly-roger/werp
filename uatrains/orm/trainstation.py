@@ -13,6 +13,9 @@ class TrainStation(DBase):
 	date_from = Column(Date)
 	date_to = Column(Date)
 	
+	t = relationship('E', primaryjoin='and_(TrainStation.t_id == E.id, E.ref_id is None)')
+	s = relationship('E', primaryjoin='TrainStation.s_id == E.id')
+	
 	def __init__(self, t_id, s_id, order, arrival=None, departure=None, halt=None, date_from=None,
 		date_to=None):
 		self.t_id = t_id

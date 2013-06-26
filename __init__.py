@@ -1,6 +1,8 @@
 import logging
 import logging.handlers
 
+from .common import constants
+
 class WerpSMTPHandler(logging.handlers.SMTPHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, **kw)
@@ -31,3 +33,11 @@ class WerpLogger(object):
         self._nlog.critical(msg, extra={'subj': subj})
 
 nlog = WerpLogger()
+
+exec_log = logging.getLogger('exec')
+exec_log.setLevel(logging.DEBUG)
+_exec_log_fh = logging.handlers.TimedRotatingFileHandler(constants.LOGS_DIR + '/exec.log', when='midnight')
+_exec_log_fh.setLevel(logging.DEBUG)
+_exec_log_formatter = logging.Formatter('[%(asctime)s] %(message)s')
+_exec_log_fh.setFormatter(_exec_log_formatter)
+exec_log.addHandler(_exec_log_fh)

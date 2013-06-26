@@ -5,7 +5,8 @@ import traceback
 from werp import nlog
 from werp.common import sockets
 
-ctx = None
+conn = None
+ses = None
 
 try:
     ctx = zmq.Context()

@@ -2,13 +2,11 @@ import traceback
 import threading
 import time
 import datetime
-import redis
 import zmq
 import json
 
-from werp import nlog
+from werp import nlog, exec_log
 from werp.common import sockets
-from werp.common import red_keys
 from werp.uatrains.bot import worker
 from werp.uatrains.bot import ventilator
 
@@ -23,8 +21,7 @@ try:
             ventilator.run()
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-            red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            red.rpush(red_keys.exec_time_log, 'uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
+            exec_log.info('uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
         except:
             nlog.info('uatrains bot - server error', traceback.format_exc())
 

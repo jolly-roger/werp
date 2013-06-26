@@ -8,12 +8,10 @@ import re
 import traceback
 import zmq
 import json
-import redis
 
 from werp import orm
-from werp import nlog
+from werp import nlog, exec_log
 from werp.common import sockets
-from werp.common import red_keys
 
 TRY_COUNT = 11
 url = 'http://www.hidemyass.com/proxy-list/'
@@ -85,8 +83,7 @@ try:
     conn.close()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-    red = redis.StrictRedis(unix_socket_path=sockets.redis)
-    red.rpush(red_keys.exec_time_log, 'froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
+    exec_log.info('froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
 except:
     nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + str(res_data))
     if ses is not None:

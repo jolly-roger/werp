@@ -8,6 +8,8 @@ from werp.uatrains import bot
 from werp import orm
 from werp.common import sockets
 from werp.uatrains.bot import sink, worker
+from werp.uatrains.bot import task_drvs
+
 
 def run():
     try:
@@ -18,6 +20,19 @@ def run():
     
             conn = orm.null_engine.connect()
             ses = orm.sescls(bind=conn)
+
+            for tid in range(0, 5000):
+                bot_task = orm.uatrains.BotTask()
+                bot_task.data = str(tid)
+                bot_task.drv = task_drvs.southwest
+                ses.add(bot_task)
+            #for tid in range(20000, 70000):
+            #    bot_task = orm.uatrains.BotTask()
+            #    bot_task.data = str(tid)
+            #    bot_task.drv = task_drvs.passengers
+            #    ses.add(bot_task)
+            ses.commit()
+            
             tasks = ses.query(orm.uatrains.BotTask).filter(orm.uatrains.BotTask.status == None).\
                 order_by(orm.desc(orm.cast(orm.uatrains.BotTask.data, orm.BigInteger))).all()
             

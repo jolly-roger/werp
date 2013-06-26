@@ -27,13 +27,16 @@ class uatrains(object):
         try:
             q = None
             if lng == lngs.UA:
-                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
-                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
-                q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).all()
         except Exception:
@@ -63,7 +66,7 @@ class uatrains(object):
         conn.close()
         return layout.getHome(ts, ss, news, lng)
     @cherrypy.expose
-    def default(self, eid=None):
+    def default(self, eid=None, *a, **kw):
         lng = get_lng()
         l = ''
         ref_id = None
@@ -163,7 +166,7 @@ class uatrains(object):
                 orm.uatrains.E.etype == etype.station)).all()
             s = ss[0]
             for station in ss:
-                if s.oid > station.oid:
+                if s.id < station.id:
                     s = station
             id = s.id
         except:
@@ -197,7 +200,7 @@ class uatrains(object):
                 orm.uatrains.E.etype == etype.train)).all()
             t = ts[0]
             for train in ts:
-                if t.oid > train.oid:
+                if t.id < train.id and t.ref_id is None:
                     t = train
             id = t.id
         except:
@@ -257,16 +260,19 @@ class uatrains(object):
         try:
             q = None
             if lng == lngs.UA:
-                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
-                    orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'))).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                        orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
-                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
-                    orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%'))).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                        orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
-                q = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.etype == etype.train,
-                    orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'))).\
+                q = ses.query(orm.uatrains.E).\
+                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                        orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).offset(pn * pc).all()
             next_p_ts = q.limit(pc).offset((pn + 1) * pc).all()
@@ -288,12 +294,13 @@ class uatrains(object):
         has_next_p = False
         prepared_ph = ph.replace(' ', '%').replace('-', '%')
         try:
-            q = ses.query(orm.uatrains.E).filter(orm.or_(orm.or_(orm.or_(
-                orm.uatrains.E.ua_title.ilike('%' + prepared_ph.lower() + '%'),
-                orm.uatrains.E.ru_title.ilike('%' + prepared_ph.lower() + '%')),
-                orm.uatrains.E.en_title.ilike('%' + prepared_ph.lower() + '%')),
-                orm.uatrains.E.value.op('similar to')('([0-9А-Яа-я]*/)?' + prepared_ph.lower() + \
-                    '([А-Яа-я]*)?(/[0-9А-Яа-я]*)?(/[0-9А-Яа-я]*)?'))).\
+            q = ses.query(orm.uatrains.E).\
+                filter(orm.and_(orm.or_(orm.uatrains.E.ua_title.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.ru_title.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.en_title.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.value.op('similar to')('([0-9А-Яа-я]*/)?' + prepared_ph.lower() + \
+                        '([А-Яа-я]*)?(/[0-9А-Яа-я]*)?(/[0-9А-Яа-я]*)?')),
+                    orm.uatrains.E.ref_id is None)).\
                 order_by(orm.uatrains.E.etype.desc(), orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             es = q.limit(pc).offset(pn * pc).all()
             next_p_es = q.limit(pc).offset((pn + 1) * pc).all()
