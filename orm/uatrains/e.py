@@ -19,9 +19,9 @@ class E(DBase):
     ref_id = Column(BigInteger)
     
     t_ss = relationship('TrainStation', primaryjoin='E.id==TrainStation.t_id', foreign_keys='TrainStation.t_id',
-        order_by='TrainStation.order', backref='t')
+        order_by='TrainStation.order')
     s_ts = relationship('TrainStation', primaryjoin='E.id==TrainStation.s_id', foreign_keys='TrainStation.s_id',
-        order_by='[TrainStation.departure, TrainStation.arrival]', backref='s')
+        order_by='[TrainStation.departure, TrainStation.arrival]')
     
     def __init__(self, etype=None, value=None, oid=None, ua_title=None, ru_title=None, en_title=None,
         ua_period=None, ru_period=None, en_period=None, from_date=None, to_date=None, ref_id=None):
