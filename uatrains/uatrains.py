@@ -112,6 +112,11 @@ class uatrains(object):
                                 traceback.format_exc())
                     elif e.etype == etype.station:
                         try:
+                            
+                            logger.info(str(ses.query(orm.uatrains.E).\
+                                options(orm.joinedload_all(orm.uatrains.E.s_ts, orm.uatrains.TrainStation.t)).\
+                                filter(orm.uatrains.E.id == prepared_eid)))
+                            
                             s = ses.query(orm.uatrains.E).\
                                 options(orm.joinedload_all(orm.uatrains.E.s_ts, orm.uatrains.TrainStation.t)).\
                                 filter(orm.uatrains.E.id == prepared_eid).one()
