@@ -5,11 +5,10 @@ import traceback
 import logging
     
     
-from werp import orm
+from werp import orm, nlog
 
 from .common import etype
 from .layout import layout
-from . import notifier
 from . engine import lng as lngs
 from . import sitemap
 
@@ -41,7 +40,7 @@ class uatrains(object):
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).all()
         except Exception:
-            notifier.notify('Uatrains error', 'Can\'t find trains\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find trains\n' + traceback.format_exc())
         ss = []
         try:
             q = None
@@ -56,13 +55,13 @@ class uatrains(object):
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ss = q.limit(pc).all()
         except Exception:
-            notifier.notify('Uatrains error', 'Can\'t find stations\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find stations\n' + traceback.format_exc())
         news = []
         try:
             news = ses.query(orm.uatrains.New).filter(orm.uatrains.New.lng == lng).\
                 order_by(orm.uatrains.New.date.desc()).limit(3).all()
         except:
-            notifier.notify('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getHome(ts, ss, news, lng)
@@ -76,7 +75,7 @@ class uatrains(object):
             try:
                 prepared_eid = int(float(eid))
             except:
-                notifier.notify('Uatrains error', 'Can\'t parse eid = ' + str(prepared_eid) + '\n' +\
+                nlog.info('Uatrains error', 'Can\'t parse eid = ' + str(prepared_eid) + '\n' +\
                     traceback.format_exc())
             if prepared_eid is not None:
                 conn = orm.q_engine.connect()
@@ -90,7 +89,7 @@ class uatrains(object):
                         e.vc = e.vc + 1
                         ses.commit()
                 except:
-                    notifier.notify('Uatrains error', 'Can\'t find entity by eid = ' + str(prepared_eid) + '\n' +\
+                    nlog.info('Uatrains error', 'Can\'t find entity by eid = ' + str(prepared_eid) + '\n' +\
                         traceback.format_exc())
                 if e is not None and ref_id is None:
                     if e.etype == etype.train:
@@ -100,7 +99,7 @@ class uatrains(object):
                                 filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getTrain(t, t.t_ss, lng)
                         except:
-                            notifier.notify('Uatrains error', 'Can\'t find train by id = ' + str(prepared_eid) + '\n' +\
+                            nlog.info('Uatrains error', 'Can\'t find train by id = ' + str(prepared_eid) + '\n' +\
                                 traceback.format_exc())
                     elif e.etype == etype.ptrain:
                         try:
@@ -109,7 +108,7 @@ class uatrains(object):
                                 filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getPTrain(t, t.t_ss, lng)
                         except:
-                            notifier.notify('Uatrains error', 'Can\'t find ptrain by id = ' + str(prepared_eid) + '\n' +\
+                            nlog.info('Uatrains error', 'Can\'t find ptrain by id = ' + str(prepared_eid) + '\n' +\
                                 traceback.format_exc())
                     elif e.etype == etype.station:
                         try:
@@ -118,7 +117,7 @@ class uatrains(object):
                                 filter(orm.uatrains.E.id == prepared_eid).one()
                             l = layout.getStation(s, s.s_ts, lng)
                         except:
-                            notifier.notify('Uatrains error', 'Can\'t find station by id = ' + str(prepared_eid) + '\n' +\
+                            nlog.info('Uatrains error', 'Can\'t find station by id = ' + str(prepared_eid) + '\n' +\
                                 traceback.format_exc())
                 ses.close()
                 conn.close()
@@ -171,7 +170,7 @@ class uatrains(object):
                     s = station
             id = s.id
         except:
-            notifier.notify('Uatrains error', 'Can\'t find station by sid = ' + str(sid) + '\n' +\
+            nlog.info('Uatrains error', 'Can\'t find station by sid = ' + str(sid) + '\n' +\
                 traceback.format_exc())
         ses.close()
         conn.close()
@@ -205,7 +204,7 @@ class uatrains(object):
                     t = train
             id = t.id
         except:
-            notifier.notify('Uatrains error', 'Can\'t find train by tid = ' + str(tid) + '\n' +\
+            nlog.info('Uatrains error', 'Can\'t find train by tid = ' + str(tid) + '\n' +\
                 traceback.format_exc())
         ses.close()
         conn.close()
@@ -240,7 +239,7 @@ class uatrains(object):
             if len(next_p_ss) > 0:
                 has_next_p = True
         except Exception:
-            notifier.notify('Uatrains error', 'Can\'t find stations\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find stations\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getStations(ss, ph, pn, has_next_p, lng)
@@ -280,7 +279,7 @@ class uatrains(object):
             if len(next_p_ts) > 0:
                 has_next_p = True
         except Exception:
-            notifier.notify('Uatrains error', 'Can\'t find trains\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find trains\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getTrains(ts, ph, pn, has_next_p, lng)
@@ -308,7 +307,7 @@ class uatrains(object):
             if len(next_p_es) > 0:
                 has_next_p = True
         except Exception:
-            notifier.notify('Uatrains error', 'Can\'t find entities\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find entities\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getEs(es, ph, pn, has_next_p, lng)
@@ -322,7 +321,7 @@ class uatrains(object):
             news = ses.query(orm.uatrains.New).filter(orm.uatrains.New.lng == lng).\
                 order_by(orm.uatrains.New.date.desc()).all()
         except:
-            notifier.notify('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
+            nlog.info('Uatrains error', 'Can\'t find news\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getNews(news, lng)
@@ -364,11 +363,11 @@ class uatrains(object):
                 orm.uatrains.E.t_ss)).\
                 filter(orm.uatrains.Railway.id == int(rwid)).all()
         except:
-            notifier.notify('Uatrains error', 'Can\'t find railway by rwid = ' + str(rwid) + '\n' +\
+            nlog.info('Uatrains error', 'Can\'t find railway by rwid = ' + str(rwid) + '\n' +\
                 traceback.format_exc())
         if rw is not None:
             if rw[0].routes is None or (rw[0].routes is not None and len(rw[0].routes) == 0):
-                notifier.notify('Uatrains error', 'No routes were found for rwid = ' + str(rwid))
+                nlog.info('Uatrains error', 'No routes were found for rwid = ' + str(rwid))
             l = layout.getRailwayTimetable(rw[0], lng)
         ses.close()
         conn.close()
