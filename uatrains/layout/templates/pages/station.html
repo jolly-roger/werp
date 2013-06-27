@@ -16,25 +16,27 @@
 		</thead>
 		<tbody>
 		{% for st in station_trains %}
-			<tr>
-				<td><a href='/{{st.t.id}}'>{{st.t.value}}</a></td>
-				<td><a href='/{{st.t.id}}'>{{get_lng_title(st.t, lng)}}</a></td>
-				<td>{{get_lng_period(st.t, lng)}}</td>
-				<td>
-					{% if st.arrival is not none %}
-						{{st.arrival}}
-					{% else %}
-						-
-					{% endif %}
-				</td>
-				<td>
-					{% if st.departure is not none %}
-						{{st.departure}}
-					{% else %}
-						-
-					{% endif %}
-				</td>
-			</tr>
+			{% if st.t is not none %}
+				<tr>
+					<td><a href='/{{st.t.id}}'>{{st.t.value}}</a></td>
+					<td><a href='/{{st.t.id}}'>{{get_lng_title(st.t, lng)}}</a></td>
+					<td>{{get_lng_period(st.t, lng)}}</td>
+					<td>
+						{% if st.arrival is not none %}
+							{{st.arrival}}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+					<td>
+						{% if st.departure is not none %}
+							{{st.departure}}
+						{% else %}
+							-
+						{% endif %}
+					</td>
+				</tr>
+			{% endif %}
 		{% endfor %}
 		</tbody>
 	</table>
