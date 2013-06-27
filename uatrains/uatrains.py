@@ -30,6 +30,9 @@ class uatrains(object):
                 q = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
+                
+                logger.info(str(q))
+                
             if lng == lngs.RU:
                 q = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
