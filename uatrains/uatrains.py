@@ -6,6 +6,7 @@ import logging
     
     
 from werp import orm
+
 from .common import etype
 from .layout import layout
 from . import notifier
