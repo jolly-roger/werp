@@ -2,8 +2,8 @@ import datetime
 import cherrypy
 import traceback
 
-from . import orm
-from . import notifier
+from werp import orm, nlog
+
 from .common import etype
 
 def getSitemap(lng):    
@@ -45,9 +45,9 @@ def getTrainSitemap(lng):
     ses = orm.sescls(bind=conn)
     ts = None
     try:
-        ts = ses.query(orm.E).filter(orm.E.etype == etype.train).all()
+        ts = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.train).all()
     except:
-        notifier.notify('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
+        nlog.info('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>' +\
         '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +\
             'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 ' +\
@@ -69,9 +69,9 @@ def getStationSitemap(lng):
     ses = orm.sescls(bind=conn)
     ss = None
     try:
-        ss = ses.query(orm.E).filter(orm.E.etype == etype.station).all()
+        ss = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).all()
     except:
-        notifier.notify('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
+        nlog.info('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>' +\
         '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +\
             'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 ' +\
@@ -93,9 +93,9 @@ def getPTrainSitemap(lng):
     ses = orm.sescls(bind=conn)
     pts = None
     try:
-        pts = ses.query(orm.E).filter(orm.E.etype == etype.ptrain).all()
+        pts = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.ptrain).all()
     except:
-        notifier.notify('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
+        nlog.info('Uatrains error', 'Can\'t create sitemap\n' + traceback.format_exc())
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>' +\
         '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' +\
             'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 ' +\
