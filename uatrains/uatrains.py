@@ -25,8 +25,14 @@ class uatrains(object):
         ts = []
         pc = 5
         try:
+            
+            logger.info(str(0))
+            
             q = None
             if lng == lngs.UA:
+                
+                logger.info(str(1))
+                
                 q = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.ref_id is None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
