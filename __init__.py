@@ -36,7 +36,7 @@ nlog = WerpLogger()
 
 exec_log = logging.getLogger('exec')
 exec_log.setLevel(logging.DEBUG)
-_exec_log_fh = logging.handlers.TimedRotatingFileHandler(constants.LOGS_DIR + '/exec.log', when='midnight')
+_exec_log_fh = logging.handlers.RotatingFileHandler(constants.LOGS_DIR + '/exec.log', maxBytes=1048576)
 _exec_log_fh.setLevel(logging.DEBUG)
 _exec_log_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 _exec_log_fh.setFormatter(_exec_log_formatter)
