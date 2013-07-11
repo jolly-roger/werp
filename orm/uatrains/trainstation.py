@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from werp.orm.base import *
 
@@ -14,13 +14,13 @@ class TrainStation(DBase):
 	order = Column(Integer)
 	date_from = Column(Date)
 	date_to = Column(Date)
-	c_date = Column(DateTime, default=datetime.datetime.now)
+	c_date = Column(DateTime, default=datetime.now)
 	
 	t = relationship('E', primaryjoin='and_(TrainStation.t_id == E.id, E.ref_id == None)')
 	s = relationship('E', primaryjoin='TrainStation.s_id == E.id')
 	
 	def __init__(self, t_id, s_id, order, arrival=None, departure=None, halt=None, date_from=None,
-		date_to=None, c_date=datetime.datetime.now()):
+		date_to=None, c_date=datetime.now()):
 		self.t_id = t_id
 		self.s_id = s_id
 		self.order = order
