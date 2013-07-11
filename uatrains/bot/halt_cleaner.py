@@ -7,9 +7,9 @@ ses = None
 try:
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
-    trains = ses.query(orm.uatrains.E).filter(orm.and_(orm.uatrains.E.id == 19649,
-        orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4,
-        orm.uatrains.E.etype == 5))).all()
+    trains = ses.query(orm.uatrains.E).\
+        filter(orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4,
+            orm.uatrains.E.etype == 5)).all()
     for train in trains:
         halt_ids = ses.query(orm.distinct(orm.uatrains.TrainStation.s_id)).\
             filter(orm.uatrains.TrainStation.t_id == train.id).all()
