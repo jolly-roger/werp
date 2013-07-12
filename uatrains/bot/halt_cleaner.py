@@ -1,10 +1,13 @@
 import traceback
+import time
+import datetime
 
-from werp import orm, nlog
+from werp import orm, nlog, exec_log
 
 conn = None
 ses = None
 try:
+    start_time = time.time()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
     trains = ses.query(orm.uatrains.E).\
@@ -28,6 +31,9 @@ try:
         ses.commit()
     ses.close()
     conn.close()
+    end_time = time.time()
+    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    exec_log.info('uatrains bot halt cleaner %s %s' % (str(start_dt), str(exec_delta)))
 except:
     if ses is not None:
         ses.close()
