@@ -18,7 +18,7 @@ def base_run(url):
             ctx = zmq.Context()
             
             froxly_checker_worker_socket = ctx.socket(zmq.PUSH)
-            froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url))
+            froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url=url))
             
             conn = orm.null_engine.connect()
             ses = orm.sescls(bind=conn)
@@ -37,7 +37,7 @@ def base_run(url):
                 froxly_checker_worker_socket.send_unicode(json.dumps(task))
                
             froxly_checker_finish_socket = ctx.socket(zmq.SUB)
-            froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url))
+            froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url=url))
             froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
             froxly_checker_finish_socket.recv_unicode()
             ses.close()
@@ -55,7 +55,7 @@ def url_run(url):
         ctx = zmq.Context()
 
         froxly_checker_worker_socket = ctx.socket(zmq.PUSH)
-        froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url))
+        froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url=url))
         
         red = redis.StrictRedis(unix_socket_path=sockets.redis)
         proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
@@ -74,7 +74,7 @@ def url_run(url):
             froxly_checker_worker_socket.send_unicode(json.dumps(task))
         
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
-        froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url=url))
         froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         froxly_checker_finish_socket.recv_unicode()
     except:

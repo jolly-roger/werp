@@ -16,16 +16,16 @@ def run(url):
         ctx = zmq.Context()
         
         froxly_checker_worker_socket = ctx.socket(zmq.PULL)
-        froxly_checker_worker_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_worker, url))
+        froxly_checker_worker_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_worker, url=url))
         
         ugently_data_server_socket = ctx.socket(zmq.REQ)
         ugently_data_server_socket.connect(sockets.ugently_data_server)
         
         froxly_checker_sink_socket = ctx.socket(zmq.PUSH)
-        froxly_checker_sink_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_sink, url))
+        froxly_checker_sink_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_sink, url=url))
         
         froxly_checker_finish_socket = ctx.socket(zmq.SUB)
-        froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url))
+        froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url=url))
         froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         
         poller = zmq.Poller()

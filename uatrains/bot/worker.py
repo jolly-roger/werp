@@ -16,23 +16,23 @@ from werp.common import sockets
 TRY_COUNT = 11
 REQ_TIMEOUT = 33
 
-def run():
+def run(task_drv):
     conn = None
     ses = None
     try:
         ctx = zmq.Context()
         
         froxly_data_server_socket = ctx.socket(zmq.REQ)
-        froxly_data_server_socket.connect(sockets.froxly_data_server)
+        froxly_data_server_socket.connect(sockets.format_socket_uri(sockets.froxly_data_server, drv=task_drv))
         
         uatrains_bot_task_sink_socket = ctx.socket(zmq.PUSH)
-        uatrains_bot_task_sink_socket.connect(sockets.uatrains_bot_task_sink)
+        uatrains_bot_task_sink_socket.connect(sockets.format_socket_uri(sockets.uatrains_bot_task_sink, drv=task_drv))
         
         uatrains_bot_task_worker_socket = ctx.socket(zmq.PULL)
-        uatrains_bot_task_worker_socket.connect(sockets.uatrains_bot_task_worker)
+        uatrains_bot_task_worker_socket.connect(sockets.format_socket_uri(sockets.uatrains_bot_task_worker, drv=task_drv))
         
         uatrains_bot_task_finish_socket = ctx.socket(zmq.SUB)
-        uatrains_bot_task_finish_socket.connect(sockets.uatrains_bot_task_finish)
+        uatrains_bot_task_finish_socket.connect(sockets.format_socket_uri(sockets.uatrains_bot_task_finish, drv=task_drv))
         uatrains_bot_task_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
         
         poller = zmq.Poller()

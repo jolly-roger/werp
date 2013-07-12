@@ -7,26 +7,36 @@ import json
 
 from werp import nlog, exec_log
 from werp.common import sockets
-from werp.uatrains.bot import worker
-from werp.uatrains.bot import ventilator
+from werp.uatrains.bot import task_drvs, worker, ventilator
 
 try:
     ctx = zmq.Context()
     uatrains_bot_server_socket = ctx.socket(zmq.REP)
     uatrains_bot_server_socket.bind(sockets.uatrains_bot_server)
-    def grab(msg):
+    def grab_etrain(msg):
         try:
             start_dt = datetime.datetime.now()
             start_time = time.time()
-            ventilator.run()
+            ventilator.run(task_drvs.southwest)
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-            exec_log.info('uatrains bot task runner %s %s' % (str(start_dt), str(exec_delta)))
+            exec_log.info('uatrains bot - task runner - etrain %s %s' % (str(start_dt), str(exec_delta)))
         except:
-            nlog.info('uatrains bot - server error', traceback.format_exc())
+            nlog.info('uatrains bot - task runner - etrain - server error', traceback.format_exc())
+    def grab_ptrain(msg):
+        try:
+            start_dt = datetime.datetime.now()
+            start_time = time.time()
+            ventilator.run(task_drvs.passengers)
+            end_time = time.time()
+            exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+            exec_log.info('uatrains bot - task runner - ptrain %s %s' % (str(start_dt), str(exec_delta)))
+        except:
+            nlog.info('uatrains bot - task runner - ptrain - server error', traceback.format_exc())
 
     methods = {}
-    methods[grab.__name__] = grab
+    methods[grab_etrain.__name__] = grab_etrain
+    methods[grab_ptrain.__name__] = grab_ptrain
     while True:
         try:
             msg = json.loads(uatrains_bot_server_socket.recv_unicode())
