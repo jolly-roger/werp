@@ -27,7 +27,7 @@ try:
                     if halt.c_date > newest_halt.c_date:
                         newest_halt = halt
                 for halt in halts:
-                    if halt.c_date != newest_halt.c_date:
+                    if halt.id != newest_halt.id:
                         ses.delete(halt)
         ses.commit()
     ses.close()
