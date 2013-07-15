@@ -7,6 +7,7 @@ from werp import orm, nlog, exec_log
 conn = None
 ses = None
 try:
+    start_dt = datetime.datetime.now()
     start_time = time.time()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
