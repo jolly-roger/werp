@@ -27,6 +27,6 @@ redis = '/tmp/redis.socket'
 
 
 def format_socket_uri(socket_uri, url='', drv=''):
-    return socket_uri.replace('(url)', url.replace('/', '%')).replace('(drv)', drv)
+    return socket_uri.replace('(url)', url.replace('/', '%')).replace('(drv)', str(drv))
 def get_socket_path(socket_uri, url=''):
     return format_socket_uri(socket_uri, url).replace('ipc://', '')
