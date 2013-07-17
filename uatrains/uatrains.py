@@ -229,9 +229,9 @@ class uatrains(object):
         ss = []
         has_next_p = False
         try:
-            q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).filter(orm.or_(orm.or_(
-                orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'),
-                orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%')),
+            q = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == etype.station).\
+                filter(orm.or_(orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'),
+                orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%'),
                 orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'))).\
                 order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             ss = q.limit(pc).offset(pn * pc).all()
@@ -261,17 +261,23 @@ class uatrains(object):
             q = None
             if lng == lngs.UA:
                 q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    filter(orm.and_(orm.or_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.etype == etype.etrain,
+                        orm.uatrains.E.etype == etype.ptrain),
+                        orm.uatrains.E.ua_graph.ilike('%' + ph.lower().replace(' ', '%') + '%'),
                         orm.uatrains.E.ua_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id == None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
             if lng == lngs.RU:
                 q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    filter(orm.and_(orm.or_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.etype == etype.etrain,
+                        orm.uatrains.E.etype == etype.ptrain),
+                        orm.uatrains.E.ru_graph.ilike('%' + ph.lower().replace(' ', '%') + '%'),
                         orm.uatrains.E.ru_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id == None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.ru_title)
             if lng == lngs.EN:
                 q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(orm.uatrains.E.etype == etype.train,
+                    filter(orm.and_(orm.or_(orm.uatrains.E.etype == etype.train, orm.uatrains.E.etype == etype.etrain,
+                        orm.uatrains.E.etype == etype.ptrain),
+                        orm.uatrains.E.en_graph.ilike('%' + ph.lower().replace(' ', '%') + '%'),
                         orm.uatrains.E.en_title.ilike('%' + ph.lower() + '%'), orm.uatrains.E.ref_id == None)).\
                     order_by(orm.uatrains.E.vc.desc(), orm.uatrains.E.en_title)
             ts = q.limit(pc).offset(pn * pc).all()
@@ -298,6 +304,9 @@ class uatrains(object):
                 filter(orm.and_(orm.or_(orm.uatrains.E.ua_title.ilike('%' + prepared_ph.lower() + '%'),
                     orm.uatrains.E.ru_title.ilike('%' + prepared_ph.lower() + '%'),
                     orm.uatrains.E.en_title.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.ua_graph.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.ru_graph.ilike('%' + prepared_ph.lower() + '%'),
+                    orm.uatrains.E.en_graph.ilike('%' + prepared_ph.lower() + '%'),
                     orm.uatrains.E.value.op('similar to')('([0-9А-Яа-я]*/)?' + prepared_ph.lower() + \
                         '([А-Яа-я]*)?(/[0-9А-Яа-я]*)?(/[0-9А-Яа-я]*)?')),
                     orm.uatrains.E.ref_id == None)).\
