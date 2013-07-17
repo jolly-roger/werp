@@ -14,19 +14,14 @@ try:
     trains = ses.query(orm.uatrains.E).\
         filter(orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4, orm.uatrains.E.etype == 5)).all()
     for t in trains:
-        raw_s_ids = ses.query(orm.uatrains.TrainStation.s_id).filter(orm.uatrains.TrainStation.t_id == t.id).all()
-        s_ids = []
-        for raw_s_id in raw_s_ids:
-            s_ids.append(raw_s_id[0])
-        if len(s_ids) > 0:
-            stations = ses.query(orm.uatrains.E).filter(orm.uatrains.E.id.in_(s_ids)).all()
+        if len(t.t_ss) > 0:
             ua_graph = ''
             ru_graph = ''
             en_graph = ''
-            for s in stations:
-                ua_graph += s.ua_title.lower() + '; '
-                ru_graph += s.ru_title.lower() + '; '
-                en_graph += s.en_title.lower() + '; '
+            for ts in t.t_ss:
+                ua_graph += ts.s.ua_title.lower() + '; '
+                ru_graph += ts.s.ru_title.lower() + '; '
+                en_graph += ts.s.en_title.lower() + '; '
             t.ua_graph = ua_graph
             t.ru_graph = ru_graph
             t.en_graph = en_graph
