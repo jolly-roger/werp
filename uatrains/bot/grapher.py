@@ -23,9 +23,9 @@ try:
         ru_graph = ''
         en_graph = ''
         for s in stations:
-            ua_graph += s.ua_title + '; '
-            ru_graph += s.ru_title + '; '
-            en_graph += s.en_title + '; '
+            ua_graph += s.ua_title.lower() + '; '
+            ru_graph += s.ru_title.lower() + '; '
+            en_graph += s.en_title.lower() + '; '
         t.ua_graph = ua_graph
         t.ru_graph = ru_graph
         t.en_graph = en_graph
