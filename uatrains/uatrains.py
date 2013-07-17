@@ -147,12 +147,12 @@ class uatrains(object):
         cherrypy.response.headers['Location'] = location
         return ''
     @cherrypy.expose
-    def getstation(self, sid):
+    def getstation(self, sid=-1):
         cherrypy.response.status = 301
         cherrypy.response.headers['Location'] = '/s/' + str(sid)
         return ''
     @cherrypy.expose
-    def station(self, sid):
+    def station(self, sid=-1):
         cherrypy.response.status = 301
         cherrypy.response.headers['Location'] = '/s/' + str(sid)
         return ''
@@ -181,12 +181,12 @@ class uatrains(object):
             cherrypy.response.headers['Location'] = '/'
         return ''
     @cherrypy.expose
-    def gettrain(self, tid):
+    def gettrain(self, tid=-1):
         cherrypy.response.status = 301
         cherrypy.response.headers['Location'] = '/t/' + str(tid)
         return ''
     @cherrypy.expose
-    def train(self, tid):
+    def train(self, tid=-1):
         cherrypy.response.status = 301
         cherrypy.response.headers['Location'] = '/t/' + str(tid)
         return ''
