@@ -17,6 +17,9 @@ class E(DBase):
     from_date = Column(Date)
     to_date = Column(Date)
     ref_id = Column(BigInteger)
+    ua_graph = Column(Text)
+    ru_graph = Column(Text)
+    en_graph = Column(Text)
     
     t_ss = relationship('TrainStation', primaryjoin='E.id==TrainStation.t_id', foreign_keys='TrainStation.t_id',
         order_by='TrainStation.order')
@@ -24,7 +27,8 @@ class E(DBase):
         order_by='[TrainStation.departure, TrainStation.arrival]')
     
     def __init__(self, etype=None, value=None, oid=None, ua_title=None, ru_title=None, en_title=None,
-        ua_period=None, ru_period=None, en_period=None, from_date=None, to_date=None, ref_id=None):
+        ua_period=None, ru_period=None, en_period=None, from_date=None, to_date=None, ref_id=None,
+        ua_graph=None, ru_graph=None, en_graph=None):
         self.etype = etype
         self.value = value
         self.oid = oid
@@ -37,3 +41,6 @@ class E(DBase):
         self.from_date = from_date
         self.to_date = to_date
         self.ref_id = ref_id
+        self.ua_graph= ua_graph
+        self.ru_graph= ru_graph
+        self.en_graph= en_graph

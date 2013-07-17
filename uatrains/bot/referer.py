@@ -11,7 +11,7 @@ try:
     start_time = time.time()
     conn = orm.null_engine.connect()
     ses = orm.sescls(bind=conn)
-    etrains = ses.query(orm.uatrains.E).filter(orm.uatrains.E.etype == 1).all()
+    etrains = ses.query(orm.uatrains.E).filter(orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4)).all()
     for et in etrains:
         if et.ref_id is None:
             if (et.from_date is None and et.to_date is None) or \
@@ -22,7 +22,7 @@ try:
                 similar_etrains = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.uatrains.E.value == et.value, orm.uatrains.E.ua_title == et.ua_title,
                         orm.uatrains.E.ru_title == et.ru_title, orm.uatrains.E.en_title == et.en_title,
-                        orm.uatrains.E.etype == 1)).all()
+                        orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4))).all()
                 if len(similar_etrains) > 1:
                     for similar_et in similar_etrains:
                         if (similar_et.from_date is not None and similar_et.to_date is not None and \
