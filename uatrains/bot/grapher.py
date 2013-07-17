@@ -18,18 +18,19 @@ try:
         s_ids = []
         for raw_s_id in raw_s_ids:
             s_ids.append(raw_s_id[0])
-        stations = ses.query(orm.uatrains.E).filter(orm.uatrains.E.id.in_(s_ids)).all()
-        ua_graph = ''
-        ru_graph = ''
-        en_graph = ''
-        for s in stations:
-            ua_graph += s.ua_title.lower() + '; '
-            ru_graph += s.ru_title.lower() + '; '
-            en_graph += s.en_title.lower() + '; '
-        t.ua_graph = ua_graph
-        t.ru_graph = ru_graph
-        t.en_graph = en_graph
-        ses.commit()
+        if len(s_ids) > 0:
+            stations = ses.query(orm.uatrains.E).filter(orm.uatrains.E.id.in_(s_ids)).all()
+            ua_graph = ''
+            ru_graph = ''
+            en_graph = ''
+            for s in stations:
+                ua_graph += s.ua_title.lower() + '; '
+                ru_graph += s.ru_title.lower() + '; '
+                en_graph += s.en_title.lower() + '; '
+            t.ua_graph = ua_graph
+            t.ru_graph = ru_graph
+            t.en_graph = en_graph
+            ses.commit()
     ses.close()
     conn.close()
     end_time = time.time()
