@@ -33,7 +33,7 @@
     </div>
 	<ul class="pager">
 		<li class="previous {% if pn == 0 %}disabled{% endif %}">
-			<a {% if pn != 0 %}href='/es?ph={{ph}}&pn={{pn - 1}}'{% endif %}>
+			<a {% if pn != 0 %}href='/es?srcht={{srcht}}&ph={{ph}}&fs={{fs}}&ts={{ts}}&pn={{pn - 1}}'{% endif %}>
 				&larr; {% trans %}Предыдущие{% endtrans %}</a>
 		</li>
 		<li class="next {% if not has_next_p %}disabled{% endif %}">

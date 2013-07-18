@@ -21,6 +21,11 @@
     height: inherit;
 }
 
+.navbar #sbtn {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
 .new-date, .new-title {
     padding-bottom: 7px;
     line-height: 25px;

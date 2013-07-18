@@ -90,9 +90,9 @@ def getStations(stations, ph, pn, has_next_p, lng=lngs.UA):
     tmpl = getenv(lng).get_template("pages/stations.html")
     return tmpl.render(stations=stations, ph=ph, pn=pn, has_next_p=has_next_p, is_stations=True, lng=lng,
         path_info=cherrypy.request.path_info, query_string=cherrypy.request.query_string)
-def getEs(es, ph, fs, ts, pn, has_next_p, lng=lngs.UA):
+def getEs(es, srcht, ph, fs, ts, pn, has_next_p, lng=lngs.UA):
     tmpl = getenv(lng).get_template("pages/es.html")
-    return tmpl.render(es=es, ph=ph, fs=fs, ts=ts, pn=pn, has_next_p=has_next_p, lng=lng,
+    return tmpl.render(es=es, srcht=srcht, ph=ph, fs=fs, ts=ts, pn=pn, has_next_p=has_next_p, lng=lng,
         path_info=cherrypy.request.path_info, query_string=cherrypy.request.query_string)
 def getNews(news, lng=lngs.UA):
     tmpl = getenv(lng).get_template("pages/news.html")

@@ -319,7 +319,7 @@ class uatrains(object):
                 nlog.info('Uatrains error', 'Can\'t find entities\n' + traceback.format_exc())
         ses.close()
         conn.close()
-        return layout.getEs(es, ph, fs, ts, pn, has_next_p, lng)
+        return layout.getEs(es, srcht, ph, fs, ts, pn, has_next_p, lng)
     @cherrypy.expose
     def news(self):
         lng = get_lng()
