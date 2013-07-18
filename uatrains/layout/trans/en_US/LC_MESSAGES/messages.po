@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-28 16:45+0200\n"
+"POT-Creation-Date: 2013-07-18 13:39+0300\n"
 "PO-Revision-Date: 2013-01-31 14:58+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,146 +18,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: templates/base.html:36 templates/base.html:98 templates/base.html:99
-#: templates/base.html:189 templates/pages/es.html:3
-#: templates/pages/home.html:3 templates/pages/news.html:3
-#: templates/pages/sitecatalogs.html:3 templates/pages/stations.html:3
-#: templates/pages/trains.html:3
-#, fuzzy
+#: ../templates/base.html:40 ../templates/base.html:102
+#: ../templates/base.html:103 ../templates/base.html:196
+#: ../templates/pages/es.html:3 ../templates/pages/home.html:3
+#: ../templates/pages/news.html:3 ../templates/pages/sitecatalogs.html:3
+#: ../templates/pages/stations.html:3 ../templates/pages/trains.html:3
 msgid "site_title"
 msgstr "The timetables of Ukrainian trains"
 
-#: templates/base.html:39 templates/base.html:188 templates/base.html:190
+#: ../templates/base.html:43 ../templates/base.html:195
+#: ../templates/base.html:197
 msgid "site_description"
 msgstr ""
 "Information system which provides simple and fast access to the regularly"
 " updated timetables of trains and local (electric) trains of all stations"
 " of Ukraine"
 
-#: templates/base.html:40
+#: ../templates/base.html:44
 msgid "site_keywords"
 msgstr "timetable,train,station"
 
-#: templates/base.html:106
-#, fuzzy
+#: ../templates/base.html:110
+msgid "from_station_text"
+msgstr "Departure station"
+
+#: ../templates/base.html:112
+msgid "to_station_text"
+msgstr "Arrival station"
+
+#: ../templates/base.html:114
 msgid "search_entity_text"
 msgstr "Enter station(s) name(s)"
 
-#: templates/base.html:107
+#: ../templates/base.html:115
 msgid "Найти"
 msgstr "Find"
 
-#: templates/base.html:117 templates/base.html:118
+#: ../templates/base.html:124 ../templates/base.html:125
 msgid "На украинском"
 msgstr "In ukrainian"
 
-#: templates/base.html:125 templates/base.html:126
+#: ../templates/base.html:132 ../templates/base.html:133
 msgid "На русском"
 msgstr "In russian"
 
-#: templates/base.html:133 templates/base.html:134
+#: ../templates/base.html:140 ../templates/base.html:141
 msgid "На английском"
 msgstr "In english"
 
-#: templates/pages/es.html:3
+#: ../templates/pages/es.html:3
 msgid "search_result"
 msgstr "Search result for trains and stations"
 
-#: templates/pages/es.html:31
+#: ../templates/pages/es.html:31
 msgid "no_entity_search_result"
 msgstr "No trains and station were found for your query"
 
-#: templates/pages/es.html:37 templates/pages/stations.html:29
-#: templates/pages/trains.html:19
+#: ../templates/pages/es.html:37 ../templates/pages/stations.html:29
+#: ../templates/pages/trains.html:19
 msgid "Предыдущие"
 msgstr "Previous"
 
-#: templates/pages/es.html:41 templates/pages/stations.html:33
-#: templates/pages/trains.html:23
+#: ../templates/pages/es.html:41 ../templates/pages/stations.html:33
+#: ../templates/pages/trains.html:23
 msgid "Следующие"
 msgstr "Next"
 
-#: templates/pages/home.html:19
+#: ../templates/pages/home.html:19
 msgid "all_stations"
 msgstr "All stations"
 
-#: templates/pages/home.html:31
+#: ../templates/pages/home.html:31
 msgid "all_trains"
 msgstr "All trains"
 
-#: templates/pages/home.html:45
+#: ../templates/pages/home.html:45
 msgid "all_news"
 msgstr "All news"
 
-#: templates/pages/news.html:3 templates/pages/sitecatalogs.html:3
+#: ../templates/pages/news.html:3 ../templates/pages/sitecatalogs.html:3
 msgid "Новости"
 msgstr "News"
 
-#: templates/pages/ptrain.html:3
-#, fuzzy
+#: ../templates/pages/ptrain.html:3
 msgid "passenger_train_page_title"
 msgstr "Passenger train"
 
-#: templates/pages/ptrain.html:10 templates/pages/train.html:10
-#, fuzzy
+#: ../templates/pages/ptrain.html:10 ../templates/pages/train.html:10
 msgid "station"
 msgstr "Station"
 
-#: templates/pages/ptrain.html:11 templates/pages/station.html:13
-#: templates/pages/train.html:11
+#: ../templates/pages/ptrain.html:11 ../templates/pages/station.html:13
+#: ../templates/pages/train.html:11
 msgid "прибытие"
 msgstr "Arrival"
 
-#: templates/pages/ptrain.html:12 templates/pages/station.html:14
-#: templates/pages/train.html:12
+#: ../templates/pages/ptrain.html:12 ../templates/pages/station.html:14
+#: ../templates/pages/train.html:12
 msgid "отправление"
 msgstr "Departure"
 
-#: templates/pages/railwaytimetable.html:4 templates/pages/station.html:10
+#: ../templates/pages/railwaytimetable.html:4
+#: ../templates/pages/station.html:10
 msgid "train_number"
 msgstr "Train number"
 
-#: templates/pages/railwaytimetable.html:5 templates/pages/station.html:11
+#: ../templates/pages/railwaytimetable.html:5
+#: ../templates/pages/station.html:11
 msgid "путь следования"
 msgstr "Course line"
 
-#: templates/pages/railwaytimetable.html:6
+#: ../templates/pages/railwaytimetable.html:6
 msgid "отправление - прибытие"
 msgstr "Departure - Arrival"
 
-#: templates/pages/railwaytimetable.html:7 templates/pages/station.html:12
+#: ../templates/pages/railwaytimetable.html:7
+#: ../templates/pages/station.html:12
 msgid "периодичность"
 msgstr "Periodicity"
 
-#: templates/pages/station.html:3
+#: ../templates/pages/station.html:3
 msgid "station_page_title"
 msgstr "the timetables of trains"
 
-#: templates/pages/station.html:7
-#, fuzzy
+#: ../templates/pages/station.html:7
 msgid "station_prefix"
 msgstr "The timetables of trains for station"
 
-#: templates/pages/stations.html:3
+#: ../templates/pages/stations.html:3
 msgid "Cтанции"
 msgstr "Station"
 
-#: templates/pages/stations.html:23
+#: ../templates/pages/stations.html:23
 msgid "По вашему запросу станций не найдено"
 msgstr "No stations were found for your query"
 
-#: templates/pages/train.html:3
+#: ../templates/pages/train.html:3
 msgid "electric_train_page_title"
 msgstr "Local (electric) train"
 
-#: templates/pages/trains.html:3
+#: ../templates/pages/trains.html:3
 msgid "Поезда"
 msgstr "Trains"
 
-#: templates/pages/trains.html:13
+#: ../templates/pages/trains.html:13
 msgid "По вашему запросу поездов не найдено"
 msgstr "No trains were found for your query"
-
-#~ msgid "стоянка"
-#~ msgstr "Stay"
 

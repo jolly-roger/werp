@@ -295,7 +295,7 @@ class uatrains(object):
         pc = 9
         es = []
         has_next_p = False
-        if int(srcht) == 0: # from-to search
+        if int(srcht) == 0:
             es, has_next_p = search.from_to(ses, fs, ts, pc, pn)
         elif int(srcht) == 1:
             prepared_ph = ph.replace(' ', '%').replace('-', '%')

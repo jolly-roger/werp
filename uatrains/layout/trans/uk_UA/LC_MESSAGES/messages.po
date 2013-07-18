@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-02-28 16:45+0200\n"
+"POT-Creation-Date: 2013-07-18 13:39+0300\n"
 "PO-Revision-Date: 2013-01-31 14:57+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: uk_UA <LL@li.org>\n"
@@ -19,146 +19,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: templates/base.html:36 templates/base.html:98 templates/base.html:99
-#: templates/base.html:189 templates/pages/es.html:3
-#: templates/pages/home.html:3 templates/pages/news.html:3
-#: templates/pages/sitecatalogs.html:3 templates/pages/stations.html:3
-#: templates/pages/trains.html:3
-#, fuzzy
+#: ../templates/base.html:40 ../templates/base.html:102
+#: ../templates/base.html:103 ../templates/base.html:196
+#: ../templates/pages/es.html:3 ../templates/pages/home.html:3
+#: ../templates/pages/news.html:3 ../templates/pages/sitecatalogs.html:3
+#: ../templates/pages/stations.html:3 ../templates/pages/trains.html:3
 msgid "site_title"
 msgstr "Розклад руху поїздів та електричок України"
 
-#: templates/base.html:39 templates/base.html:188 templates/base.html:190
+#: ../templates/base.html:43 ../templates/base.html:195
+#: ../templates/base.html:197
 msgid "site_description"
 msgstr ""
 "Інформаційна система надающа простий та швидкий доступ до регулярно "
 "оновлюваному розкладу руху поїздів та електричок (пасажирських, "
 "регіональних та приміських поїздів) по усім станціям України"
 
-#: templates/base.html:40
+#: ../templates/base.html:44
 msgid "site_keywords"
 msgstr "розклад,рух,поїзд,електричка,станція"
 
-#: templates/base.html:106
-#, fuzzy
+#: ../templates/base.html:110
+msgid "from_station_text"
+msgstr "Станція відправлення"
+
+#: ../templates/base.html:112
+msgid "to_station_text"
+msgstr "Станція прибуття"
+
+#: ../templates/base.html:114
 msgid "search_entity_text"
 msgstr "Введіть назву(и) станції(й)"
 
-#: templates/base.html:107
+#: ../templates/base.html:115
 msgid "Найти"
 msgstr "Знайти"
 
-#: templates/base.html:117 templates/base.html:118
+#: ../templates/base.html:124 ../templates/base.html:125
 msgid "На украинском"
 msgstr "На українській"
 
-#: templates/base.html:125 templates/base.html:126
+#: ../templates/base.html:132 ../templates/base.html:133
 msgid "На русском"
 msgstr "На російській"
 
-#: templates/base.html:133 templates/base.html:134
+#: ../templates/base.html:140 ../templates/base.html:141
 msgid "На английском"
 msgstr "На англійській"
 
-#: templates/pages/es.html:3
+#: ../templates/pages/es.html:3
 msgid "search_result"
 msgstr "Результати пошуку поїздів та станцій"
 
-#: templates/pages/es.html:31
+#: ../templates/pages/es.html:31
 msgid "no_entity_search_result"
 msgstr "По вашому запиту поїздів та станцій не було знайдено"
 
-#: templates/pages/es.html:37 templates/pages/stations.html:29
-#: templates/pages/trains.html:19
+#: ../templates/pages/es.html:37 ../templates/pages/stations.html:29
+#: ../templates/pages/trains.html:19
 msgid "Предыдущие"
 msgstr "Попередні"
 
-#: templates/pages/es.html:41 templates/pages/stations.html:33
-#: templates/pages/trains.html:23
+#: ../templates/pages/es.html:41 ../templates/pages/stations.html:33
+#: ../templates/pages/trains.html:23
 msgid "Следующие"
 msgstr "Наступні"
 
-#: templates/pages/home.html:19
+#: ../templates/pages/home.html:19
 msgid "all_stations"
 msgstr "Усі станції"
 
-#: templates/pages/home.html:31
+#: ../templates/pages/home.html:31
 msgid "all_trains"
 msgstr "Усі поїзди"
 
-#: templates/pages/home.html:45
+#: ../templates/pages/home.html:45
 msgid "all_news"
 msgstr "Усі новини"
 
-#: templates/pages/news.html:3 templates/pages/sitecatalogs.html:3
+#: ../templates/pages/news.html:3 ../templates/pages/sitecatalogs.html:3
 msgid "Новости"
 msgstr "Новини"
 
-#: templates/pages/ptrain.html:3
-#, fuzzy
+#: ../templates/pages/ptrain.html:3
 msgid "passenger_train_page_title"
 msgstr "Пасажирський поїзд"
 
-#: templates/pages/ptrain.html:10 templates/pages/train.html:10
-#, fuzzy
+#: ../templates/pages/ptrain.html:10 ../templates/pages/train.html:10
 msgid "station"
 msgstr "Станція"
 
-#: templates/pages/ptrain.html:11 templates/pages/station.html:13
-#: templates/pages/train.html:11
+#: ../templates/pages/ptrain.html:11 ../templates/pages/station.html:13
+#: ../templates/pages/train.html:11
 msgid "прибытие"
 msgstr "Прибуття"
 
-#: templates/pages/ptrain.html:12 templates/pages/station.html:14
-#: templates/pages/train.html:12
+#: ../templates/pages/ptrain.html:12 ../templates/pages/station.html:14
+#: ../templates/pages/train.html:12
 msgid "отправление"
 msgstr "Відправлення"
 
-#: templates/pages/railwaytimetable.html:4 templates/pages/station.html:10
+#: ../templates/pages/railwaytimetable.html:4
+#: ../templates/pages/station.html:10
 msgid "train_number"
 msgstr "Номер поїзда"
 
-#: templates/pages/railwaytimetable.html:5 templates/pages/station.html:11
+#: ../templates/pages/railwaytimetable.html:5
+#: ../templates/pages/station.html:11
 msgid "путь следования"
 msgstr "Шлях прямування"
 
-#: templates/pages/railwaytimetable.html:6
+#: ../templates/pages/railwaytimetable.html:6
 msgid "отправление - прибытие"
 msgstr "Відправлення - Прибуття"
 
-#: templates/pages/railwaytimetable.html:7 templates/pages/station.html:12
+#: ../templates/pages/railwaytimetable.html:7
+#: ../templates/pages/station.html:12
 msgid "периодичность"
 msgstr "Періодичність"
 
-#: templates/pages/station.html:3
+#: ../templates/pages/station.html:3
 msgid "station_page_title"
 msgstr "розклад руху пасажирських поїздів та електричок (приміських поїздів)"
 
-#: templates/pages/station.html:7
-#, fuzzy
+#: ../templates/pages/station.html:7
 msgid "station_prefix"
 msgstr "Розклад руху поїздів та електричок по станції"
 
-#: templates/pages/stations.html:3
+#: ../templates/pages/stations.html:3
 msgid "Cтанции"
 msgstr "Станції"
 
-#: templates/pages/stations.html:23
+#: ../templates/pages/stations.html:23
 msgid "По вашему запросу станций не найдено"
 msgstr "По вашому запиту станцій не знайдено"
 
-#: templates/pages/train.html:3
+#: ../templates/pages/train.html:3
 msgid "electric_train_page_title"
 msgstr "Електричка (приміський поїзд)"
 
-#: templates/pages/trains.html:3
+#: ../templates/pages/trains.html:3
 msgid "Поезда"
 msgstr "Поїзди"
 
-#: templates/pages/trains.html:13
+#: ../templates/pages/trains.html:13
 msgid "По вашему запросу поездов не найдено"
 msgstr "По вашому запиту поїзди не знайдено"
-
-#~ msgid "стоянка"
-#~ msgstr "Стоянка"
 
