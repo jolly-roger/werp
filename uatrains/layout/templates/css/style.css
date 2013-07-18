@@ -8,8 +8,10 @@
     .navbar .nav.pull-right.lngs {
         float: left;
     }
-    .navbar #srcht, .navbar #fs, .navbar #ts, .navbar #sbtn {
-        float: left;
+    .navbar #srcht, .navbar #fs, .navbar #ts {
+        width: 99%;
+    }
+    .navbar #sbtn {
         width: 100%;
     }
 }
