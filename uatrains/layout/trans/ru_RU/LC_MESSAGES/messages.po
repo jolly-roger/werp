@@ -45,8 +45,8 @@ msgid "from_station_text"
 msgstr "Станция отправления"
 
 #: ../templates/base.html:112
-msgid "Станция прибытия"
-msgstr ""
+msgid "to_station_text"
+msgstr "Станция прибытия"
 
 #: ../templates/base.html:114
 msgid "search_entity_text"
