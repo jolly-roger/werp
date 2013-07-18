@@ -10,7 +10,7 @@
     }
     .navbar #srcht, .navbar #fs, .navbar #ts, .navbar #sbtn {
         float: left;
-        width: 100% - 10px;
+        width: 100%;
     }
 }
 
