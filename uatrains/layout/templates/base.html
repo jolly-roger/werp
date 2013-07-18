@@ -105,14 +105,15 @@
                         </div>
                         <div class="span9">
                             <form action='/es'>
-                                    <input name="srcht" type="hidden" value="0" />
-                                    <input name="fs" type="text" style="margin-bottom: 0px;"
+                                    <input name="srcht" id="srcht" type="hidden" value="0" />
+                                    <input name="fs" id="fs" type="text"
                                         placeholder="{% trans %}from_station_text{% endtrans %}" />
-                                    <input name="ts" type="text" style="margin-bottom: 0px;"
+                                    <input name="ts" id="ts" type="text"
                                         placeholder="{% trans %}to_station_text{% endtrans %}" />
                                     <!-- input name='ph' type="text"
                                         placeholder="{% trans %}search_entity_text{% endtrans %}" / -->
-                                    <button type="submit" class="btn" style="margin-top: 0px;">{% trans %}Найти{% endtrans %}</button>
+                                    <button type="submit" id="sbtn" class="btn"
+                                        style="margin-top: 0px;">{% trans %}Найти{% endtrans %}</button>
                             </form>
                         </div>
                         <div class="span2">
