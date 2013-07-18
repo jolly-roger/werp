@@ -287,12 +287,12 @@ class uatrains(object):
         conn.close()
         return layout.getTrains(ts, ph, pn, has_next_p, lng)
     @cherrypy.expose
-    def es(self, srcht=0, ph='', fs='', ts='', pn=0):
+    def es(self, srcht=0, ph='', fs='', ts='', pn=0, pc=9):
         lng = get_lng()
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         pn = int(pn)
-        pc = 9
+        pc = int(pc)
         es = []
         has_next_p = False
         if int(srcht) == 0:

@@ -30,6 +30,16 @@ try:
                     if halt.id != newest_halt.id:
                         ses.delete(halt)
         ses.commit()
+        halts = ses.query(orm.uatrains.TrainStation).\
+            filter(orm.uatrains.TrainStation.t_id == train.id).all()
+        halts_to_delete = []
+        for halt in halts:
+            for h in halts:
+                if halts.order == h.order and halt.c_date > h.c_date and h not in halts_to_delete:
+                    halts_to_delete.append(h)
+        for h in halts_to_delete:
+            ses.delete(h)
+        ses.commit()
     ses.close()
     conn.close()
     end_time = time.time()
