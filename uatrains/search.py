@@ -1,6 +1,6 @@
 import traceback
 
-from werp import orm, nlog
+from werp import orm, nlog, error_log
 
 def from_to(ses, fs, ts):
     es = []
@@ -22,7 +22,7 @@ def from_to(ses, fs, ts):
                 has_next_p = True
         except Exception:
             nlog.info('Uatrains error', 'Can\'t find entities by fs\n' + traceback.format_exc())
-    elif fs != ''and ts == '':
+    elif fs == ''and ts != '':
         prepared_ts = ts.replace(' ', '%').replace('-', '%')
         prepared_ph = prepared_ts
         try:
@@ -43,6 +43,11 @@ def from_to(ses, fs, ts):
         prepared_fs = fs.replace(' ', '%').replace('-', '%')
         prepared_ts = ts.replace(' ', '%').replace('-', '%')
         prepared_ph = prepared_fs + '%' + prepared_ts
+        
+        
+        error_log.info('prepared_ph: ' + prepared_ph.lower())
+        
+        
         try:
             q = ses.query(orm.uatrains.E).\
                 filter(orm.and_(
