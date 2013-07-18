@@ -1,8 +1,8 @@
 import traceback
 
-from werp import orm, nlog, error_log
+from werp import orm, nlog
 
-def from_to(ses, fs, ts):
+def from_to(ses, fs, ts, pc, pn):
     es = []
     has_next_p = False
     if fs != '' and ts == '':
@@ -43,11 +43,6 @@ def from_to(ses, fs, ts):
         prepared_fs = fs.replace(' ', '%').replace('-', '%')
         prepared_ts = ts.replace(' ', '%').replace('-', '%')
         prepared_ph = prepared_fs + '%' + prepared_ts
-        
-        
-        error_log.info('prepared_ph: ' + prepared_ph.lower())
-        
-        
         try:
             q = ses.query(orm.uatrains.E).\
                 filter(orm.and_(
