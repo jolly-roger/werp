@@ -2,18 +2,14 @@ import cherrypy
 import json
 import os.path
 import traceback
-import logging
     
     
-from werp import orm, nlog
+from werp import orm, nlog, error_log
 
 from .common import etype
 from .layout import layout
 from . engine import lng as lngs
 from . import sitemap
-
-
-logger = logging.getLogger('werp_error.uatrains')
 
 
 class uatrains(object):
@@ -293,7 +289,7 @@ class uatrains(object):
     def es(self, ph=None, fs=None, ts=None, pn=0):
         
         
-        logger.info('es ph: \'' + str(ph) + '\'')
+        error_log.info('es ph: \'' + str(ph) + '\'')
         
         
         lng = get_lng()
