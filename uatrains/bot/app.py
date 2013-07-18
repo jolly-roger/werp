@@ -17,7 +17,7 @@ try:
         try:
             start_dt = datetime.datetime.now()
             start_time = time.time()
-            ventilator.run(task_drvs.southwest)
+            ventilator.run(task_drvs.southwest, 8)
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
             exec_log.info('uatrains bot - task runner - etrain %s %s' % (str(start_dt), str(exec_delta)))
@@ -27,7 +27,7 @@ try:
         try:
             start_dt = datetime.datetime.now()
             start_time = time.time()
-            ventilator.run(task_drvs.passengers)
+            ventilator.run(task_drvs.passengers, 32)
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
             exec_log.info('uatrains bot - task runner - ptrain %s %s' % (str(start_dt), str(exec_delta)))

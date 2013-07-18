@@ -11,7 +11,7 @@ from werp.uatrains.bot import sink, worker
 from werp.uatrains.bot import task_drvs
 
 
-def run(task_drv):
+def run(task_drv, worker_pool):
     try:
         if not os.path.exists(sockets.get_socket_path(
             sockets.format_socket_uri(sockets.uatrains_bot_task_worker, drv=task_drv))):
@@ -43,7 +43,7 @@ def run(task_drv):
             manager = threading.Thread(target=sink.run, args=(len(tasks), task_drv))
             manager.start()
             
-            for wrk_num in range(8):
+            for wrk_num in range(worker_pool):
                 thr = threading.Thread(target=worker.run, args=(task_drv,))
                 thr.start()
             
