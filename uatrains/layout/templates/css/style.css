@@ -16,6 +16,11 @@
     }
 }
 
+.navbar #fs, .navbar #ts {
+    padding: 5px 6px;
+    height: inherit;
+}
+
 .new-date, .new-title {
     padding-bottom: 7px;
     line-height: 25px;
