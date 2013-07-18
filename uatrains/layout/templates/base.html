@@ -105,12 +105,13 @@
                         </div>
                         <div class="span9">
                             <form action='/es'>
-                                    <!-- input name="fs" type="text"
-                                        placeholder="{% trans %}from_station_text{% endtrans %}" / -->
-                                    <!-- input name="ts" type="text"
-                                        placeholder="{% trans %}to_station_text{% endtrans %}" / -->
-                                    <input name='ph' type="text"
-                                        placeholder="{% trans %}search_entity_text{% endtrans %}" />
+                                    <input name="srcht" type="hidden" value="0" />
+                                    <input name="fs" type="text"
+                                        placeholder="{% trans %}from_station_text{% endtrans %}" />
+                                    <input name="ts" type="text"
+                                        placeholder="{% trans %}to_station_text{% endtrans %}" />
+                                    <!-- input name='ph' type="text"
+                                        placeholder="{% trans %}search_entity_text{% endtrans %}" / -->
                                     <button type="submit" class="btn">{% trans %}Найти{% endtrans %}</button>
                             </form>
                         </div>

@@ -5,6 +5,7 @@ import traceback
     
     
 from werp import orm, nlog, error_log
+from werp.uatrains import search
 
 from .common import etype
 from .layout import layout
@@ -286,12 +287,7 @@ class uatrains(object):
         conn.close()
         return layout.getTrains(ts, ph, pn, has_next_p, lng)
     @cherrypy.expose
-    def es(self, ph=None, fs=None, ts=None, pn=0):
-        
-        
-        error_log.info('es ph: \'' + str(ph) + '\'')
-        
-        
+    def es(self, srcht=0, ph='', fs='', ts='', pn=0):
         lng = get_lng()
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
@@ -299,7 +295,9 @@ class uatrains(object):
         pc = 9
         es = []
         has_next_p = False
-        if ph is not None:
+        if int(srcht) == 0: # from-to search
+            es, has_next_p = search.from_to(ses, fs, ts)
+        elif int(srcht) == 1:
             prepared_ph = ph.replace(' ', '%').replace('-', '%')
             try:
                 q = ses.query(orm.uatrains.E).\
@@ -319,58 +317,6 @@ class uatrains(object):
                     has_next_p = True
             except Exception:
                 nlog.info('Uatrains error', 'Can\'t find entities\n' + traceback.format_exc())
-        elif fs is not None and ts is not None:
-            prepared_fs = fs.replace(' ', '%').replace('-', '%')
-            prepared_ts = ts.replace(' ', '%').replace('-', '%')
-            prepared_ph = prepared_fs + '%' + prepared_ts
-            try:
-                q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(
-                        orm.or_(orm.uatrains.E.ua_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.ru_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.en_graph.ilike('%' + prepared_ph.lower() + '%')),
-                        orm.uatrains.E.ref_id == None)).\
-                    order_by(orm.uatrains.E.etype.desc(), orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
-                es = q.limit(pc).offset(pn * pc).all()
-                next_p_es = q.limit(pc).offset((pn + 1) * pc).all()
-                if len(next_p_es) > 0:
-                    has_next_p = True
-            except Exception:
-                nlog.info('Uatrains error', 'Can\'t find entities by fs and ts\n' + traceback.format_exc())
-        elif fs is not None and ts is None:
-            prepared_fs = fs.replace(' ', '%').replace('-', '%')
-            prepared_ph = prepared_fs
-            try:
-                q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(
-                        orm.or_(orm.uatrains.E.ua_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.ru_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.en_graph.ilike('%' + prepared_ph.lower() + '%')),
-                        orm.uatrains.E.ref_id == None)).\
-                    order_by(orm.uatrains.E.etype.desc(), orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
-                es = q.limit(pc).offset(pn * pc).all()
-                next_p_es = q.limit(pc).offset((pn + 1) * pc).all()
-                if len(next_p_es) > 0:
-                    has_next_p = True
-            except Exception:
-                nlog.info('Uatrains error', 'Can\'t find entities by fs\n' + traceback.format_exc())
-        elif fs is None and ts is not None:
-            prepared_ts = ts.replace(' ', '%').replace('-', '%')
-            prepared_ph = prepared_ts
-            try:
-                q = ses.query(orm.uatrains.E).\
-                    filter(orm.and_(
-                        orm.or_(orm.uatrains.E.ua_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.ru_graph.ilike('%' + prepared_ph.lower() + '%'),
-                            orm.uatrains.E.en_graph.ilike('%' + prepared_ph.lower() + '%')),
-                        orm.uatrains.E.ref_id == None)).\
-                    order_by(orm.uatrains.E.etype.desc(), orm.uatrains.E.vc.desc(), orm.uatrains.E.ua_title)
-                es = q.limit(pc).offset(pn * pc).all()
-                next_p_es = q.limit(pc).offset((pn + 1) * pc).all()
-                if len(next_p_es) > 0:
-                    has_next_p = True
-            except Exception:
-                nlog.info('Uatrains error', 'Can\'t find entities by ts\n' + traceback.format_exc())
         ses.close()
         conn.close()
         return layout.getEs(es, ph, fs, ts, pn, has_next_p, lng)
