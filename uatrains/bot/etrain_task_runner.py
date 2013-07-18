@@ -15,4 +15,4 @@ try:
     uatrains_bot_server_socket.send_unicode(json.dumps({'method': 'grab_etrain', 'params': None}))
     uatrains_bot_server_socket.recv_unicode()
 except:
-    nlog.info('uatrains bot - task runner fatal', traceback.format_exc())
+    nlog.info('uatrains bot - etrain task runner fatal', traceback.format_exc())
