@@ -19,9 +19,9 @@ try:
             ru_graph = ''
             en_graph = ''
             for ts in t.t_ss:
-                ua_graph += ts.s.ua_title.lower() + '; '
-                ru_graph += ts.s.ru_title.lower() + '; '
-                en_graph += ts.s.en_title.lower() + '; '
+                ua_graph += (ts.s.ua_title.lower() if ts.s.ua_title is not None else '') + '; '
+                ru_graph += (ts.s.ru_title.lower() if ts.s.ru_title is not None else '') + '; '
+                en_graph += (ts.s.en_title.lower() if ts.s.en_title is not None else '') + '; '
             t.ua_graph = ua_graph
             t.ru_graph = ru_graph
             t.en_graph = en_graph
