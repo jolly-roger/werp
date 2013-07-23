@@ -25,7 +25,7 @@ try:
                         orm.uatrains.E.etype == 5)).all()
                 if len(similar_etrains) > 1:
                     for similar_et in similar_etrains:
-                        if similar_etrains.c_date > last_etrain.c_date:
+                        if similar_et.c_date > last_etrain.c_date:
                             last_etrain = similar_et
                 if last_etrain.id > et.id:
                     et.ref_id = last_etrain.id
