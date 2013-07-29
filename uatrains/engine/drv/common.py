@@ -40,12 +40,28 @@ def get_s(e, ses):
 		prepared_ru_title = e.ru_title.replace(' ', '%').replace('-', '%') if e.ru_title is not None else ''
 		s = ses.query(orm.uatrains.E).\
 			filter(orm.and_(orm.uatrains.E.etype == e.etype,
-				orm.or_(orm.uatrains.E.oid == e.oid, e.oid > 20000, orm.uatrains.E.oid > 20000),
+				orm.uatrains.E.oid == e.oid,
 				orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
 					orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
 			one()
 	except orm.NoResultFound:
-		pass
+		try:
+			if e.oid >= 20000:
+				s = ses.query(orm.uatrains.E).\
+					filter(orm.and_(orm.uatrains.E.etype == e.etype,
+						orm.uatrains.E.oid < 20000,
+						orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
+							orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
+					one()
+			elif e.oid < 20000:
+				s = ses.query(orm.uatrains.E).\
+					filter(orm.and_(orm.uatrains.E.etype == e.etype,
+						orm.uatrains.E.oid >= 20000,
+						orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
+							orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
+					one()
+		except orm.NoResultFound:
+			pass
 	except:
 		s = None
 	return s
