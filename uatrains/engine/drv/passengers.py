@@ -176,7 +176,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								if txt.strip() != '':
 									en_s_title = txt.strip()
 									break
-				e = orm.uatrains.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title, None, None, None)
+				e = orm.uatrains.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title)
 				if e is not None:
 					if common.is_not_empty(e):
 						s = common.get_s(e, ses)
@@ -194,7 +194,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
 									'en_s_title: ' + str(en_s_title) + '\r\n')
 								raise Exception('Southwest driver station entity has empty fields')
-						else:
+						if s is not None:
 							order = i
 							arrival = None
 							departure = None

@@ -206,7 +206,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
 									'en_s_title: ' + str(en_s_title) + '\r\n')
 								raise Exception('Southwest driver station entity has empty fields')
-						else:
+						if s is not None:
 							order = None
 							arrival = None
 							departure = None
