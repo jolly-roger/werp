@@ -14,13 +14,13 @@ class TrainStation(DBase):
 	order = Column(Integer)
 	date_from = Column(Date)
 	date_to = Column(Date)
-	c_date = Column(DateTime, nullable=False, default=datetime.now)
+	c_date = Column(DateTime)
 	
 	t = relationship('E', primaryjoin='and_(TrainStation.t_id == E.id, E.ref_id == None)')
 	s = relationship('E', primaryjoin='TrainStation.s_id == E.id')
 	
 	def __init__(self, t_id, s_id, order, arrival=None, departure=None, halt=None, date_from=None,
-		date_to=None, c_date=None):
+		date_to=None, c_date=datetime.now()):
 		self.t_id = t_id
 		self.s_id = s_id
 		self.order = order
@@ -29,5 +29,4 @@ class TrainStation(DBase):
 		self.halt = halt
 		self.date_from = date_from
 		self.date_to = date_to
-		if c_date is not None:
-			self.c_date = c_date
+		self.c_date = c_date
