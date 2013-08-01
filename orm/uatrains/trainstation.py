@@ -29,4 +29,5 @@ class TrainStation(DBase):
 		self.halt = halt
 		self.date_from = date_from
 		self.date_to = date_to
-		self.c_date = c_date
+		if c_date is not None:
+			self.c_date = c_date

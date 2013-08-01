@@ -47,4 +47,5 @@ class E(DBase):
         self.ua_graph= ua_graph
         self.ru_graph= ru_graph
         self.en_graph= en_graph
-        self.c_date = c_date
+        if c_date is not None:
+            self.c_date = c_date
