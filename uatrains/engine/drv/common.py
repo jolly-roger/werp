@@ -9,12 +9,20 @@ def is_not_empty(e):
 		e.oid is not None:
 		ret = True
 	return ret
-def has_all_data(e):
+def e_has_all_data(e):
 	ret = False
 	if e.ua_title is not None and \
 		e.ru_title is not None and \
 		e.value is not None and \
 		e.oid is not None:
+		ret = True
+	return ret
+def ts_has_all_data(ts):
+	ret = False
+	if ts.t_id is not None and \
+		ts.s_id is not None and \
+		ts.arrival is not None and \
+		ts.departure is not None:
 		ret = True
 	return ret
 def get_t(e, ses):
@@ -65,3 +73,15 @@ def get_s(e, ses):
 	except:
 		s = None
 	return s
+def get_ts(ts, ses):
+	db_ts = None
+	try:
+		db_ts = ses.query(orm.uatrains.TrainStation).\
+			filter(orm.and_(orm.uatrains.TrainStation.t_id == ts.t_id, orm.uatrains.TrainStation.s_id == ts.s_id,
+				orm.uatrains.TrainStation.order == ts.order)).\
+			one()
+	except orm.NoResultFound:
+		pass
+	except:
+		db_ts = None
+	return db_ts

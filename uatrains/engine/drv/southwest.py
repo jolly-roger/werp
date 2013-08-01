@@ -2,7 +2,6 @@ import urllib.parse
 import datetime
 
 from ...common import etype
-from .. import trainstation
 from . import common
 
 from werp import orm
@@ -193,7 +192,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 					if common.is_not_empty(e):
 						s = common.get_s(e, ses)
 						if s is None:
-							if common.has_all_data(e):
+							if common.e_has_all_data(e):
 								ses.add(e)
 								ses.commit()
 								s = e
@@ -229,11 +228,18 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								default_raw_s_title[4].xpath('text()')[0].strip() != '':
 								halt = default_raw_s_title[4].xpath('text()')[0].strip()
 							ts = orm.uatrains.TrainStation(t.id, s.id, order, arrival, departure, halt)
-							if not trainstation.is_added(ts, ses):
-								ses.add(ts)
-							elif trainstation.is_changed(ts, ses):
-								trainstation.load_changes(ts, ses)
-							ses.commit()
+							if ts is not None:
+								if common.ts_has_all_data(ts):
+									db_ts = common.get_ts(ts, ses)
+									if db_ts is None:
+										ses.add(ts)
+									else:
+										db_ts.arrival = ts.arrival
+										db_ts.departure = ts.departure
+										db_ts.halt = ts.halt
+										db_ts.date_from = ts.date_from
+										db_ts.date_to = ts.date_to
+									ses.commit()
 					else:
 						if sid is not None or \
 							value is not None or \

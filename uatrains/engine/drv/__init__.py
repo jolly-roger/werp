@@ -18,7 +18,7 @@ def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
             if common.is_not_empty(e):
                 t = common.get_t(e, ses)
                 if t is None:
-                    if common.has_all_data(e):
+                    if common.e_has_all_data(e):
                         ses.add(e)
                         t = e
                     else:
