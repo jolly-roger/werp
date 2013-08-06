@@ -206,6 +206,14 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									'en_s_title: ' + str(en_s_title) + '\r\n')
 								raise Exception('Southwest driver station entity has empty fields')
 						if s is not None:
+							if not common.e_has_all_data(s):
+								if s.ua_title is None:
+									s.ua_title = e.ua_title
+								if s.ru_title is None:
+									s.ru_title = e.ru_title
+								if s.en_title is None:
+									s.en_title = e.en_title
+								ses.commit()
 							order = None
 							arrival = None
 							departure = None
