@@ -35,7 +35,7 @@ try:
         halts_to_delete = []
         for halt in halts:
             for h in halts:
-                if halt.order == h.order and halt.c_date > h.c_date and h not in halts_to_delete:
+                if halt.order == h.order and halt.c_date >= h.c_date and h not in halts_to_delete:
                     halts_to_delete.append(h)
         for h in halts_to_delete:
             ses.delete(h)
