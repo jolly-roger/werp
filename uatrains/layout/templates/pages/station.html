@@ -9,9 +9,9 @@
 			<tr>
 				<th>{% trans %}train_number{% endtrans %}</th>
 				<th>{% trans %}путь следования{% endtrans %}</th>
-				<th>{% trans %}периодичность{% endtrans %}</th>
 				<th>{% trans %}прибытие{% endtrans %}</th>
 				<th>{% trans %}отправление{% endtrans %}</th>
+				<th>{% trans %}периодичность{% endtrans %}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,7 +20,6 @@
 				<tr>
 					<td><a href='/{{st.t.id}}'>{{st.t.value}}</a></td>
 					<td><a href='/{{st.t.id}}'>{{get_lng_title(st.t, lng)}}</a></td>
-					<td>{{get_lng_period(st.t, lng)}}</td>
 					<td>
 						{% if st.arrival is not none %}
 							{{st.arrival}}
@@ -35,6 +34,7 @@
 							-
 						{% endif %}
 					</td>
+					<td>{{get_lng_period(st.t, lng)}}</td>
 				</tr>
 			{% endif %}
 		{% endfor %}
