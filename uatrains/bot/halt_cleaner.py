@@ -15,6 +15,7 @@ try:
         filter(orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4,
             orm.uatrains.E.etype == 5)).all()
     for train in trains:
+        # Clear halts of train for the same s_id
         halt_ids = ses.query(orm.distinct(orm.uatrains.TrainStation.s_id)).\
             filter(orm.uatrains.TrainStation.t_id == train.id).all()
         for halt_id in halt_ids:
@@ -30,16 +31,16 @@ try:
                     if halt.id != newest_halt.id:
                         ses.delete(halt)
         ses.commit()
-        halts = ses.query(orm.uatrains.TrainStation).\
-            filter(orm.uatrains.TrainStation.t_id == train.id).all()
-        halts_to_delete = []
-        for halt in halts:
-            for h in halts:
-                if halt.order == h.order and halt.c_date >= h.c_date and h not in halts_to_delete:
-                    halts_to_delete.append(h)
-        for h in halts_to_delete:
-            ses.delete(h)
-        ses.commit()
+        #halts = ses.query(orm.uatrains.TrainStation).\
+        #    filter(orm.uatrains.TrainStation.t_id == train.id).all()
+        #halts_to_delete = []
+        #for halt in halts:
+        #    for h in halts:
+        #        if halt.order == h.order and halt.c_date >= h.c_date and h not in halts_to_delete:
+        #            halts_to_delete.append(h)
+        #for h in halts_to_delete:
+        #    ses.delete(h)
+        #ses.commit()
     ses.close()
     conn.close()
     end_time = time.time()
