@@ -29,7 +29,7 @@ def run(task_drv, worker_pool):
                     bot_task.drv = task_drvs.southwest
                     ses.add(bot_task)
             elif task_drv == task_drvs.passengers:
-                for tid in range(0, 70000):
+                for tid in range(20000, 70000):
                     bot_task = orm.uatrains.BotTask()
                     bot_task.data = str(tid)
                     bot_task.drv = task_drvs.passengers
