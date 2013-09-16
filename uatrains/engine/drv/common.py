@@ -35,7 +35,7 @@ def get_t(e, ses):
 				orm.uatrains.E.value == e.value,
 				orm.or_(orm.uatrains.E.ua_title == prepared_ua_title,
 					orm.uatrains.E.ru_title == prepared_ru_title))).\
-			one()
+			order_by(orm.asc(orm.uatrains.E.c_date)).first()
 	except orm.NoResultFound:
 		pass
 	except:
@@ -51,7 +51,7 @@ def get_s(e, ses):
 				orm.uatrains.E.oid == e.oid,
 				orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
 					orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
-			one()
+			order_by(orm.asc(orm.uatrains.E.c_date)).first()
 	except orm.NoResultFound:
 		try:
 			if e.oid >= 20000:
@@ -60,14 +60,14 @@ def get_s(e, ses):
 						orm.uatrains.E.oid < 20000,
 						orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
 							orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
-					one()
+					order_by(orm.asc(orm.uatrains.E.c_date)).first()
 			elif e.oid < 20000:
 				s = ses.query(orm.uatrains.E).\
 					filter(orm.and_(orm.uatrains.E.etype == e.etype,
 						orm.uatrains.E.oid >= 20000,
 						orm.or_(orm.uatrains.E.ua_title.ilike(prepared_ua_title),
 							orm.uatrains.E.ru_title.ilike(prepared_ru_title)))).\
-					one()
+					order_by(orm.asc(orm.uatrains.E.c_date)).first()
 		except orm.NoResultFound:
 			pass
 	except:

@@ -12,7 +12,7 @@ UserAgent = user_agent.UserAgent
 FreeProxy = free_proxy.FreeProxy
 
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
-from sqlalchemy import and_, or_, cast, desc, BigInteger, distinct
+from sqlalchemy import and_, or_, cast, asc, desc, BigInteger, distinct
 from sqlalchemy.orm import joinedload, joinedload_all, aliased, contains_eager
 from sqlalchemy.ext import serializer
 
