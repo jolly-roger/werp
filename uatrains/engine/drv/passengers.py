@@ -19,91 +19,94 @@ xts = '/html/body/div/div[2]/div[2]/div[2]/div[2]/div[3]/table[2]/tbody/tr'
 
 
 def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
-    raw_ua_t_title = None
-    raw_ru_t_title = None
-    raw_en_t_title = None
-    raw_ua_period = None
-    raw_ru_period = None
-    raw_en_period = None
-    raw_ua_t_value = None
-    raw_en_t_value = None
-    if ua_dom_tree is not None:
-        raw_ua_t_title = ua_dom_tree.xpath(xttitle)
-        raw_ua_period = ua_dom_tree.xpath(xtperiod)
-        raw_ua_t_value = ua_dom_tree.xpath(xtvalue)
-    if ru_dom_tree is not None:
-        raw_ru_t_title = ru_dom_tree.xpath(xttitle)
-        raw_ru_period = ru_dom_tree.xpath(xtperiod)
-        raw_ru_t_value = ru_dom_tree.xpath(xtvalue)
-    if en_dom_tree is not None:
-        raw_en_t_title = en_dom_tree.xpath(xttitle)
-        raw_en_period = en_dom_tree.xpath(xtperiod)
-        raw_en_t_value = en_dom_tree.xpath(xtvalue)
-    ua_t_title = None
-    ru_t_title = None
-    en_t_title = None
-    ua_period = None
-    ru_period = None
-    en_period = None
-    value = None
-    if raw_ua_t_title is not None and len(raw_ua_t_title) > 0:
-        if raw_ua_t_title[0].text is not None and \
-            raw_ua_t_title[0].text.strip() != '' and raw_ua_t_title[0].text.strip() != '–':
-            ua_t_title = raw_ua_t_title[0].text.strip()
-        elif len(raw_ua_t_title[0]) > 0 and raw_ua_t_title[0][0].text is not None and \
-            raw_ua_t_title[0][0].text.strip() != '' and raw_ua_t_title[0][0].text.strip() != '–':
-            ua_t_title = raw_ua_t_title[0][0].text.strip()
-        if raw_ua_t_value is not None and len(raw_ua_t_value) > 0 and raw_ua_t_value[0].text is not None and \
-            raw_ua_t_value[0].text.strip() != '':
-            ua_value = raw_ua_t_value[0].text.strip()
-            value_parts = ua_value.split(' ')
-            if len(value_parts) > 1:
-                value = value_parts[0]
-                value_desc = ' '.join(value_parts[1:len(value_parts)])
-                ua_t_title = ua_t_title + \
-                    ' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
-            else:
-                value = ua_value
-    if raw_ru_t_title is not None and len(raw_ru_t_title) > 0:
-        if raw_ru_t_title[0].text is not None and \
-            raw_ru_t_title[0].text.strip() != '' and raw_ru_t_title[0].text.strip() != '–':
-            ru_t_title = raw_ru_t_title[0].text.strip()
-        elif len(raw_ru_t_title[0]) > 0 and raw_ru_t_title[0][0].text is not None and \
-            raw_ru_t_title[0][0].text.strip() != '' and raw_ru_t_title[0][0].text.strip() != '–':
-            ru_t_title = raw_ru_t_title[0][0].text.strip()
-        if raw_ru_t_value is not None and len(raw_ru_t_value) > 0 and raw_ru_t_value[0].text is not None and \
-            raw_ru_t_value[0].text.strip() != '':
-            ru_value = raw_ru_t_value[0].text.strip()
-            value_parts = ru_value.split(' ')
-            if len(value_parts) > 1:
-                value_desc = ' '.join(value_parts[1:len(value_parts)])
-                ru_t_title = ru_t_title + \
-                    ' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
-    if raw_en_t_title is not None and len(raw_en_t_title) > 0:
-        if raw_en_t_title[0].text is not None and \
-            raw_en_t_title[0].text.strip() != '' and raw_en_t_title[0].text.strip() != '–':
-            en_t_title = raw_en_t_title[0].text.strip()
-        elif len(raw_en_t_title[0]) > 0 and raw_en_t_title[0][0].text is not None and \
-            raw_en_t_title[0][0].text.strip() != '' and raw_en_t_title[0][0].text.strip() != '–':
-            en_t_title = raw_en_t_title[0][0].text.strip()
-        if raw_en_t_value is not None and len(raw_en_t_value) > 0 and raw_en_t_value[0].text is not None and \
-            raw_en_t_value[0].text.strip() != '':
-            en_value = raw_en_t_value[0].text.strip()
-            value_parts = en_value.split(' ')
-            if len(value_parts) > 1:
-                value_desc = ' '.join(value_parts[1:len(value_parts)])
-                en_t_title = en_t_title + \
-                    ' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
-    if raw_ua_period is not None and len(raw_ua_period) > 0 and raw_ua_period[0] is not None and \
-        raw_ua_period[0].strip() != '':
-        ua_period = raw_ua_period[0].strip()
-    if raw_ru_period is not None and len(raw_ru_period) > 0 and raw_ru_period[0] is not None and \
-        raw_ru_period[0].strip() != '':
-        ru_period = raw_ru_period[0].strip()
-    if raw_en_period is not None and len(raw_en_period) > 0 and raw_en_period[0] is not None and \
-        raw_en_period[0].strip() != '':
-        en_period = raw_en_period[0].strip()
-    return orm.uatrains.E(etype.ptrain, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
+	raw_ua_t_title = None
+	raw_ru_t_title = None
+	raw_en_t_title = None
+	raw_ua_period = None
+	raw_ru_period = None
+	raw_en_period = None
+	raw_ua_t_value = None
+	raw_en_t_value = None
+	try:
+		if ua_dom_tree is not None:
+			raw_ua_t_title = ua_dom_tree.xpath(xttitle)
+			raw_ua_period = ua_dom_tree.xpath(xtperiod)
+			raw_ua_t_value = ua_dom_tree.xpath(xtvalue)
+		if ru_dom_tree is not None:
+			raw_ru_t_title = ru_dom_tree.xpath(xttitle)
+			raw_ru_period = ru_dom_tree.xpath(xtperiod)
+			raw_ru_t_value = ru_dom_tree.xpath(xtvalue)
+		if en_dom_tree is not None:
+			raw_en_t_title = en_dom_tree.xpath(xttitle)
+			raw_en_period = en_dom_tree.xpath(xtperiod)
+			raw_en_t_value = en_dom_tree.xpath(xtvalue)
+	except AssertionError as e:
+		pass
+	ua_t_title = None
+	ru_t_title = None
+	en_t_title = None
+	ua_period = None
+	ru_period = None
+	en_period = None
+	value = None
+	if raw_ua_t_title is not None and len(raw_ua_t_title) > 0:
+		if raw_ua_t_title[0].text is not None and \
+			raw_ua_t_title[0].text.strip() != '' and raw_ua_t_title[0].text.strip() != '–':
+			ua_t_title = raw_ua_t_title[0].text.strip()
+		elif len(raw_ua_t_title[0]) > 0 and raw_ua_t_title[0][0].text is not None and \
+			raw_ua_t_title[0][0].text.strip() != '' and raw_ua_t_title[0][0].text.strip() != '–':
+			ua_t_title = raw_ua_t_title[0][0].text.strip()
+		if raw_ua_t_value is not None and len(raw_ua_t_value) > 0 and raw_ua_t_value[0].text is not None and \
+			raw_ua_t_value[0].text.strip() != '':
+			ua_value = raw_ua_t_value[0].text.strip()
+			value_parts = ua_value.split(' ')
+			if len(value_parts) > 1:
+				value = value_parts[0]
+				value_desc = ' '.join(value_parts[1:len(value_parts)])
+				ua_t_title = ua_t_title + \
+					' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
+			else:
+				value = ua_value
+	if raw_ru_t_title is not None and len(raw_ru_t_title) > 0:
+		if raw_ru_t_title[0].text is not None and \
+			raw_ru_t_title[0].text.strip() != '' and raw_ru_t_title[0].text.strip() != '–':
+			ru_t_title = raw_ru_t_title[0].text.strip()
+		elif len(raw_ru_t_title[0]) > 0 and raw_ru_t_title[0][0].text is not None and \
+			raw_ru_t_title[0][0].text.strip() != '' and raw_ru_t_title[0][0].text.strip() != '–':
+			ru_t_title = raw_ru_t_title[0][0].text.strip()
+		if raw_ru_t_value is not None and len(raw_ru_t_value) > 0 and raw_ru_t_value[0].text is not None and \
+			raw_ru_t_value[0].text.strip() != '':
+			ru_value = raw_ru_t_value[0].text.strip()
+			value_parts = ru_value.split(' ')
+			if len(value_parts) > 1:
+				value_desc = ' '.join(value_parts[1:len(value_parts)])
+				ru_t_title = ru_t_title + \
+					' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
+	if raw_en_t_title is not None and len(raw_en_t_title) > 0:
+		if raw_en_t_title[0].text is not None and \
+			raw_en_t_title[0].text.strip() != '' and raw_en_t_title[0].text.strip() != '–':
+			en_t_title = raw_en_t_title[0].text.strip()
+		elif len(raw_en_t_title[0]) > 0 and raw_en_t_title[0][0].text is not None and \
+			raw_en_t_title[0][0].text.strip() != '' and raw_en_t_title[0][0].text.strip() != '–':
+			en_t_title = raw_en_t_title[0][0].text.strip()
+		if raw_en_t_value is not None and len(raw_en_t_value) > 0 and raw_en_t_value[0].text is not None and \
+			raw_en_t_value[0].text.strip() != '':
+			en_value = raw_en_t_value[0].text.strip()
+			value_parts = en_value.split(' ')
+			if len(value_parts) > 1:
+				value_desc = ' '.join(value_parts[1:len(value_parts)])
+				en_t_title = en_t_title + \
+					' (' + value_desc.replace('"', '').replace('(', '').replace(')', '').strip() + ')'
+	if raw_ua_period is not None and len(raw_ua_period) > 0 and raw_ua_period[0] is not None and \
+		raw_ua_period[0].strip() != '':
+		ua_period = raw_ua_period[0].strip()
+	if raw_ru_period is not None and len(raw_ru_period) > 0 and raw_ru_period[0] is not None and \
+		raw_ru_period[0].strip() != '':
+		ru_period = raw_ru_period[0].strip()
+	if raw_en_period is not None and len(raw_en_period) > 0 and raw_en_period[0] is not None and \
+		raw_en_period[0].strip() != '':
+		en_period = raw_en_period[0].strip()
+	return orm.uatrains.E(etype.ptrain, value, tid, ua_t_title, ru_t_title, en_t_title, ua_period, ru_period, en_period)
 def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 	raw_ua_s_titles = None
 	raw_ru_s_titles = None

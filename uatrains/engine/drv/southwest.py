@@ -29,17 +29,20 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	raw_en_period = None
 	raw_t_value = None
 	raw_t_attrs = None
-	if ua_dom_tree is not None:
-		raw_ua_t_title = ua_dom_tree.xpath(xttitle)
-		raw_ua_period = ua_dom_tree.xpath(xtperiod)
-		raw_t_value = ua_dom_tree.xpath(xtvalue)
-		raw_t_attrs = ua_dom_tree.xpath(xtattrs)
-	if ru_dom_tree is not None:
-		raw_ru_t_title = ru_dom_tree.xpath(xttitle)
-		raw_ru_period = ru_dom_tree.xpath(xtperiod)
-	if en_dom_tree is not None:
-		raw_en_t_title = en_dom_tree.xpath(xttitle)
-		raw_en_period = en_dom_tree.xpath(xtperiod)
+	try:
+		if ua_dom_tree is not None:
+			raw_ua_t_title = ua_dom_tree.xpath(xttitle)
+			raw_ua_period = ua_dom_tree.xpath(xtperiod)
+			raw_t_value = ua_dom_tree.xpath(xtvalue)
+			raw_t_attrs = ua_dom_tree.xpath(xtattrs)
+		if ru_dom_tree is not None:
+			raw_ru_t_title = ru_dom_tree.xpath(xttitle)
+			raw_ru_period = ru_dom_tree.xpath(xtperiod)
+		if en_dom_tree is not None:
+			raw_en_t_title = en_dom_tree.xpath(xttitle)
+			raw_en_period = en_dom_tree.xpath(xtperiod)
+	except AssertionError as e:
+		pass
 	ua_t_title = None
 	ru_t_title = None
 	en_t_title = None
