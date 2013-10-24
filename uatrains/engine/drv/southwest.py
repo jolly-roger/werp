@@ -87,11 +87,11 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	if raw_t_attrs is not None and len(raw_t_attrs) > 0:
 		raw_dates = raw_t_attrs[0].xpath('img/@title')
 		raw_dates_parts = raw_dates[0].split(' ')
-		if raw_dates_parts[1].strip() != '':
+		if len(raw_dates_parts) > 1 and raw_dates_parts[1].strip() != '':
 			raw_from_date = raw_dates_parts[1].strip()
 			if raw_from_date != '0000-00-00':
 				from_date = datetime.datetime.strptime(raw_from_date, '%Y-%m-%d').date()
-		if raw_dates_parts[3].strip() != '':
+		if len(raw_dates_parts) > 3 and raw_dates_parts[3].strip() != '':
 			raw_to_date = raw_dates_parts[3].strip()
 			if raw_to_date != '0000-00-00':
 				to_date = datetime.datetime.strptime(raw_to_date, '%Y-%m-%d').date()
