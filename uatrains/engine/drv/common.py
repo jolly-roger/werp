@@ -85,3 +85,5 @@ def get_ts(ts, ses):
 	except:
 		db_ts = None
 	return db_ts
+def clear_raw_str(raw_str):
+	return raw_str.replace('\r\n558\r\n', '')

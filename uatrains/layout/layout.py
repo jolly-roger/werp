@@ -98,10 +98,6 @@ def getNews(news, lng=lngs.UA):
     tmpl = getenv(lng).get_template("pages/news.html")
     return tmpl.render(news=news, is_news=True, lng=lng,
         path_info=cherrypy.request.path_info, query_string=cherrypy.request.query_string)
-def getRailwayTimetable(railway, lng=lngs.UA):
-    tmpl = getenv(lng).get_template("pages/railwaytimetable.html")
-    return tmpl.render(railway=railway, lng=lng,
-        path_info=cherrypy.request.path_info, query_string=cherrypy.request.query_string)
 
 trans_ru_RU = gettext.translation('messages', languages=['ru_RU'], localedir=config['global']['layout.trans'])
 trans_uk_UA = gettext.translation('messages', languages=['uk_UA'], localedir=config['global']['layout.trans'])

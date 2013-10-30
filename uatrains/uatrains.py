@@ -128,22 +128,6 @@ class uatrains(object):
                 cherrypy.response.headers['Location'] = '/'
         return l
     @cherrypy.expose
-    def getroute(self, rid=-1, is_reverse=False, tid=-1, sid=-1, lng='_ru'):
-        return self.route(rid, is_reverse, tid, sid, lng)
-    @cherrypy.expose
-    def route(self, rid=-1, is_reverse=False, tid=-1, sid=-1, lng='_ru'):
-        cherrypy.response.status = 301
-        location = '/'
-        try:
-            if int(tid) > 0:
-                location = '/t/' + str(tid)
-            elif int(sid) > 0:
-                location = '/s/' + str(sid)
-        except:
-            pass
-        cherrypy.response.headers['Location'] = location
-        return ''
-    @cherrypy.expose
     def getstation(self, sid=-1):
         cherrypy.response.status = 301
         cherrypy.response.headers['Location'] = '/s/' + str(sid)
@@ -341,29 +325,6 @@ class uatrains(object):
         cherrypy.response.headers['Content-Type'] = "application/xml "
         lng = get_lng()
         return bytes(sitemap.getPTrainSitemap(lng), 'utf-8')
-    @cherrypy.expose
-    def get_railway_timetable(self, rwid):
-        lng = 'RU'
-        conn = orm.q_engine.connect()
-        ses = orm.sescls(bind=conn)
-        rw = None
-        l = ''
-        try:
-            rw = ses.query(orm.uatrains.Railway).\
-                options(orm.joinedload_all(orm.uatrains.Railway.routes, orm.uatrains.Route.route_trains,
-                    orm.uatrains.RouteTrain.train,
-                orm.uatrains.E.t_ss)).\
-                filter(orm.uatrains.Railway.id == int(rwid)).all()
-        except:
-            nlog.info('Uatrains error', 'Can\'t find railway by rwid = ' + str(rwid) + '\n' +\
-                traceback.format_exc())
-        if rw is not None:
-            if rw[0].routes is None or (rw[0].routes is not None and len(rw[0].routes) == 0):
-                nlog.info('Uatrains error', 'No routes were found for rwid = ' + str(rwid))
-            l = layout.getRailwayTimetable(rw[0], lng)
-        ses.close()
-        conn.close()
-        return l
 
 def get_lng():
     domain = cherrypy.request.base.lower().replace('http://', '')

@@ -87,7 +87,7 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	if raw_t_attrs is not None and len(raw_t_attrs) > 0:
 		raw_dates = raw_t_attrs[0].xpath('img/@title')
 		if len(raw_dates) > 0:
-			raw_dates_parts = raw_dates[0].split(' ')
+			raw_dates_parts = common.clear_raw_str(raw_dates[0]).split(' ')
 			if len(raw_dates_parts) > 1 and raw_dates_parts[1].strip() != '':
 				raw_from_date = raw_dates_parts[1].strip()
 				if raw_from_date != '0000-00-00':
@@ -168,7 +168,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								try:
 									sid = int(raw_sid['sid'][0])
 								except:
-									pass
+									bot.logger.error('sid parse error\r\n' +\
+										'raw sid: ' + raw_sid_qs + '\r\n')
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 4:
@@ -227,7 +228,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							departure = None
 							halt = None
 							if len(default_raw_s_title[0].xpath('font/text()')) > 0:
-								order = int(default_raw_s_title[0].xpath('font/text()')[0].strip())
+								order = int(common.clear_raw_str(default_raw_s_title[0].xpath('font/text()')[0]).strip())
 							if len(default_raw_s_title[2].xpath('text()')) > 0 and \
 								default_raw_s_title[2].xpath('text()')[0].strip() != '–' and \
 								default_raw_s_title[2].xpath('text()')[0].strip() != '-' and \
