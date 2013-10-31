@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-	<form>
-		Domain or URL: <input type="text" name="domain" /><input type="submit" value="Check" />
+	<form method="POST">
+		<div class="row collapse">
+			<div class="small-3 large-2 columns">
+				<span class="prefix">http://</span>
+			</div>
+			<div class="small-6 large-8 columns">
+				<input type="text" placeholder="Enter Domain or URL...">
+			</div>
+			<div class="small-3 large-2 columns">
+				<input type="submit" class="button prefix" value="Check" />
+			</div>
+		</div>
 		{% if domain is not none %}
 			{{domain}}
 		{% endif %}
