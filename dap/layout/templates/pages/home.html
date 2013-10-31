@@ -21,8 +21,8 @@
 					container_10_checked = $('#container_10_checked');
 					container_10_checked.html('');
 					html_10_checked = '<table>';
-					for (var proxy in data) {
-						html_10_checked += '<tr><td>' + proxy['ip'] + '</td><td>' + proxy['ip'] + '</td><tr>';
+					for (var i in data) {
+						html_10_checked += '<tr><td>' + proxy[i]['ip'] + '</td><td>' + proxy[i]['ip'] + '</td><tr>';
 					}
 					html_10_checked += '</table>';
 					container_10_checked.html(html_10_checked);
