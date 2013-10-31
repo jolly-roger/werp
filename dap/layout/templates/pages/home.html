@@ -1,4 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-	Yo!!!
+	<form>
+		Domain or URL: <input type="text" name="domain" /><input type="submit" value="Check" />
+		{% if domain is not none %}
+			{{domain}}
+		{% endif %}
+	</form>
 {% endblock %}

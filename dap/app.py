@@ -8,8 +8,8 @@ from . import layout
 
 class dap(object):
     @cherrypy.expose
-    def index(self):
-        return layout.getHome()
+    def index(self, domain=None):
+        return layout.getHome(domain)
 
 def wsgi():
     tree = cherrypy._cptree.Tree()
