@@ -16,7 +16,7 @@
 		<a href="#" id="view_10_checked" class="button">View 10 checked</a>
 		<script type="text/javascript">
 			$('#view_10_checked').click(function(){
-				$.get( "/get_10_checked?domain=" + $('#domain_value')[0].val(), function(data){
+				$.get( "/get_10_checked?domain=" + $('#domain_value').val(), function(data){
 					alert(data);
 				});
 			});
