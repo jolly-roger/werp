@@ -24,7 +24,8 @@ try:
         try:
             start_dt = datetime.datetime.now()
             start_time = time.time()
-            ventilator.url_run(msg['params']['url'])
+            ventilator.url_run(msg['params']['url'],
+                msg['params']['worker_pool'] if 'worker_pool' in msg['params'] else None)
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
             exec_log.info('froxly url (' + msg['params']['url'] + ') check %s %s' % (str(start_dt), str(exec_delta)))

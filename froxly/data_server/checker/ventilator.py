@@ -50,7 +50,7 @@ def base_run(url):
             ses.close()
         if conn is not None:    
             conn.close()
-def url_run(url):
+def url_run(url, worker_pool=None):
     try:
         ctx = zmq.Context()
 
@@ -63,7 +63,10 @@ def url_run(url):
         manager = threading.Thread(target=sink.run, args=(url, len(proxies)))
         manager.start()
         
-        for wrk_num in range(data_server_common.CHECKER_WORKER_POOL):
+        if worker_pool is None:
+            worker_pool = data_server_common.CHECKER_WORKER_POOL
+        
+        for wrk_num in range(worker_pool):
             thr = threading.Thread(target=worker.run, args=(url,))
             thr.start()
         
