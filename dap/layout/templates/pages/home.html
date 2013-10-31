@@ -14,10 +14,18 @@
 		</div>
 		<input type="hidden" id="domain_value" value="{% if domain is not none %}{{domain}}{% endif %}" />
 		<a href="#" id="view_10_checked" class="button">View 10 checked</a>
+		<div id="container_10_checked"></div>
 		<script type="text/javascript">
 			$('#view_10_checked').click(function(){
-				$.get( "/get_10_checked?domain=" + $('#domain_value').val(), function(data){
-					alert(data);
+				$.getJSON( "/get_10_checked?domain=" + $('#domain_value').val(), function(data){
+					container_10_checked = $('#container_10_checked');
+					container_10_checked.html('');
+					html_10_checked = '<table>';
+					for (var proxy in data) {
+						html_10_checked += '<tr><td>' + proxy['ip'] + '</td><td>' + proxy['ip'] + '</td><tr>';
+					}
+					html_10_checked += '</table>';
+					container_10_checked.html(html_10_checked);
 				});
 			});
 		</script>
