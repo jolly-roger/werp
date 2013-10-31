@@ -15,8 +15,10 @@
 		<input type="hidden" id="domain_value" value="{% if domain is not none %}{{domain}}{% endif %}" />
 		<a href="#" id="view_10_checked" class="button">View 10 checked</a>
 		<script type="text/javascript">
-			$.get( "/get_10_checked?domain=" + $('#domain_value')[0].val(), function(data){
-				alert(data);
+			$('#view_10_checked').click(function(){
+				$.get( "/get_10_checked?domain=" + $('#domain_value')[0].val(), function(data){
+					alert(data);
+				});
 			});
 		</script>
 	</form>
