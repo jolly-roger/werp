@@ -169,7 +169,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									sid = int(raw_sid['sid'][0])
 								except:
 									bot.logger.error('sid parse error\r\n' +\
-										'raw sid: ' + raw_sid_qs + '\r\n')
+										'raw sid: ' + str(raw_sid_qs.query) + '\r\n')
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 4:
