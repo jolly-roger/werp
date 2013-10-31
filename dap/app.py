@@ -20,6 +20,19 @@ class dap(object):
                 {'url': domain}}))
             froxly_data_server_socket.recv_unicode()
         return layout.getHome(domain)
+    
+    @cherrypy.expose
+    def get_10_checked(self, domain=None):
+        rnd_10_proxies = []
+        if domain is not None and domain != '':
+            ctx = zmq.Context()
+            froxly_data_server_socket = ctx.socket(zmq.REQ)
+            froxly_data_server_socket.connect(sockets.froxly_data_server)
+            for i in range(10):
+                rnd_proxy_req = {'method': 'rnd_for_url', 'params': {'url': domain}}
+                froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
+                rnd_10_proxies.append(json.loads(froxly_data_server_socket.recv_unicode())['result'])
+        return json.dumps(rnd_10_proxies)
 
 def wsgi():
     tree = cherrypy._cptree.Tree()

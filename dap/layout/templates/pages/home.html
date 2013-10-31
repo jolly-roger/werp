@@ -12,8 +12,6 @@
 				<input type="submit" class="button prefix" value="Check" />
 			</div>
 		</div>
-		{% if domain is not none %}
-			{{domain}}
-		{% endif %}
+		<input type="hidden" value="{% if domain is not none %}{{domain}}{% endif %}" />
 	</form>
 {% endblock %}
