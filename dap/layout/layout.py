@@ -11,7 +11,7 @@ def getenv(lng='RU'):
         return ru_env
     return en_env
 
-def getHome(doamin, lng='EN'):
+def getHome(domain, lng='EN'):
     tmpl = getenv(lng).get_template("pages/home.html")
     return tmpl.render(domain=domain)
 
