@@ -51,13 +51,13 @@ class dap(object):
     def get_10_checked(self, domain=None):
         rnd_10_proxies = []
         if domain is not None and domain != '':
-            ctx = zmq.Context()
-            froxly_data_server_socket = ctx.socket(zmq.REQ)
-            froxly_data_server_socket.connect(sockets.froxly_data_server)
-            for i in range(10):
-                rnd_proxy_req = {'method': 'rnd_for_url', 'params': {'url': domain}}
-                froxly_data_server_socket.send_unicode(json.dumps(rnd_proxy_req))
-                rnd_10_proxies.append(json.loads(froxly_data_server_socket.recv_unicode())['result'])
+            red = redis.StrictRedis(unix_socket_path=sockets.redis)
+            proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
+            if red.exists(proxies_key):
+                ps = red.smembers(proxies_key)
+                for p in ps:
+                    proxy = json.loads(p.decode('utf-8'))
+                    rnd_10_proxies.append(proxy)
         return json.dumps(rnd_10_proxies)
     
     @cherrypy.expose
