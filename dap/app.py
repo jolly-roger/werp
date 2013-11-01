@@ -14,7 +14,12 @@ from . import layout
 
 class dap(object):
     @cherrypy.expose
-    def index(self, domain=None):
+    def index(self):
+        return layout.getHome()
+    
+    @cherrypy.expose
+    def check_10(self, domain=None):
+        rnd_base_proxies = []
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
@@ -28,6 +33,7 @@ class dap(object):
                 ps = random.sample(base_proxies, 10)
                 for p in ps:
                     proxy = json.loads(p.decode('utf-8'))
+                    rnd_base_proxies.append(proxy)
                     sproxy = data_server_common.jproxy2sproxy(proxy)
                     red.sadd(to_check_key, sproxy)
             ctx = zmq.Context()
@@ -36,7 +42,7 @@ class dap(object):
             froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
                 {'url': domain, 'worker_pool': 3, 'to_check_key': to_check_key}}))
             froxly_data_server_socket.recv_unicode()
-        return layout.getHome(domain)
+        return json.dumps(rnd_base_proxies)
     
     @cherrypy.expose
     def get_10_checked(self, domain=None):
