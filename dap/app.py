@@ -43,7 +43,7 @@ class dap(object):
             froxly_data_server_socket = ctx.socket(zmq.REQ)
             froxly_data_server_socket.connect(sockets.froxly_data_server)
             froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-                {'url': domain, 'worker_pool': 3, 'to_check_key': to_check_key}}))
+                {'url': domain, 'worker_pool': 10, 'to_check_key': to_check_key}}))
             froxly_data_server_socket.recv_unicode()
         return json.dumps(rnd_base_proxies)
     
