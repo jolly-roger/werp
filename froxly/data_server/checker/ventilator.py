@@ -4,6 +4,7 @@ import json
 import redis
 import threading
 import os.path
+import random
 
 from werp import orm, nlog
 from werp.common import sockets, red_keys
@@ -50,16 +51,21 @@ def base_run(url):
             ses.close()
         if conn is not None:    
             conn.close()
-def url_run(url, worker_pool=None):
+def url_run(url, worker_pool=None, to_check_key=None):
     try:
         if not os.path.exists(sockets.get_socket_path(sockets.froxly_checker_worker, url)):
             ctx = zmq.Context()
-    
+            
             froxly_checker_worker_socket = ctx.socket(zmq.PUSH)
             froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url=url))
             
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
+            proxies = []
+            
+            if to_check_key is not None:
+                proxies = red.smembers(to_check_key)
+            else:
+                proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
             
             manager = threading.Thread(target=sink.run, args=(url, len(proxies)))
             manager.start()
