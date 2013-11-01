@@ -49,6 +49,7 @@ def run(url, proxy_count):
                     red.srem(task['red_key'], http_1_0_sproxy)
             proxy_count = proxy_count - 1
             if proxy_count == 0:
+                red.set(red_key.froxly_url_free_proxy_finish_prefix + url, '')
                 break
         froxly_checker_finish_socket.send_unicode(str(0))
     except:

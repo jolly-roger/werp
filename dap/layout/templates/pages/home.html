@@ -23,8 +23,11 @@
 					$('#' + proxy_status_prefix + data[i]['id']).html('accessible');
 				}
 			});
-			
-			setTimeout(get_accessibility, 3);
+			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
+				if (!data){
+					setTimeout(get_accessibility, 5);
+				}
+			});
 		}
 		
 		$('#check_proxies_btn').click(function(){
@@ -39,7 +42,7 @@
 				container_proxies.html(html_proxies);
 			});
 			
-			setTimeout(get_accessibility, 1);
+			setTimeout(get_accessibility, 3);
 		});
 	</script>
 {% endblock %}
