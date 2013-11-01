@@ -23,12 +23,14 @@
 		function get_accessibility(){
 			$.getJSON( "/get_10_checked?domain=" + domain_value, function(data){
 				for (var i in data) {
-					$('#' + proxy_status_prefix + data[i]['id']).html('accessible');
+					$('#' + proxy_status_prefix + data[i]['id']).html('<span style="color: #90DC44;">accessible</span>');
 				}
 			});
 			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
-				if (!data){
+				if(!data){
 					setTimeout(get_accessibility, 1000);
+				}else{
+					$('#checking_img').parent().html('<span style="color: #FF4545;">unaccessible</span>')
 				}
 			});
 		}
@@ -41,7 +43,7 @@
 					html_proxies += '<div class="small-6 large-6 columns">' + data[i]['ip'] + '</div>' +
 						'<div class="small-3 large-3 columns">' + data[i]['port'] + '</div>' +
 						'<div class="small-3 large-3 columns" id="' + proxy_status_prefix + data[i]['id'] + '">' +
-							'<img src="/images/checking.gif" alt="Checking..." />' +
+							'<img id="checking_img" src="/images/checking.gif" alt="Checking..." />' +
 						'</div>';
 				}
 				html_proxies += '</div>';
