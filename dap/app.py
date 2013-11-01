@@ -34,12 +34,17 @@ class dap(object):
                     rnd_base_proxies.append(proxy)
                     sproxy = data_server_common.jproxy2sproxy(proxy)
                     red.sadd(to_check_key, sproxy)
-            ctx = zmq.Context()
-            froxly_data_server_socket = ctx.socket(zmq.REQ)
-            froxly_data_server_socket.connect(sockets.froxly_data_server)
-            froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-                {'url': domain, 'worker_pool': 10, 'to_check_key': to_check_key}}))
-            froxly_data_server_socket.recv_unicode()
+                ctx = zmq.Context()
+                froxly_data_server_socket = ctx.socket(zmq.REQ)
+                froxly_data_server_socket.connect(sockets.froxly_data_server)
+                froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
+                    {'url': domain, 'worker_pool': 10, 'to_check_key': to_check_key}}))
+                froxly_data_server_socket.recv_unicode()
+            elif red.exists(to_check_key):
+                to_check = red.smembers(to_check_key)
+                for p in to_check:
+                    proxy = json.loads(p.decode('utf-8'))
+                    rnd_base_proxies.append(proxy)
         return json.dumps(rnd_base_proxies)
     
     @cherrypy.expose
