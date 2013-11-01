@@ -49,7 +49,7 @@ def run(url, proxy_count):
             proxy_count = proxy_count - 1
             if proxy_count == 0:
                 if not red.exists(red_keys.froxly_url_free_proxy_finish_prefix + url):
-                    red.set(red_keys.froxly_url_free_proxy_finish_prefix + url, '', 300)
+                    red.set(red_keys.froxly_url_free_proxy_finish_prefix + url, '', ex=300)
                 break
         froxly_checker_finish_socket.send_unicode(str(0))
     except:
