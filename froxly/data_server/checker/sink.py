@@ -6,8 +6,7 @@ import threading
 
 from werp import orm
 from werp import nlog
-from werp.common import sockets
-from werp.common import red_keys
+from werp.common import sockets, red_keys
 from werp.froxly.data_server import common as data_server_common
 
 def run(url, proxy_count):
@@ -49,7 +48,7 @@ def run(url, proxy_count):
                     red.srem(task['red_key'], http_1_0_sproxy)
             proxy_count = proxy_count - 1
             if proxy_count == 0:
-                red.set(red_key.froxly_url_free_proxy_finish_prefix + url, '')
+                red.set(red_keys.froxly_url_free_proxy_finish_prefix + url, '')
                 break
         froxly_checker_finish_socket.send_unicode(str(0))
     except:
