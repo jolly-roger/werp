@@ -30,7 +30,9 @@
 				if(!data){
 					setTimeout(get_accessibility, 1000);
 				}else{
-					$('#checking_img').parent().html('<span style="color: #FF4545;">unaccessible</span>')
+					$('#checking_img').each(function(){
+						$(this).parent().html('<span style="color: #FF4545;">unaccessible</span>');
+					});
 				}
 			});
 		}
