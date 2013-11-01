@@ -25,7 +25,7 @@
 			});
 			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
 				if (!data){
-					setTimeout(get_accessibility, 5);
+					setTimeout(get_accessibility, 1000);
 				}
 			});
 		}
@@ -42,7 +42,7 @@
 				container_proxies.html(html_proxies);
 			});
 			
-			setTimeout(get_accessibility, 3);
+			setTimeout(get_accessibility, 1000);
 		});
 	</script>
 {% endblock %}

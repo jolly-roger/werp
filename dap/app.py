@@ -66,6 +66,13 @@ class dap(object):
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
             if red.exists(finish_key):
+                red.delete(finish_key)
+                proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
+                to_check_key = red_keys.froxly_url_free_proxy_to_check_prefix + domain
+                if red.exists(proxies_key):
+                    red.delete(proxies_key)
+                if red.exists(to_check_key):
+                    red.delete(to_check_key)
                 return 'true'
         return 'false'
 
