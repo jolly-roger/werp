@@ -64,6 +64,7 @@ class dap(object):
     def is_check_finished(self, domain):
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
+            finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
             if red.exists(finish_key):
                 return 'true'
         return 'false'
