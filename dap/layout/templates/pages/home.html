@@ -30,7 +30,7 @@
 				if(!data){
 					setTimeout(get_accessibility, 1000);
 				}else{
-					$('#checking_img').each(function(){
+					$('.checking_img').each(function(){
 						$(this).parent().html('<span style="color: #FF4545;">unaccessible</span>');
 					});
 				}
@@ -45,7 +45,7 @@
 					html_proxies += '<div class="small-6 large-6 columns">' + data[i]['ip'] + '</div>' +
 						'<div class="small-3 large-3 columns">' + data[i]['port'] + '</div>' +
 						'<div class="small-3 large-3 columns" id="' + proxy_status_prefix + data[i]['id'] + '">' +
-							'<img id="checking_img" src="/images/checking.gif" alt="Checking..." />' +
+							'<img class="checking_img" src="/images/checking.gif" alt="Checking..." />' +
 						'</div>';
 				}
 				html_proxies += '</div>';
