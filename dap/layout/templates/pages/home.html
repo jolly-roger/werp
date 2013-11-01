@@ -12,8 +12,11 @@
 		</div>
 	</div>
 	<div class="row collapse">
-		<div id="container_proxies" class="small-12 large-12 columns">
+		<div class="small-3 large-3"></div>
+		<div class="small-6 large-6 columns">
+			<table id="container_proxies" style="width: 100%;"></table>
 		</div>
+		<div class="small-3 large-3"></div>
 	</div>
 	<script type="text/javascript">
 		var domain_value = ''
@@ -23,7 +26,7 @@
 		function get_accessibility(){
 			$.getJSON( "/get_10_checked?domain=" + domain_value, function(data){
 				for (var i in data) {
-					$('#' + proxy_status_prefix + data[i]['id']).html('<span style="color: #90DC44;">accessible</span>');
+					$('#' + proxy_status_prefix + data[i]['id']).html('<span class="round success label">accessible</span>');
 				}
 			});
 			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
@@ -31,7 +34,7 @@
 					setTimeout(get_accessibility, 1000);
 				}else{
 					$('.checking_img').each(function(){
-						$(this).parent().html('<span style="color: #FF4545;">unaccessible</span>');
+						$(this).parent().html('<span class="round alert label">unaccessible</span>');
 					});
 				}
 			});
@@ -40,15 +43,14 @@
 		$('#check_proxies_btn').click(function(){
 			domain_value = $('#domain_value').val()
 			$.getJSON('/check_10?domain=' + domain_value, function(data){
-				html_proxies = '<div class="row">';
+				html_proxies = '';
 				for (var i in data) {
-					html_proxies += '<div class="small-6 large-6 columns">' + data[i]['ip'] + '</div>' +
-						'<div class="small-3 large-3 columns">' + data[i]['port'] + '</div>' +
-						'<div class="small-3 large-3 columns" id="' + proxy_status_prefix + data[i]['id'] + '">' +
+					html_proxies += '<tr><td>' + data[i]['ip'] + '</td>' +
+						'<td>' + data[i]['port'] + '</td>' +
+						'<td id="' + proxy_status_prefix + data[i]['id'] + '">' +
 							'<img class="checking_img" src="/images/checking.gif" alt="Checking..." />' +
-						'</div>';
+						'</td></tr>';
 				}
-				html_proxies += '</div>';
 				container_proxies.html(html_proxies);
 			});
 			
