@@ -23,19 +23,17 @@ class dap(object):
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
-            to_check_key = red_keys.froxly_url_free_proxy_to_check_prefix + domain
-            finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
-            if red.exists(finish_key):
-                red.delete(finish_key)
-            if len(base_proxies) >= 10 and not red.exists(to_check_key):
+            if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
+                red.delete(red_keys.froxly_url_free_proxy_finish_prefix + domain)
+            if len(base_proxies) >= 10 and not red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
                 ps = random.sample(base_proxies, 10)
                 for p in ps:
                     proxy = json.loads(p.decode('utf-8'))
                     rnd_base_proxies.append(proxy)
                     sproxy = data_server_common.jproxy2sproxy(proxy)
-                    red.sadd(to_check_key, sproxy)
-            elif red.exists(to_check_key):
-                to_check = red.smembers(to_check_key)
+                    red.sadd(red_keys.froxly_url_free_proxy_to_check_prefix + domain, sproxy)
+            elif red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
+                to_check = red.smembers(red_keys.froxly_url_free_proxy_to_check_prefix + domain)
                 for p in to_check:
                     proxy = json.loads(p.decode('utf-8'))
                     rnd_base_proxies.append(proxy)
@@ -43,7 +41,8 @@ class dap(object):
             froxly_data_server_socket = ctx.socket(zmq.REQ)
             froxly_data_server_socket.connect(sockets.froxly_data_server)
             froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-                {'url': domain, 'worker_pool': 10, 'to_check_key': to_check_key}}))
+                {'url': domain, 'worker_pool': 10,
+                    'to_check_key': red_keys.froxly_url_free_proxy_to_check_prefix + domain}}))
             froxly_data_server_socket.recv_unicode()
         return json.dumps(rnd_base_proxies)
     
@@ -52,9 +51,8 @@ class dap(object):
         rnd_10_proxies = []
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
-            if red.exists(proxies_key):
-                ps = red.smembers(proxies_key)
+            if red.exists(red_keys.froxly_url_free_proxy_prefix + domain):
+                ps = red.smembers(red_keys.froxly_url_free_proxy_prefix + domain)
                 for p in ps:
                     proxy = json.loads(p.decode('utf-8'))
                     rnd_10_proxies.append(proxy)
@@ -64,14 +62,11 @@ class dap(object):
     def is_check_finished(self, domain):
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
-            if red.exists(finish_key):
-                proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
-                to_check_key = red_keys.froxly_url_free_proxy_to_check_prefix + domain
-                if red.exists(proxies_key):
-                    red.delete(proxies_key)
-                if red.exists(to_check_key):
-                    red.delete(to_check_key)
+            if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
+                if red.exists(red_keys.froxly_url_free_proxy_prefix + domain):
+                    red.delete(red_keys.froxly_url_free_proxy_prefix + domain)
+                if red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
+                    red.delete(red_keys.froxly_url_free_proxy_to_check_prefix + domain)
                 return 'true'
         return 'false'
 
