@@ -20,7 +20,7 @@
 		container_proxies = $('#container_proxies');
 		$('#check_proxies_btn').click(function(){
 			domain_value = $('#domain_value').val()
-			$.get('/check_10?domain=' + domain_value, function(data){
+			$.getJSON('/check_10?domain=' + domain_value, function(data){
 				html_proxies = '<table>';
 				for (var i in data) {
 					html_proxies += '<tr><td>' + data[i]['ip'] + '</td><td>' + data[i]['port'] +
