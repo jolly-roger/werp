@@ -1,5 +1,6 @@
 import urllib.parse
 import datetime
+import traceback
 
 from ...common import etype
 from . import common
@@ -166,10 +167,12 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						if len(raw_sid_qs.query) > 0:
 								raw_sid = urllib.parse.parse_qs(raw_sid_qs.query)
 								try:
-									sid = int(raw_sid['sid'][0])
+									if raw_sid['sid'][0] != '':
+										sid = int(raw_sid['sid'][0])
 								except:
 									bot.logger.error('sid parse error\r\n' +\
-										'raw sid: ' + str(raw_sid_qs.query) + '\r\n')
+										'raw sid: ' + str(raw_sid_qs.query) + '\r\n\r\n' +\
+										traceback.format_exc())
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 4:
@@ -212,7 +215,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									'value: ' + str(value) + '\r\n' + \
 									'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 									'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-									'en_s_title: ' + str(en_s_title) + '\r\n')
+									'en_s_title: ' + str(en_s_title) + '\r\n\r\n' +\
+									traceback.format_exc())
 								raise Exception('Southwest driver station entity has empty fields')
 						if s is not None:
 							if not common.e_has_all_data(s):
@@ -269,4 +273,5 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								'value: ' + str(value) + '\r\n' + \
 								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-								'en_s_title: ' + str(en_s_title) + '\r\n')
+								'en_s_title: ' + str(en_s_title) + '\r\n\r\n' +\
+								traceback.format_exc())
