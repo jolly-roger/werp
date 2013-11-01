@@ -25,7 +25,7 @@ class dap(object):
             base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
             proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
             to_check_key = red_keys.froxly_url_free_proxy_to_check_prefix + domain
-            finish_key = red_key.froxly_url_free_proxy_finish_prefix + domain
+            finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
             if red.exists(proxies_key):
                 red.delete(proxies_key)
             if red.exists(to_check_key):
