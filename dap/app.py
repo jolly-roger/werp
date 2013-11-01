@@ -25,8 +25,8 @@ class dap(object):
             if red.exists(to_check_key):
                 red.delete(to_check_key)
             if len(base_proxies) >= 10:
-                while red.scard(to_check_key) < 10:
-                    p = random.choice(base_proxies)
+                ps = random.sample(base_proxies, 10)
+                for p in ps:
                     proxy = json.loads(p.decode('utf-8'))
                     sproxy = data_server_common.jproxy2sproxy(proxy)
                     red.sadd(to_check_key, sproxy)
