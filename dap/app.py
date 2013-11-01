@@ -23,16 +23,11 @@ class dap(object):
         if domain is not None and domain != '':
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
-            proxies_key = red_keys.froxly_url_free_proxy_prefix + domain
             to_check_key = red_keys.froxly_url_free_proxy_to_check_prefix + domain
             finish_key = red_keys.froxly_url_free_proxy_finish_prefix + domain
-            if red.exists(proxies_key):
-                red.delete(proxies_key)
-            if red.exists(to_check_key):
-                red.delete(to_check_key)
             if red.exists(finish_key):
                 red.delete(finish_key)
-            if len(base_proxies) >= 10:
+            if len(base_proxies) >= 10 and not red.exists(to_check_key):
                 ps = random.sample(base_proxies, 10)
                 for p in ps:
                     proxy = json.loads(p.decode('utf-8'))
