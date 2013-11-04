@@ -50,7 +50,7 @@
 		
 		$('#check_proxies_btn').click(function(){
 			domain_value = $('#domain_value').val()
-			$.getJSON('/check_10?domain=' + domain_value, function(data){
+			$.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
 				for (var i in proxies) {
 					$('#' + proxy_status_prefix + data[i]['id']).
 						html('<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
