@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-31 14:46+0200\n"
+"POT-Creation-Date: 2013-11-04 17:12+0200\n"
 "PO-Revision-Date: 2013-10-31 14:39+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,15 +18,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ../templates/base.html:12
+#: ../templates/base.html:15
 msgid "site_title"
 msgstr "Domain Anonymous Proxy"
 
-#: ../templates/base.html:15
+#: ../templates/base.html:18
 msgid "site_description"
 msgstr "Check accessibility of domain or url through anonymous proxy"
 
-#: ../templates/base.html:16
+#: ../templates/base.html:19
 msgid "site_keywords"
 msgstr "check access domain url anonymous proxy"
+
+#: ../templates/pages/home.html:10
+msgid "domain_value_placeholder"
+msgstr "Enter Domain Name or URL..."
+
+#: ../templates/pages/home.html:14
+msgid "check_btn"
+msgstr "Check"
+
+#: ../templates/pages/home.html:18
+msgid "proxies_tbl_title"
+msgstr "10 Random Anonymous Proxies"
+
+#: ../templates/pages/home.html:26
+msgid "ip_address_title"
+msgstr "IP Address"
+
+#: ../templates/pages/home.html:28
+#, fuzzy
+msgid "port_title"
+msgstr "Port"
+
+#: ../templates/pages/home.html:30
+#, fuzzy
+msgid "status_title"
+msgstr "Status"
 

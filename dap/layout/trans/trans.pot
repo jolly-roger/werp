@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-31 14:46+0200\n"
+"POT-Creation-Date: 2013-11-04 17:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ../templates/base.html:12
+#: ../templates/base.html:15
 msgid "site_title"
 msgstr ""
 
-#: ../templates/base.html:15
+#: ../templates/base.html:18
 msgid "site_description"
 msgstr ""
 
-#: ../templates/base.html:16
+#: ../templates/base.html:19
 msgid "site_keywords"
+msgstr ""
+
+#: ../templates/pages/home.html:10
+msgid "domain_value_placeholder"
+msgstr ""
+
+#: ../templates/pages/home.html:14
+msgid "check_btn"
+msgstr ""
+
+#: ../templates/pages/home.html:18
+msgid "proxies_tbl_title"
+msgstr ""
+
+#: ../templates/pages/home.html:26
+msgid "ip_address_title"
+msgstr ""
+
+#: ../templates/pages/home.html:28
+msgid "port_title"
+msgstr ""
+
+#: ../templates/pages/home.html:30
+msgid "status_title"
 msgstr ""
 
