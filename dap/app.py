@@ -15,7 +15,19 @@ from . import layout
 class dap(object):
     @cherrypy.expose
     def index(self):
-        return layout.getHome()
+        proxies = []
+        jproxies = '['
+        red = redis.StrictRedis(unix_socket_path=sockets.redis)
+        base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
+        if len(base_proxies) >= 10:
+            ps = random.sample(base_proxies, 10)
+            for p in ps:
+                proxies.append(json.loads(p.decode('utf-8')))
+                jproxies += data_server_common.jproxy2sproxy(proxy) + ','
+        if jproxies.endswith(','):
+            jproxies = jproxies[:-1]
+        jproxies += ']'
+        return layout.getHome(proxies, jproxies)
     
     @cherrypy.expose
     def check_10(self, domain=None):
