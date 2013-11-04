@@ -22,7 +22,8 @@ class dap(object):
         if len(base_proxies) >= 10:
             ps = random.sample(base_proxies, 10)
             for p in ps:
-                proxies.append(json.loads(p.decode('utf-8')))
+                proxy = json.loads(p.decode('utf-8'))
+                proxies.append(proxy)
                 jproxies += data_server_common.jproxy2sproxy(proxy) + ','
         if jproxies.endswith(','):
             jproxies = jproxies[:-1]
