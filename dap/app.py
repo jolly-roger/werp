@@ -31,25 +31,17 @@ class dap(object):
         return layout.getHome(proxies, jproxies)
     
     @cherrypy.expose
-    def check_10(self, domain=None):
+    def check_10(self, domain=None, jproxies=None):
         rnd_base_proxies = []
-        if domain is not None and domain != '':
+        if domain is not None and domain != '' and jproxies is not None and jproxies != '':
+            proxies = json.loads(jproxies)
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
-            base_proxies = red.smembers(red_keys.froxly_base_check_free_proxy)
             if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
                 red.delete(red_keys.froxly_url_free_proxy_finish_prefix + domain)
-            if len(base_proxies) >= 10 and not red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
-                ps = random.sample(base_proxies, 10)
-                for p in ps:
-                    proxy = json.loads(p.decode('utf-8'))
-                    rnd_base_proxies.append(proxy)
+            if len(proxies) >= 10 and not red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
+                for proxy in proxies:
                     sproxy = data_server_common.jproxy2sproxy(proxy)
                     red.sadd(red_keys.froxly_url_free_proxy_to_check_prefix + domain, sproxy)
-            elif red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
-                to_check = red.smembers(red_keys.froxly_url_free_proxy_to_check_prefix + domain)
-                for p in to_check:
-                    proxy = json.loads(p.decode('utf-8'))
-                    rnd_base_proxies.append(proxy)
             ctx = zmq.Context()
             froxly_data_server_socket = ctx.socket(zmq.REQ)
             froxly_data_server_socket.connect(sockets.froxly_data_server)
@@ -57,7 +49,7 @@ class dap(object):
                 {'url': domain, 'worker_pool': 10,
                     'to_check_key': red_keys.froxly_url_free_proxy_to_check_prefix + domain}}))
             froxly_data_server_socket.recv_unicode()
-        return json.dumps(rnd_base_proxies)
+        return ''
     
     @cherrypy.expose
     def get_10_checked(self, domain=None):
