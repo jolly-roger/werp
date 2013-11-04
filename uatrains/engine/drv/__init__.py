@@ -22,7 +22,11 @@ def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
                         ses.add(e)
                         t = e
                     else:
-                        bot.logger.error('Train has no all data\r\ntid: ' + str(tid))
+                        bot.logger.error('Train has no all data\r\ntid: ' + str(tid) + '\r\n' +\
+                            'ua_title: ' + str(e.ua_title) + '\r\n' +\
+                            'ru_title: ' + str(e.ru_title) + '\r\n' +\
+                            'value: ' + str(e.value) + '\r\n' +\
+                            'oid: ' + str(e.oid) + '\r\n')
                         raise Exception(drv_module.name + ' driver train entity has empty fields')
                 else:
                     if t.ua_title is None:

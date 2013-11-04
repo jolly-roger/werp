@@ -1,4 +1,5 @@
 import urllib.parse
+import traceback
 
 from ...common import etype
 from . import common
@@ -161,7 +162,9 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								try:
 									sid = int(raw_sid['station'][0])
 								except:
-									pass
+									bot.logger.error('sid parse error\r\n' +\
+										'raw sid: ' + str(raw_sid_qs.query) + '\r\n\r\n' +\
+										traceback.format_exc())
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 3:
