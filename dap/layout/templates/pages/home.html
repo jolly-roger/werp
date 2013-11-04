@@ -26,7 +26,6 @@
 	</div>
 	<script type="text/javascript">
 		var jproxies = '{{jproxies}}'
-		var proxies = eval(jproxies)
 		var domain_value = ''
 		var proxy_status_prefix = 'proxy_status_'
 		container_proxies = $('#container_proxies');
@@ -51,10 +50,8 @@
 		$('#check_proxies_btn').click(function(){
 			domain_value = $('#domain_value').val()
 			$.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
-				for (var i in proxies) {
-					$('#' + proxy_status_prefix + data[i]['id']).
-						html('<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
-				}
+				$('#' + proxy_status_prefix + data[i]['id']).each().
+					html('<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
 			});
 			
 			setTimeout(get_accessibility, 1000);
