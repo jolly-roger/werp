@@ -160,7 +160,8 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						if len(raw_sid_qs.query) > 0:
 								raw_sid = urllib.parse.parse_qs(raw_sid_qs.query)
 								try:
-									sid = int(raw_sid['station'][0])
+									if 'station' in raw_sid and raw_sid['station'][0] != '':
+										sid = int(raw_sid['station'][0])
 								except:
 									bot.logger.error('sid parse error\r\n' +\
 										'raw sid: ' + str(raw_sid_qs.query) + '\r\n\r\n' +\

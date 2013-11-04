@@ -167,7 +167,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 						if len(raw_sid_qs.query) > 0:
 								raw_sid = urllib.parse.parse_qs(raw_sid_qs.query)
 								try:
-									if raw_sid['sid'][0] != '':
+									if 'sid' in raw_sid and raw_sid['sid'][0] != '':
 										sid = int(raw_sid['sid'][0])
 								except:
 									bot.logger.error('sid parse error\r\n' +\
@@ -243,11 +243,6 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								default_raw_s_title[3].xpath('text()')[0].strip() != '-' and \
 								default_raw_s_title[3].xpath('text()')[0].strip() != '':
 								departure = default_raw_s_title[3].xpath('text()')[0].strip()
-							if len(default_raw_s_title[4].xpath('text()')) > 0 and \
-								default_raw_s_title[4].xpath('text()')[0].strip() != '–' and \
-								default_raw_s_title[4].xpath('text()')[0].strip() != '-' and \
-								default_raw_s_title[4].xpath('text()')[0].strip() != '':
-								halt = default_raw_s_title[4].xpath('text()')[0].strip()
 							ts = orm.uatrains.TrainStation(t.id, s.id, order, arrival, departure, halt)
 							if ts is not None:
 								if common.ts_has_all_data(ts):
