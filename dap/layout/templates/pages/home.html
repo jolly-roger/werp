@@ -50,7 +50,8 @@
 		function get_accessibility(){
 			$.getJSON( "/get_10_checked?domain=" + domain_value, function(data){
 				for (var i in data) {
-					$('#' + proxy_status_prefix + data[i]['id']).html('<span class="round success label">accessible</span>');
+					$('#' + proxy_status_prefix + data[i]['id']).
+						html('<span class="round label accessible_status">accessible</span>');
 				}
 			});
 			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
@@ -58,7 +59,7 @@
 					setTimeout(get_accessibility, 1000);
 				}else{
 					$('.checking_img').each(function(){
-						$(this).parent().html('<span class="round alert label">unaccessible</span>');
+						$(this).parent().html('<span class="round label unaccessible_status">unaccessible</span>');
 					});
 				}
 			});
