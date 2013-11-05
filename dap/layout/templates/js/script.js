@@ -6,7 +6,7 @@ $(function(){
         $.getJSON( "/get_10_checked?domain=" + domain_value, function(data){
             for (var i in data) {
                 $('#' + proxy_status_prefix + data[i]['id']).
-                    html('<span class="round label accessible_status">accessible</span>');
+                    html('<span class="round label accessible_status">{% trans %}accessible_label{% endtrans %}</span>');
             }
         });
         $.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
@@ -14,7 +14,8 @@ $(function(){
                 setTimeout(get_accessibility, 1000);
             }else{
                 $('.checking_progress').each(function(){
-                    $(this).parent().html('<span class="round label unaccessible_status">unaccessible</span>');
+                    $(this).parent().
+                        html('<span class="round label unaccessible_status">{% trans %}unaccessible_label{% endtrans %}</span>');
                 });
             }
         });
@@ -26,7 +27,7 @@ $(function(){
             for (var i in proxies) {
                 proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
                 proxy_status_td.
-                    html('<span class="round label checking_status">checking</span>' +
+                    html('<span class="round label checking_status">{% trans %}checking_label{% endtrans %}</span>' +
                         '<img class="checking_progress" src="/images/checking.gif" alt="..." />');
             }
         });

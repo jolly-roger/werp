@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-04 17:12+0200\n"
+"POT-Creation-Date: 2013-11-05 16:14+0200\n"
 "PO-Revision-Date: 2013-10-31 14:39+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,19 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ../templates/base.html:15
+#: ../templates/base.html:17
 msgid "site_title"
 msgstr "Domain Anonymous Proxy"
 
-#: ../templates/base.html:18
+#: ../templates/base.html:20
 msgid "site_description"
 msgstr "Check accessibility of domain or url through anonymous proxy"
 
-#: ../templates/base.html:19
+#: ../templates/base.html:21
 msgid "site_keywords"
 msgstr "check access domain url anonymous proxy"
 
-#: ../templates/pages/home.html:10
+#: ../templates/js/script.js:9
+#, fuzzy
+msgid "accessible_label"
+msgstr "accessible"
+
+#: ../templates/js/script.js:18
+msgid "unaccessible_label"
+msgstr "unaccessible"
+
+#: ../templates/js/script.js:30
+#, fuzzy
+msgid "checking_label"
+msgstr "checking"
+
+#: ../templates/pages/home.html:11
 msgid "domain_value_placeholder"
 msgstr "Enter Domain Name or URL..."
 
@@ -38,15 +52,15 @@ msgstr "Enter Domain Name or URL..."
 msgid "check_btn"
 msgstr "Check"
 
-#: ../templates/pages/home.html:18
+#: ../templates/pages/home.html:21
 msgid "proxies_tbl_title"
 msgstr "10 Random Anonymous Proxies"
 
-#: ../templates/pages/home.html:26
+#: ../templates/pages/home.html:28
 msgid "ip_address_title"
 msgstr "IP Address"
 
-#: ../templates/pages/home.html:28
+#: ../templates/pages/home.html:29
 #, fuzzy
 msgid "port_title"
 msgstr "Port"
@@ -55,4 +69,9 @@ msgstr "Port"
 #, fuzzy
 msgid "status_title"
 msgstr "Status"
+
+#: ../templates/pages/home.html:39
+#, fuzzy
+msgid "unchecked_label"
+msgstr "unchecked"
 

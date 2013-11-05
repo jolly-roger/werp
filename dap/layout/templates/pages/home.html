@@ -36,7 +36,7 @@
 						<td>{{proxy['ip']}}</td>
 						<td valign="middle">{{proxy['port']}}</td>
 						<td id="proxy_status_{{proxy['id']}}">
-							<span class="round label not_checked_status">not checked</span>
+							<span class="round label unchecked_status">{% trans %}unchecked_label{% endtrans %}</span>
 						</td>
 					</tr>
 				{% endfor %}

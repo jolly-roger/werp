@@ -10,7 +10,7 @@ table#container_proxies{
 .status_title{
     width: 30%;
 }
-.not_checked_status{
+.unchecked_status{
     background-color: #7FB0C0;
 }
 .checking_status{

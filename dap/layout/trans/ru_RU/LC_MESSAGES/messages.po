@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-04 17:12+0200\n"
+"POT-Creation-Date: 2013-11-05 16:14+0200\n"
 "PO-Revision-Date: 2013-10-31 14:44+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru_RU <LL@li.org>\n"
@@ -19,21 +19,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: ../templates/base.html:15
+#: ../templates/base.html:17
 msgid "site_title"
 msgstr "Анонимный Прокси Домена"
 
-#: ../templates/base.html:18
+#: ../templates/base.html:20
 msgid "site_description"
 msgstr "Проверьте доступность домена или url через анонимный прокси"
 
-#: ../templates/base.html:19
+#: ../templates/base.html:21
 msgid "site_keywords"
 msgstr ""
 "проверять check доступность access домен domain url анонимный anonymous "
 "прокси proxy"
 
-#: ../templates/pages/home.html:10
+#: ../templates/js/script.js:9
+#, fuzzy
+msgid "accessible_label"
+msgstr "доступен"
+
+#: ../templates/js/script.js:18
+msgid "unaccessible_label"
+msgstr "недоступен"
+
+#: ../templates/js/script.js:30
+#, fuzzy
+msgid "checking_label"
+msgstr "проверяется"
+
+#: ../templates/pages/home.html:11
 msgid "domain_value_placeholder"
 msgstr "Введите Имя Домена или URL"
 
@@ -41,15 +55,15 @@ msgstr "Введите Имя Домена или URL"
 msgid "check_btn"
 msgstr "Проверить"
 
-#: ../templates/pages/home.html:18
+#: ../templates/pages/home.html:21
 msgid "proxies_tbl_title"
 msgstr "10 Случайных Анонимных Прокси"
 
-#: ../templates/pages/home.html:26
+#: ../templates/pages/home.html:28
 msgid "ip_address_title"
 msgstr "IP Адресс"
 
-#: ../templates/pages/home.html:28
+#: ../templates/pages/home.html:29
 #, fuzzy
 msgid "port_title"
 msgstr "Порт"
@@ -58,4 +72,9 @@ msgstr "Порт"
 #, fuzzy
 msgid "status_title"
 msgstr "Статус"
+
+#: ../templates/pages/home.html:39
+#, fuzzy
+msgid "unchecked_label"
+msgstr "непроверен"
 
