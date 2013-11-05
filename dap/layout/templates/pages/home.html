@@ -58,7 +58,7 @@
 				if(!data){
 					setTimeout(get_accessibility, 1000);
 				}else{
-					$('.checking_img').each(function(){
+					$('.checking_progress').each(function(){
 						$(this).parent().html('<span class="round label unaccessible_status">unaccessible</span>');
 					});
 				}
@@ -72,7 +72,7 @@
 					proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
 					proxy_status_td.
 						html('<span class="round label checking_status">checking</span>' +
-							'<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
+							'<img class="checking_progress" src="/images/checking.gif" alt="Checking..." />');
 				}
 			});
 			
