@@ -22,15 +22,28 @@ $(function(){
     }
     
     $('#check_proxies_btn').click(function(){
+        is_valid = false;
         domain_value = $('#domain_value').val()
-        $.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
-            for (var i in proxies) {
-                proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
-                proxy_status_td.
-                    html('<span class="round label checking_status">{% trans %}checking_label{% endtrans %}</span>' +
-                        '<img class="checking_progress" src="/images/checking.gif" alt="..." />');
-            }
-        });
+        
+        if(typeof(domain_value) == 'undefined' || domain_value == ''){
+            alert('You should specify domain name or URL');
+            return;
+        }
+        if(domain_value.match(/^http:\/\//gi) || domain_value.match(/^https:\/\//gi)){
+            alert('Domain name or URL shouldn\'t start with "http://" or "https://"');
+            return;
+        }
+        
+        if(is_valid){
+            $.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
+                for (var i in proxies) {
+                    proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
+                    proxy_status_td.
+                        html('<span class="round label checking_status">{% trans %}checking_label{% endtrans %}</span>' +
+                            '<img class="checking_progress" src="/images/checking.gif" alt="..." />');
+                }
+            });
+        }
         
         setTimeout(get_accessibility, 1000);
     });
