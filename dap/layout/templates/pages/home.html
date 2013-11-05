@@ -68,8 +68,10 @@
 			domain_value = $('#domain_value').val()
 			$.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
 				for (var i in proxies) {
-					$('#' + proxy_status_prefix + proxies[i]['id']).
-						html('<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
+					proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
+					proxy_status_html = proxy_status_td.html()
+					proxy_status_td.
+						html(proxy_status_html + '<img class="checking_img" src="/images/checking.gif" alt="Checking..." />');
 				}
 			});
 			
