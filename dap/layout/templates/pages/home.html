@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="row collapse">
-		<div class="small-3 large-2 columns">
+		<div class="large-offset-1 small-3 large-2 columns">
 			<span class="prefix">http://</span>
 		</div>
-		<div class="small-6 large-8 columns">
+		<div class="small-6 large-6 columns">
 			<input id="domain_value" type="text" name="domain" 
 				placeholder="{% trans %}domain_value_placeholder{% endtrans %}">
 		</div>
@@ -13,11 +13,11 @@
 		</div>
 	</div>
 	<div class="row collapse">
-		<div class="large-offset-3 small-6 large-6 columns">
+		<div class="large-offset-3 small-12 large-6 columns">
 			<h3>{% trans %}proxies_tbl_title{% endtrans %}</h3></div>
 	</div>
 	<div class="row collapse">
-		<div class="large-offset-3 small-6 large-6 columns">
+		<div class="large-offset-3 small-12 large-6 columns">
 			<table id="container_proxies">
 				<thead>
 					<tr>
