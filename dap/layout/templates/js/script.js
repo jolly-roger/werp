@@ -1,5 +1,3 @@
-var jproxies = '{{jproxies}}'
-var proxies = eval(jproxies)
 var domain_value = ''
 var proxy_status_prefix = 'proxy_status_'
 
