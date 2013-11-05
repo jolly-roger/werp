@@ -34,7 +34,7 @@ class dap(object):
     def check_10(self, domain=None, jproxies=None):
         rnd_base_proxies = []
         if domain is not None and domain != '' and jproxies is not None and jproxies != '':
-            domain += 'http://' + domain
+            domain = 'http://' + domain
             proxies = json.loads(jproxies)
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
@@ -56,7 +56,7 @@ class dap(object):
     def get_10_checked(self, domain=None):
         rnd_10_proxies = []
         if domain is not None and domain != '':
-            domain += 'http://' + domain
+            domain = 'http://' + domain
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             if red.exists(red_keys.froxly_url_free_proxy_prefix + domain):
                 ps = red.smembers(red_keys.froxly_url_free_proxy_prefix + domain)
@@ -68,7 +68,7 @@ class dap(object):
     @cherrypy.expose
     def is_check_finished(self, domain):
         if domain is not None and domain != '':
-            domain += 'http://' + domain
+            domain = 'http://' + domain
             red = redis.StrictRedis(unix_socket_path=sockets.redis)
             if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
                 if red.exists(red_keys.froxly_url_free_proxy_prefix + domain):
