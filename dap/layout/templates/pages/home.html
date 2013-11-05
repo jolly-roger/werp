@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="small-uncentered small-12 large-6 large-centered columns">
+		<div class="small-uncentered small-12 large-6 large-centered columns" style="text-align: center;">
 			<h3>{% trans %}proxies_tbl_title{% endtrans %}</h3></div>
 	</div>
 	<div class="row">
@@ -44,43 +44,4 @@
 			</table>
 		</div>
 	</div>
-	<script type="text/javascript">
-		var jproxies = '{{jproxies}}'
-		var proxies = eval(jproxies)
-		var domain_value = ''
-		var proxy_status_prefix = 'proxy_status_'
-		container_proxies = $('#container_proxies');
-		
-		function get_accessibility(){
-			$.getJSON( "/get_10_checked?domain=" + domain_value, function(data){
-				for (var i in data) {
-					$('#' + proxy_status_prefix + data[i]['id']).
-						html('<span class="round label accessible_status">accessible</span>');
-				}
-			});
-			$.getJSON( "/is_check_finished?domain=" + domain_value, function(data){
-				if(!data){
-					setTimeout(get_accessibility, 1000);
-				}else{
-					$('.checking_progress').each(function(){
-						$(this).parent().html('<span class="round label unaccessible_status">unaccessible</span>');
-					});
-				}
-			});
-		}
-		
-		$('#check_proxies_btn').click(function(){
-			domain_value = $('#domain_value').val()
-			$.post('/check_10', {domain: domain_value, jproxies: jproxies}, function(data){
-				for (var i in proxies) {
-					proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
-					proxy_status_td.
-						html('<span class="round label checking_status">checking</span>' +
-							'<img class="checking_progress" src="/images/checking.gif" alt="Checking..." />');
-				}
-			});
-			
-			setTimeout(get_accessibility, 1000);
-		});
-	</script>
 {% endblock %}

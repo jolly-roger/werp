@@ -11,6 +11,14 @@ def getenv(lng='RU'):
         return ru_env
     return en_env
 
+def getCss():
+    tmpl = getenv().get_template("css/style.css")
+    return tmpl.render()
+
+def getJS():
+    tmpl = getenv().get_template("js/script.js")
+    return tmpl.render()
+
 def getHome(proxies, jproxies, lng='EN'):
     tmpl = getenv(lng).get_template("pages/home.html")
     return tmpl.render(proxies=proxies, jproxies=jproxies)

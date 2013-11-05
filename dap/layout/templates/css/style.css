@@ -1,0 +1,27 @@
+table#container_proxies{
+    width: 100%;
+}
+.ip_address_title{
+    width: 40%;
+}
+.port_title{
+    width: 30%;
+}
+.status_title{
+    width: 30%;
+}
+.not_checked_status{
+    background-color: #7FB0C0;
+}
+.checking_status{
+    background-color: #E6E046;
+}
+.accessible_status{
+    background-color: #5DA423;
+}
+.unaccessible_status{
+    background-color: #C60F13;
+}
+.checking_progress{
+    padding-left: 15px;
+}

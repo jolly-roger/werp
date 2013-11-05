@@ -74,6 +74,16 @@ class dap(object):
                     red.delete(red_keys.froxly_url_free_proxy_to_check_prefix + domain)
                 return 'true'
         return 'false'
+    
+    @cherrypy.expose
+    def css(self):
+        cherrypy.response.headers['Content-Type'] = "text/css"
+        return layout.getCss()
+    
+    @cherrypy.expose
+    def js(self):
+        cherrypy.response.headers['Content-Type'] = "text/javascript"
+        return layout.getJS()
 
 def wsgi():
     tree = cherrypy._cptree.Tree()
