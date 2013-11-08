@@ -19,9 +19,9 @@ def getJS(lng='EN'):
     tmpl = getenv(lng).get_template("js/script.js")
     return tmpl.render()
 
-def getHome(proxies, jproxies, lng='EN'):
+def getHome(ses_key, proxies, jproxies, lng='EN'):
     tmpl = getenv(lng).get_template("pages/home.html")
-    return tmpl.render(proxies=proxies, jproxies=jproxies)
+    return tmpl.render(ses_key=ses_key, proxies=proxies, jproxies=jproxies)
 
 trans_ru_RU = gettext.translation('messages', languages=['ru_RU'], localedir=config['global']['layout.trans'])
 trans_en_US = gettext.translation('messages', languages=['en_US'], localedir=config['global']['layout.trans'])

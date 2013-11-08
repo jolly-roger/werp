@@ -6,3 +6,5 @@ froxly_url_free_proxy_log_prefix = 'froxly_free_proxy_log_'
 froxly_rnd_free_proxy_log = 'froxly_rnd_free_proxy_log'
 
 ugently_user_agent_value = 'ugently_user_agent_value'
+
+dap_ses_key_prefix = 'dap_ses_key_'
