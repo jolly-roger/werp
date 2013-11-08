@@ -13,9 +13,9 @@ from werp.froxly.data_server import common as data_server_common
 
 from . import layout
 
+red = redis.StrictRedis(unix_socket_path=sockets.redis)
+
 class dap(object):
-    red = redis.StrictRedis(unix_socket_path=sockets.redis)
-    
     @cherrypy.expose
     def index(self):
         ses_key = _create_ses()
