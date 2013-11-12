@@ -28,3 +28,6 @@ table#container_proxies{
 .check_button{
     background-color: #7FB0C0;
 }
+.container{
+    margin-top: 30px;
+}
