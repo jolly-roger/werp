@@ -6,8 +6,8 @@ import configparser
 config = configparser.ConfigParser()
 config.read('/home/www/dap/app.conf')
 
-def getenv(lng='RU'):
-    if lng == 'RU':
+def getenv(lng='EN'):
+    if lng == 'EN':
         return ru_env
     return en_env
 

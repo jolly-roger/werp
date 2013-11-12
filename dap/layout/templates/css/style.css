@@ -25,3 +25,6 @@ table#container_proxies{
 .checking_progress{
     padding-left: 15px;
 }
+.check_button{
+    background-color: #7FB0C0;
+}

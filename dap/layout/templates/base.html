@@ -21,6 +21,17 @@
         <meta name="keywords" content="{% trans %}site_keywords{% endtrans %}">
     </head>
     <body>
+        <nav class="top-bar">
+            <ul class="title-area">
+                <li class="name">{% trans %}site_title{% endtrans %}</li>
+            </ul>
+            <section class="top-bar-section">
+                <ul class="right">
+                    <li><a href="ru.domainanonymousproxy.com">RU</a></li>
+                    <li><a href="domainanonymousproxy.com">EN</a></li>
+                </ul>
+            </section>
+        </nav>
         <div class="container">
             {% block content %}
             {% endblock %}

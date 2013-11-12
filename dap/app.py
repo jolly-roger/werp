@@ -18,6 +18,7 @@ red = redis.StrictRedis(unix_socket_path=sockets.redis)
 class dap(object):
     @cherrypy.expose
     def index(self):
+        lng = get_lng()
         ses_key = _create_ses()
         proxies = []
         jproxies = '['
@@ -31,7 +32,7 @@ class dap(object):
         if jproxies.endswith(','):
             jproxies = jproxies[:-1]
         jproxies += ']'
-        return layout.getHome(ses_key, proxies, jproxies)
+        return layout.getHome(ses_key, proxies, jproxies, lng)
     
     @cherrypy.expose
     def check_10(self, ses_key=None, domain=None, jproxies=None):
@@ -96,6 +97,12 @@ class dap(object):
     def js(self):
         cherrypy.response.headers['Content-Type'] = "text/javascript"
         return layout.getJS()
+
+def get_lng():
+    domain = cherrypy.request.base.lower().replace('http://', '')
+    if domain.startswith('ru.'):
+        return 'RU'
+    return 'EN'
     
 def _create_ses():
     ses_key = str(uuid.uuid4())
