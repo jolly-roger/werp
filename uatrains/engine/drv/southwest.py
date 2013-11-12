@@ -215,8 +215,7 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									'value: ' + str(value) + '\r\n' + \
 									'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 									'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-									'en_s_title: ' + str(en_s_title) + '\r\n\r\n' +\
-									traceback.format_exc())
+									'en_s_title: ' + str(en_s_title) + '\r\n\r\n')
 								raise Exception('Southwest driver station entity has empty fields')
 						if s is not None:
 							if not common.e_has_all_data(s):
@@ -268,5 +267,4 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 								'value: ' + str(value) + '\r\n' + \
 								'ua_s_title: ' + str(ua_s_title) + '\r\n' + \
 								'ru_s_title: ' + str(ru_s_title) + '\r\n' + \
-								'en_s_title: ' + str(en_s_title) + '\r\n\r\n' +\
-								traceback.format_exc())
+								'en_s_title: ' + str(en_s_title) + '\r\n\r\n')

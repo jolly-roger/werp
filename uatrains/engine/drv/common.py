@@ -1,5 +1,6 @@
 import redis
 import traceback
+import re
 
 from werp import orm
 
@@ -86,4 +87,7 @@ def get_ts(ts, ses):
 		db_ts = None
 	return db_ts
 def clear_raw_str(raw_str):
-	return raw_str.replace('\r\n558\r\n', '').replace('\r\n1000\r\n', '')
+	m = re.search(r'\r\n[a-z0-9]*\r\n', raw_str)
+	if m:
+		return raw_str.replace(m.group(0), '')
+	return raw_str
