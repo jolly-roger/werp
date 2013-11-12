@@ -27,7 +27,7 @@ table#container_proxies{
 }
 .check_button{
     background-color: #7FB0C0;
-    box-shadow: 0;
+    box-shadow: none;
 }
 .container{
     margin-top: 30px;
