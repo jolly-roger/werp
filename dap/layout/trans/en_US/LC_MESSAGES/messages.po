@@ -46,7 +46,7 @@ msgstr "checking"
 
 #: ../templates/pages/home.html:11
 msgid "domain_value_placeholder"
-msgstr "Enter Domain Name or URL..."
+msgstr "Enter Domain Name or URL"
 
 #: ../templates/pages/home.html:14
 msgid "check_btn"
