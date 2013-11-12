@@ -95,8 +95,9 @@ class dap(object):
     
     @cherrypy.expose
     def js(self):
+        lng = get_lng()
         cherrypy.response.headers['Content-Type'] = "text/javascript"
-        return layout.getJS()
+        return layout.getJS(lng)
 
 def get_lng():
     domain = cherrypy.request.base.lower().replace('http://', '')
