@@ -32,7 +32,8 @@ table#container_proxies{
 .container{
     margin-top: 30px;
 }
-.lang_title > a:before{
+.lang_title > a:before,
+.lang_menu > a:before{
     content: "";
     float: left;
     width: 11px;
