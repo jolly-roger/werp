@@ -26,22 +26,12 @@
             <ul class="title-area">
                 <li class="name"><h1><a href="/">{% trans %}site_title_abbreviation{% endtrans %}</a></h1></li>
                 {% if lng != 'RU'%}
-                    <li class="toggle-topbar lang_menu"><a href="http://ru.domainanonymousproxy.com">RU</a></li>
+                    <li class="lang_menu"><a href="http://ru.domainanonymousproxy.com">RU</a></li>
                 {% endif %}
                 {% if lng != 'EN'%}
-                    <li class="toggle-topbar lang_menu"><a href="http://domainanonymousproxy.com">EN</a></li>
+                    <li class="lang_menu"><a href="http://domainanonymousproxy.com">EN</a></li>
                 {% endif %}
             </ul>
-            <section class="top-bar-section">
-                <ul class="right">
-                    {% if lng != 'RU'%}
-                        <li class="lang_title"><a href="http://ru.domainanonymousproxy.com">RU</a></li>
-                    {% endif %}
-                    {% if lng != 'EN'%}
-                        <li class="lang_title"><a href="http://domainanonymousproxy.com">EN</a></li>
-                    {% endif %}
-                </ul>
-            </section>
         </nav>
         <div class="container">
             {% block content %}
