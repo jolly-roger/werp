@@ -41,8 +41,9 @@ table#container_proxies{
 @media only screen and (min-width: 940px) {
     .lang_menu {
         display: none;
-    }    
+    }
 }
+.lang_menu > a:before,
 .lang_title > a:before{
     content: "";
     float: left;
