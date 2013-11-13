@@ -25,7 +25,12 @@
         <nav class="top-bar">
             <ul class="title-area">
                 <li class="name"><h1><a href="/">{% trans %}site_title_abbreviation{% endtrans %}</a></h1></li>
-                <li class="toggle-topbar lang_menu"><a href="#">Language</a></li>
+                {% if lng != 'RU'%}
+                    <li class="toggle-topbar lang_menu"><a href="http://ru.domainanonymousproxy.com">RU</a></li>
+                {% endif %}
+                {% if lng != 'EN'%}
+                    <li class="toggle-topbar lang_menu"><a href="http://domainanonymousproxy.com">EN</a></li>
+                {% endif %}
             </ul>
             <section class="top-bar-section">
                 <ul class="right">
