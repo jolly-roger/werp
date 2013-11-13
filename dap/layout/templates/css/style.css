@@ -36,4 +36,5 @@ table#container_proxies{
     content: " ";
     width: 11px;
     background-image: url(/images/lang.png);
+    position: absolute;
 }
