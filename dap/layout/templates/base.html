@@ -23,15 +23,23 @@
     <body>
         <nav class="top-bar">
             <ul class="title-area">
-                <li class="name"><h1><a href="/">{% trans %}site_title_abbreviation{% endtrans %}</a></h1></li>
+                <li class="name"><h2><a href="/">{% trans %}site_title_abbreviation{% endtrans %}</a></h2></li>
             </ul>
             <section class="top-bar-section">
                 <ul class="right">
                     {% if lng != 'RU'%}
-                        <li><a href="http://ru.domainanonymousproxy.com">RU</a></li>
+                        <li class="has-dropdown"><a href="#">EN</a>
+                            <ul class="dropdown">
+                                <li><a href="http://ru.domainanonymousproxy.com">RU</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                     {% if lng != 'EN'%}
-                        <li><a href="http://domainanonymousproxy.com">EN</a></li>
+                        <li class="has-dropdown"><a href="#">RU</a>
+                            <ul class="dropdown">
+                                <li><a href="http://domainanonymousproxy.com">EN</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                     <li><img src="/images/lang.png"/></li>
                 </ul>
