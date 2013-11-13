@@ -2,16 +2,16 @@
 
 <html>
     <head>
-        <meta charset='utf-8'>
-        <!-- JQuery -->
-            <script type="text/javascript" src="/jquery/jquery-2.0.3.min.js"></script>
-        <!-- /JQuery -->
+        <meta charset='utf-8'> 
         <!-- Foundation -->
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <link rel="stylesheet" href="/foundation/css/normalize.css" />
             <link rel="stylesheet" href="/foundation/css/foundation.min.css" />
-            <script type="text/javascript" src="/foundation/js/foundation.min.js"></script>
+            <script type="text/javascript" src="/foundation/js/vendor/custom.modernizr.js"></script>
         <!-- /Foundation -->
+        <!-- JQuery -->
+            <script type="text/javascript" src="/jquery/jquery-2.0.3.min.js"></script>
+        <!-- /JQuery -->
         <link href='/css' rel='stylesheet'>
         <script type="text/javascript" src="/js"></script>
         {% block head %}
@@ -50,5 +50,6 @@
             {% block content %}
             {% endblock %}
         </div>
+        <script type="text/javascript" src="/foundation/js/foundation.min.js"></script>
     </body>
 </html>
