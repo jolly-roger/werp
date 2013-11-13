@@ -32,9 +32,13 @@ table#container_proxies{
 .container{
     margin-top: 30px;
 }
+.lang_title{
+    position: relative;
+}
 .lang_title > a:before{
     content: " ";
     width: 11px;
+    height: 11px;
     background-image: url(/images/lang.png);
     position: absolute;
 }
