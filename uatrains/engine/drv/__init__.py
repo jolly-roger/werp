@@ -56,3 +56,9 @@ def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree, en_dom_tree):
         if conn is not None:
             conn.close()
         raise e
+def check_dom_tree(current_drv, dom_tree):
+    dom_tree.xpath(current_drv.xtattrs)
+    dom_tree.xpath(current_drv.xttitle)
+    dom_tree.xpath(current_drv.xtvalue)
+    dom_tree.xpath(current_drv.xtperiod)
+    dom_tree.xpath(current_drv.xts)

@@ -82,6 +82,7 @@ def run(task_drv):
                                 ua_res['result']['http_status'] == 200:
                                 try:
                                     ua_dom_tree = etree.parse(io.StringIO(ua_res['result']['data']), parser)
+                                    drv.check_dom_tree(current_drv, ua_dom_tree)
                                 except Exception as e:
                                     ua_res['result']['http_status'] = -3
                                     ua_res['result']['http_status_reason'] = str(e)
@@ -95,6 +96,7 @@ def run(task_drv):
                                 ru_res['result']['http_status'] == 200:
                                 try:
                                     ru_dom_tree = etree.parse(io.StringIO(ru_res['result']['data']), parser)
+                                    drv.check_dom_tree(current_drv, ru_dom_tree)
                                 except Exception as e:
                                     ru_res['result']['http_status'] = -3
                                     ru_res['result']['http_status_reason'] = str(e)

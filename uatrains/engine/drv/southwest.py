@@ -30,19 +30,19 @@ def from_remote(ua_dom_tree, ru_dom_tree, en_dom_tree, tid):
 	raw_en_period = None
 	raw_t_value = None
 	raw_t_attrs = None
+	if ua_dom_tree is not None:
+		raw_ua_t_title = ua_dom_tree.xpath(xttitle)
+		raw_ua_period = ua_dom_tree.xpath(xtperiod)
+		raw_t_value = ua_dom_tree.xpath(xtvalue)
+		raw_t_attrs = ua_dom_tree.xpath(xtattrs)
+	if ru_dom_tree is not None:
+		raw_ru_t_title = ru_dom_tree.xpath(xttitle)
+		raw_ru_period = ru_dom_tree.xpath(xtperiod)
 	try:
-		if ua_dom_tree is not None:
-			raw_ua_t_title = ua_dom_tree.xpath(xttitle)
-			raw_ua_period = ua_dom_tree.xpath(xtperiod)
-			raw_t_value = ua_dom_tree.xpath(xtvalue)
-			raw_t_attrs = ua_dom_tree.xpath(xtattrs)
-		if ru_dom_tree is not None:
-			raw_ru_t_title = ru_dom_tree.xpath(xttitle)
-			raw_ru_period = ru_dom_tree.xpath(xtperiod)
 		if en_dom_tree is not None:
 			raw_en_t_title = en_dom_tree.xpath(xttitle)
 			raw_en_period = en_dom_tree.xpath(xtperiod)
-	except AssertionError as e:
+	except:
 		pass
 	ua_t_title = None
 	ru_t_title = None
@@ -124,12 +124,15 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 			s_count = len(raw_ru_s_titles)
 		if default_raw_s_titles is None:
 			default_raw_s_titles = raw_ru_s_titles
-	if en_dom_tree is not None:
-		raw_en_s_titles = en_dom_tree.xpath(xts)
-		if s_count is None:
-			s_count = len(raw_en_s_titles)
-		if default_raw_s_titles is None:
-			default_raw_s_titles = raw_en_s_titles
+	try:
+		if en_dom_tree is not None:
+			raw_en_s_titles = en_dom_tree.xpath(xts)
+			if s_count is None:
+				s_count = len(raw_en_s_titles)
+			if default_raw_s_titles is None:
+				default_raw_s_titles = raw_en_s_titles
+	except:
+		pass
 	for i in range(s_count):
 		if s_count > 0 and i < s_count and len(default_raw_s_titles[i]) >= 4 and \
 			default_raw_s_titles[i][0] is not None and \
