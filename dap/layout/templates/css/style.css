@@ -43,6 +43,8 @@ table#container_proxies{
     display: block;
     font-size: 0.8125em;
     font-weight: bold;
+    line-height: 45px;
+    padding: 0 15px;
 }
 @media only screen and (min-width: 940px) {
     .lang_menu {
