@@ -36,7 +36,8 @@ table#container_proxies{
     /*position: relative;*/
 }
 .lang_title > a:before{
-    content: " ";
+    content: "";
+    float: left;
     width: 11px;
     height: 11px;
     background-image: url(/images/lang.png);
