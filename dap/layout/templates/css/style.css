@@ -33,17 +33,17 @@ table#container_proxies{
     margin-top: 30px;
 }
 .lang_menu {
-    display: none;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 @media only screen and (min-width: 940px) {
     .lang_menu {
-        display: inline-block;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
+        display: none;
+    }    
 }
-.lang_menu > a:before{
+.lang_title > a:before{
     content: "";
     float: left;
     width: 11px;
