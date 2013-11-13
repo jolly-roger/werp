@@ -14,7 +14,7 @@
         <link href='/css' rel='stylesheet'>
         <script type="text/javascript" src="/js"></script>
         {% block head %}
-            <title>{% trans %}site_title{% endtrans %}</title>
+            <title>{% trans %}site_title_abbreviation{% endtrans %} | {% trans %}site_title{% endtrans %}</title>
         {% endblock %}
         <meta name="description" 
             content="{% trans %}site_description{% endtrans %}">
@@ -23,7 +23,7 @@
     <body>
         <nav class="top-bar">
             <ul class="title-area">
-                <li class="name"><h1><a href="/">{% trans %}site_title{% endtrans %}</a></h1></li>
+                <li class="name"><h1><a href="/">{% trans %}site_title_abbreviation{% endtrans %}</a></h1></li>
             </ul>
             <section class="top-bar-section">
                 <ul class="right">
@@ -33,6 +33,7 @@
                     {% if lng != 'EN'%}
                         <li><a href="http://domainanonymousproxy.com">EN</a></li>
                     {% endif %}
+                    <li><img src="/images/lang.png"/></li>
                 </ul>
             </section>
         </nav>

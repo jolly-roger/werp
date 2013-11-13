@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-05 16:14+0200\n"
+"POT-Creation-Date: 2013-11-13 11:48+0200\n"
 "PO-Revision-Date: 2013-10-31 14:44+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru_RU <LL@li.org>\n"
@@ -21,17 +21,22 @@ msgstr ""
 
 #: ../templates/base.html:17
 msgid "site_title"
-msgstr "Анонимный Прокси Домена"
+msgstr "Проверка доступности домена (URL) через анонимных прокси"
 
 #: ../templates/base.html:20
 msgid "site_description"
-msgstr "Проверьте доступность домена или url через анонимный прокси"
+msgstr "Проверьте доступность домена (url) через анонимные прокси"
 
 #: ../templates/base.html:21
 msgid "site_keywords"
 msgstr ""
-"проверять check доступность access домен domain url анонимный anonymous "
-"прокси proxy"
+"проверять check доступность accessibility домен domain url анонимные anonymous "
+"прокси proxies"
+
+#: ../templates/base.html:26
+#, fuzzy
+msgid "site_title_abbreviation"
+msgstr "DAP"
 
 #: ../templates/js/script.js:9
 #, fuzzy
@@ -42,7 +47,7 @@ msgstr "доступен"
 msgid "unaccessible_label"
 msgstr "недоступен"
 
-#: ../templates/js/script.js:30
+#: ../templates/js/script.js:42
 #, fuzzy
 msgid "checking_label"
 msgstr "проверяется"

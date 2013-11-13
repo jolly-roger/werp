@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-11-05 16:14+0200\n"
+"POT-Creation-Date: 2013-11-13 11:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,10 @@ msgstr ""
 msgid "site_keywords"
 msgstr ""
 
+#: ../templates/base.html:26
+msgid "site_title_abbreviation"
+msgstr ""
+
 #: ../templates/js/script.js:9
 msgid "accessible_label"
 msgstr ""
@@ -37,7 +41,7 @@ msgstr ""
 msgid "unaccessible_label"
 msgstr ""
 
-#: ../templates/js/script.js:30
+#: ../templates/js/script.js:42
 msgid "checking_label"
 msgstr ""
 
