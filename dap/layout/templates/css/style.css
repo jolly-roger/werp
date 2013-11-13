@@ -32,6 +32,3 @@ table#container_proxies{
 .container{
     margin-top: 30px;
 }
-.lang_selector:after{
-    content: none;
-}
