@@ -33,6 +33,7 @@ table#container_proxies{
     margin-top: 30px;
 }
 .lang_title > a:before{
-    content: "*";
+    content: "";
+    width: 11px;
     background-image: url(/images/lang.png);
 }
