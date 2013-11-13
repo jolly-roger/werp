@@ -46,6 +46,9 @@ table#container_proxies{
     line-height: 45px;
     padding: 0 15px;
 }
+.lang_menu > a:hover{
+    background: none repeat scroll 0 0 #000000;
+}
 @media only screen and (min-width: 940px) {
     .lang_menu {
         display: none;
