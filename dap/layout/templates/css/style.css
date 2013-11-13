@@ -34,5 +34,4 @@ table#container_proxies{
 }
 .lang_selector:after{
     content: none;
-    border: none;
 }
