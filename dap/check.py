@@ -18,7 +18,7 @@ red = redis.StrictRedis(unix_socket_path=sockets.redis)
 
 class check(object):
     @cherrypy.expose
-    def index(self, domain=None):
+    def default(self, domain=None):
         lng = get_lng()
         ses_key = session.create()
         proxies = []
