@@ -118,12 +118,16 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 		raw_ua_s_titles = ua_dom_tree.xpath(xts)
 		s_count = len(raw_ua_s_titles)
 		default_raw_s_titles = raw_ua_s_titles
+	else:
+		bot.logger.error('link_to_station: southwest ua_dom_tree is None\r\n')
 	if ru_dom_tree is not None:
 		raw_ru_s_titles = ru_dom_tree.xpath(xts)
 		if s_count is None:
 			s_count = len(raw_ru_s_titles)
 		if default_raw_s_titles is None:
 			default_raw_s_titles = raw_ru_s_titles
+	else:
+		bot.logger.error('link_to_station: southwest ru_dom_tree is None\r\n')
 	try:
 		if en_dom_tree is not None:
 			raw_en_s_titles = en_dom_tree.xpath(xts)
@@ -176,6 +180,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 									bot.logger.error('sid parse error\r\n' +\
 										'raw sid: ' + str(raw_sid_qs.query) + '\r\n\r\n' +\
 										traceback.format_exc())
+				else:
+					if raw_ua_s_titles is None:
+						bot.logger.error('link_to_station: southwest raw_ua_s_titles is None\r\n')
+					elif len(raw_ru_s_titles) == 0:
+						bot.logger.error('link_to_station: southwest len raw_ua_s_titles is 0\r\n')
+					else:
+						bot.logger.error('link_to_station: southwest raw_ua_s_titles is incorrect\r\n')
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 4:
@@ -189,6 +200,13 @@ def link_to_station(ua_dom_tree, ru_dom_tree, en_dom_tree, t, ses):
 							ru_s_title = ru_s_title.replace('пл.', '').strip()
 						elif ru_s_title.startswith('ст.'):
 							ru_s_title = ru_s_title.replace('ст.', '').strip()
+				else:
+					if raw_ru_s_titles is None:
+						bot.logger.error('link_to_station: southwest raw_ru_s_titles is None\r\n')
+					elif len(raw_ru_s_titles) == 0:
+						bot.logger.error('link_to_station: southwest len raw_ru_s_titles is 0\r\n')
+					else:
+						bot.logger.error('link_to_station: southwest raw_ru_s_titles is incorrect\r\n')
 				if raw_en_s_titles is not None and len(raw_en_s_titles) > 0 and i < len(raw_en_s_titles):
 					raw_en_s_title = raw_en_s_titles[i]
 					if len(raw_en_s_title) >= 4:
