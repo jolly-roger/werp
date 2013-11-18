@@ -19,10 +19,10 @@ class dap(object):
         return layout.getCss()
     
     @cherrypy.expose
-    def js(self):
+    def js(self, page=None):
         lng = common.get_lng()
         cherrypy.response.headers['Content-Type'] = "text/javascript"
-        return layout.getJS(lng)
+        return layout.getJS(page, lng)
 
 def wsgi():
     tree = cherrypy._cptree.Tree()

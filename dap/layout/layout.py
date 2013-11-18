@@ -15,9 +15,9 @@ def getCss(lng='EN'):
     tmpl = getenv(lng).get_template("css/style.css")
     return tmpl.render()
 
-def getJS(lng='EN'):
+def getJS(page, lng='EN'):
     tmpl = getenv(lng).get_template("js/script.js")
-    return tmpl.render()
+    return tmpl.render(page=page)
 
 def getHome(lng='EN'):
     tmpl = getenv(lng).get_template("pages/home.html")
