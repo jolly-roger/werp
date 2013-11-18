@@ -2,7 +2,7 @@ import traceback
 import cherrypy
 
 from . import layout
-#from . import check
+from . import check
 
 class dap(object):
     #check = check.check()
