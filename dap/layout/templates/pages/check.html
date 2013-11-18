@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+	<div class="row">
+		<div class="small-uncentered small-12 large-6 large-centered columns" style="padding-left: 0; padding-right: 0;">
+			<div class="row collapse">
+				<div class="small-3 large-3 columns">
+					<span class="prefix">http://</span>
+				</div>
+				<div class="small-6 large-6 columns">
+					<input id="domain_value" type="text" name="domain" 
+						placeholder="{% trans %}domain_value_placeholder{% endtrans %}">
+				</div>
+				<div class="small-3 large-3 columns">
+					<button id="check_proxies_btn" type="button" class="button prefix check_button" >{% trans %}check_btn{% endtrans %}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-uncentered small-12 large-6 large-centered columns" style="text-align: center;">
+			<h3>{% trans %}proxies_tbl_title{% endtrans %}</h3></div>
+	</div>
+	<div class="row">
+		<div class="small-uncentered small-12 large-6 large-centered columns" style="padding-left: 0; padding-right: 0;">
+			<table id="container_proxies">
+				<thead>
+					<tr>
+						<th class="ip_address_title">{% trans %}ip_address_title{% endtrans %}</th>
+						<th class="port_title">{% trans %}port_title{% endtrans %}</th>
+						<th class="status_title">{% trans %}status_title{% endtrans %}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for proxy in proxies %}
+					<tr>
+						<td>{{proxy['ip']}}</td>
+						<td valign="middle">{{proxy['port']}}</td>
+						<td id="proxy_status_{{proxy['id']}}">
+							<span class="round label unchecked_status">{% trans %}unchecked_label{% endtrans %}</span>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var ses_key = '{{ses_key}}';
+		var jproxies = '{{jproxies}}';
+		var proxies = eval(jproxies);
+	</script>
+{% endblock %}
