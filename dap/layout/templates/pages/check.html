@@ -1,22 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="row">
-		<div class="small-uncentered small-12 large-6 large-centered columns" style="padding-left: 0; padding-right: 0;">
-			<div class="row collapse">
-				<div class="small-3 large-3 columns">
-					<span class="prefix">http://</span>
-				</div>
-				<div class="small-6 large-6 columns">
-					<input id="domain_value" type="text" name="domain" 
-						placeholder="{% trans %}domain_value_placeholder{% endtrans %}">
-				</div>
-				<div class="small-3 large-3 columns">
-					<button id="check_proxies_btn" type="button" class="button prefix check_button" >{% trans %}check_btn{% endtrans %}</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
 		<div class="small-uncentered small-12 large-6 large-centered columns" style="text-align: center;">
 			<h3>{% trans %}proxies_tbl_title{% endtrans %}</h3></div>
 	</div>
@@ -45,6 +29,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var domain = '{{domain}}';
 		var ses_key = '{{ses_key}}';
 		var jproxies = '{{jproxies}}';
 		var proxies = eval(jproxies);

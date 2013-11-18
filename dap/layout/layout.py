@@ -23,9 +23,9 @@ def getHome(lng='EN'):
     tmpl = getenv(lng).get_template("pages/home.html")
     return tmpl.render(lng=lng)
 
-def getCheck(ses_key, proxies, jproxies, lng='EN'):
+def getCheck(domain, ses_key, proxies, jproxies, lng='EN'):
     tmpl = getenv(lng).get_template("pages/check.html")
-    return tmpl.render(ses_key=ses_key, proxies=proxies, jproxies=jproxies, lng=lng)
+    return tmpl.render(domain=domain, ses_key=ses_key, proxies=proxies, jproxies=jproxies, lng=lng)
 
 trans_ru_RU = gettext.translation('messages', languages=['ru_RU'], localedir=config['global']['layout.trans'])
 trans_en_US = gettext.translation('messages', languages=['en_US'], localedir=config['global']['layout.trans'])
