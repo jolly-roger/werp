@@ -21,7 +21,7 @@ $(function(){
         });
     }
     
-    {% include home.js %}
+    {% include 'home.js' %}
     
     //$('#check_proxies_btn').click(function(){
     //    is_valid = true;
