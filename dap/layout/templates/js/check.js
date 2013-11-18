@@ -19,7 +19,7 @@ function get_accessibility(){
     });
 }
 
-$.post('/run', {ses_key: ses_key, domain: domain_value, jproxies: jproxies}, function(data){
+$.post('/run', {ses_key: ses_key, domain: domain, jproxies: jproxies}, function(data){
     for (var i in proxies) {
         proxy_status_td = $('#' + proxy_status_prefix + proxies[i]['id']);
         proxy_status_td.
