@@ -37,20 +37,20 @@ class check(object):
         if ses_key is not None and ses_key != '' and session.exists(ses_key):
             rnd_base_proxies = []
             if domain is not None and domain != '' and jproxies is not None and jproxies != '':
-                domain = 'http://' + domain
+                domain_value = 'http://' + domain
                 proxies = json.loads(jproxies)
-                if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain):
-                    red.delete(red_keys.froxly_url_free_proxy_finish_prefix + domain)
-                if len(proxies) >= 10 and not red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain):
+                if red.exists(red_keys.froxly_url_free_proxy_finish_prefix + domain_value):
+                    red.delete(red_keys.froxly_url_free_proxy_finish_prefix + domain_value)
+                if len(proxies) >= 10 and not red.exists(red_keys.froxly_url_free_proxy_to_check_prefix + domain_value):
                     for proxy in proxies:
                         sproxy = data_server_common.jproxy2sproxy(proxy)
-                        red.sadd(red_keys.froxly_url_free_proxy_to_check_prefix + domain, sproxy)
+                        red.sadd(red_keys.froxly_url_free_proxy_to_check_prefix + domain_value, sproxy)
                 ctx = zmq.Context()
                 froxly_data_server_socket = ctx.socket(zmq.REQ)
                 froxly_data_server_socket.connect(sockets.froxly_data_server)
                 froxly_data_server_socket.send_unicode(json.dumps({'method': 'list_for_url', 'params':
-                    {'url': domain, 'worker_pool': 10,
-                        'to_check_key': red_keys.froxly_url_free_proxy_to_check_prefix + domain}}))
+                    {'url': domain_value, 'worker_pool': 10,
+                        'to_check_key': red_keys.froxly_url_free_proxy_to_check_prefix + domain_value}}))
                 froxly_data_server_socket.recv_unicode()
         return layout.getCheck(domain, ses_key, proxies, jproxies, lng)
     
