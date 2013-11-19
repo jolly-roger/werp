@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block headerContent %}
+<title>Пеший туризм | Украинская сторонка</title>
+{% endblock %}
+
+
+{% block bodyStyles %}archive category category-towns category-20 single-author two-column right-sidebar{% endblock %}
+
+{% block mainContent %}
+	<div id="main">
+		<section id="primary">
+			<div>
+
+			
+				<header class="page-header">
+					<h1 class="page-title"><span>Пеший туризм</span></h1>
+				</header>
+    
+    
+    <article class="post type-post status-publish format-standard hentry">
+		<h3>
+			<a href="{{ getUrlByAlias('list-of-goods-of-my-first-trakking') }}"
+			   title="Permalink to Список вещей моего первого похода" 
+			   rel="bookmark">Список вещей моего первого похода</a></h2>
+		<p>{{getAticleDescByAlias('list-of-goods-of-my-first-trakking')}}</p>
+		<p> <a href="{{ getUrlByAlias('list-of-goods-of-my-first-trakking') }}#more"
+			   class="more-link">{{continueReading}}<span class="meta-nav">→</span></a></p>	
+		<span class="cat-links">
+			<span class="entry-utility-prep entry-utility-prep-cat-links">{{ postedIn }}</span>
+			<a href="{{ getUrlByAlias('trakking') }}" title="View all posts in Пеший туризм"
+			   rel="category tag">Пеший туризм</a>
+		</span>
+	</article>
+
+				
+				
+			
+			</div><!-- #content -->
+		</section><!-- #primary -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+							<aside class="widget">
+
+				</aside>
+		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+</div><!-- #page -->
+</body>
+{% endblock %}

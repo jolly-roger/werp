@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% from "macroses/nav.macro" import nav as nav%}
+{% from "macroses/footer.macro" import footer as footer%}
+
+
+{% block headerContent %}
+<title>Расписание пригородных поездов Одесского региона | Украинская сторонка</title>
+<link rel="prev" title="Поездка в Ольвию" href="{{ getUrlByAlias('trip-to-olbia') }}">
+<link rel="next" title="Один день в Одессе" href="{{ getUrlByAlias('one-day-in-odessa') }}">
+<link rel="canonical" href="{{ getUrlByAlias('odessa-region-trains-timetable') }}">
+{% endblock %}
+
+
+{% block bodyStyles %}single single-post postid-93 single-format-standard single-author singular two-column right-sidebar{% endblock%}
+
+{% block mainContent %}
+	<div id="main">
+		<div id="primary">
+			<div>
+				{{ nav('odessa-region-trains-timetable', 'trip-to-olbia', 'one-day-in-odessa') }}
+
+				<article class="post type-post status-publish format-standard hentry">
+					<h3>Расписание пригородных поездов Одесского региона</h2>
+					{{getRailwayTimetable(0)}}
+					{{footer('odessa-region-trains-timetable')}}
+				</article><!-- #post-93 -->
+			</div><!-- #content -->
+		</div><!-- #primary -->
+	</div><!-- #main -->
+</div><!-- #page -->
+</body>
+{% endblock %}

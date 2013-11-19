@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% from "macroses/header.macro" import header as header%}
+{% from "macroses/footer.macro" import footer as footer%}
+
+
+{% block mainContent %}
+	<div id="main">
+		<div id="primary">
+			<div>
+			{% for aticleAlias in getAticlesSeq() %}
+				<article class="post type-post status-publish format-standard hentry">
+					{{header(aticleAlias)}}
+						<p>{{getAticleDescByAlias(aticleAlias)}}</p>
+						<p>
+							<a href="{{ getUrlByAlias(aticleAlias) }}#more"
+								class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>
+						</p>
+					{{footer(aticleAlias)}}
+				</article>
+			{% endfor%}
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+			<aside class="widget">
+
+			</aside>
+		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+</div><!-- #page -->
+</body>
+{% endblock %}

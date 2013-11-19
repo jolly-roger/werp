@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block headerContent %}
+<title>Города | Украинская сторонка</title>
+{% endblock %}
+
+
+{% block bodyStyles %}archive category category-towns category-20 single-author two-column right-sidebar{% endblock %}
+
+{% block mainContent %}
+	<div id="main">
+		<section id="primary">
+			<div>
+
+			
+				<header class="page-header">
+					<h1 class="page-title"><span>Города</span></h1>
+
+									</header>
+
+				
+								
+					
+	<article class="post type-post status-publish format-standard hentry">
+		<h3><a href="{{ getUrlByAlias('one-day-in-odessa') }}" title="Permalink to Один день в Одессе" rel="bookmark">Один день в Одессе</a></h2>
+		<p>{{getAticleDescByAlias('one-day-in-odessa')}}</p>
+		<p> <a href="{{ getUrlByAlias('one-day-in-odessa') }}#more"
+			   class="more-link">{{continueReading}}<span class="meta-nav">→</span></a></p>
+		<span class="cat-links">
+			<span class="entry-utility-prep entry-utility-prep-cat-links">{{ postedIn }}</span>
+			<a href="{{ getUrlByAlias('towns') }}" title="View all posts in Города" rel="category tag">Города</a>
+		</span>
+	</article><!-- #post-73 -->
+
+				
+				
+			
+			</div><!-- #content -->
+		</section><!-- #primary -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+							<aside class="widget">
+
+				</aside>
+		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+</div><!-- #page -->
+</body>
+{% endblock %}

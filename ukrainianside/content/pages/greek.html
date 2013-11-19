@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% from "macroses/header.macro" import header as header%}
+{% from "macroses/footer.macro" import footer as footer%}
+
+
+{% block headerContent %}
+<title>Греческие | Украинская сторонка</title>
+{% endblock %}
+
+
+{% block bodyStyles %}archive category category-greek category-11 single-author two-column right-sidebar{% endblock %}
+
+{% block mainContent %}
+	<div id="main">
+		<section id="primary">
+			<div>
+
+			
+				<header class="page-header">
+					<h1 class="page-title"><span>Греческие</span></h1>
+
+									</header>
+
+	<article class="post type-post status-publish format-standard hentry">
+		{{header('visit-bilhorod-dnistrovskyi')}}
+			<p>{{getAticleDescByAlias('visit-bilhorod-dnistrovskyi')}}</p>
+			<p> <a href="{{ getUrlByAlias('visit-bilhorod-dnistrovskyi') }}#more"
+				   class="more-link">{{continueReading}}<span class="meta-nav">→</span></a></p>
+		{{footer('visit-bilhorod-dnistrovskyi')}}
+	</article>
+								
+					
+	<article class="post type-post status-publish format-standard hentry">
+		{{header('trip-to-olbia')}}
+			<p>{{getAticleDescByAlias('trip-to-olbia')}}</p>
+			<p> <a href="{{ getUrlByAlias('trip-to-olbia') }}#more"
+				   class="more-link">{{continueReading}}<span class="meta-nav">→</span></a></p>
+		{{footer('trip-to-olbia')}}
+	</article>
+
+				
+				
+			
+			</div><!-- #content -->
+		</section><!-- #primary -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+							<aside class="widget">
+
+				</aside>
+					</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+</div><!-- #page -->
+</body>
+{% endblock %}

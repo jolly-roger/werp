@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        
+        <meta name='yandex-verification' content='642ce14cc531b9fb' />
+        <script type="text/javascript" src="http://userapi.com/js/api/openapi.js?50"></script>
+        
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+
+        <script type="text/javascript" src="/content/js/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" media="all" href="/content/css/wp_style.css">
+        <link rel='stylesheet' href='/content/css/style.css'>
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
+        
+        {% block headerContent %}
+        <title>Украинская сторонка | Путешествия по Украине</title>
+        {% endblock %}
+    
+        <meta name="description" content="Блог о путешествиях по украине и о всём что им сопутствует">
+    </head>
+    <body class="{% block bodyStyles %}home blog single-author two-column right-sidebar{% endblock %}">
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-26548325-1']);
+            _gaq.push(['_setDomainName', 'ukrainianside.com']);
+            _gaq.push(['_setAllowLinker', true]);
+            _gaq.push(['_trackPageview']);
+            
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter17148058 = new Ya.Metrika({id:17148058, enableAll: true, webvisor:true});
+                } catch(e) { }
+            });
+            
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/17148058" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+        
+        <div id="fb-root"></div>
+        <script type="text/javascript">
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '257563244359753',
+              status     : true,
+              cookie     : true,
+              xfbml      : true,
+              //oauth      : true,
+            });
+          };
+        
+          (function(d){
+             var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement('script'); js.id = id; js.async = true;
+             js.src = "//connect.facebook.net/en_US/all.js";
+             ref.parentNode.insertBefore(js, ref);
+           }(document));
+        </script>
+        <script type="text/javascript">
+            jQuery(document).ready(function(){
+                VK.init({apiId: 3039427, onlyWidgets: true});
+            });
+        </script>
+        
+        <div class="container">
+            <div class='page-header' style='display: table-cell; border-bottom: none;'>
+                <a class="brand" href="/">
+                    <img src='http://picpuk.ru/pics/get/83.jpg' title='Украинская сторонка' alt='Украинская сторонка'/>
+                </a>
+                <div style='display: inline-block; margin-left: 20px;'>
+                    <p><h1>Украинская сторонка</h1></p>
+                    <small>Путешествия по Украине</small>
+                </div>
+            </div>
+            {% block mainContent %}
+            {% endblock %}
+        </div>
+</html>
