@@ -10,6 +10,9 @@
                     <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
                         target="_blank">Поделиться ВКонтакте</a> 
                 </td>
+                <td>
+                    <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}">Поделиться в Google+</a>
+                </td>
             </tr>
         </table>
     {% endif %}
