@@ -1,8 +1,5 @@
 {% macro social(aticleAlias) -%}
     {% if not currentUrl is none %}
-        {% set rand0 = randint(0, 99999) %}
-        {% set rand1 = randint(0, 99999) %}
-        {% set rand2 = randint(0, 99999) %}
         <table>
             <tr>
                 <td>
@@ -10,18 +7,8 @@
                         data-layout="button_count" data-width="50" data-show-faces="false"></div>
                 </td>
                 <td>
-                    <div id="vk-like-{{rand0}}-{{rand1}}-{{rand2}}"></div>
-                    <script type="text/javascript">
-                        jQuery(document).ready(function(){
-                            VK.Widgets.Like("vk-like-{{rand0}}-{{rand1}}-{{rand2}}", {
-                                type: "button",
-                                height: 20,
-                                pageUrl: "{{getUrlByAlias(aticleAlias)}}",
-                                pageTitle: "{{getNameByAlias(aticleAlias)}}",
-                                pageDescription: "{{getAticleDescByAlias(aticleAlias)}}",
-                            });
-                        });
-                    </script>    
+                    <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
+                        target="_blank">Поделиться ВКонтакте</a> 
                 </td>
             </tr>
         </table>
