@@ -61,7 +61,6 @@ def run(task_drv):
                     try_count = 0
                     ua_dom_tree = None
                     ru_dom_tree = None
-                    en_dom_tree = None
                     current_drv = None
                     parser = etree.HTMLParser()
                     if task.drv == task_drvs.southwest:
@@ -71,7 +70,6 @@ def run(task_drv):
                     while task.http_status <= 0 and try_count < TRY_COUNT:
                         ua_res = None
                         ru_res = None
-                        en_res = None
                         if ua_dom_tree is None:
                             ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                             ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset,
@@ -102,31 +100,15 @@ def run(task_drv):
                                     ru_dom_tree = None
                                     ru_res['result']['http_status'] = -3
                                     ru_res['result']['http_status_reason'] = str(e)
-                        if en_dom_tree is None:
-                            en_url = current_drv.en_url.replace('(tid)', str(task.data))
-                            en_req = {'method': 'request', 'params': {'url': en_url, 'charset': current_drv.charset,
-                                'timeout': REQ_TIMEOUT}}
-                            froxly_data_server_socket.send_unicode(json.dumps(en_req))
-                            en_res = json.loads(froxly_data_server_socket.recv_unicode())
-                            if 'http_status' in en_res['result'] and 'data' in en_res['result'] and \
-                                en_res['result']['http_status'] == 200:
-                                try:
-                                    en_dom_tree = etree.parse(io.StringIO(en_res['result']['data']), parser)
-                                except Exception as e:
-                                    en_res['result']['http_status'] = -3
-                                    en_res['result']['http_status_reason'] = str(e)
                         if ua_res is not None and 'http_status' in ua_res['result'] and ua_res['result']['http_status'] < 0:
                             task.http_status = ua_res['result']['http_status']
                             task.http_status_reason = ua_res['result']['http_status_reason']
                         if ru_res is not None and 'http_status' in ru_res['result'] and ru_res['result']['http_status'] < 0:
                             task.http_status = ru_res['result']['http_status']
                             task.http_status_reason = ru_res['result']['http_status_reason']
-                        if en_res is not None and 'http_status' in en_res['result'] and en_res['result']['http_status'] < 0:
-                            task.http_status = en_res['result']['http_status']
-                            task.http_status_reason = en_res['result']['http_status_reason']
                         try:
-                            if ua_dom_tree is not None and ru_dom_tree is not None and en_dom_tree is not None:
-                                drv.get_train_data(current_drv, int(task.data), ua_dom_tree, ru_dom_tree, en_dom_tree)
+                            if ua_dom_tree is not None and ru_dom_tree is not None:
+                                drv.get_train_data(current_drv, int(task.data), ua_dom_tree, ru_dom_tree)
                                 task.http_status = 200
                                 task.http_status_reason = None
                         except Exception as e:
