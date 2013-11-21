@@ -3,8 +3,8 @@
         <table>
             <tr>
                 <td>
-                    <div class="fb-like" data-href="{{getUrlByAlias(aticleAlias)}}" data-send="false"
-                        data-layout="button_count" data-width="50" data-show-faces="false"></div>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(aticleAlias)}}"
+                       target="_blank">Поделиться в Facebook</a>
                 </td>
                 <td>
                     <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
