@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Расписание пригородных поездов Одесского региона | Украинская сторонка</title>
-<link rel="prev" title="Поездка в Ольвию" href="{{ getUrlByAlias('trip-to-olbia') }}">
-<link rel="next" title="Один день в Одессе" href="{{ getUrlByAlias('one-day-in-odessa') }}">
 <link rel="canonical" href="{{ getUrlByAlias('odessa-region-trains-timetable') }}">
 {% endblock %}
 
@@ -18,12 +14,11 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('odessa-region-trains-timetable', 'trip-to-olbia', 'one-day-in-odessa') }}
+				{{social('odessa-region-trains-timetable')}}
 
 				<article class="post type-post status-publish format-standard hentry">
 					<h3>Расписание пригородных поездов Одесского региона</h2>
 					{{getRailwayTimetable(0)}}
-					{{footer('odessa-region-trains-timetable')}}
 				</article><!-- #post-93 -->
 			</div><!-- #content -->
 		</div><!-- #primary -->

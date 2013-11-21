@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Поездка в Ольвию | Украинская сторонка</title>
-<link rel="next" title="Расписание пригородных поездов Одесского региона" href="{{ getUrlByAlias('odessa-region-trains-timetable') }}">
 <link rel="canonical" href="{{ getUrlByAlias('trip-to-olbia') }}">
 {% endblock %}
 
@@ -17,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('trip-to-olbia', none, 'odessa-region-trains-timetable') }}
+				{{social('trip-to-olbia')}}
 				
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Поездка в Ольвию</h2>
@@ -119,7 +116,6 @@
 баковые улочки, поэтому простояв у дороги около двух часов решил бросить
  эту затею и дождаться автобуса.</p>
 <p>Вся обратная дорого до Херсона уже была простой и быстрой, и я вернулся полный впечатлений после небольшого путешествия <img src="/content/icons/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
-			{{footer('trip-to-olbia')}}
 </article><!-- #post-41 -->
 
 						<div id="comments">

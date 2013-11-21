@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Один день в Одессе | Украинская сторонка</title>
-<link rel="prev" title="Расписание пригородных поездов Одесского региона" href="{{ getUrlByAlias('odessa-region-trains-timetable') }}">
-<link rel="next" title="Национальный археологический заповедник “Ольвия”" href="{{ getUrlByAlias('national-archaeological-park-olbia') }}">
 <link rel="canonical" href="{{ getUrlByAlias('one-day-in-odessa') }}">
 {% endblock %}
 
@@ -18,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('one-day-in-odessa', 'odessa-region-trains-timetable', 'national-archaeological-park-olbia') }}
+				{{social('one-day-in-odessa')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Один день в Одессе</h2>
@@ -102,7 +98,6 @@
 проход в обход паспортного контроля.</p>
 <p>Ну и в конце на такси, домой и в кровать – спать.</p>
 <p>Поездка очень понравилась, так что в Одессу стоит ехать – даже на один день <img src="/content/icons/icon_smile.gif" alt=":)" class="wp-smiley"> </p>
-			{{footer('one-day-in-odessa')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

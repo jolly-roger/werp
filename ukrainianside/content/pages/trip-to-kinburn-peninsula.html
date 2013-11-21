@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Поездка на Кинбурнский полуостров | Украинская сторонка</title>
-<link rel="prev" title="Первый поход" href="{{ getUrlByAlias('first-trekking') }}">
 <link rel="canonical" href="{{ getUrlByAlias('trip-to-kinburn-peninsula') }}">
 {% endblock %}
 
@@ -17,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('trip-to-kinburn-peninsula', 'first-trekking', none) }}
+				{{social('trip-to-kinburn-peninsula')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Поездка на Кинбурнский полуостров</h3>
@@ -117,7 +114,6 @@
 		трав, мысли текут размеренно, и осознание того что я покидаю это дикое место ещё не наступило, оно придёт позже,
 		когда я буду переправляться обратно в Очаков, в битком набитом людьми баркасе, а пока что я наслаждаюсь
 		умиротворением и гармонией с самим собой, которые даёт это мест, и я обязательно ещё приеду сюда.</p>
-	{{footer('trip-to-kinburn-peninsula')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

@@ -1,15 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Чатыр-Даг яйла | Украинская сторонка</title>
-<link rel="next" title="Список вещей моего первого похода"
-	  href="{{ getUrlByAlias('list-of-goods-of-my-first-trakking') }}">
-<link rel="prev" title="НПосещение Белгорода-Днестровского"
-	  href="{{ getUrlByAlias('visit-bilhorod-dnistrovskyi') }}">
 <link rel="canonical" href="{{ getUrlByAlias('chatyr-dag-yayla') }}">
 {% endblock %}
 
@@ -20,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('chatyr-dag-yayla', 'visit-bilhorod-dnistrovskyi', 'list-of-goods-of-my-first-trakking') }}
+				{{social('chatyr-dag-yayla')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Чатыр-Даг яйла</h2>
@@ -138,7 +132,6 @@
 		<p>В специальной книге отзывов, находящейся на вершине горы, величественный Чатыр-Даг приветствуют туристы
 		Прибалтики и Камчатки, "робинзоны" с Кольского полуострова и Памира, студенты Варшавского университета,
 		афганские альпинисты, штурмовавшие вершину по отвесной стене.</p>
-	{{footer('chatyr-dag-yayla')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

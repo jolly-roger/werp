@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Первый поход | Украинская сторонка</title>
-<link rel="next" title="Поездка на Кинбурнский полуостров" href="{{ getUrlByAlias('trip-to-kinburn-peninsula') }}">
-<link rel="prev" title="Список вещей моего первого похода"
-      href="{{ getUrlByAlias('list-of-goods-of-my-first-trakking') }}">
 <link rel="canonical" href="{{ getUrlByAlias('first-trekking') }}">
 {% endblock %}
 
@@ -19,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('first-trekking', 'list-of-goods-of-my-first-trakking', 'trip-to-kinburn-peninsula') }}
+				{{social('first-trekking')}}
 <article class="post type-post status-publish format-standard hentry">
 	<h3>Первый поход</h3>
 	<p>Любовь к природе и активному отдыху, привели меня к мысли о горном туризме (треккинге),
@@ -153,7 +148,6 @@
 	<p>Уже по окончанию похода, меня посетила мысль о том, что не хочется покидать горы, о том, что ты провёл так мало
 	времени здесь, о том, что завтра ты вернёшься к цивилизации, и уже завтра не будет таких восхитительных видов,
 	подъемов и спусков, еды на костре…а уснул я с тем, что я обязательно ещё пойду в горы.</p>
-	{{footer('first-trekking')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

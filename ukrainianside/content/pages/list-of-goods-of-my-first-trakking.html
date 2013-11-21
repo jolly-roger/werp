@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Список вещей моего первого похода | Украинская сторонка</title>
-<link rel="prev" title="Чатыр-Даг яйла" href="{{ getUrlByAlias('chatyr-dag-yayla') }}">
-<link rel="next" title="Первый поход" href="{{ getUrlByAlias('first-trekking') }}">
 <link rel="canonical" href="{{ getUrlByAlias('list-of-goods-of-my-first-trakking') }}">
 {% endblock %}
 
@@ -18,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('list-of-goods-of-my-first-trakking', 'chatyr-dag-yayla', 'first-trekking') }}
+				{{social('list-of-goods-of-my-first-trakking')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Список вещей моего первого похода</h3>
@@ -89,7 +85,6 @@
 				</li>
             </ul>
         </p>
-			{{footer('list-of-goods-of-my-first-trakking')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

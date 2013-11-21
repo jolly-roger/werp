@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
 {% from "macroses/header.macro" import header as header%}
-{% from "macroses/footer.macro" import footer as footer%}
-
 
 {% block mainContent %}
 	<div id="main">
@@ -16,7 +14,6 @@
 							<a href="{{ getUrlByAlias(aticleAlias) }}#more"
 								class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>
 						</p>
-					{{footer(aticleAlias)}}
 				</article>
 			{% endfor%}
 			</div><!-- #content -->

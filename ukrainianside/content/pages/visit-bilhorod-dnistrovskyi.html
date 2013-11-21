@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Посещение Белгорода-Днестровского | Украинская сторонка</title>
-<link rel="next" title="Чатыр-Даг яйла" href="{{ getUrlByAlias('chatyr-dag-yayla') }}">
-<link rel="prev" title="Национальный археологический заповедник “Ольвия”"
-      href="{{ getUrlByAlias('national-archaeological-park-olbia') }}">
 <link rel="canonical" href="{{ getUrlByAlias('visit-bilhorod-dnistrovskyi') }}">
 {% endblock %}
 
@@ -19,8 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('visit-bilhorod-dnistrovskyi', 'national-archaeological-park-olbia',
-                    'chatyr-dag-yayla') }}
+				{{social('visit-bilhorod-dnistrovskyi')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Посещение Белгорода-Днестровского</h2>
@@ -82,7 +76,6 @@
         что крепость построена на развалинах древнего города, возможно что даже из его камня.</p>
         <p>Ну что же, вдоволь нагулявшись, пора и в обратный путь, а он то не близкий, но жажда впечатлений стоит того
         что бы изнурять себя дорогой.</p>
-	{{footer('visit-bilhorod-dnistrovskyi')}}
 </article><!-- #post-73 -->
 				
 			</div><!-- #content -->

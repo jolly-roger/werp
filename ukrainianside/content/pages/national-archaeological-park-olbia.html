@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 
-{% from "macroses/nav.macro" import nav as nav%}
-{% from "macroses/footer.macro" import footer as footer%}
-
+{% from "macroses/social.macro" import social as social%}
 
 {% block headerContent %}
 <title>Национальный археологический заповедник “Ольвия” | Украинская сторонка</title>
-<link rel="prev" title="Один день в Одессе" href="{{ getUrlByAlias('one-day-in-odessa') }}">
-<link rel="next" title="Поездка на Кинбурнский полуостров"
-	  href="{{ getUrlByAlias('visit-bilhorod-dnistrovskyi') }}">
 <link rel="canonical" href="{{ getUrlByAlias('national-archaeological-park-olbia') }}">
 {% endblock %}
 
@@ -19,7 +14,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{ nav('national-archaeological-park-olbia', 'one-day-in-odessa', 'visit-bilhorod-dnistrovskyi') }}
+				{{social('national-archaeological-park-olbia')}}
 
 <article class="post type-post status-publish format-standard hentry">
 		<h3>Национальный археологический заповедник “Ольвия”</h2>
@@ -78,7 +73,6 @@
  к России. Систематические раскопки тут проводятся с начала XX столетия.
  Материалы с раскопок Ольвии хранятся в Эрметаже, многих музеях Украины,
  России, Западной Европы и Америки.</p>
-			{{footer('national-archaeological-park-olbia')}}
 </article><!-- #post-157 -->
 				
 			</div><!-- #content -->
