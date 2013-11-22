@@ -27,7 +27,7 @@ class ukrainianside(object):
         utitle = title.encode('latin-1').decode('utf8').replace('+', ' ')
         if utitle is not None:
             alias = engine.article.getAliasByTitle(utitle)
-            return layout.getAticle(alias)
+            return layout.getAticle(utitle, alias)
         return layout.getHome()
     
     @cherrypy.expose

@@ -26,9 +26,9 @@ def getCategory(categoryName):
     tmpl = getenv().get_template("pages/" + categoryName + ".html")
     return tmpl.render()
 
-def getAticle(aticleName):
+def getAticle(articleTitle, aticleName):
     tmpl = getenv().get_template("pages/" + aticleName + ".html")
-    return tmpl.render(articleAlias=aticleName)
+    return tmpl.render(articleTitle=articleTitle, articleAlias=aticleName)
 
 def getIndex():
     return getHome()
