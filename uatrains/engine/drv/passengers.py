@@ -141,11 +141,17 @@ def link_to_station(ua_dom_tree, ru_dom_tree, t, ses):
 										traceback.format_exc())
 				else:
 					if raw_ua_s_titles is None:
-						bot.logger.error('link_to_station: passengers raw_ua_s_titles is None\r\n')
+						bot.logger.error('link_to_station: passengers raw_ua_s_titles is None\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 					elif len(raw_ua_s_titles) == 0:
-						bot.logger.error('link_to_station: passengers len raw_ua_s_titles is 0\r\n')
+						bot.logger.error('link_to_station: passengers len raw_ua_s_titles is 0\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 					else:
-						bot.logger.error('link_to_station: passengers raw_ua_s_titles is incorrect\r\n')
+						bot.logger.error('link_to_station: passengers raw_ua_s_titles is incorrect\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 				if raw_ru_s_titles is not None and len(raw_ru_s_titles) > 0 and i < len(raw_ru_s_titles):
 					raw_ru_s_title = raw_ru_s_titles[i]
 					if len(raw_ru_s_title) >= 3:
@@ -156,11 +162,17 @@ def link_to_station(ua_dom_tree, ru_dom_tree, t, ses):
 									break
 				else:
 					if raw_ru_s_titles is None:
-						bot.logger.error('link_to_station: passengers raw_ru_s_titles is None\r\n')
+						bot.logger.error('link_to_station: passengers raw_ru_s_titles is None\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 					elif len(raw_ru_s_titles) == 0:
-						bot.logger.error('link_to_station: passengers len raw_ru_s_titles is 0\r\n')
+						bot.logger.error('link_to_station: passengers len raw_ru_s_titles is 0\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 					else:
-						bot.logger.error('link_to_station: passengers raw_ru_s_titles is incorrect\r\n')
+						bot.logger.error('link_to_station: passengers raw_ru_s_titles is incorrect\r\n' +\
+							'tid: ' + str(t.oid) + '\r\n' +\
+							'sid: ' + str(sid) + '\r\n')
 				e = orm.uatrains.E(etype.station, value, sid, ua_s_title, ru_s_title, en_s_title)
 				if e is not None:
 					if common.is_not_empty(e):
