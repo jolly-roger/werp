@@ -3,6 +3,7 @@ import json
 import os.path
 import urllib.request
 import urllib.parse
+import traceback
 
 from werp import nlog
 from . import layout
@@ -25,8 +26,11 @@ class ukrainianside(object):
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
         if title is not None:
-
-            nlog.info('Ukrainianside error', str(title))
+            
+            try:
+                nlog.info('Ukrainianside error', str(title))
+            except:
+                nlog.info('Ukrainianside error', traceback.format_exc())
             
             alias = engine.article.getAliasByTitle(title)
             isexist = False
