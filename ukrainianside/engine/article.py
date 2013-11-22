@@ -13,7 +13,7 @@ def getUrlByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return urllib.parse.quote('http://ukrainianside.com/' + a.title)
+            return 'http://ukrainianside.com/' + urllib.parse.quote(a.title)
     return ''
 def getTitleByAlias(alias):
     articles = getAll()
