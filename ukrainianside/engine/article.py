@@ -30,8 +30,8 @@ def getAticleDescByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return a.order
-    return 0
+            return a.description
+    return ''
 def getAticlesSeq():
     articles = getAll()
     ordered_aliases = []
