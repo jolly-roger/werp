@@ -25,6 +25,9 @@ class ukrainianside(object):
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
         if title is not None:
+            return title
+            
+            
             alias = engine.article.getAliasByTitle(title)
             isexist = False
             if engine.article.isExist(title, articles): isexist = True
