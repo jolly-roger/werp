@@ -1,6 +1,2 @@
 {% macro footer(aticleAlias) -%}
-	{{ postedIn }}
-	<a href="{{getUrlByAlias(getCategoryAliasByAticleAlias(aticleAlias))}}"
-		title="Просмотреть все заметки в {{getNameByAlias(getCategoryAliasByAticleAlias(aticleAlias))}}"
-		rel="category tag">{{getNameByAlias(getCategoryAliasByAticleAlias(aticleAlias))}}</a>
 {%- endmacro %}

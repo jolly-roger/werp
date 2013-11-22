@@ -4,11 +4,9 @@ import urllib.request
 import urllib.parse
 from jinja2 import Environment, FileSystemLoader
 
-from .. import data
-
+from .. import engine
 
 env = None
-
 
 def getenv():
     global env
@@ -16,14 +14,11 @@ def getenv():
     if env is None:
         env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/" + \
             "content"))
-        env.globals["postedIn"] = "Опубликована в "
         env.globals["continueReading"] = "Читать далее "
-        env.globals["getUrlByAlias"] = data.urls.getUrlByAlias
-        env.globals["getNameByAlias"] = data.names.getNameByAlias
-        env.globals["randint"] = random.randint
-        env.globals["getAticleDescByAlias"] = data.descs.getAticleDescByAlias
-        env.globals["getCategoryAliasByAticleAlias"] = data.categories.getCategoryAliasByAticleAlias
-        env.globals["getAticlesSeq"] = data.seq.getAticlesSeq
+        env.globals["getUrlByAlias"] = engine.article.getUrlByAlias
+        env.globals["getNameByAlias"] = engine.article.getNameByAlias
+        env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
+        env.globals["getAticlesSeq"] = engine.article.getAticlesSeq
         env.globals['getRailwayTimetable'] = getRailwayTimetable
     return env
 
