@@ -12,8 +12,7 @@ def getenv():
     global env
     
     if env is None:
-        env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/" + \
-            "content"))
+        env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/layout/templates"))
         env.globals["continueReading"] = "Читать далее "
         env.globals["getUrlByAlias"] = engine.article.getUrlByAlias
         env.globals["getNameByAlias"] = engine.article.getNameByAlias
@@ -35,6 +34,10 @@ def getIndex():
     
 def getHome():
     tmpl = getenv().get_template("pages/home.html")
+    return tmpl.render()
+
+def getCss(lng='EN'):
+    tmpl = getenv().get_template("css/style.css")
     return tmpl.render()
 
 

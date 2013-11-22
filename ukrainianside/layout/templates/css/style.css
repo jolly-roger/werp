@@ -1,3 +1,5 @@
+{% include 'css/wp_style.css' %}
+
 #site-title a {
 	color: #111111;
 	line-height: 36px;
