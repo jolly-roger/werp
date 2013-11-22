@@ -27,6 +27,9 @@ class ukrainianside(object):
         utitle = title.encode('latin-1').decode('utf8')
         if utitle is not None:
             alias = engine.article.getAliasByTitle(utitle)
+            
+            return alias
+            
             isexist = False
             if engine.article.isExist(utitle, articles): isexist = True
             else: isexist = False
