@@ -6,8 +6,7 @@ import urllib.parse
 
 
 from .content import layout
-from .data import aliases
-
+from . import engine
 from . import sitemap
 
 
@@ -24,18 +23,18 @@ class ukrainianside(object):
     
     @cherrypy.expose
     def default(self, year = None, category = None, subcategory = None, title = None, *args, **kwargs):
-        als = aliases.getAll()
+        articles = engine.article.getAll()
         
         isexist = False
         
         if category is not None:
-            if aliases.isExist(category, als): isexist = True
+            if engine.article.isExist(category, articles): isexist = True
             else: isexist = False
         if subcategory is not None:
-            if aliases.isExist(subcategory, als): isexist = True
+            if engine.article.isExist(subcategory, articles): isexist = True
             else: isexist = False
         if title is not None:
-            if aliases.isExist(title, als): isexist = True
+            if engine.article.isExist(title, articles): isexist = True
             else: isexist = False
 
         if isexist:

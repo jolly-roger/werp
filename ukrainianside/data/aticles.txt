@@ -1,0 +1,8 @@
+select n.value, u.value, s.value, d.value from relation as r inner join names as n on r.name_id = n.id inner join urls as u on r.url_id = u.id inner join aliases as a on r.alias_id = a.id inner join aticles as at on a.id = at.alias_id inner join seq as s on at.id = s.aticle_id inner join descs as d on at.desc_id = d.id;
+
+
+
+
+
+
+
