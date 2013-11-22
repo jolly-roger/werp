@@ -30,7 +30,7 @@ class ukrainianside(object):
             try:
                 nlog.info('Ukrainianside error', str(title))
             except:
-                nlog.info('Ukrainianside error', traceback.format_exc())
+                nlog.info('Ukrainianside error', 'Yo!!!')
             
             alias = engine.article.getAliasByTitle(title)
             isexist = False
