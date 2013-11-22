@@ -62,7 +62,7 @@ def error_page_default(status, message, traceback, version):
 def wsgi():
     tree = cherrypy._cptree.Tree()
     app = tree.mount(ukrainianside())
-    app.config.update({'/': {'error_page.default': error_page_default, 'tools.encode.on': True,
-        'tools.encode.encoding': 'utf-8'}})
+    app.config.update({'/': {'error_page.default': error_page_default},
+        'tools.encode.on': True, 'tools.encode.encoding': 'utf-8'})
     cherrypy.log.screen = False
     return tree
