@@ -17,3 +17,4 @@ from sqlalchemy.orm import joinedload, joinedload_all, aliased, contains_eager
 from sqlalchemy.ext import serializer
 
 from . import uatrains
+from . import ukrainianside
