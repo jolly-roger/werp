@@ -1,6 +1,6 @@
 import datetime
 
-from .data import urls
+from . import engine
 
 
 def getSitemap():
@@ -16,11 +16,11 @@ def getSitemap():
                 "<priority>1.0</priority>" \
             "</url>"
     
-    allUrls = urls.getAll() 
+    aticles = engine.article.getAll() 
     
-    for url in allUrls:
+    for a in aticles:
         sitemap += "<url>" \
-                "<loc>" + url[0] + "</loc>" \
+                "<loc>" + 'http://ukrainianside.com/' + a.name + "</loc>" \
                 "<lastmod>" + now + "</lastmod>" \
                 "<changefreq>daily</changefreq>" \
                 "<priority>1.0</priority>" \
