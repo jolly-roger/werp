@@ -26,7 +26,7 @@ class ukrainianside(object):
         articles = engine.article.getAll()
         if title is not None:
             
-            nlog.info('Ukrainianside error', title + '\r\n' + urllib.parse.unquote(title))
+            nlog.info('Ukrainianside error', str(title) + '\r\n' + str(urllib.parse.unquote(title)))
             
             alias = engine.article.getAliasByTitle(title)
             isexist = False
