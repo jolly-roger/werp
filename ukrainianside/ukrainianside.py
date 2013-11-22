@@ -25,7 +25,7 @@ class ukrainianside(object):
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
         if title is not None:
-            return title
+            return urllib.parse.unquote(title)
             
             
             alias = engine.article.getAliasByTitle(title)
