@@ -15,7 +15,7 @@ def getenv():
         env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/layout/templates"))
         env.globals["continueReading"] = "Читать далее "
         env.globals["getUrlByAlias"] = engine.article.getUrlByAlias
-        env.globals["getNameByAlias"] = engine.article.getNameByAlias
+        env.globals["getTitleByAlias"] = engine.article.getTitleByAlias
         env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
         env.globals["getAticlesSeq"] = engine.article.getAticlesSeq
         env.globals['getRailwayTimetable'] = getRailwayTimetable

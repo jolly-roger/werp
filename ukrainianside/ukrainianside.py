@@ -22,36 +22,18 @@ class ukrainianside(object):
         return layout.getIndex()
     
     @cherrypy.expose
-    def default(self, year = None, category = None, subcategory = None, title = None, *args, **kwargs):
+    def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
-        
-        isexist = False
-        
-        if category is not None:
-            if engine.article.isExist(category, articles): isexist = True
-            else: isexist = False
-        if subcategory is not None:
-            if engine.article.isExist(subcategory, articles): isexist = True
-            else: isexist = False
         if title is not None:
+            alias = engine.article.getAliasByTitle(title)
+            isexist = False
             if engine.article.isExist(title, articles): isexist = True
             else: isexist = False
-
-        if isexist:
-            if year == 'category':
-                if title is not None:
-                    return layout.getCategory(title)
-                elif subcategory is not None:
-                    return layout.getCategory(subcategory)
-                elif category is not None:
-                    return layout.getCategory(category)
-            else:
-                if title is not None:
-                    return layout.getAticle(title)
-                elif subcategory is not None:
-                    return layout.getAticle(subcategory)
-        else:    
-            return layout.getHome()
+            if isexist:
+                return layout.getAticle(alias)
+            else:    
+                return layout.getHome()
+        return layout.getHome()
     
     @cherrypy.expose
     def css(self):

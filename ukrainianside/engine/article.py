@@ -18,13 +18,19 @@ def getUrlByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return 'http://ukrainianside.com/' + a.name
+            return 'http://ukrainianside.com/' + a.title
     return ''
-def getNameByAlias(alias):
+def getTitleByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return a.name
+            return a.title
+    return ''
+def getAliasByTitle(title):
+    articles = getAll()
+    for a in articles:
+        if a.title.lower() == title.lower():
+            return a.alias
     return ''
 def getAticleDescByAlias(alias):
     articles = getAll()

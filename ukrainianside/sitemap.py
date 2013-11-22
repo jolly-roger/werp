@@ -20,7 +20,7 @@ def getSitemap():
     
     for a in aticles:
         sitemap += "<url>" \
-                "<loc>" + 'http://ukrainianside.com/' + a.name + "</loc>" \
+                "<loc>" + 'http://ukrainianside.com/' + a.title + "</loc>" \
                 "<lastmod>" + now + "</lastmod>" \
                 "<changefreq>daily</changefreq>" \
                 "<priority>1.0</priority>" \

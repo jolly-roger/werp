@@ -12,7 +12,7 @@
                        target="_blank"><div class="social plus-share-btn"></div></a>
                 </td>
                 <td >
-                    <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
+                    <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getTitleByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
                         target="_blank"><div class="social vk-share-btn"></div></a> 
                 </td>
             </tr>
