@@ -24,7 +24,7 @@ class ukrainianside(object):
     @cherrypy.expose
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
-        utitle = title.encode('latin-1').decode('utf8')
+        utitle = title.encode('latin-1').decode('utf8').replace('+', ' ')
         if utitle is not None:
             alias = engine.article.getAliasByTitle(utitle)
             return layout.getAticle(alias)
