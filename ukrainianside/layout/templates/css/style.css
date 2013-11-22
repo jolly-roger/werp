@@ -26,6 +26,16 @@ h3 a:active {
 }
 .vk-share-btn{
 	background-image: url(/images/sns.png);
-	background-position: 0px -980px;
+	background-position: 0px -996px;
+	background-repeat: no-repeat;
+}
+.fb-share-btn{
+	background-image: url(/images/sns.png);
+	background-position: 0px -2570px;
+	background-repeat: no-repeat;
+}
+.plus-share-btn{
+	background-image: url(/images/sns.png);
+	background-position: 0px -2280px;
 	background-repeat: no-repeat;
 }

@@ -3,11 +3,11 @@
         <table class="social-share">
             <tr>
                 <td>Поделиться в </td>
-                <td class="social">
+                <td class="social fb-share-btn">
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(aticleAlias)}}"
                        target="_blank"><img src="/images/facebook.png" alt="Facebook" /></a>
                 </td>
-                <td class="social">
+                <td class="social plus-share-btn">
                     <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}"
                        target="_blank"><img src="/images/gplus.png" alt="Google+" /></a>
                 </td>
