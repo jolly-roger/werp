@@ -7,13 +7,6 @@ def getAll():
     ses.close()
     conn.close()
     return rawAliases
-def isExist(alias, articles = None):
-    if articles is None:
-        articles = getAll()
-    for a in articles:
-        if a.alias == alias:
-            return True
-    return False
 def getUrlByAlias(alias):
     articles = getAll()
     for a in articles:
