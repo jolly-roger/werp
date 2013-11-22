@@ -1,17 +1,17 @@
 {% macro social(aticleAlias) -%}
     {% if not currentUrl is none %}
-        <table>
+        <table class="social-share">
             <tr>
                 <td>Поделиться в </td>
-                <td>
+                <td class="social">
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(aticleAlias)}}"
                        target="_blank"><img src="/images/facebook.png" alt="Facebook" /></a>
                 </td>
-                <td>
+                <td class="social">
                     <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}"
                        target="_blank"><img src="/images/gplus.png" alt="Google+" /></a>
                 </td>
-                <td>
+                <td class="social vk-share-btn">
                     <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
                         target="_blank"><img src="/images/vk.png" alt="ВКонтакте" /></a> 
                 </td>
