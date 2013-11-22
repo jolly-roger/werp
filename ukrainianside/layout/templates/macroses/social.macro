@@ -8,7 +8,7 @@
                        target="_blank"><div class="social fb-share-btn"></div></a>
                 </td>
                 <td >
-                    <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}"
+                    <a href="https://plus.google.com/share?url={{getAliasUrlByAlias(aticleAlias)}}"
                        target="_blank"><div class="social plus-share-btn"></div></a>
                 </td>
                 <td >

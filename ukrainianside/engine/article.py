@@ -13,6 +13,8 @@ def getUrlByAlias(alias):
         if a.alias == alias:
             return 'http://ukrainianside.com/' + a.title.strip().replace(' ', '+')
     return ''
+def getAliasUrlByAlias(alias):
+    return 'http://ukrainianside.com/' + a.alias.strip().replace(' ', '+')
 def getTitleByAlias(alias):
     articles = getAll()
     for a in articles:
