@@ -3,16 +3,11 @@ import json
 import os.path
 import urllib.request
 import urllib.parse
-import traceback
 
-from werp import nlog
+
 from . import layout
 from . import engine
 from . import sitemap
-
-
-cherrypy.config["tools.encode.on"] = True
-cherrypy.config["tools.encode.encoding"] = "utf-8"
 
 
 class ukrainianside(object):
@@ -29,16 +24,11 @@ class ukrainianside(object):
     @cherrypy.expose
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
-        if title is not None:
-            return title
-            try:
-                nlog.info('Ukrainianside error', 'Yo!!!')
-            except:
-                nlog.info('Ukrainianside error', 'Yo!!!')
-            
-            alias = engine.article.getAliasByTitle(title)
+        utitle = title.encode('latin-1').decode('utf8')
+        if utitle is not None:
+            alias = engine.article.getAliasByTitle(utitle)
             isexist = False
-            if engine.article.isExist(title, articles): isexist = True
+            if engine.article.isExist(utitle, articles): isexist = True
             else: isexist = False
             if isexist:
                 return layout.getAticle(alias)
