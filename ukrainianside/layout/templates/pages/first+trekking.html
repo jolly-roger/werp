@@ -4,8 +4,8 @@
 
 {% block headerContent %}
 	<title>Первый поход | Украинская сторонка</title>
-	<link rel="canonical" href="{{ getUrlByAlias('first-trekking') }}">
-	<meta name="description" content="{{getAticleDescByAlias('first-trekking')}}">
+	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
+	<meta name="description" content="{{getAticleDescByAlias(articleAlias)}}">
 {% endblock %}
 
 
@@ -15,7 +15,7 @@
 	<div id="main">
 		<div id="primary">
 			<div>
-				{{social('first-trekking')}}
+				{{social(articleAlias)}}
 <article class="post type-post status-publish format-standard hentry">
 	<h3>Первый поход</h3>
 	<p>Любовь к природе и активному отдыху, привели меня к мысли о горном туризме (треккинге),
