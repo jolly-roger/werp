@@ -10,6 +10,7 @@ class Article(DBase):
     content = Column(String)
     order = Column(Integer, nullable=False)
     url = Column(String, nullable=False)
+    alias = Column(String, nullable=False)
     
     def __init__(self, name=None, description=None, content=None, order=None, url=None):
         self.name = name
@@ -17,3 +18,4 @@ class Article(DBase):
         self.content = content
         self.order = order
         self.url = url
+        self.alias = alias
