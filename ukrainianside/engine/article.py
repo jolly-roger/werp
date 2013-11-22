@@ -13,6 +13,12 @@ def getUrlByAlias(alias):
         if a.alias == alias:
             return 'http://ukrainianside.com/' + a.title
     return ''
+def getShareUrlByAlias(alias):
+    articles = getAll()
+    for a in articles:
+        if a.alias == alias:
+            return 'http://ukrainianside.com/' + a.alias
+    return ''
 def getTitleByAlias(alias):
     articles = getAll()
     for a in articles:

@@ -4,15 +4,15 @@
             <tr>
                 <td>Поделиться в </td>
                 <td>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(aticleAlias)}}"
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{getShareUrlByAlias(aticleAlias)}}"
                        target="_blank"><div class="social fb-share-btn"></div></a>
                 </td>
                 <td >
-                    <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}"
+                    <a href="https://plus.google.com/share?url={{getShareUrlByAlias(aticleAlias)}}"
                        target="_blank"><div class="social plus-share-btn"></div></a>
                 </td>
                 <td >
-                    <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getTitleByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
+                    <a href="http://vkontakte.ru/share.php?url={{getShareUrlByAlias(aticleAlias)}}&title={{getTitleByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
                         target="_blank"><div class="social vk-share-btn"></div></a> 
                 </td>
             </tr>
