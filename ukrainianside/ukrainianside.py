@@ -52,6 +52,11 @@ class ukrainianside(object):
                     return layout.getAticle(subcategory)
         else:    
             return layout.getHome()
+    
+    @cherrypy.expose
+    def css(self):
+        cherrypy.response.headers['Content-Type'] = "text/css"
+        return layout.getCss()
 
 
 def error_page_default(status, message, traceback, version):

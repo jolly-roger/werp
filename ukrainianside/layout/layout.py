@@ -36,7 +36,7 @@ def getHome():
     tmpl = getenv().get_template("pages/home.html")
     return tmpl.render()
 
-def getCss(lng='EN'):
+def getCss():
     tmpl = getenv().get_template("css/style.css")
     return tmpl.render()
 
