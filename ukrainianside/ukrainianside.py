@@ -23,9 +23,6 @@ class ukrainianside(object):
     
     @cherrypy.expose
     def default(self, title=None, *args, **kwargs):
-        
-        return str(cherrypy.Application.config)
-        
         articles = engine.article.getAll()
         utitle = title.encode('latin-1').decode('utf8')
         if utitle is not None:
