@@ -5,7 +5,7 @@ import urllib.request
 import urllib.parse
 
 
-from .content import layout
+from . import layout
 from . import engine
 from . import sitemap
 
