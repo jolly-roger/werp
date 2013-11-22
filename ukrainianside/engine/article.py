@@ -1,3 +1,5 @@
+import urllib.parse
+
 from werp import orm
 
 def getAll():
@@ -11,13 +13,7 @@ def getUrlByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return 'http://ukrainianside.com/' + a.title
-    return ''
-def getShareUrlByAlias(alias):
-    articles = getAll()
-    for a in articles:
-        if a.alias == alias:
-            return 'http://ukrainianside.com/' + a.alias
+            return urllib.parse.quote('http://ukrainianside.com/' + a.title)
     return ''
 def getTitleByAlias(alias):
     articles = getAll()

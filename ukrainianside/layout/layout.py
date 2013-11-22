@@ -14,7 +14,6 @@ def getenv():
     if env is None:
         env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/layout/templates"))
         env.globals["continueReading"] = "Читать далее "
-        env.globals["getShareUrlByAlias"] = engine.article.getShareUrlByAlias
         env.globals["getUrlByAlias"] = engine.article.getUrlByAlias
         env.globals["getTitleByAlias"] = engine.article.getTitleByAlias
         env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
