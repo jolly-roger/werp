@@ -32,13 +32,13 @@ h3 a:active {
 }
 .fb-share-btn{
 	background-image: url(/images/sns.png);
-	background-position: 0px -1204px;
+	background-position: 0px -1205px;
 	background-repeat: no-repeat;
 	background-size: 30px;
 }
 .plus-share-btn{
 	background-image: url(/images/sns.png);
-	background-position: 0px -1068px;
+	background-position: 0px -1069px;
 	background-repeat: no-repeat;
 	background-size: 30px;
 }
