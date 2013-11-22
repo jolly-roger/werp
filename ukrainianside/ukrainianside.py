@@ -4,7 +4,7 @@ import os.path
 import urllib.request
 import urllib.parse
 
-
+from werp import nlog
 from . import layout
 from . import engine
 from . import sitemap
@@ -25,8 +25,8 @@ class ukrainianside(object):
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
         if title is not None:
-            return urllib.parse.unquote(title)
             
+            nlog.info('Ukrainianside error', title + '\r\n' + urllib.parse.unquote(title))
             
             alias = engine.article.getAliasByTitle(title)
             isexist = False
