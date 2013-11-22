@@ -18,7 +18,7 @@ def getUrlByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return a.url
+            return 'http://ukrainianside.com/' + a.name
     return ''
 def getNameByAlias(alias):
     articles = getAll()
