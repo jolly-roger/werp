@@ -29,7 +29,7 @@ def getTitleByAlias(alias):
 def getAliasByTitle(title):
     articles = getAll()
     for a in articles:
-        if a.title.lower().trim() == title.lower().trim():
+        if a.title.lower().strip() == title.lower().strip():
             return a.alias
     return ''
 def getAticleDescByAlias(alias):
