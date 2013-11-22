@@ -20,9 +20,9 @@ h3 a:focus,
 h3 a:active {
 	color: #1982d1;
 }
-.social-share td.social{
-	width: 64px;
-	height: 64px;
+.social-share div.social{
+	width: 30px;
+	height: 30px;
 }
 .vk-share-btn{
 	background-image: url(/images/sns.png);

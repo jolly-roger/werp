@@ -3,17 +3,17 @@
         <table class="social-share">
             <tr>
                 <td>Поделиться в </td>
-                <td class="social fb-share-btn">
+                <td>
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(aticleAlias)}}"
-                       target="_blank"><img src="/images/facebook.png" alt="Facebook" /></a>
+                       target="_blank"><div class="social fb-share-btn"></div></a>
                 </td>
-                <td class="social plus-share-btn">
+                <td >
                     <a href="https://plus.google.com/share?url={{getUrlByAlias(aticleAlias)}}"
-                       target="_blank"><img src="/images/gplus.png" alt="Google+" /></a>
+                       target="_blank"><div class="social plus-share-btn"></div></a>
                 </td>
-                <td class="social vk-share-btn">
+                <td >
                     <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(aticleAlias)}}&title={{getNameByAlias(aticleAlias)}}&description={{getAticleDescByAlias(aticleAlias)}}&noparse=true"
-                        target="_blank"><img src="/images/vk.png" alt="ВКонтакте" /></a> 
+                        target="_blank"><div class="social vk-share-btn"></div></a> 
                 </td>
             </tr>
         </table>
