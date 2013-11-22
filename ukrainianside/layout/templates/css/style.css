@@ -26,6 +26,6 @@ h3 a:active {
 }
 .vk-share-btn{
 	background-image: url(/images/sns.png);
-	background-position: 0px, 200px;
+	background-position: 0px 200px;
 	background-repeat: no-repeat;
 }
