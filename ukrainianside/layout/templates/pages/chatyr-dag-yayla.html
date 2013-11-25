@@ -4,11 +4,11 @@
 
 {% block headerContent %}
 	<title>Чатыр-Даг яйла | Украинская сторонка</title>
-	<link rel="canonical" href="{{ getQuotedUrlByAlias(articleAlias) }}">
+	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
 	<meta name="title" content="{{articleTitle}}">
 	<meta name="description" content="{{getAticleDescByAlias(articleAlias)}}">
 	<meta content="ukrainianside" property="og:site_name">
-	<meta content="{{ getQuotedUrlByAlias(articleAlias) }}" property="og:url">
+	<meta content="{{ getUrlByAlias(articleAlias) }}" property="og:url">
 	<meta content="{{articleTitle}}" property="og:title">
 	<meta content="article" property="og:type">
 {% endblock %}
