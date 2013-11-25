@@ -1,21 +1,4 @@
-{% extends "base.html" %}
-
-{% from "macroses/social.macro" import social as social%}
-
-{% block headerContent %}
-	<title>Поездка на Кинбурнский полуостров | Украинская сторонка</title>
-	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
-	<meta name="title" content="{{articleTitle}}">
-	<meta name="description" content="{{getAticleDescByAlias(articleAlias)}}">
-	<meta content="ukrainianside" property="og:site_name">
-	<meta content="{{ getUrlByAlias(articleAlias) }}" property="og:url">
-	<meta content="{{articleTitle}}" property="og:title">
-	<meta content="article" property="og:type">
-	<meta property="og:description" content="{{getAticleDescByAlias(articleAlias)}}">
-{% endblock %}
-
-
-{% block bodyStyles %}single single-post postid-73 single-format-standard single-author singular two-column right-sidebar{% endblock %}
+{% extends "article.html" %}
 
 {% block mainContent %}
 	<div id="main">
