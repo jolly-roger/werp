@@ -1,4 +1,5 @@
 import urllib.parse
+import html
 
 from werp import orm
 
@@ -39,9 +40,14 @@ def getAticleDescByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            #return a.description
-            return 'ыовалыовалываолывоа'
-    return 'шйцщукшйцщукшцщушкщцушкщцушкуцщшк'
+            return a.description
+    return ''
+def getAticleEscapedDescByAlias(alias):
+    articles = getAll()
+    for a in articles:
+        if a.alias == alias:
+            return html.escape(a.description)
+    return ''
 def getAticlesSeq():
     articles = getAll()
     ordered_aliases = []
