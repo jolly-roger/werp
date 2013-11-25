@@ -16,6 +16,7 @@ def getenv():
         env.globals["continueReading"] = "Читать далее "
         env.globals["getUrlByAlias"] = engine.article.getUrlByAlias
         env.globals["getAliasUrlByAlias"] = engine.article.getAliasUrlByAlias
+        env.globals["getQuotedUrlByAlias"] = engine.article.getQuotedUrlByAlias
         env.globals["getTitleByAlias"] = engine.article.getTitleByAlias
         env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
         env.globals["getAticlesSeq"] = engine.article.getAticlesSeq
