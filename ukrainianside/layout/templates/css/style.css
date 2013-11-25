@@ -42,3 +42,9 @@ h3 a:active {
 	background-repeat: no-repeat;
 	background-size: 30px;
 }
+.od-share-btn{
+	background-image: url(/images/sns.png);
+	background-position: 0px -782px;
+	background-repeat: no-repeat;
+	background-size: 30px;
+}
