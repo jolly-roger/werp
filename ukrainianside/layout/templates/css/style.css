@@ -24,27 +24,23 @@ h3 a:active {
 	width: 30px;
 	height: 30px;
 }
-.vk-share-btn{
+.share-btn{
 	background-image: url(/images/sns.png);
-	background-position: 0px -467px;
 	background-repeat: no-repeat;
 	background-size: 30px;
+}
+.vk-share-btn{
+	background-position: 0px -467px;
 }
 .fb-share-btn{
-	background-image: url(/images/sns.png);
 	background-position: 0px -1205px;
-	background-repeat: no-repeat;
-	background-size: 30px;
 }
 .plus-share-btn{
-	background-image: url(/images/sns.png);
 	background-position: 0px -1069px;
-	background-repeat: no-repeat;
-	background-size: 30px;
 }
 .od-share-btn{
-	background-image: url(/images/sns.png);
 	background-position: 0px -782px;
-	background-repeat: no-repeat;
-	background-size: 30px;
+}
+.tw-share-btn{
+	background-position: 0px -1153px;
 }
