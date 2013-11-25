@@ -39,8 +39,9 @@ def getAticleDescByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return a.description
-    return ''
+            #return a.description
+            return 'ыовалыовалываолывоа'
+    return 'шйцщукшйцщукшцщушкщцушкщцушкуцщшк'
 def getAticlesSeq():
     articles = getAll()
     ordered_aliases = []
