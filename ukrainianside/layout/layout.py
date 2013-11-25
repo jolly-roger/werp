@@ -19,6 +19,7 @@ def getenv():
         env.globals["getQuotedUrlByAlias"] = engine.article.getQuotedUrlByAlias
         env.globals["getTitleByAlias"] = engine.article.getTitleByAlias
         env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
+        env.globals["getAticleEscapedDescByAlias"] = engine.article.getAticleEscapedDescByAlias
         env.globals["getAticlesSeq"] = engine.article.getAticlesSeq
         env.globals['getRailwayTimetable'] = getRailwayTimetable
     return env
