@@ -24,10 +24,11 @@ class ukrainianside(object):
     @cherrypy.expose
     def default(self, title=None, *args, **kwargs):
         articles = engine.article.getAll()
-        utitle = title.encode('latin-1').decode('utf8').replace('+', ' ')
+        utitle = title.encode('latin-1').decode('utf8').replace('+', ' ').strip()
         if utitle is not None:
             alias = engine.article.getAliasByTitle(utitle)
-            return layout.getAticle(utitle, alias)
+            if alias is not None and alias != '':
+                return layout.getAticle(utitle, alias)
         return layout.getHome()
     
     @cherrypy.expose
