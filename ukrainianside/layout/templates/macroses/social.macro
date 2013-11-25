@@ -16,7 +16,7 @@
                         target="_blank"><div class="social vk-share-btn"></div></a> 
                 </td>
                 <td >
-                    <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.noresize=on&st._surl={{getUrlByAlias(articleAlias)}}"
+                    <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl={{getUrlByAlias(articleAlias)}}"
                         target="_blank"><div class="social od-share-btn"></div></a> 
                 </td>
             </tr>
