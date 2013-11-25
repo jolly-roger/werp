@@ -53,8 +53,8 @@ def get_train_data(drv_module, tid, ua_dom_tree, ru_dom_tree):
             conn.close()
         raise e
 def check_dom_tree(current_drv, dom_tree):
-    dom_tree.xpath(current_drv.xtattrs)
-    dom_tree.xpath(current_drv.xttitle)
-    dom_tree.xpath(current_drv.xtvalue)
-    dom_tree.xpath(current_drv.xtperiod)
-    dom_tree.xpath(current_drv.xts)
+    if len(dom_tree.xpath(current_drv.xtattrs)) <= 0: raise Exception('Train dom attributes are empty')
+    if len(dom_tree.xpath(current_drv.xttitle)) <= 0: raise Exception('Train dom title is empty')
+    if len(dom_tree.xpath(current_drv.xtvalue)) <= 0: raise Exception('Train dom value is empty')
+    if len(dom_tree.xpath(current_drv.xtperiod)) <= 0: raise Exception('Train dom period is empty')
+    if len(dom_tree.xpath(current_drv.xts)) <= 0: raise Exception('Train dom stations are empty')
