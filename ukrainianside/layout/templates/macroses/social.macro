@@ -4,7 +4,7 @@
             <tr>
                 <td>Поделиться в </td>
                 <td>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{getUrlByAlias(articleAlias)}}"
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{getQuotedUrlByAlias(articleAlias)}}"
                        target="_blank"><div class="social share-btn fb-share-btn"></div></a>
                 </td>
                 <td >
@@ -12,11 +12,11 @@
                        target="_blank"><div class="social share-btn plus-share-btn"></div></a>
                 </td>
                 <td >
-                    <a href="http://vkontakte.ru/share.php?url={{getUrlByAlias(articleAlias)}}"
+                    <a href="http://vkontakte.ru/share.php?url={{getQuotedUrlByAlias(articleAlias)}}"
                         target="_blank"><div class="social share-btn vk-share-btn"></div></a> 
                 </td>
                 <td >
-                    <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl={{getUrlByAlias(articleAlias)}}"
+                    <a href="http://www.odnoklassniki.ru/dk?st.cmd=addShare&st._surl={{getQuotedUrlByAlias(articleAlias)}}"
                         target="_blank"><div class="social share-btn od-share-btn"></div></a> 
                 </td>
                 <td >
