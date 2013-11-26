@@ -13,7 +13,7 @@ class podelitsya(object):
     
     @cherrypy.expose
     def social(self, url, title):
-        cherrypy.response.headers['Access-Control-Allow-Origin'] = "http://ukrainianside.com"
+        cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         #quoted_url = url.encode('latin-1').decode('utf8').strip()
         return layout.getSocial(url, title)
     
