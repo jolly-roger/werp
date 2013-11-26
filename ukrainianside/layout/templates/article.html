@@ -23,7 +23,6 @@
     <div id="sodial"></div>
     <script type="text/javascript">
         $.get('http://podelitsya.com/social?url={{getQuotedUrlByAlias(articleAlias)}}&title={{articleTitle}}', function(res){
-            alert(res);
             $('#social').html(function(){return res;});
         });
     </script>
