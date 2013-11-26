@@ -20,27 +20,3 @@ h3 a:focus,
 h3 a:active {
 	color: #1982d1;
 }
-.social-share div.social{
-	width: 30px;
-	height: 30px;
-}
-.share-btn{
-	background-image: url(/images/sns.png);
-	background-repeat: no-repeat;
-	background-size: 30px;
-}
-.vk-share-btn{
-	background-position: 0px -467px;
-}
-.fb-share-btn{
-	background-position: 0px -1205px;
-}
-.plus-share-btn{
-	background-position: 0px -1069px;
-}
-.od-share-btn{
-	background-position: 0px -782px;
-}
-.tw-share-btn{
-	background-position: 0px -1153px;
-}

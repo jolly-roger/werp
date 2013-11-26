@@ -11,4 +11,8 @@ def getenv():
 def getSocial(quoted_url, title):
     tmpl = getenv().get_template("pages/social.html")
     return tmpl.render(quoted_url=quoted_url, title=title)
+
+def getCss():
+    tmpl = getenv().get_template("css/style.css")
+    return tmpl.render()
     

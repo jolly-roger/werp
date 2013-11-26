@@ -15,6 +15,11 @@ class podelitsya(object):
     def social(self, url, title):
         quoted_url = url.encode('latin-1').decode('utf8').strip()
         return layout.getSocial(quoted_url, title)
+    
+    @cherrypy.expose
+    def css(self):
+        cherrypy.response.headers['Content-Type'] = "text/css"
+        return layout.getCss()
 
 def wsgi():
     tree = cherrypy._cptree.Tree()
