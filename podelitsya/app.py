@@ -13,8 +13,8 @@ class podelitsya(object):
     
     @cherrypy.expose
     def social(self, url, title):
-        quoted_url = url.encode('latin-1').decode('utf8').strip()
-        return layout.getSocial(quoted_url, title)
+        #quoted_url = url.encode('latin-1').decode('utf8').strip()
+        return layout.getSocial(url, title)
     
     @cherrypy.expose
     def css(self):
