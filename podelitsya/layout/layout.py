@@ -5,7 +5,7 @@ env = None
 def getenv():
     global env    
     if env is None:
-        env = Environment(loader = FileSystemLoader("/home/www/widgets/layout/templates"))
+        env = Environment(loader = FileSystemLoader("/home/www/podelitsya/layout/templates"))
     return env
 
 def getSocial(quoted_url, title):
