@@ -20,10 +20,10 @@
 {% block bodyStyles %}single single-post postid-73 single-format-standard single-author singular two-column right-sidebar{% endblock %}
 
 {% block social %}
-    <div id="sodial"></div>
+    <div id="social"></div>
     <script type="text/javascript">
         $.get('http://podelitsya.com/social?url={{getQuotedUrlByAlias(articleAlias)}}&title={{articleTitle}}', function(res){
-            $('#social').html(function(){return res;});
+            $('#social').html(res);
         });
     </script>
 {% endblock %}
