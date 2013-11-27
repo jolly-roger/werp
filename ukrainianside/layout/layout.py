@@ -22,6 +22,7 @@ def getenv():
         env.globals["getAticleEscapedDescByAlias"] = engine.article.getAticleEscapedDescByAlias
         env.globals["getAticlesSeq"] = engine.article.getAticlesSeq
         env.globals['getRailwayTimetable'] = getRailwayTimetable
+        env.globals['quote'] = urllib.parse.quote
     return env
 
 def getCategory(categoryName):

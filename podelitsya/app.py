@@ -4,7 +4,6 @@ import os.path
 import urllib.request
 import urllib.parse
 
-from werp import error_log
 from . import layout
 
 class podelitsya(object):
@@ -13,14 +12,10 @@ class podelitsya(object):
         return 'podelitsya'
     
     @cherrypy.expose
-    def social(self, url, title):
+    def social(self, u, t):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
-        qurl = urllib.parse.quote(url)
-        
-        error_log.info(str(url))
-        
-        #quoted_url = url.encode('latin-1').decode('utf8').strip()
-        return layout.getSocial(qurl, title)
+        qurl = urllib.parse.quote(u)
+        return layout.getSocial(qurl, t)
     
     @cherrypy.expose
     def css(self):
