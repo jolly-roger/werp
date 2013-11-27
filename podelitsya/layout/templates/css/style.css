@@ -4,7 +4,7 @@ body {
     font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .skin-row{
-	max-width: none;
+	/*max-width: none;*/
 }
 .header{
 	height: 50px;
