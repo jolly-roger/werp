@@ -15,13 +15,9 @@ class podelitsya(object):
     @cherrypy.expose
     def social(self, url, title):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
-        
-        
-        error_log.info(str(url))
-        
-        
+        qurl = urllib.parse.quote(url)
         #quoted_url = url.encode('latin-1').decode('utf8').strip()
-        return layout.getSocial(url, title)
+        return layout.getSocial(qurl, title)
     
     @cherrypy.expose
     def css(self):
