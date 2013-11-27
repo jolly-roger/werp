@@ -4,7 +4,7 @@ import os.path
 import urllib.request
 import urllib.parse
 
-from werp.podelitsya import logger
+from werp import error_log
 from . import layout
 
 class podelitsya(object):
@@ -17,7 +17,7 @@ class podelitsya(object):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         
         
-        logger.info('Yo!!!')
+        error_log.info('Yo!!!')
         
         
         #quoted_url = url.encode('latin-1').decode('utf8').strip()
