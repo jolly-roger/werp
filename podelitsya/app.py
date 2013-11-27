@@ -17,7 +17,7 @@ class podelitsya(object):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         
         
-        error_log.info('Yo!!!')
+        error_log.info(str(url))
         
         
         #quoted_url = url.encode('latin-1').decode('utf8').strip()
