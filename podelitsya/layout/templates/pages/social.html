@@ -1,6 +1,8 @@
 <table class="social-share">
     <tr>
-        <td>Поделиться в </td>
+        {% if display_label %}
+            <td><h3>Поделиться в&nbsp;</h3></td>
+        {% endif %}
         <td>
             <a href="https://www.facebook.com/sharer/sharer.php?u={{quoted_url}}"
                target="_blank"><div class="social share-btn fb-share-btn"></div></a>

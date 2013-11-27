@@ -12,10 +12,11 @@ class podelitsya(object):
         return 'podelitsya'
     
     @cherrypy.expose
-    def social(self, u, t):
+    def social(self, u, t, l=0):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         qurl = urllib.parse.quote(u)
-        return layout.getSocial(qurl, t)
+        display_label = True if l > 0 else False
+        return layout.getSocial(qurl, t, display_label)
     
     @cherrypy.expose
     def css(self):
