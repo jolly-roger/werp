@@ -1,16 +1,16 @@
 body {
-	background-color: #F7F7F7;
-	color: #333333;
-    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+/*	background-color: #F7F7F7;*/
+/*	color: #333333;*/
+/*    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
 }
 .skin-row{
 	/*max-width: none;*/
 }
 .header{
-	height: 50px;
+	/*height: 50px;*/
 }
 .header-side{
-	height: 70px;
+	/*height: 70px;*/
 }
 .header-side, .header{
 	background-color: #315D86;
