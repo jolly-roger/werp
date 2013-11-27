@@ -1,5 +1,3 @@
-{% from "macroses/social.macro" import social as social%}
-
 {% macro header(aticleAlias) -%}
     <h3>
         <a href="{{ getUrlByAlias(aticleAlias) }}"
