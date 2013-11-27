@@ -21,7 +21,7 @@ class podelitsya(object):
             display_label = True if l > 0 else False
             return layout.getSocial(qurl, t, display_label)
         except:
-            nlog.info(traceback.format_exc())
+            nlog.info('podelitsya error', traceback.format_exc())
             return traceback.format_exc()
     
     @cherrypy.expose
