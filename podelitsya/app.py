@@ -18,11 +18,11 @@ class podelitsya(object):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         try:
             qurl = urllib.parse.quote(u)
-            display_label = True if l > 0 else False
+            display_label = True if int(l) > 0 else False
             return layout.getSocial(qurl, t, display_label)
         except:
             nlog.info('podelitsya error', traceback.format_exc())
-            return traceback.format_exc()
+            return ''
     
     @cherrypy.expose
     def css(self):
