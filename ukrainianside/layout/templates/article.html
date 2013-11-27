@@ -22,7 +22,7 @@
 {% block social %}
     <div id="social"></div>
     <script type="text/javascript">
-        $.get('http://podelitsya.com/social?u={{getQuotedUrlByAlias(articleAlias)}}&t={{quote(articleTitle)}}', function(res){
+        $.get('http://podelitsya.com/social?u={{getQuotedUrlByAlias(articleAlias)}}&t={{quote(articleTitle)}}&l=1', function(res){
             $('#social').html(res);
         });
     </script>
