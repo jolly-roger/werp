@@ -11,7 +11,7 @@ from . import layout
 class podelitsya(object):
     @cherrypy.expose
     def index(self):
-        return 'podelitsya'
+        return layout.getHome()
     
     @cherrypy.expose
     def social(self, u, t, l=0):
@@ -23,6 +23,11 @@ class podelitsya(object):
         except:
             nlog.info('podelitsya error', traceback.format_exc())
             return ''
+    
+    @cherrypy.expose
+    def socialcss(self):
+        cherrypy.response.headers['Content-Type'] = "text/css"
+        return layout.getSocialCss()
     
     @cherrypy.expose
     def css(self):

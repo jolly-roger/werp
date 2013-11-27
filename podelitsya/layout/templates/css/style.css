@@ -1,24 +1,14 @@
-.social-share div.social{
-	width: 30px;
+body {
+	background-color: #F7F7F7;
+	color: #333333;
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.header{
 	height: 30px;
 }
-.share-btn{
-	background-image: url(http://podelitsya.com/images/sns.png);
-	background-repeat: no-repeat;
-	background-size: 30px;
+.header-side{
+	height: 10px;
 }
-.vk-share-btn{
-	background-position: 0px -467px;
-}
-.fb-share-btn{
-	background-position: 0px -1205px;
-}
-.plus-share-btn{
-	background-position: 0px -1069px;
-}
-.od-share-btn{
-	background-position: 0px -782px;
-}
-.tw-share-btn{
-	background-position: 0px -1153px;
+.header-side, .header{
+	background-color: #315D86;
 }
