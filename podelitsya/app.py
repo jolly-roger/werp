@@ -4,6 +4,7 @@ import os.path
 import urllib.request
 import urllib.parse
 
+from . import logger
 from . import layout
 
 class podelitsya(object):
