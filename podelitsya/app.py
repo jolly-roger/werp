@@ -3,7 +3,9 @@ import json
 import os.path
 import urllib.request
 import urllib.parse
+import traceback
 
+from werp import nlog
 from . import layout
 
 class podelitsya(object):
@@ -14,9 +16,13 @@ class podelitsya(object):
     @cherrypy.expose
     def social(self, u, t, l=0):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
-        qurl = urllib.parse.quote(u)
-        display_label = True if l > 0 else False
-        return layout.getSocial(qurl, t, display_label)
+        try:
+            qurl = urllib.parse.quote(u)
+            display_label = True if l > 0 else False
+            return layout.getSocial(qurl, t, display_label)
+        except:
+            nlog.info(traceback.format_exc())
+            return traceback.format_exc()
     
     @cherrypy.expose
     def css(self):
