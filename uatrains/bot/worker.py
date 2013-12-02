@@ -60,7 +60,6 @@ def run(task_drv):
                     task.http_status = 0
                     try_count = 0
                     ua_dom_tree = None
-                    ru_dom_tree = None
                     current_drv = None
                     parser = etree.HTMLParser()
                     if task.drv == task_drvs.southwest:
@@ -69,7 +68,6 @@ def run(task_drv):
                         current_drv = drv.passengers
                     while task.http_status <= 0 and try_count < TRY_COUNT:
                         ua_res = None
-                        ru_res = None
                         if ua_dom_tree is None:
                             ua_url = current_drv.ua_url.replace('(tid)', str(task.data))
                             ua_req = {'method': 'request', 'params': {'url': ua_url, 'charset': current_drv.charset,
@@ -85,30 +83,12 @@ def run(task_drv):
                                     ua_dom_tree = None
                                     ua_res['result']['http_status'] = -3
                                     ua_res['result']['http_status_reason'] = str(e)
-                        if ru_dom_tree is None:
-                            ru_url = current_drv.ru_url.replace('(tid)', str(task.data))
-                            ru_req = {'method': 'request', 'params': {'url': ru_url, 'charset': current_drv.charset,
-                                'timeout': REQ_TIMEOUT}}
-                            froxly_data_server_socket.send_unicode(json.dumps(ru_req))
-                            ru_res = json.loads(froxly_data_server_socket.recv_unicode())
-                            if 'http_status' in ru_res['result'] and 'data' in ru_res['result'] and \
-                                ru_res['result']['http_status'] == 200:
-                                try:
-                                    ru_dom_tree = etree.parse(io.StringIO(ru_res['result']['data']), parser)
-                                    drv.check_dom_tree(current_drv, ru_dom_tree)
-                                except Exception as e:
-                                    ru_dom_tree = None
-                                    ru_res['result']['http_status'] = -3
-                                    ru_res['result']['http_status_reason'] = str(e)
                         if ua_res is not None and 'http_status' in ua_res['result'] and ua_res['result']['http_status'] < 0:
                             task.http_status = ua_res['result']['http_status']
                             task.http_status_reason = ua_res['result']['http_status_reason']
-                        if ru_res is not None and 'http_status' in ru_res['result'] and ru_res['result']['http_status'] < 0:
-                            task.http_status = ru_res['result']['http_status']
-                            task.http_status_reason = ru_res['result']['http_status_reason']
                         try:
-                            if ua_dom_tree is not None and ru_dom_tree is not None:
-                                drv.get_train_data(current_drv, int(task.data), ua_dom_tree, ru_dom_tree)
+                            if ua_dom_tree is not None:
+                                drv.get_train_data(current_drv, int(task.data), ua_dom_tree)
                                 task.http_status = 200
                                 task.http_status_reason = None
                         except Exception as e:
