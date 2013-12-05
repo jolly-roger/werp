@@ -14,12 +14,13 @@ class podelitsya(object):
         return layout.getHome()
     
     @cherrypy.expose
-    def social(self, u, t, l=0):
+    def social(self, u, t, l=0, v=0):
         cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
         try:
             qurl = urllib.parse.quote(u)
             display_label = True if int(l) > 0 else False
-            return layout.getSocial(qurl, t, display_label)
+            is_vertical = True if int(v) > 0 else False
+            return layout.getSocial(qurl, t, display_label, is_vertical)
         except:
             nlog.info('podelitsya error', traceback.format_exc())
             return ''

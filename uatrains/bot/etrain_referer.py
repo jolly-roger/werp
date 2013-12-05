@@ -21,7 +21,7 @@ try:
                 last_etrain = et
                 similar_etrains = ses.query(orm.uatrains.E).\
                     filter(orm.and_(orm.or_(orm.uatrains.E.value == et.value, orm.uatrains.E.oid == et.oid),
-                        orm.uatrains.E.ua_title == et.ua_title, orm.uatrains.E.ru_title == et.ru_title,
+                        orm.uatrains.E.ua_title == et.ua_title,
                         orm.or_(orm.uatrains.E.etype == 1, orm.uatrains.E.etype == 4))).all()
                 if len(similar_etrains) > 1:
                     for similar_et in similar_etrains:

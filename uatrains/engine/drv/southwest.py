@@ -7,6 +7,7 @@ from . import common
 
 from werp import orm
 from werp.uatrains import bot
+from werp.uatrains.engine import triggers
 
 name = 'southwest'
 charset = 'cp1251'
@@ -142,6 +143,7 @@ def link_to_station(ua_dom_tree, t, ses):
 								ses.add(e)
 								ses.commit()
 								s = e
+								triggers.e.add_history(ses, s, orm.uatrains.htype.insert)
 							else:
 								bot.logger.error('Station has no all data\r\n' + \
 									'sid: ' + str(sid) + '\r\n' + \
@@ -154,6 +156,7 @@ def link_to_station(ua_dom_tree, t, ses):
 								if s.ua_title is None:
 									s.ua_title = e.ua_title
 								ses.commit()
+								triggers.e.add_history(ses, s, orm.uatrains.htype.update)
 							order = None
 							arrival = None
 							departure = None
