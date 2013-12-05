@@ -7,7 +7,7 @@ import os.path
 from werp.uatrains import bot
 from werp import orm
 from werp.common import sockets
-from werp.uatrains.bot import sink, worker
+from werp.uatrains.bot.grabber import sink, worker
 from werp.uatrains.bot import task_drvs
 
 
