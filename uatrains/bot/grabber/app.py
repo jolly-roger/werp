@@ -7,7 +7,7 @@ import json
 
 from werp import nlog, exec_log
 from werp.common import sockets
-from werp.uatrains.bot import task_drvs, worker, ventilator
+from werp.uatrains.bot.grabber import task_drvs, worker, ventilator
 
 try:
     ctx = zmq.Context()
