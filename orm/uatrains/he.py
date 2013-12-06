@@ -3,7 +3,7 @@ from datetime import datetime
 from werp.orm.base import *
 
 
-class HE(DBase):
+class He(DBase):
     __tablename__ = 'uatrains_he'
     id = Column(BigInteger, primary_key = True)
     eid = Column(BigInteger, nullable=False)
@@ -33,4 +33,4 @@ class HE(DBase):
         self.htype = htype
         
 def from_e(e, htype):
-    return E(e.id, e.oid, e.etype, e.value, e.ua_title, e.ua_period, e.vc, e.ref_id, e.c_date, datetime.now(), htype)
+    return He(e.id, e.oid, e.etype, e.value, e.ua_title, e.ua_period, e.vc, e.ref_id, e.c_date, datetime.now(), htype)
