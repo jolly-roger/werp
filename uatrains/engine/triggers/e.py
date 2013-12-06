@@ -1,3 +1,5 @@
+import traceback
+
 from werp import orm
 from werp.uatrains import bot
 
@@ -7,4 +9,4 @@ def add_history(ses, e, htype):
         ses.add(he)
         ses.commit()
     except:
-        bot.logger.error('Can\'t write history for e with id: ' + str(e.id) + '\r\n')
+        bot.logger.error('Can\'t write history for e with id: ' + str(e.id) + '\r\n' + traceback.format_exc() + '\r\n')
