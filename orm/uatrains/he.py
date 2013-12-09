@@ -16,7 +16,7 @@ class He(DBase):
     ref_id = Column(BigInteger)
     c_date = Column(DateTime, nullable=False, default=datetime.now)
     hc_date = Column(DateTime, nullable=False, default=datetime.now)
-    htype = etype = Column(SmallInteger, nullable=False)
+    htype = Column(SmallInteger, nullable=False)
 
     def __init__(self, eid=None, oid=None, etype=None, value=None, ua_title=None, ua_period=None, vc=None, ref_id=None,
         c_date=None, hc_date=None, htype=None):
