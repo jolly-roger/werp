@@ -12,9 +12,9 @@ def getHome():
     tmpl = getenv().get_template("pages/home.html")
     return tmpl.render()
 
-def getSocial(quoted_url, title, display_label):
+def getSocial(quoted_url, title, display_label, is_vertical):
     tmpl = getenv().get_template("pages/social.html")
-    return tmpl.render(quoted_url=quoted_url, title=title, display_label=display_label)
+    return tmpl.render(quoted_url=quoted_url, title=title, display_label=display_label, is_vertical=is_vertical)
 
 def getSocialCss():
     tmpl = getenv().get_template("css/social.css")
