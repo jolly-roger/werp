@@ -9,10 +9,9 @@ class Article(DBase):
     description = Column(String, nullable=False)
     content = Column(String)
     order = Column(Integer, nullable=False)
-    url = Column(String, nullable=False)
     alias = Column(String, nullable=False)
     
-    def __init__(self, name=None, description=None, content=None, order=None, url=None):
+    def __init__(self, name=None, description=None, content=None, order=None):
         self.title = title
         self.description = description
         self.content = content
