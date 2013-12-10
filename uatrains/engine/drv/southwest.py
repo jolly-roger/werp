@@ -153,10 +153,10 @@ def link_to_station(ua_dom_tree, t, ses):
 								raise Exception('Southwest driver station entity has empty fields')
 						if s is not None:
 							if not common.e_has_all_data(s):
-								if s.ua_title is None:
+								if e.ua_title is not None and s.ua_title != e.ua_title:
 									s.ua_title = e.ua_title
-								ses.commit()
-								triggers.e.add_history(ses, s, orm.uatrains.htype.update)
+									ses.commit()
+									triggers.e.add_history(ses, s, orm.uatrains.htype.update)
 							order = None
 							arrival = None
 							departure = None

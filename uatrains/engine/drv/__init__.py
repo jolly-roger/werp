@@ -31,16 +31,20 @@ def get_train_data(drv_module, tid, ua_dom_tree):
                             'oid: ' + str(e.oid) + '\r\n')
                         raise Exception(drv_module.name + ' driver train entity has empty fields')
                 else:
-                    if t.ua_title is None:
-                        t.ua_title = e.ua_title
-                    if e.ua_period is not None:
-                        t.ua_period = e.ua_period
-                    if e.from_date is not None:
-                        t.from_date = e.from_date
-                    if e.to_date is not None:
-                        t.to_date = e.to_date
-                    ses.commit()
-                    triggers.e.add_history(ses, t, orm.uatrains.htype.update)
+                    if (e.ua_title is not None and t.ua_title != e.ua_title) or \
+                        (e.ua_period is not None and t.ua_period != e.ua_period) or \
+                        (e.from_date is not None and t.from_date != e.from_date) or \
+                        (e.to_date is not None and t.to_date != e.to_date):
+                        if e.ua_title is not None and t.ua_title != e.ua_title:
+                            t.ua_title = e.ua_title
+                        if e.ua_period is not None and t.ua_period != e.ua_period:
+                            t.ua_period = e.ua_period
+                        if e.from_date is not None and t.from_date != e.from_date:
+                            t.from_date = e.from_date
+                        if e.to_date is not None and t.to_date != e.to_date:
+                            t.to_date = e.to_date
+                        ses.commit()
+                        triggers.e.add_history(ses, t, orm.uatrains.htype.update)
                 drv_module.link_to_station(ua_dom_tree, t, ses)
         ses.commit()
         ses.close()
