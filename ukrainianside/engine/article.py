@@ -1,5 +1,6 @@
 import urllib.parse
 import html
+import os.path
 
 from werp import orm
 
@@ -42,7 +43,7 @@ def getAticleDescByAlias(alias):
         if a.alias == alias:
             return a.description
     return ''
-def getAticleEscapedDescByAlias(alias):
+def getArticleEscapedDescByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
@@ -54,3 +55,9 @@ def getAticlesSeq():
     for a in articles:
         ordered_aliases.append(a.alias)
     return ordered_aliases
+def getArticleMainImageUrl(alias):
+    if os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias) and \
+        os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias + '/main.jpg'):
+            return '/home/www/ukrainianside/layout/templates/images/' + alias + '/main.jpg'
+    else:
+        return '/home/www/ukrainianside/layout/templates/images/logo.jpg'

@@ -8,12 +8,14 @@
 	<title>{{articleTitle}} | Украинская сторонка</title>
 	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
 	<meta name="title" content="{{articleTitle}}">
-	<meta name="description" content="{{getAticleEscapedDescByAlias(articleAlias)}}">
-	<meta content="ukrainianside" property="og:site_name">
-	<meta content="{{ getUrlByAlias(articleAlias) }}" property="og:url">
-	<meta content="{{articleTitle}}" property="og:title">
-	<meta content="article" property="og:type">
-	<meta property="og:description" content="{{getAticleEscapedDescByAlias(articleAlias)}}">
+	<meta name="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
+        
+	<meta property="og:site_name" content="ukrainianside" >
+	<meta property="og:url" content="{{ getUrlByAlias(articleAlias) }}" >
+	<meta property="og:title" content="{{articleTitle}}" >
+	<meta property="og:type" content="article" >
+	<meta property="og:description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
+    <meta property="og:image" content="{{getArticleMainImageUrl(articleAlias)}}" >
 {% endblock %}
 
 
