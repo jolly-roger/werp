@@ -9,7 +9,11 @@
 	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
 	<meta name="title" content="{{articleTitle}}">
 	<meta name="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
-        
+    
+    <meta itemprop="name" content="{{articleTitle}}">
+    <meta itemprop="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
+    <meta itemprop="image" content="{{getArticleMainImageUrl(articleAlias)}}"> 
+    
 	<meta property="og:site_name" content="ukrainianside" >
 	<meta property="og:url" content="{{ getUrlByAlias(articleAlias) }}" >
 	<meta property="og:title" content="{{articleTitle}}" >
