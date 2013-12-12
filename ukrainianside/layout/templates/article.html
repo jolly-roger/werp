@@ -13,14 +13,25 @@
     
     <meta itemprop="name" content="{{articleTitle}}" />
     <meta itemprop="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}" />
-    <meta itemprop="image" content="{{getArticleMainImageUrl(articleAlias)}}" /> 
+    <meta itemprop="image" content="{{getArticleMainImageUrl(articleAlias)}}" />
     
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ukrainianside">
+    <meta name="twitter:creator" content="@ukrainianside">
+    <meta name="twitter:title" content="{{articleTitle}}" />
+    <meta name="twitter:description" content="{{getArticleEscapedDescByAlias(articleAlias)}}" />
+    <meta name="twitter:image:src" content="{{getArticleMainImageUrl(articleAlias)}}" />
+    <!-- /Twitter Card data -->
+    
+    <!-- Open Graph data -->
 	<meta property="og:site_name" content="ukrainianside" />
 	<meta property="og:url" content="{{ getUrlByAlias(articleAlias) }}" />
 	<meta property="og:title" content="{{articleTitle}}" />
 	<meta property="og:type" content="article" />
 	<meta property="og:description" content="{{getArticleEscapedDescByAlias(articleAlias)}}" />
     <meta property="og:image" content="{{getArticleMainImageUrl(articleAlias)}}" />
+    <!-- /Open Graph data -->
 {% endblock %}
 
 
