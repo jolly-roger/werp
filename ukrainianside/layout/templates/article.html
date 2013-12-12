@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block headerContent %}
-    <link rel="stylesheet" href="http://podelitsya.com/socialcss">
+    <link rel="stylesheet" href="http://podelitsya.com/socialcss" />
     
     <script type="text/javascript" src="/zepto"></script>
     
 	<title>{{articleTitle}} | Украинская сторонка</title>
-	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}">
-	<meta name="title" content="{{articleTitle}}">
-	<meta name="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
-    <link rel="image_src" href="{{getArticleMainImageUrl(articleAlias)}}">
+	<link rel="canonical" href="{{ getUrlByAlias(articleAlias) }}" />
+	<meta name="title" content="{{articleTitle}}" />
+	<meta name="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}" />
+    <link rel="image_src" href="{{getArticleMainImageUrl(articleAlias)}}" />
     
-    <meta itemprop="name" content="{{articleTitle}}">
-    <meta itemprop="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}">
-    <meta itemprop="image" content="{{getArticleMainImageUrl(articleAlias)}}"> 
+    <meta itemprop="name" content="{{articleTitle}}" />
+    <meta itemprop="description" content="{{getArticleEscapedDescByAlias(articleAlias)}}" />
+    <meta itemprop="image" content="{{getArticleMainImageUrl(articleAlias)}}" /> 
     
 	<meta property="og:site_name" content="ukrainianside" />
 	<meta property="og:url" content="{{ getUrlByAlias(articleAlias) }}" />
