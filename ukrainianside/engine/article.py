@@ -58,6 +58,6 @@ def getAticlesSeq():
 def getArticleMainImageUrl(alias):
     if os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias) and \
         os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias + '/main.jpg'):
-            return '/home/www/ukrainianside/layout/templates/images/' + alias + '/main.jpg'
+            return 'http://ukrainianside.com/images/' + alias + '/main.jpg'
     else:
-        return '/home/www/ukrainianside/layout/templates/images/logo.jpg'
+        return 'http://ukrainianside.com/images/logo.jpg'
