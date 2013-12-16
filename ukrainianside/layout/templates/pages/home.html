@@ -9,7 +9,7 @@
 			{% for aticleAlias in getAticlesSeq() %}
 				<article class="post type-post status-publish format-standard hentry">
 					{{header(aticleAlias)}}
-						<p>{{getAticleDescByAlias(aticleAlias)}}</p>
+						<p>{{getArticleDescByAlias(aticleAlias)}}</p>
 						<p>
 							<a href="{{ getUrlByAlias(aticleAlias) }}#more"
 								class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>

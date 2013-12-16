@@ -18,7 +18,7 @@ def getenv():
         env.globals["getAliasUrlByAlias"] = engine.article.getAliasUrlByAlias
         env.globals["getQuotedUrlByAlias"] = engine.article.getQuotedUrlByAlias
         env.globals["getTitleByAlias"] = engine.article.getTitleByAlias
-        env.globals["getAticleDescByAlias"] = engine.article.getAticleDescByAlias
+        env.globals["getArticleDescByAlias"] = engine.article.getArticleDescByAlias
         env.globals["getArticleEscapedDescByAlias"] = engine.article.getArticleEscapedDescByAlias
         env.globals["getArticleMainImageUrl"] = engine.article.getArticleMainImageUrl
         env.globals["getAticlesSeq"] = engine.article.getAticlesSeq

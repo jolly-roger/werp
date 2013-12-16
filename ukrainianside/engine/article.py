@@ -1,8 +1,12 @@
 import urllib.parse
 import html
 import os.path
+import lxml
+import io
 
 from werp import orm
+
+TEMPLATES_DIR = '/home/www/ukrainianside/layout/templates'
 
 def getAll():
     conn = orm.q_engine.connect()
@@ -37,18 +41,17 @@ def getAliasByTitle(title):
         if a.title.lower().strip() == title.lower().strip():
             return a.alias
     return ''
-def getAticleDescByAlias(alias):
-    articles = getAll()
-    for a in articles:
-        if a.alias == alias:
-            return a.description
-    return ''
+def getArticleDescByAlias(alias):
+    desc = ''
+    if os.path.exists(TEMPLATES_DIR + '/pages/' + alias + '.html'):
+        parser = etree.HTMLParser()
+        tree = etree.parse(io.StringIO(open(TEMPLATES_DIR + '/pages/' + alias + '.html').read()), parser)
+        raw_desc = tree.xpath('//article/p[1]')
+        if len(raw_desc) > 0:
+            desc = raw_desc[0].text
+    return desc
 def getArticleEscapedDescByAlias(alias):
-    articles = getAll()
-    for a in articles:
-        if a.alias == alias:
-            return html.escape(a.description)
-    return ''
+    return html.escape(desc = getArticleDescByAlias(alias))
 def getAticlesSeq():
     articles = getAll()
     ordered_aliases = []
@@ -56,8 +59,8 @@ def getAticlesSeq():
         ordered_aliases.append(a.alias)
     return ordered_aliases
 def getArticleMainImageUrl(alias):
-    if os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias) and \
-        os.path.exists('/home/www/ukrainianside/layout/templates/images/' + alias + '/main.jpg'):
+    if os.path.exists(TEMPLATES_DIR + '/images/' + alias) and \
+        os.path.exists(TEMPLATES_DIR + '/images/' + alias + '/main.jpg'):
             return 'http://ukrainianside.com/images/' + alias + '/main.jpg'
     else:
         return 'http://ukrainianside.com/images/logo.jpg'
