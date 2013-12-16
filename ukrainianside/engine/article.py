@@ -51,7 +51,7 @@ def getArticleDescByAlias(alias):
             desc = raw_desc[0].text
     return desc
 def getArticleEscapedDescByAlias(alias):
-    return html.escape(desc = getArticleDescByAlias(alias))
+    return html.escape(getArticleDescByAlias(alias))
 def getAticlesSeq():
     articles = getAll()
     ordered_aliases = []
