@@ -1,7 +1,7 @@
+from lxml import etree
 import urllib.parse
 import html
 import os.path
-import lxml
 import io
 
 from werp import orm
