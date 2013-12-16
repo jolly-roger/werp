@@ -1,14 +1,8 @@
 {% extends "article.html" %}
 
 {% block mainContent %}
-	<div id="main">
-		<div id="primary">
-			<div>
-				<article class="post type-post status-publish format-standard hentry">
-					<h3>Расписание пригородных поездов Одесского региона</h2>
-					{{getRailwayTimetable(0)}}
-				</article><!-- #post-93 -->
-			</div><!-- #content -->
-		</div><!-- #primary -->
-	</div><!-- #main -->
+<article>
+	<h3>Расписание пригородных поездов Одесского региона</h2>
+	{{getRailwayTimetable(0)}}
+</article>
 {% endblock %}
