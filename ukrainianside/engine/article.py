@@ -1,6 +1,7 @@
 from lxml import etree
 import urllib.parse
 import html
+import html.parser
 import os.path
 import io
 
@@ -48,7 +49,7 @@ def getArticleDescByAlias(alias):
         tree = etree.parse(io.StringIO(open(TEMPLATES_DIR + '/pages/' + alias + '.html').read()), parser)
         raw_desc = tree.xpath('//article/p[1]')
         if len(raw_desc) > 0:
-            desc = html.unescape(etree.tostring(raw_desc[0]).decode('utf8'))
+            desc = html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8'))
     return desc
 def getArticleEscapedDescByAlias(alias):
     return html.escape(getArticleDescByAlias(alias))
