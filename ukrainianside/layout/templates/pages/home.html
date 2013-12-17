@@ -3,20 +3,14 @@
 {% from "macroses/header.macro" import header as header%}
 
 {% block mainContent %}
-	<div id="main">
-		<div id="primary">
-			<div>
-			{% for aticleAlias in getAticlesSeq() %}
-				<article class="post type-post status-publish format-standard hentry">
-					{{header(aticleAlias)}}
-						<p>{{getArticleDescByAlias(aticleAlias)}}</p>
-						<p>
-							<a href="{{ getUrlByAlias(aticleAlias) }}#more"
-								class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>
-						</p>
-				</article>
-			{% endfor%}
-			</div><!-- #content -->
-		</div><!-- #primary -->
-	</div><!-- #main -->
+	{% for aticleAlias in getAticlesSeq() %}
+		<article>
+			{{header(aticleAlias)}}
+				<p>{{getArticleDescByAlias(aticleAlias)}}</p>
+				<p>
+					<a href="{{ getUrlByAlias(aticleAlias) }}#more"
+						class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>
+				</p>
+		</article>
+	{% endfor%}
 {% endblock %}
