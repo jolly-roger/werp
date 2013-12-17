@@ -74,7 +74,8 @@ def getArticleDescByAlias(alias):
         tree = etree.parse(io.StringIO(open(TEMPLATES_DIR + '/pages/' + alias + '.html').read()), parser)
         raw_desc = tree.xpath('//article/p[1]')
         if len(raw_desc) > 0:
-            desc = getenv().from_string(html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8')))
+            desc = getenv().\
+                from_string(html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8'))).render()
     return desc
 def getArticleEscapedDescByAlias(alias):
     return html.escape(getArticleDescByAlias(alias))
