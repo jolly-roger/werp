@@ -6,6 +6,7 @@ import os.path
 import io
 
 from werp import orm
+from werp.ukrainianside.layout import layout
 
 TEMPLATES_DIR = '/home/www/ukrainianside/layout/templates'
 
@@ -49,7 +50,7 @@ def getArticleDescByAlias(alias):
         tree = etree.parse(io.StringIO(open(TEMPLATES_DIR + '/pages/' + alias + '.html').read()), parser)
         raw_desc = tree.xpath('//article/p[1]')
         if len(raw_desc) > 0:
-            desc = html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8'))
+            desc = layout.getenv().from_string(html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8')))
     return desc
 def getArticleEscapedDescByAlias(alias):
     return html.escape(getArticleDescByAlias(alias))
