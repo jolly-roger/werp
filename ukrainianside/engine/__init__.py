@@ -18,13 +18,13 @@ def getRailwayTimetable(rwid):
 from . import article
 
 getenv().globals["continueReading"] = "Читать далее "
-getenv().globals["getUrlByAlias"] = getUrlByAlias
-getenv().globals["getAliasUrlByAlias"] = getAliasUrlByAlias
-getenv().globals["getQuotedUrlByAlias"] = getQuotedUrlByAlias
-getenv().globals["getTitleByAlias"] = getTitleByAlias
-getenv().globals["getArticleDescByAlias"] = getArticleDescByAlias
-getenv().globals["getArticleEscapedDescByAlias"] = getArticleEscapedDescByAlias
-getenv().globals["getArticleMainImageUrl"] = getArticleMainImageUrl
-getenv().globals["getAticlesSeq"] = getAticlesSeq
+getenv().globals["getUrlByAlias"] = article.getUrlByAlias
+getenv().globals["getAliasUrlByAlias"] = article.getAliasUrlByAlias
+getenv().globals["getQuotedUrlByAlias"] = article.getQuotedUrlByAlias
+getenv().globals["getTitleByAlias"] = article.getTitleByAlias
+getenv().globals["getArticleDescByAlias"] = article.getArticleDescByAlias
+getenv().globals["getArticleEscapedDescByAlias"] = article.getArticleEscapedDescByAlias
+getenv().globals["getArticleMainImageUrl"] = article.getArticleMainImageUrl
+getenv().globals["getAticlesSeq"] = article.getAticlesSeq
 getenv().globals['getRailwayTimetable'] = getRailwayTimetable
 getenv().globals['quote'] = urllib.parse.quote
