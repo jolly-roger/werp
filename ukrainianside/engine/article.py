@@ -6,9 +6,33 @@ import os.path
 import io
 
 from werp import orm
-from werp.ukrainianside.layout import layout
 
 TEMPLATES_DIR = '/home/www/ukrainianside/layout/templates'
+
+
+
+from jinja2 import Environment, FileSystemLoader
+
+env = None
+
+def getenv():
+    global env
+    
+    if env is None:
+        env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/layout/templates"))
+        env.globals["continueReading"] = "Читать далее "
+        env.globals["getUrlByAlias"] = getUrlByAlias
+        env.globals["getAliasUrlByAlias"] = getAliasUrlByAlias
+        env.globals["getQuotedUrlByAlias"] = getQuotedUrlByAlias
+        env.globals["getTitleByAlias"] = getTitleByAlias
+        env.globals["getArticleDescByAlias"] = getArticleDescByAlias
+        env.globals["getArticleEscapedDescByAlias"] = getArticleEscapedDescByAlias
+        env.globals["getArticleMainImageUrl"] = getArticleMainImageUrl
+        env.globals["getAticlesSeq"] = getAticlesSeq
+        env.globals['quote'] = urllib.parse.quote
+    return env
+
+
 
 def getAll():
     conn = orm.q_engine.connect()
@@ -50,7 +74,7 @@ def getArticleDescByAlias(alias):
         tree = etree.parse(io.StringIO(open(TEMPLATES_DIR + '/pages/' + alias + '.html').read()), parser)
         raw_desc = tree.xpath('//article/p[1]')
         if len(raw_desc) > 0:
-            desc = layout.getenv().from_string(html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8')))
+            desc = getenv().from_string(html.parser.HTMLParser().unescape(etree.tostring(raw_desc[0]).decode('utf8')))
     return desc
 def getArticleEscapedDescByAlias(alias):
     return html.escape(getArticleDescByAlias(alias))
