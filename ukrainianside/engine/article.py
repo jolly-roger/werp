@@ -9,31 +9,6 @@ from werp import orm
 
 TEMPLATES_DIR = '/home/www/ukrainianside/layout/templates'
 
-
-
-from jinja2 import Environment, FileSystemLoader
-
-env = None
-
-def getenv():
-    global env
-    
-    if env is None:
-        env = Environment(loader = FileSystemLoader("/home/www/ukrainianside/layout/templates"))
-        env.globals["continueReading"] = "Читать далее "
-        env.globals["getUrlByAlias"] = getUrlByAlias
-        env.globals["getAliasUrlByAlias"] = getAliasUrlByAlias
-        env.globals["getQuotedUrlByAlias"] = getQuotedUrlByAlias
-        env.globals["getTitleByAlias"] = getTitleByAlias
-        env.globals["getArticleDescByAlias"] = getArticleDescByAlias
-        env.globals["getArticleEscapedDescByAlias"] = getArticleEscapedDescByAlias
-        env.globals["getArticleMainImageUrl"] = getArticleMainImageUrl
-        env.globals["getAticlesSeq"] = getAticlesSeq
-        env.globals['quote'] = urllib.parse.quote
-    return env
-
-
-
 def getAll():
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
