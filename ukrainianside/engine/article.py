@@ -29,7 +29,7 @@ def getQuotedUrlByAlias(alias):
     articles = getAll()
     for a in articles:
         if a.alias == alias:
-            return urllib.parse.quote('http://ukrainianside.com/' + a.title.strip().replace(' ', '+'))
+            return urllib.parse.quote('http://ukrainianside.com/' + urllib.parse.quote(a.title.strip().replace(' ', '+')))
     return ''
 def getTitleByAlias(alias):
     articles = getAll()
