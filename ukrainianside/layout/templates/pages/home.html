@@ -4,7 +4,7 @@
 
 {% block mainContent %}
 	<div class="small-12 large-12 columns">
-	{% for aticleAlias in getAticlesSeq() %}
+	{% for articleAlias in getAticlesSeq() %}
 		<article>
 			<div class="row">
 				<div class="small-12 large-12 columns">
@@ -13,10 +13,10 @@
 			</div>
 			<div class="row">
 				<div class="small-12 large-12 columns">
-					{{header(aticleAlias)}}
-					<p>{{getArticleDescByAlias(aticleAlias)}}</p>
+					{{header(articleAlias)}}
+					<p>{{getArticleDescByAlias(articleAlias)}}</p>
 					<p>
-						<a href="{{ getUrlByAlias(aticleAlias) }}#more"
+						<a href="{{ getUrlByAlias(articleAlias) }}#more"
 							class="more-link">{{continueReading}}<span class="meta-nav">→</span></a>
 					</p>
 				</div>
