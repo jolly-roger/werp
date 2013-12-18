@@ -8,7 +8,9 @@
 		<article>
 			<div class="row">
 				<div class="small-12 large-12 columns">
-					<img src="{{getArticleMainImageUrl(articleAlias)}}" />
+					<a href="{{getUrlByAlias(articleAlias)}}">
+						<img alt="{{getTitleByAlias(articleAlias)}}" src="{{getArticleMainImageUrl(articleAlias)}}" />
+					</a>
 				</div>
 			</div>
 			<div class="row">
