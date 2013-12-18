@@ -3,6 +3,405 @@
 {% block mainContent %}
 <article>
 	<h3>Расписание пригородных поездов Одесского региона</h3>
-	{{getRailwayTimetable(0)}}
+	
+	<table align="center" border="1" cellpadding="0" cellspacing="0" width="100%">
+	<tbody>
+	<tr>
+	<td valign="top">
+	<div><span style="font-weight: bold;">Номер поезда прямого направления</span></div>
+	</td>
+	<td valign="top">
+	<div><span style="font-weight: bold;">Направление</span></div>
+	</td>
+	<td valign="top">
+	<div><span style="font-weight: bold;">Время отправления-прибытия</span></div>
+	</td>
+	<td valign="top">
+	<div><span style="font-weight: bold;">Частота движения</span></div>
+	</td>
+	</tr>
+	<tr>
+	<td colspan="10">
+	<div style="font-weight: bold;">
+	<div>Пригородные поезда Одесского региона</div>
+	</div>
+	</td>
+	</tr>
+	<tr>
+	<td colspan="10" bgcolor="#FFFFFF">
+	<div>Белгород-Днестровское направление</div>
+	</td>
+	</tr>
+	<tr>
+	<td valign="top">6304/6303</td>
+	<td valign="top">Одесса – Белгород-Днестровский</td>
+	<td valign="top">8:42-11:00</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6348/6347</td>
+	<td valign="top">Белгород-Днестровский – Одесса</td>
+	<td valign="top">17:11-19:28</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6310/6309</td>
+	<td valign="top">Одесса – Белгород-Днестровский</td>
+	<td valign="top">17:50-20:08</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6342/6341</td>
+	<td valign="top">Белгород-Днестровский – Одесса</td>
+	<td valign="top">5:34-7:40</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td colspan="10" bgcolor="#FFFFFF" valign="top">
+	<div>Колосовкое направление</div>
+	</td>
+	</tr>
+	<tr>
+	<td valign="top">6402</td>
+	<td valign="top">Одесса – Колосовка</td>
+	<td valign="top">6:38-9:45</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6401</td>
+	<td valign="top">Колосовка – Одесса</td>
+	<td valign="top">4:14-7:30</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6404</td>
+	<td valign="top">Одесса – Колосовка</td>
+	<td valign="top">8:31-11:34</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6403</td>
+	<td valign="top">Колосовка – Одесса</td>
+	<td valign="top">5:50-9:08</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6406</td>
+	<td valign="top">Одесса – Колосовка</td>
+	<td valign="top">17:20-20:41</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6405</td>
+	<td valign="top">Колосовка – Одесса</td>
+	<td valign="top">15:07-18:10</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6408</td>
+	<td valign="top">Одесса – Колосовка</td>
+	<td valign="top">20:20-23:27</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6407</td>
+	<td valign="top">Колосовка – Одесса</td>
+	<td valign="top">16:24-19:37</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6411</td>
+	<td valign="top">Помошная – Одесса</td>
+	<td valign="top">5:30-11:35</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6412</td>
+	<td valign="top">Одесса – Помошная</td>
+	<td valign="top">11:04-17:15</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td colspan="10" bgcolor="#FFFFFF" valign="top">
+	<div>Раздольненское направление</div>
+	</td>
+	</tr>
+	<tr>
+	<td valign="top">6502</td>
+	<td valign="top">Одесса – Мигаево</td>
+	<td valign="top">8:20-10:11</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6505</td>
+	<td valign="top">Мигаево – Одесса</td>
+	<td valign="top">10:59-12:55</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6504</td>
+	<td valign="top">Одесса – Раздельная-1</td>
+	<td valign="top">16:06-17:38</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6507</td>
+	<td valign="top">Раздельная-1 – Одесса</td>
+	<td valign="top">18:13-19:46</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6506</td>
+	<td valign="top">Одесса – Раздельная-1</td>
+	<td valign="top">19:19-20:51</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6501</td>
+	<td valign="top">Раздельная-1 – Одесса</td>
+	<td valign="top">5:35-7:20</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6508</td>
+	<td valign="top">Одесса – Раздельная-1</td>
+	<td valign="top">20:41-22:13</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6503</td>
+	<td valign="top">Раздельная-1 – Одесса</td>
+	<td valign="top">6:13-7:50</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">7490</td>
+	<td valign="top">Одесса – Одесса-Застава-1</td>
+	<td valign="top">7:22-7:38</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">7493</td>
+	<td valign="top">Одесса-Застава-1 – Одесса</td>
+	<td valign="top">17:01-17:19</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">7495</td>
+	<td valign="top">Одесса-Застава-1 – Одесса</td>
+	<td valign="top">20:01-20:19</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td colspan="10" bgcolor="#FFFFFF" valign="top">
+	<div>Другие направления</div>
+	</td>
+	</tr>
+	<tr>
+	<td valign="top">6010/6009</td>
+	<td valign="top">Кишинеу – Басарабяска</td>
+	<td valign="top">18:37-23:07</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6010/6009</td>
+	<td valign="top">Басарабяска – Кишинеу</td>
+	<td valign="top">2:50-7:05</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6101</td>
+	<td valign="top">Слободка – Котовск</td>
+	<td valign="top">6:23-7:09</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6104</td>
+	<td valign="top">Котовск – Слободка</td>
+	<td valign="top">17:23-18:08</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6103</td>
+	<td valign="top">Вапнярка – Котовск</td>
+	<td valign="top">6:55-9:41</td>
+	<td valign="top">ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6102</td>
+	<td valign="top">Котовск – Вапнярка</td>
+	<td valign="top">16:08-18:51</td>
+	<td valign="top">ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6105</td>
+	<td valign="top">Слободка – Котовск</td>
+	<td valign="top">18:44-19:30</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6106</td>
+	<td valign="top">Котовск – Слободка</td>
+	<td valign="top">20:29-21:14</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6202</td>
+	<td valign="top">Рени – Етулия</td>
+	<td valign="top">4:40-5:57</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6201</td>
+	<td valign="top">Етулия – Рени</td>
+	<td valign="top">6:25-7:45</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6203</td>
+	<td valign="top">Етулия – Рени</td>
+	<td valign="top">18:52-20:12</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6203</td>
+	<td valign="top">Етулия – Рени</td>
+	<td valign="top">18:52-20:12</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6211</td>
+	<td valign="top">Кэинарь – Басарабяска</td>
+	<td valign="top">5:10-7:32</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6212</td>
+	<td valign="top">Басарабяска – Кэинарь</td>
+	<td valign="top">9:15-11:41</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6215</td>
+	<td valign="top">Кэинарь – Басарабяска</td>
+	<td valign="top">17:08-19:30</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6216</td>
+	<td valign="top">Басарабяска – Кэинарь</td>
+	<td valign="top">20:30-23:00</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6313</td>
+	<td valign="top">Жмеринка – Вапнярка</td>
+	<td valign="top">9:35-11:12</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6314</td>
+	<td valign="top">Вапнярка – Жмеринка</td>
+	<td valign="top">11:40-13:15</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6315</td>
+	<td valign="top">Жмеринка – Вапнярка</td>
+	<td valign="top">13:25-15:02</td>
+	<td valign="top">по 4,5,6,7 дням и праздничным дням</td>
+	</tr>
+	<tr>
+	<td valign="top">6316</td>
+	<td valign="top">Вапнярка – Жмеринка</td>
+	<td valign="top">15:29-17:03</td>
+	<td valign="top">по 4,5,6,7 дням и праздничным дням</td>
+	</tr>
+	<tr>
+	<td valign="top">6319</td>
+	<td valign="top">Жмеринка – Вапнярка</td>
+	<td valign="top">20:40-22:22</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6320</td>
+	<td valign="top">Вапнярка – Жмеринка</td>
+	<td valign="top">5:34-7:08</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6601</td>
+	<td valign="top">Помошная – Котовск</td>
+	<td valign="top">13:15-18:00</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6602</td>
+	<td valign="top">Котовск – Помошная</td>
+	<td valign="top">6:19-11:00</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6603</td>
+	<td valign="top">Помошная – Котовск</td>
+	<td valign="top">5:20-10:23</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6604</td>
+	<td valign="top">Котовск – Помошная</td>
+	<td valign="top">14:12-18:45</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6653</td>
+	<td valign="top">Басарабяска – Етулия</td>
+	<td valign="top">8:20-12:12</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6654</td>
+	<td valign="top">Етулия – Басарабяска</td>
+	<td valign="top">14:22-18:20</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">6655</td>
+	<td valign="top">Басарабяска – Етулия</td>
+	<td valign="top">20:10-0:01</td>
+	<td valign="top"><span style="color: red;">по указанию</span></td>
+	</tr>
+	<tr>
+	<td valign="top">6656</td>
+	<td valign="top">Етулия – Басарабяска</td>
+	<td valign="top">3:02-7:00</td>
+	<td valign="top"><span style="color: red;">по указанию</span></td>
+	</tr>
+	<tr>
+	<td valign="top">952</td>
+	<td valign="top">Раздельная-1 – Ротово</td>
+	<td valign="top">7:00-8:35</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">951</td>
+	<td valign="top">Ротово – Раздельная-1</td>
+	<td valign="top">8:55-10:46</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">954</td>
+	<td valign="top">Раздельная-1 – Ротово</td>
+	<td valign="top">15:04-16:41</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	<tr>
+	<td valign="top">953</td>
+	<td valign="top">Ротово – Раздельная-1</td>
+	<td valign="top">17:47-19:40</td>
+	<td valign="top">круглый год, ежедневно</td>
+	</tr>
+	</tbody>
+	</table>
 </article>
 {% endblock %}
