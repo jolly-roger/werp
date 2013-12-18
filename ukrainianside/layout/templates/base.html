@@ -14,6 +14,7 @@
         <!-- link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" -->
         <!-- link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css" -->
         
+        <link rel="stylesheet" href="/normalize" />
         <link rel="stylesheet" href="/foundation5" />
         
         {% block headerContent %}
@@ -45,21 +46,21 @@
         })(document, window, "yandex_metrika_callbacks");
         </script>
         <noscript><div><img src="//mc.yandex.ru/watch/17148058" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-        <!-- /Yandex.Metrika counter -->        
-        <div class="container">
-            <div class='page-header' style='display: table-cell; border-bottom: none;'>
-                <a class="brand" href="/">
+        <!-- /Yandex.Metrika counter -->
+        <div class='row'>
+            <div class="large-1 columns">
+                <a href="/">
                     <img src='/images/logo.jpg' title='Украинская сторонка' alt='Украинская сторонка'/>
                 </a>
-                <div style='display: inline-block; margin-left: 20px;'>
-                    <p><h1>Украинская сторонка</h1></p>
-                    <small>Путешествия по Украине</small>
-                </div>
             </div>
-            {% block social %}
-            {% endblock %}
-            {% block mainContent %}
-            {% endblock %}
+            <div class="large-11 columns">
+                <p><h1>Украинская сторонка</h1></p>
+                <small>Путешествия по Украине</small>
+            </div>
         </div>
+        {% block social %}
+        {% endblock %}
+        {% block mainContent %}
+        {% endblock %}
     </body>
 </html>
