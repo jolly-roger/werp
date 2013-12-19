@@ -38,6 +38,7 @@ table.social{
 div.social{
 	width: 30px;
 	height: 30px;
+	border-radius: 5px;
 }
 .share-btn{
 	background-image: url(http://ukrainianside.com/images/sns.png);
