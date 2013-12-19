@@ -110,4 +110,8 @@ div.social-page-border{
 .tw-page-border{
 	background-color: #00aced;
 }
+
+.tw-page-border:hover{
+	background-color: #009ad4;
+}
 /* -- Social Page */
