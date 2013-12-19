@@ -52,6 +52,7 @@ div.social-page{
 div.social-page-border{
 	padding: 5px;
 	background-color: red;
+	border-right: 10px;
 }
 .share-btn{
 	background-image: url(http://ukrainianside.com/images/sns.png);
