@@ -49,6 +49,11 @@ div.social{
 	background-repeat: no-repeat;
 	background-size: 30px;
 }
+.social-page-btn{
+	background-image: url(http://ukrainianside.com/images/sns.png);
+	background-repeat: no-repeat;
+	background-size: 20px;
+}
 .vk-share-btn{
 	background-position: 0px -467px;
 }
