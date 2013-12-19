@@ -36,7 +36,7 @@ table.social{
     margin-bottom: none;
 }
 table.social tr td{
-	padding: none;
+	padding: 0;
 	padding-right: 5px;
 }
 div.social{
