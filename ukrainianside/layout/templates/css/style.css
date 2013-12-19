@@ -45,23 +45,10 @@ div.social{
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 }
-div.social-page{
-	width: 20px;
-	height: 20px;
-}
-div.social-page-border{
-	padding: 5px;
-	border-radius: 15px;
-}
 .share-btn{
 	background-image: url(http://ukrainianside.com/images/sns.png);
 	background-repeat: no-repeat;
 	background-size: 30px;
-}
-.social-page-btn{
-	background-image: url(http://ukrainianside.com/images/sns.png);
-	background-repeat: no-repeat;
-	background-size: 20px;
 }
 .vk-share-btn{
 	background-position: 0px -311px;
@@ -78,6 +65,37 @@ div.social-page-border{
 .tw-share-btn{
 	background-position: 0px -769px;
 }
+/* -- Social */
+
+/* Social Page --*/
+div.social-page{
+	width: 20px;
+	height: 20px;
+}
+div.social-page-border{
+	padding: 5px;
+	border-radius: 15px;
+}
+.social-page-btn{
+	background-image: url(http://ukrainianside.com/images/sns.png);
+	background-repeat: no-repeat;
+	background-size: 20px;
+}
+.vk-page-btn{
+	background-position: 0px -467px;
+}
+.fb-page-btn{
+	background-position: 0px -1205px;
+}
+.plus-page-btn{
+	background-position: 0px -1069px;
+}
+.od-page-btn{
+	background-position: 0px -782px;
+}
+.tw-page-btn{
+	background-position: 0px -1153px;
+}
 .vk-page-border{
 	background-color: #42678e;
 }
@@ -93,4 +111,4 @@ div.social-page-border{
 .tw-page-border{
 	background-color: #00aced;
 }
-/* -- Social */
+/* -- Social Page */
