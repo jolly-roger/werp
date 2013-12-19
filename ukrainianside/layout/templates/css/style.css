@@ -1,4 +1,4 @@
-#site-title a {
+/*#site-title a {
 	color: #111111;
 	line-height: 36px;
 	text-decoration: none;
@@ -17,7 +17,7 @@ h3 a:hover,
 h3 a:focus,
 h3 a:active {
 	color: #1982d1;
-}
+}*/
 
 .uaside-header{
 	padding-top: 20px;
