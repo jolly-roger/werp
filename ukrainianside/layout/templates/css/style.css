@@ -79,4 +79,19 @@ div.social-page-border{
 .tw-share-btn{
 	background-position: 0px -769px;
 }
+.vk-page-border{
+	background-color: #42678e;
+}
+.fb-page-border{
+	background-color: #3b5999;
+}
+.plus-page-border{
+	background-color: #d44332;
+}
+.od-page-border{
+	background-color: #f6881f;
+}
+.tw-page-border{
+	background-color: #00aced;
+}
 /* -- Social */
