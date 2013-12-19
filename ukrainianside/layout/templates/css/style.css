@@ -35,6 +35,10 @@ table.social{
     border: none;
     margin-bottom: none;
 }
+table.social tr td{
+	padding: none;
+	padding-right: 5px;
+}
 div.social{
 	width: 30px;
 	height: 30px;
