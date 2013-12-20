@@ -64,11 +64,20 @@ div.social{
 .vk-share-btn{
 	background-position: 0px -62px;
 }
+.vk-share-btn:hover{
+	background-position: -31px -62px;
+}
 .od-share-btn{
 	background-position: 0px -93px;
 }
+.od-share-btn:hover{
+	background-position: -31px -93px;
+}
 .tw-share-btn{
 	background-position: 0px -124px;
+}
+.tw-share-btn:hover{
+	background-position: -31px -124px;
 }
 /* -- Social */
 
