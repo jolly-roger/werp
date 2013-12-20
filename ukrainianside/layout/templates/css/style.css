@@ -42,12 +42,16 @@ table.social tr td{
 div.social{
 	width: 30px;
 	height: 30px;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
 }
 .social-btn{
 	background-image: url(http://ukrainianside.com/images/sns.png);
 	background-repeat: no-repeat;
+}
+.fb-share-btn, .plus-share-btn, .vk-share-btn, .od-share-btn, .tw-share-btn,
+.fb-share-btn:hover, .plus-share-btn:hover, .vk-share-btn:hover, .od-share-btn:hover, .tw-share-btn:hover{
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 .fb-share-btn{
 	background-position: 0px 0px;
@@ -82,70 +86,50 @@ div.social{
 /* -- Social */
 
 /* Social Page --*/
-div.social-page{
-	width: 30px;
-	height: 30px;
-}
-div.social-page-border{
-	padding: 5px;
+.fb-page-btn, .plus-page-btn, .vk-page-btn, .od-page-btn, .tw-page-btn,
+.fb-page-btn:hover, .plus-page-btn:hover, .vk-page-btn:hover, .od-page-btn:hover, .tw-page-btn:hover{
 	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
 }
 .fb-page-btn{
+	border: 5px solid #3b5999;
 	background-position: -62px 0px;
 }
 .fb-page-btn:hover{
+	border: 5px solid #2c4373;
 	background-position: -83px 0px;
 }
 .plus-page-btn{
+	border: 5px solid #d44332;
 	background-position: -62px -21px;
 }
 .plus-page-btn:hover{
+	border: 5px solid #ad3729;
 	background-position: -83px -21px;
 }
 .vk-page-btn{
+	border: 5px solid #42678e;
 	background-position: -62px -42px;
 }
 .vk-page-btn:hover{
+	border: 5px solid #314c69;
 	background-position: -83px -42px;
 }
 .od-page-btn{
+	border: 5px solid #f6881f;
 	background-position: -62px -63px;
 }
 .od-page-btn:hover{
+	border: 5px solid #cf721a;
 	background-position: -83px -63px;
 }
 .tw-page-btn{
 	border: 5px solid #00aced;
-	border-radius: 15px;
 	background-position: -62px -84px;
 }
 .tw-page-btn:hover{
 	border: 5px solid #0090c7;
-	border-radius: 15px;
 	background-position: -83px -84px;
-}
-.fb-page-border{
-	background-color: #3b5999;
-}
-.fb-page-border:hover{
-	background-color: #2c4373;
-}
-.plus-page-border{
-	background-color: #d44332;
-}
-.plus-page-border:hover{
-	background-color: #ad3729;
-}
-.vk-page-border{
-	background-color: #42678e;
-}
-.vk-page-border:hover{
-	background-color: #314c69;
-}
-.od-page-border{
-	background-color: #f6881f;
-}
-.od-page-border:hover{
-	background-color: #cf721a;
 }
 /* -- Social Page */
