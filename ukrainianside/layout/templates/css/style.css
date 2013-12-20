@@ -88,9 +88,9 @@ div.social{
 /* Social Page --*/
 .fb-page-btn, .plus-page-btn, .vk-page-btn, .od-page-btn, .tw-page-btn,
 .fb-page-btn:hover, .plus-page-btn:hover, .vk-page-btn:hover, .od-page-btn:hover, .tw-page-btn:hover{
-	border-radius: 14px;
-	-moz-border-radius: 14px;
-	-webkit-border-radius: 14px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
 }
 .fb-page-btn{
 	border: 5px solid #3b5999;
