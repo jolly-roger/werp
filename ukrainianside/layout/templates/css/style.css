@@ -116,10 +116,12 @@ div.social-page-border{
 }
 .tw-page-btn{
 	border: 5px solid #00aced;
-	border-radius: 10px;
+	border-radius: 15px;
 	background-position: -62px -84px;
 }
 .tw-page-btn:hover{
+	border: 5px solid #0090c7;
+	border-radius: 15px;
 	background-position: -83px -84px;
 }
 .fb-page-border{
@@ -145,11 +147,5 @@ div.social-page-border{
 }
 .od-page-border:hover{
 	background-color: #cf721a;
-}
-.tw-page-border{
-	background-color: #00aced;
-}
-.tw-page-border:hover{
-	background-color: #0090c7;
 }
 /* -- Social Page */
