@@ -48,22 +48,27 @@ div.social{
 .share-btn{
 	background-image: url(http://ukrainianside.com/images/sns.png);
 	background-repeat: no-repeat;
-	background-size: 30px;
-}
-.vk-share-btn{
-	background-position: 0px -467px;
 }
 .fb-share-btn{
-	background-position: 0px -1205px;
+	background-position: 0px 0px;
+}
+.fb-share-btn:hover{
+	background-position: 31px 0px;
 }
 .plus-share-btn{
-	background-position: 0px -1069px;
+	background-position: 0px -31px;
+}
+.plus-share-btn:hover{
+	background-position: 31px -31px;
+}
+.vk-share-btn{
+	background-position: 0px -62px;
 }
 .od-share-btn{
-	background-position: 0px -782px;
+	background-position: 0px -93px;
 }
 .tw-share-btn{
-	background-position: 0px -1153px;
+	background-position: 0px -124px;
 }
 /* -- Social */
 
