@@ -90,38 +90,64 @@ div.social-page-border{
 	padding: 5px;
 	border-radius: 15px;
 }
-.social-page-btn{
-	background-image: url(http://ukrainianside.com/images/sns20.png);
-	background-repeat: no-repeat;
-}
-.vk-page-btn{
-	background-position: 0px -311px;
-}
 .fb-page-btn{
-	background-position: 0px -803px;
+	background-position: -62px 0px;
+}
+.fb-page-btn:hover{
+	background-position: -83px 0px;
 }
 .plus-page-btn{
-	background-position: 0px -712px;
+	background-position: -62px -21px;
+}
+.plus-page-btn:hover{
+	background-position: -83px -21px;
+}
+.vk-page-btn{
+	background-position: -62px -42px;
+}
+.vk-page-btn:hover{
+	background-position: -83px -42px;
 }
 .od-page-btn{
-	background-position: 0px -521px;
+	background-position: -62px -63px;
+}
+.od-page-btn:hover{
+	background-position: -83px -63px;
 }
 .tw-page-btn{
-	background-position: 0px -769px;
+	background-position: -62px -84px;
 }
-.vk-page-border{
-	background-color: #42678e;
+.tw-page-btn:hover{
+	background-position: -83px -84px;
 }
 .fb-page-border{
 	background-color: #3b5999;
 }
+.fb-page-border:hover{
+	background-color: #2c4373;
+}
 .plus-page-border{
 	background-color: #d44332;
+}
+.plus-page-border:hover{
+	background-color: #ad3729;
+}
+.vk-page-border{
+	background-color: #42678e;
+}
+.vk-page-border:hover{
+	background-color: #314c69;
 }
 .od-page-border{
 	background-color: #f6881f;
 }
+.od-page-border:hover{
+	background-color: #cf721a;
+}
 .tw-page-border{
 	background-color: #00aced;
+}
+.tw-page-border:hover{
+	background-color: #0090c7;
 }
 /* -- Social Page */
