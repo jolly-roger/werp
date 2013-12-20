@@ -53,13 +53,13 @@ div.social{
 	background-position: 0px 0px;
 }
 .fb-share-btn:hover{
-	background-position: 31px 0px;
+	background-position: -31px 0px;
 }
 .plus-share-btn{
 	background-position: 0px -31px;
 }
 .plus-share-btn:hover{
-	background-position: 31px -31px;
+	background-position: -31px -31px;
 }
 .vk-share-btn{
 	background-position: 0px -62px;
