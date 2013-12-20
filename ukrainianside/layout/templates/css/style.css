@@ -86,49 +86,49 @@ div.social{
 /* -- Social */
 
 /* Social Page --*/
-.fb-page-btn, .plus-page-btn, .vk-page-btn, .od-page-btn, .tw-page-btn,
-.fb-page-btn:hover, .plus-page-btn:hover, .vk-page-btn:hover, .od-page-btn:hover, .tw-page-btn:hover{
+.fb-round-btn, .plus-round-btn, .vk-round-btn, .od-round-btn, .tw-round-btn,
+.fb-round-btn:hover, .plus-round-btn:hover, .vk-round-btn:hover, .od-round-btn:hover, .tw-round-btn:hover{
 	border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 }
-.fb-page-btn{
+.fb-round-btn{
 	border: 5px solid #3b5999;
 	background-position: -62px 0px;
 }
-.fb-page-btn:hover{
+.fb-round-btn:hover{
 	border: 5px solid #2c4373;
 	background-position: -83px 0px;
 }
-.plus-page-btn{
+.plus-round-btn{
 	border: 5px solid #d44332;
 	background-position: -62px -21px;
 }
-.plus-page-btn:hover{
+.plus-round-btn:hover{
 	border: 5px solid #ad3729;
 	background-position: -83px -21px;
 }
-.vk-page-btn{
+.vk-round-btn{
 	border: 5px solid #42678e;
 	background-position: -62px -42px;
 }
-.vk-page-btn:hover{
+.vk-round-btn:hover{
 	border: 5px solid #314c69;
 	background-position: -83px -42px;
 }
-.od-page-btn{
+.od-round-btn{
 	border: 5px solid #f6881f;
 	background-position: -62px -63px;
 }
-.od-page-btn:hover{
+.od-round-btn:hover{
 	border: 5px solid #cf721a;
 	background-position: -83px -63px;
 }
-.tw-page-btn{
+.tw-round-btn{
 	border: 5px solid #00aced;
 	background-position: -62px -84px;
 }
-.tw-page-btn:hover{
+.tw-round-btn:hover{
 	border: 5px solid #0090c7;
 	background-position: -83px -84px;
 }
