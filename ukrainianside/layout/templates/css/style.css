@@ -83,8 +83,8 @@ div.social{
 
 /* Social Page --*/
 div.social-page{
-	width: 20px;
-	height: 20px;
+	width: 30px;
+	height: 30px;
 }
 div.social-page-border{
 	padding: 5px;
@@ -117,7 +117,7 @@ div.social-page-border{
 .tw-page-btn{
 	/*border: 5px solid #00aced;*/
 	border: 5px solid red;
-	padding: 5px;
+	/*padding: 5px;*/
 	/*border-radius: 10px;*/
 	background-position: -62px -84px;
 }
