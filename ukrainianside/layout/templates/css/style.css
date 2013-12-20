@@ -115,10 +115,8 @@ div.social-page-border{
 	background-position: -83px -63px;
 }
 .tw-page-btn{
-	/*border: 5px solid #00aced;*/
-	border: 5px solid red;
-	/*padding: 5px;*/
-	/*border-radius: 10px;*/
+	border: 5px solid #00aced;
+	border-radius: 10px;
 	background-position: -62px -84px;
 }
 .tw-page-btn:hover{
