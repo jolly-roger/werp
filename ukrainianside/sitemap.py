@@ -20,7 +20,7 @@ def getSitemap():
     
     for a in aticles:
         sitemap += "<url>" \
-                "<loc>" + engine.article.getUrlByAlias(a.alias) + "</loc>" \
+                "<loc>" + engine.article.getQuotedUrlByAlias(a.alias) + "</loc>" \
                 "<lastmod>" + now + "</lastmod>" \
                 "<changefreq>daily</changefreq>" \
                 "<priority>1.0</priority>" \
