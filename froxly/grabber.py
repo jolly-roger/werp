@@ -22,7 +22,6 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
     url = 'http://www.hidemyass.com/proxy-list/'
     conn = None
     ses = None
-    ctx = None
     res_data = None
     start_dt = datetime.datetime.now()
     start_time = time.time()
