@@ -94,7 +94,8 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
         conn.close()
         report = str(len(added_fps)) + ' new proxies were added'
         for added_fp in added_fps:
-            report += '\n' + str(added_fp) 
+            report += '\n' + str(added_fp)
+        froxly_grabber_log.info(report)
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
         froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
