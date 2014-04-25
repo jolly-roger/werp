@@ -10,7 +10,7 @@ import zmq
 import json
 
 from werp import orm
-from werp import nlog, exec_log
+from werp import froxly_grabber_log
 from werp.common import sockets
 
 TRY_COUNT = 11
@@ -19,9 +19,10 @@ conn = None
 ses = None
 ctx = None
 res_data = None
+start_dt = datetime.datetime.now()
+start_time = time.time()
+froxly_grabber_log.info('Started at %s' % (str(start_dt), ))
 try:
-    start_dt = datetime.datetime.now()
-    start_time = time.time()
     conn = orm.q_engine.connect()
     ses = orm.sescls(bind=conn)
     res = None
@@ -42,7 +43,10 @@ try:
             res = None
         try_count = try_count + 1
         if try_count >= TRY_COUNT:
-            nlog.info('froxly - grabber error - request data', str(TRY_COUNT) + ' tries have failed.')
+            froxly_grabber_log.error(str(TRY_COUNT) + ' tries have failed.')
+            end_time = time.time()
+            exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+            froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
     html_parser = etree.HTMLParser()
     dom_tree = etree.parse(io.StringIO(res_data), html_parser)
     raw_proxies = dom_tree.xpath('/html/body/div/div/table/tr')
@@ -77,15 +81,20 @@ try:
                     ses.add(fp)
                     ses.commit()
         except:
-            nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + \
-                etree.tostring(raw_proxy).decode('utf-8'))
+            froxly_grabber_log.error(traceback.format_exc() + '\n\n' + etree.tostring(raw_proxy).decode('utf-8'))
+            end_time = time.time()
+            exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+            froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
     ses.close()
     conn.close()
     end_time = time.time()
     exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-    exec_log.info('froxly grabber %s %s' % (str(start_dt), str(exec_delta)))
+    froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
 except:
-    nlog.info('froxly - grabber error', traceback.format_exc() + '\n\n' + str(res_data))
+    froxly_grabber_log.error(traceback.format_exc() + '\n\n' + str(res_data))
+    end_time = time.time()
+    exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
+    froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
     if ses is not None:
         ses.close()
     if conn is not None:    
