@@ -102,3 +102,5 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
             ses.close()
         if conn is not None:    
             conn.close()
+else:
+    froxly_grabber_log.info('Grabber already started')
