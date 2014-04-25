@@ -53,7 +53,7 @@ error_log.addHandler(_error_log_fh)
 # froxly
 froxly_grabber_log = logging.getLogger('froxly_grabber')
 froxly_grabber_log.setLevel(logging.DEBUG)
-_froxly_grabber_fh = logging.handlers.RotatingFileHandler(constants.LOGS_DIR + '/froxly_grabber.log', maxBytes=1048576)
+_froxly_grabber_fh = logging.handlers.TimedRotatingFileHandler(constants.LOGS_DIR + '/froxly_grabber.log', when='midnight')
 _froxly_grabber_fh.setLevel(logging.DEBUG)
 _froxly_grabber_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 _froxly_grabber_fh.setFormatter(_froxly_grabber_formatter)
