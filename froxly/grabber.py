@@ -27,6 +27,7 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
     start_time = time.time()
     froxly_grabber_log.info('Started at %s' % (str(start_dt), ))
     try:
+        added_fps = []
         conn = orm.q_engine.connect()
         ses = orm.sescls(bind=conn)
         res = None
@@ -49,7 +50,7 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
                 froxly_grabber_log.error(str(TRY_COUNT) + ' tries have failed.')
                 end_time = time.time()
                 exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-                froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
+                froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
         html_parser = etree.HTMLParser()
         dom_tree = etree.parse(io.StringIO(res_data), html_parser)
         raw_proxies = dom_tree.xpath('/html/body/div/div/table/tr')
@@ -83,21 +84,25 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
                     except orm.NoResultFound:
                         ses.add(fp)
                         ses.commit()
+                        added_fps.append((fp.ip, fp.port, fp.protocol))
             except:
                 froxly_grabber_log.error(traceback.format_exc() + '\n\n' + etree.tostring(raw_proxy).decode('utf-8'))
                 end_time = time.time()
                 exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-                froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
+                froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
         ses.close()
         conn.close()
+        report = str(len(added_fps)) + ' new proxies were added'
+        for added_fp in added_fps:
+            report += '\n' + str(added_fp) 
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
+        froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
     except:
         froxly_grabber_log.error(traceback.format_exc() + '\n\n' + str(res_data))
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        froxly_grabber_log.info('Finished at %s, duration is %s' % (str(start_dt), str(exec_delta)))
+        froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
         if ses is not None:
             ses.close()
         if conn is not None:    
