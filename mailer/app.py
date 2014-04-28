@@ -1,4 +1,5 @@
 import smtplib
+import os
 import os.path
 import datetime
 from email.mime.text import MIMEText
@@ -27,3 +28,4 @@ if os.path.isfile(y_froxly_log):
     l.flush()
     l.close()
     sendmail('froxly grabber report for ' + yday.isoformat(), m)
+    os.remove(y_froxly_log)
