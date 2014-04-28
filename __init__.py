@@ -1,9 +1,7 @@
 import logging
 import logging.handlers
-import os
-import os.path
 
-from .common import constants, sockets
+from .common import constants
 
 class WerpSMTPHandler(logging.handlers.SMTPHandler):
     def __init__(self, *a, **kw):
@@ -60,7 +58,3 @@ _froxly_grabber_fh.setLevel(logging.DEBUG)
 _froxly_grabber_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 _froxly_grabber_fh.setFormatter(_froxly_grabber_formatter)
 froxly_grabber_log.addHandler(_froxly_grabber_fh)
-
-
-if os.path.isfile(sockets.get_socket_path(sockets.froxly_grabber_server)):
-    os.remove(sockets.get_socket_path(sockets.froxly_grabber_server))
