@@ -2,7 +2,7 @@ import json
 import zmq
 import traceback
 
-from werp import nlog
+from werp import froxly_checker_log
 from werp.common import sockets
 
 ctx = None
@@ -14,4 +14,4 @@ try:
     froxly_data_server_socket.send_unicode(json.dumps({'method': 'check', 'params': None}))
     froxly_data_server_socket.recv_unicode()
 except:
-    nlog.info('froxly - base check fatal', traceback.format_exc())
+    froxly_checker_log.fatal(traceback.format_exc())

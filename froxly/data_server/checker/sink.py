@@ -4,8 +4,7 @@ import json
 import redis
 import threading
 
-from werp import orm
-from werp import nlog
+from werp import orm, froxly_checker_log
 from werp.common import sockets, red_keys
 from werp.froxly.data_server import common as data_server_common
 
@@ -53,7 +52,7 @@ def run(url, proxy_count):
                 break
         froxly_checker_finish_socket.send_unicode(str(0))
     except:
-        nlog.info('froxly - checher error', traceback.format_exc())
+        froxly_checker_log.exception('sink "run"\n\n' + traceback.format_exc())
         if ses is not None:
             ses.close()
         if conn is not None:    

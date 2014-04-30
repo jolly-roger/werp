@@ -50,7 +50,7 @@ _error_log_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 _error_log_fh.setFormatter(_error_log_formatter)
 error_log.addHandler(_error_log_fh)
 
-# froxly
+# froxly grabber
 froxly_grabber_log = logging.getLogger('froxly_grabber')
 froxly_grabber_log.setLevel(logging.DEBUG)
 _froxly_grabber_fh = logging.handlers.TimedRotatingFileHandler(constants.LOGS_DIR + '/froxly_grabber.log', when='midnight')
@@ -58,3 +58,12 @@ _froxly_grabber_fh.setLevel(logging.DEBUG)
 _froxly_grabber_formatter = logging.Formatter('[%(asctime)s] %(message)s')
 _froxly_grabber_fh.setFormatter(_froxly_grabber_formatter)
 froxly_grabber_log.addHandler(_froxly_grabber_fh)
+
+# froxly checker
+froxly_checker_log = logging.getLogger('froxly_checker')
+froxly_checker_log.setLevel(logging.DEBUG)
+_froxly_checker_fh = logging.handlers.TimedRotatingFileHandler(constants.LOGS_DIR + '/froxly_checker.log', when='midnight')
+_froxly_checker_fh.setLevel(logging.DEBUG)
+_froxly_checker_formatter = logging.Formatter('[%(asctime)s] %(message)s')
+_froxly_checker_fh.setFormatter(_froxly_checker_formatter)
+froxly_checker_log.addHandler(_froxly_checker_fh)

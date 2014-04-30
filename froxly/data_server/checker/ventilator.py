@@ -6,7 +6,7 @@ import threading
 import os.path
 import random
 
-from werp import orm, nlog
+from werp import orm, froxly_checker_log
 from werp.common import sockets, red_keys
 from werp.froxly.data_server.checker import sink, worker
 from werp.froxly.data_server import common as data_server_common
@@ -44,9 +44,9 @@ def base_run(url):
             ses.close()
             conn.close()
         else:
-            nlog.info('froxly - checher info', 'Check for ' + url + ' already started')
+            froxly_checker_log.info('ventilator "base_run" is already started for url' + url)
     except:
-        nlog.info('froxly - checher error', traceback.format_exc())
+        froxly_checker_log.exception('ventilator "base_run"\n\n' + traceback.format_exc())
         if ses is not None:
             ses.close()
         if conn is not None:    
@@ -88,6 +88,6 @@ def url_run(url, worker_pool=None, to_check_key=None):
             froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
             froxly_checker_finish_socket.recv_unicode()
         else:
-            nlog.info('froxly - checher info', 'Check for ' + url + ' already started')
+            froxly_checker_log.info('ventilator "url_run" is already started for url' + url)
     except:
-        nlog.info('froxly - checher error', traceback.format_exc())
+        froxly_checker_log.exception('ventilator "url_run"\n\n' + traceback.format_exc())

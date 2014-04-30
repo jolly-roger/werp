@@ -86,10 +86,10 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
                         ses.commit()
                         added_fps.append((fp.ip, fp.port, fp.protocol))
             except:
-                froxly_grabber_log.error(traceback.format_exc() + '\n\n' + etree.tostring(raw_proxy).decode('utf-8'))
+                froxly_grabber_log.exception(traceback.format_exc() + '\n\n' + etree.tostring(raw_proxy).decode('utf-8'))
                 end_time = time.time()
                 exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-                froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
+                froxly_grabber_log.info('Finished, duration is %s \n\n' % (str(exec_delta),))
         ses.close()
         conn.close()
         report = str(len(added_fps)) + ' new proxies were added'
@@ -98,12 +98,12 @@ if not os.path.exists(sockets.get_socket_path(sockets.froxly_grabber_server)):
         froxly_grabber_log.info(report)
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
+        froxly_grabber_log.info('Finished, duration is %s \n\n' % (str(exec_delta),))
     except:
-        froxly_grabber_log.error(traceback.format_exc() + '\n\n' + str(res_data))
+        froxly_grabber_log.fatal(traceback.format_exc() + '\n\n' + str(res_data))
         end_time = time.time()
         exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-        froxly_grabber_log.info('Finished at %s, duration is %s \n\n' % (str(start_dt), str(exec_delta)))
+        froxly_grabber_log.info('Finished, duration is %s \n\n' % (str(exec_delta),))
         if ses is not None:
             ses.close()
         if conn is not None:    

@@ -6,7 +6,7 @@ import json
 import socket
 import struct
 
-from werp import nlog
+from werp import froxly_checker_log
 from werp.common import sockets
 from werp.common import timeouts
 from werp.common import red_keys
@@ -111,7 +111,7 @@ def run(url):
             if froxly_checker_finish_socket in socks and socks[froxly_checker_finish_socket] == zmq.POLLIN:
                 break
     except:
-        nlog.info('froxly - checher error', traceback.format_exc())
+        froxly_checker_log.exception('worker "run"\n\n' + traceback.format_exc())
 
 def socks_recvall(self, count):
     data = self.recv(count)
