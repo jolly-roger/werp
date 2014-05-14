@@ -13,23 +13,25 @@ try:
     def base_check(msg):
         try:
             start_dt = datetime.datetime.now()
+            froxly_grafroxly_checker_logbber_log.info('"base_check" is started at %s' % (str(start_dt), ))
             start_time = time.time()
             ventilator.base_run('http://user-agent-list.com')
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-            froxly_checker_log.info('Base check is finished, duration is %s \n\n' % (str(exec_delta),))
+            froxly_checker_log.info('"base_check" is finished, duration is %s \n\n' % (str(exec_delta),))
         except:
             froxly_checker_log.exception('app "base_check"\n\n' + traceback.format_exc())
     def url_check(msg):
         try:
             start_dt = datetime.datetime.now()
+            froxly_grafroxly_checker_logbber_log.info('"url_check" is started at %s' % (str(start_dt), ))
             start_time = time.time()
             ventilator.url_run(msg['params']['url'],
                 msg['params']['worker_pool'] if 'worker_pool' in msg['params'] else None,
                 msg['params']['to_check_key'] if 'to_check_key' in msg['params'] else None)
             end_time = time.time()
             exec_delta = datetime.timedelta(seconds=int(end_time - start_time))
-            froxly_checker_log.info('Check for url ' + msg['params']['url'] +\
+            froxly_checker_log.info('"url_check" for url ' + msg['params']['url'] +\
                 ' is finished, duration is %s \n\n' % (str(exec_delta),))
         except:
             froxly_checker_log.exception('app "url_check"\n\n' + traceback.format_exc())
