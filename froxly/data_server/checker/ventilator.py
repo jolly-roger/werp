@@ -5,15 +5,16 @@ import redis
 import threading
 import os.path
 import random
+import psycopg2
 
-from werp import orm, froxly_checker_log
+from werp import froxly_checker_log
 from werp.common import sockets, red_keys
 from werp.froxly.data_server.checker import sink, worker
 from werp.froxly.data_server import common as data_server_common
 
 def base_run(url):
     conn = None
-    ses = None
+    cur = None
     try:
         if not os.path.exists(sockets.get_socket_path(sockets.froxly_checker_worker, url)):
             ctx = zmq.Context()
@@ -21,10 +22,13 @@ def base_run(url):
             froxly_checker_worker_socket = ctx.socket(zmq.PUSH)
             froxly_checker_worker_socket.bind(sockets.format_socket_uri(sockets.froxly_checker_worker, url=url))
             
-            conn = orm.null_engine.connect()
-            ses = orm.sescls(bind=conn)
-            proxies = ses.query(orm.FreeProxy).all()
-            
+            conn = psycopg2.connect('host=localhost port=5432 dbname=werp user=werp password=0v}II587')
+            cur = conn.cursor()
+            cur.execute("select id, ip, port, protocol from free_proxy;")
+            proxies = cur.fetchall()
+            cur.close()
+            conn.close()
+
             manager = threading.Thread(target=sink.run, args=(url, len(proxies)))
             manager.start()
             
@@ -34,21 +38,19 @@ def base_run(url):
             
             for proxy in proxies:
                 task = {'url': url, 'red_key': red_keys.froxly_base_check_free_proxy,
-                    'proxy': {'id': proxy.id, 'ip': proxy.ip, 'port': proxy.port, 'protocol': proxy.protocol}}
+                    'proxy': {'id': proxy[0], 'ip': proxy[1], 'port': proxy[2], 'protocol': proxy[3]}}
                 froxly_checker_worker_socket.send_unicode(json.dumps(task))
                
             froxly_checker_finish_socket = ctx.socket(zmq.SUB)
             froxly_checker_finish_socket.connect(sockets.format_socket_uri(sockets.froxly_checker_finish, url=url))
             froxly_checker_finish_socket.setsockopt_string(zmq.SUBSCRIBE, '')
             froxly_checker_finish_socket.recv_unicode()
-            ses.close()
-            conn.close()
         else:
             froxly_checker_log.info('ventilator "base_run" is already started for url' + url)
     except:
         froxly_checker_log.exception('ventilator "base_run"\n\n' + traceback.format_exc())
-        if ses is not None:
-            ses.close()
+        if cur is not None:    
+            cur.close()
         if conn is not None:    
             conn.close()
 def url_run(url, worker_pool=None, to_check_key=None):
