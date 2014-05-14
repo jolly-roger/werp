@@ -13,7 +13,7 @@ try:
     def base_check(msg):
         try:
             start_dt = datetime.datetime.now()
-            froxly_grafroxly_checker_logbber_log.info('"base_check" is started at %s' % (str(start_dt), ))
+            froxly_checker_log.info('"base_check" is started at %s' % (str(start_dt), ))
             start_time = time.time()
             ventilator.base_run('http://user-agent-list.com')
             end_time = time.time()
@@ -24,7 +24,7 @@ try:
     def url_check(msg):
         try:
             start_dt = datetime.datetime.now()
-            froxly_grafroxly_checker_logbber_log.info('"url_check" is started at %s' % (str(start_dt), ))
+            froxly_checker_log.info('"url_check" is started at %s' % (str(start_dt), ))
             start_time = time.time()
             ventilator.url_run(msg['params']['url'],
                 msg['params']['worker_pool'] if 'worker_pool' in msg['params'] else None,
