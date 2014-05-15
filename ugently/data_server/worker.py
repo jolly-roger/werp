@@ -2,15 +2,15 @@ import traceback
 import zmq
 import json
 import redis
+import psycopg2
 
-from werp import orm
 from werp import nlog
 from werp.common import sockets
 from werp.common import red_keys
 
 def run():
     conn = None
-    ses = None
+    cur = None
     try:
         ctx = zmq.Context()
         
@@ -23,24 +23,22 @@ def run():
             msg = ugently_data_worker_socket.recv_unicode()
             rnd_user_agent = None
             if red.exists(red_keys.ugently_user_agent_value) and red.scard(red_keys.ugently_user_agent_value) > 0:
-                rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
+                rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value).decode('utf-8')
             else:
-                conn = orm.null_engine.connect()
-                ses = orm.sescls(bind=conn)
-                user_agents = ses.query(orm.UserAgent).filter(orm.UserAgent.is_bot == False).all()
-                for user_agent in user_agents:
-                    red.sadd(red_keys.ugently_user_agent_value, user_agent.value)
-                ses.close()
+                conn = psycopg2.connect('host=localhost port=5432 dbname=werp user=werp password=0v}II587')
+                cur = conn.cursor()
+                cur.execute("select value from user_agent order by random() limit 1;")
+                rnd_user_agent = cur.fetchone()[0]
+                cur.close()
                 conn.close()
-                rnd_user_agent = red.srandmember(red_keys.ugently_user_agent_value)
             if rnd_user_agent is not None:
-                ugently_data_worker_socket.send_unicode(rnd_user_agent.decode('utf-8'))
+                ugently_data_worker_socket.send_unicode(rnd_user_agent)
             else:
                 nlog.info('ugently - data worker error', 'Random user agent is None')
                 ugently_data_worker_socket.send_unicode('')
     except:
         nlog.info('ugently - data worker fatal', traceback.format_exc())
-        if ses is not None:
-            ses.close()
+        if cur is not None:
+            cur.close()
         if conn is not None:    
             conn.close()
