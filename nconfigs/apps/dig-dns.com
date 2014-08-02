@@ -2,7 +2,7 @@ server {
     server_name dig-dns.com www.dig-dns.com;
     
     location / {
-        root /home/www/sisence-test;
+        alias /home/www/sisence-test/index.html;
         
     }
 }
