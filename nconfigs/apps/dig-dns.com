@@ -3,6 +3,6 @@ server {
     
     location / {
         root /home/www/sisence-test;
-        index index.html;
+        
     }
 }
