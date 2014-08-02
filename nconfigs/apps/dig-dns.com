@@ -1,8 +1,8 @@
 server {
     server_name dig-dns.com www.dig-dns.com;
-    root /home/www/sisence-test;
     
     location / {
+        root /home/www/sisence-test;
         index index.html;
     }
 }
