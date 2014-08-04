@@ -37,24 +37,87 @@
         width: 1500,
         height: 200,
         cellSize: 15,
-        container: 'body'
+        container: 'body',
+		cellBorderColor: '#e6e6e6',
+		data: {}
     }
 	
-	// This will be very useful... look at the API to see what they do!
-	var day = d3.time.format("%w"),
-        monthday = d3.time.format("%d"),
-        month = d3.time.format('%m'),
-        week = d3.time.format("%U"),
-        percent = d3.format(".1%"),
-        format = d3.time.format('%Y-%m-%dT00:00:00');
+	function mergeOptions(left, right){
+		var opts = {};
 		
+		for(var option in left){
+			opts[option] = option in right ? right[option] : left[option];
+		}
+		
+		return opts;
+	}
+	
 	// Constructor
 	function Heatmap(options){
-        // Implement me!
+		var opts = mergeOptions(defaults, options);
+
+		this.getDefaults = function(){
+			return defaults;
+		}
+		
+		this.refresh = function(options){
+			if('data' in opts ||
+			   (options.data && options.data.monthes.length && options.data.monthes.length &&
+					options.data.monthes.length > 0)){
+				opts = mergeOptions(opts, options);
+				
+				d3.select('svg').remove();
+				
+				var mWidth = 8 * opts.cellSize,
+					curLine = 0,
+					curWeek = 0,
+					curMonth = 0
+					maxValue = d3.max(opts.data.monthes, function (m){
+						return d3.max(m.days, function(d){return d.value;})}),
+					chart = d3.select(opts.container).append('svg').attr('width', opts.width).attr('height', opts.height).
+						attr('transform', 'translate(20, 20)');
+					heatColor = d3.scale.linear().
+						domain([0, maxValue / 1.2, maxValue]).
+						range([opts.lowColor, opts.highColor]);
+					
+				var ms = chart.selectAll('.month').data(opts.data.monthes).enter().append('g').
+					attr('transform', function(m, i){return 'translate(' + (i * mWidth) + ', 20)';});
+					// 20 is margin for chrome
+				ms.append('text').
+					text(function(m){return m.name;}).
+						attr('x', function(){return mWidth / 2;}).
+						attr('y', 0).
+						attr("text-anchor", "middle").
+						attr('class', 'month');
+				
+				var ds = ms.selectAll('.day').data(function(m){return m.days;}).enter().
+					append('rect').
+						attr('x', function(d){return d.weekDay * opts.cellSize;}).
+						attr('y', function(d, i){
+							if(curMonth < d.month){
+								curLine = 0;
+								curMonth ++;
+							}
+							if(curWeek < d.week){
+								curLine ++;
+								curWeek ++;
+							}
+							return curLine * opts.cellSize + 14; // 14 is font-size of month title
+						}).
+						attr('class', 'day').
+						attr('width', opts.cellSize).
+						attr('height', opts.cellSize);
+				ds.append('title').text(function(d){return d.tooltip;});
+				ds.transition().duration(1000).
+					style("fill", function(d){return heatColor(d.value);});
+			}else{
+				console.log('[Heatmap widget] refresh method: options.data or opts.data is empty');
+			}
+		}
     }
 	
 	// The rest of the implementation is up to you :)
 	
-	widgets.Heatmap = Heatmap;
+	w.Heatmap = Heatmap;
 
 }(widgets))

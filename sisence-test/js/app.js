@@ -9,6 +9,9 @@
 		// Create the widget
 		var hm = new widgets.Heatmap({ container: '.chart', year: 2013 });
 
+		$(this).find('#lowColor').val(hm.getDefaults().lowColor);
+        $(this).find('#highColor').val(hm.getDefaults().highColor)
+		
 		// Load widget data
         $.get('data/sample.json').done(function (data) {
 
@@ -20,13 +23,12 @@
                 You'll know you got it right when the line below works!
              */
 			 
-            console.log(data);
+            //console.log(data);
 			
-			var formattedData = null; // You need to implement this - transform the data from the JSON request into something nicer for the widget to handle.
+			var formattedData = new utils.HeatYear().fromJSON(data.values); // You need to implement this - transform the data from the JSON request into something nicer for the widget to handle.
 
 			// This will get the widget to re-render with colors!
             hm.refresh({data : formattedData});
-
         });
 		
 		
