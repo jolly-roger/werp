@@ -34,12 +34,19 @@
 		
 		// Refresh widget with new colors
 		$('#colors').submit(function(){
-
-            var low = $(this).find('#lowColor').val();
-            var high = $(this).find('#highColor').val()
-
-            hm.refresh({lowColor : low, highColor: high});
-
+			var low = $(this).find('#lowColor').val();
+			var high = $(this).find('#highColor').val()
+				
+			if(utils.Color.isValidHex(low) && utils.Color.isValidHex(high)){
+				hm.refresh({lowColor : low, highColor: high});
+			}else{
+				if(utils.Color.isValidHex(low)){
+					alert('Low value color is not correct color');
+				}else if(utils.Color.isValidHex(hight)){
+					alert('High value color is not correct color');
+				}
+			}
+			
             return false;
         });   
 

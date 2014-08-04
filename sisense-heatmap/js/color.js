@@ -41,5 +41,6 @@
     }
 
     ns.Color = Color;
+    ns.Color.isValidHex = isValidHex;
 
 }(utils))
