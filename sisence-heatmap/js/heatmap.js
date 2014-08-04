@@ -83,12 +83,14 @@
 				var ms = chart.selectAll('.month').data(opts.data.monthes).enter().append('g').
 					attr('transform', function(m, i){return 'translate(' + (i * mWidth) + ', 20)';});
 					// 20 is margin for chrome, should be found independent solution
-				var mFontSize = ms.append('text').
+				ms.append('text').
 					text(function(m){return m.name;}).
 						attr('x', function(){return mWidth / 2;}).
 						attr('y', 0).
 						attr("text-anchor", "middle").
-						attr('class', 'month').node().getExtentOfChar(0);
+						attr('class', 'month');
+						
+				var mFontSize = ms.select('text').node().getExtentOfChar(0);
 
 				var ds = ms.selectAll('.day').data(function(m){return m.days;}).enter().
 					append('rect').
@@ -107,7 +109,8 @@
 						attr('class', 'day').
 						attr('width', opts.cellSize).
 						attr('height', opts.cellSize).
-						style('stroke', opts.cellBorderColor);
+						style('stroke', opts.cellBorderColor).
+						style('fill', opts.lowColor);
 				ds.append('title').text(function(d){return d.tooltip;});
 				ds.transition().duration(1000).
 					style("fill", function(d){return heatColor(d.value);});
