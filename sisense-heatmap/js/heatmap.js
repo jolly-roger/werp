@@ -62,7 +62,7 @@
 		
 		this.refresh = function(options){
 			if('data' in opts ||
-			   (options.data && options.data.monthes.length && options.data.monthes.length &&
+			   (options.data && options.data.monthes && options.data.monthes.length &&
 					options.data.monthes.length > 0)){
 				opts = mergeOptions(opts, options);
 				
@@ -74,15 +74,18 @@
 					curMonth = 0
 					maxValue = d3.max(opts.data.monthes, function (m){
 						return d3.max(m.days, function(d){return d.value;})}),
-					chart = d3.select(opts.container).append('svg').attr('width', opts.width).attr('height', opts.height).
-						attr('transform', 'translate(20, 20)');
+					chart = d3.select(opts.container).append('svg').
+						attr('width', opts.width).
+						attr('height', opts.height).
+						attr('viewBox', '0 0 ' + opts.width + ' ' + opts.height).
+						attr('preserveAspectRatio', 'xMidYMid meet').
+						attr('class', 'heatmap');
 					heatColor = d3.scale.linear().
 						domain([0, maxValue / 1.2, maxValue]).
 						range([opts.lowColor, opts.highColor]);
 					
 				var ms = chart.selectAll('.month').data(opts.data.monthes).enter().append('g').
-					attr('transform', function(m, i){return 'translate(' + (i * mWidth) + ', 20)';});
-					// 20 is margin for chrome, should be found independent solution
+					attr('transform', function(m, i){return 'translate(' + (i * mWidth) + ', 0)';});
 				ms.append('text').
 					text(function(m){return m.name;}).
 						attr('x', function(){return mWidth / 2;}).
