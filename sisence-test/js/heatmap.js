@@ -82,14 +82,14 @@
 					
 				var ms = chart.selectAll('.month').data(opts.data.monthes).enter().append('g').
 					attr('transform', function(m, i){return 'translate(' + (i * mWidth) + ', 20)';});
-					// 20 is margin for chrome
-				ms.append('text').
+					// 20 is margin for chrome, should be found independent solution
+				var mFontSize = ms.append('text').
 					text(function(m){return m.name;}).
 						attr('x', function(){return mWidth / 2;}).
 						attr('y', 0).
 						attr("text-anchor", "middle").
-						attr('class', 'month');
-				
+						attr('class', 'month').node().getExtentOfChar(0);
+
 				var ds = ms.selectAll('.day').data(function(m){return m.days;}).enter().
 					append('rect').
 						attr('x', function(d){return d.weekDay * opts.cellSize;}).
@@ -102,11 +102,12 @@
 								curLine ++;
 								curWeek ++;
 							}
-							return curLine * opts.cellSize + 14; // 14 is font-size of month title
+							return curLine * opts.cellSize + mFontSize.height;
 						}).
 						attr('class', 'day').
 						attr('width', opts.cellSize).
-						attr('height', opts.cellSize);
+						attr('height', opts.cellSize).
+						style('stroke', opts.cellBorderColor);
 				ds.append('title').text(function(d){return d.tooltip;});
 				ds.transition().duration(1000).
 					style("fill", function(d){return heatColor(d.value);});
