@@ -2,7 +2,7 @@
     function HeatYear() {
         var month = d3.time.format('%m'),
             week = d3.time.format('%U'),
-            tooltip = d3.time.format('%a %m %d %Y');
+            tooltip = d3.time.format('%a %b %d %Y');
         
         this.monthes = [
             {name:'January', days: []},
