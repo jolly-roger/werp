@@ -1,5 +1,5 @@
 create view dovecot_users as
-select (u.name || '@' || d."domain") as "user",
+select (u.name || '@' || d.domain) as user,
     ('/home/mailer/' || md.path) AS home,
     ('maildir:/home/mailer/' || md.path) AS mail,
     5003 AS uid,

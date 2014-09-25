@@ -1,5 +1,5 @@
 create view dovecot_passwords as
-select (u.name || '@' || d."domain") as "user",
+select (u.name || '@' || d.domain) as user,
     u.password,
     ('/home/mailer/' || md.path) AS home,
     ('maildir:/home/mailer/' || md.path) AS mail,
