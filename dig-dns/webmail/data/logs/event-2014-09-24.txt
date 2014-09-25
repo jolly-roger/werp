@@ -1,0 +1,12 @@
+[14:16:52][195.238.92.147][roger@dig-dns.com] > login-failed
+[14:46:57][195.238.92.147][roger@dig-dns.com] > login-success
+[14:47:42][195.238.92.147][roger@dig-dns.com] > message-send
+[14:55:29][195.238.92.147][roger@dig-dns.com] > logout
+[14:55:55][195.238.92.147][roger@uatrains.com] > login-success
+[14:57:08][195.238.92.147][roger@uatrains.com] > logout
+[15:12:06][195.238.92.147][roger@dig-dns.com] > login-success
+[16:49:11][176.36.3.158][roger@dig-dns.com] > login-success
+[17:14:23][176.36.3.158][roger@dig-dns.com] > logout
+[17:15:02][176.36.3.158][roger@dig-dns.com] > login-success
+[17:15:25][176.36.3.158][roger@dig-dns.com] > logout
+[17:15:49][176.36.3.158][anna@dig-dns.com] > login-success
