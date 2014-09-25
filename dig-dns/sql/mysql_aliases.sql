@@ -1,11 +1,5 @@
---drop table aliases;
+drop table aliases;
 create table aliases (id bigint not null auto_increment, alias varchar(256) not null, is_group boolean not null default false, primary key (id));
-
-insert into aliases (alias, is_group) values ('roger/');
-insert into aliases (alias, is_group) values ('anna/');
-insert into aliases (alias, is_group) values ('mamka/');
-
-
 
 insert into aliases (alias, is_group) values ('postmaster', false);
 insert into aliases (alias, is_group) values ('igor.onyshchenko', false);
