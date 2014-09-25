@@ -1,4 +1,4 @@
---drop table mailboxes;
+drop table mailboxes;
 create table mailboxes (id bigint not null auto_increment, user_id bigint not null, domain_id bigint not null, maildir_id bigint not null, primary key (id));
 
 -- maildir_id | domain_id | user_id | id 
@@ -13,12 +13,12 @@ create table mailboxes (id bigint not null auto_increment, user_id bigint not nu
 --          5 |         7 |       7 | 65
 --          5 |        10 |       7 | 68
 
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (1, 1, 1);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (1, 2, 1);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (1, 3, 1);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (2, 1, 2);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (2, 2, 2);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (2, 3, 2);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (3, 1, 3);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (3, 2, 3);
-insert into mailboxes (user_id, domain_id, maildir_id) valuse (3, 3, 3);
+insert into mailboxes (user_id, domain_id, maildir_id) values (1, 1, 1);
+insert into mailboxes (user_id, domain_id, maildir_id) values (1, 2, 1);
+insert into mailboxes (user_id, domain_id, maildir_id) values (1, 3, 1);
+insert into mailboxes (user_id, domain_id, maildir_id) values (2, 1, 2);
+insert into mailboxes (user_id, domain_id, maildir_id) values (2, 2, 2);
+insert into mailboxes (user_id, domain_id, maildir_id) values (2, 3, 2);
+insert into mailboxes (user_id, domain_id, maildir_id) values (3, 1, 3);
+insert into mailboxes (user_id, domain_id, maildir_id) values (3, 2, 3);
+insert into mailboxes (user_id, domain_id, maildir_id) values (3, 3, 3);
