@@ -1,10 +1,10 @@
---drop view dovecot_mailboxes;
+drop view dovecot_mailboxes;
 create view dovecot_mailboxes as
 select concat(u.name, '@', d.domain) as email,
     u.name as user,
     u.password,
     md.path,
-    concat('/home/mailer/', md.path) AS ads_home,
+    concat('/home/mailer/', md.path) AS home,
     concat('maildir:/home/mailer/', md.path) AS maildir,
     5003 AS uid,
     5003 AS gid
