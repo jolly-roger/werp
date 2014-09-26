@@ -3,7 +3,6 @@ create view dovecot_mailboxes as
 select concat(u.name, '@', d.domain) as email,
     u.name as user,
     u.password,
-    concat(d.domain, '/', md.path) as path,
     concat('/home/mailer/', d.domain, '/', md.path) AS home,
     concat('maildir:/home/mailer/', d.domain, '/', md.path) AS maildir,
     5003 AS uid,
