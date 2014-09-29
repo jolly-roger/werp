@@ -1,4 +1,4 @@
---drop view dovecot_mailboxes;
+drop view dovecot_mailboxes;
 create view dovecot_mailboxes as
 select concat(u.name, '@', d.domain) as email,
     u.name as user,
