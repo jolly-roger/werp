@@ -11,5 +11,5 @@ select concat(u.name, '@', d.domain) as email,
 from mailboxes as mb
 inner join users as u on mb.user_id = u.id
 inner join domains as d on mb.domain_id = d.id
-inner join domains as main_d on mb.main_domain_id = d.id
+--inner join domains as main_d on mb.main_domain_id = d.id
 inner join maildirs md ON mb.maildir_id = md.id;
